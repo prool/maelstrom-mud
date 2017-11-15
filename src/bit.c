@@ -319,13 +319,14 @@ const struct flag_type extra_flags[] = {
   { "patched",      ITEM_PATCHED,      TRUE  },
   { "",             0,                 0     }
 };
-/* FOR NEW FLAGS */
+
 const struct flag_type anti_class_flags[] = {
   { "anti-caster",  ITEM_ANTI_CASTER,  TRUE  },
   { "anti-rogue",   ITEM_ANTI_ROGUE,   TRUE  },
   { "anti-fighter", ITEM_ANTI_FIGHTER, TRUE  },
   { "",             0,                 0     }
 };
+
 const struct flag_type anti_race_flags[] = {
   { "anti-human",    ITEM_ANTI_HUMAN,    TRUE  },
   { "anti-elf",      ITEM_ANTI_ELF,      TRUE  },

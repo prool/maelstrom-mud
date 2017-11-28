@@ -483,10 +483,6 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
   for ( vsearch = char_list; vsearch; vsearch = vsearch_next ) {
     vsearch_next = vsearch->next;
 
-    /*	    if ( IS_NPC( vsearch )
-        && vsearch->pIndexData->vnum == 7 )
-        continue;  */
-
     if ( vsearch->deleted ) {
       continue;
     }
@@ -498,16 +494,14 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
          && ( !IS_SET( vsearch->in_room->area->area_flags, AREA_PROTOTYPE ) )
          && ( !IS_SET( vsearch->in_room->area->area_flags, AREA_NO_QUEST ) )
          && ( vsearch->pIndexData->pShop == NULL )
-         && ( vsearch->pIndexData->vnum != 1351 ) /* Ravenwood guard */
-         && ( vsearch->pIndexData->vnum != 1350 ) /* Ravenwood guard */
-                                                  /*              && ( vsearch->pIndexData->vnum != 7 )     Supermob */
+         && ( vsearch->pIndexData->vnum != 1351 )
+         && ( vsearch->pIndexData->vnum != 1350 )
          && ( ch->level <= vsearch->in_room->area->ulevel )
          && ( ch->level > vsearch->in_room->area->llevel )
          && ( !IS_SET( vsearch->act, ACT_TRAIN ) )
          && ( !IS_SET( vsearch->act, ACT_PRACTICE ) )
          && ( !IS_SET( vsearch->in_room->room_flags, ROOM_SAFE ) )
          && ( !IS_SET( vsearch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) ) {
-      /*		&& ( !IS_SET( vsearch->in_room->area->area_flags, AREA_PROTOTYPE ) ) */
       if ( number_range( 0, mcounter ) == 0 ) {
         /*
            sprintf( buf, "%s&W->&X%d&W->&X%s&W->&XHQ&W[&X%c&W]\n\r",
@@ -526,7 +520,7 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
     do_say( questman, buf );
     sprintf( buf, "Try again later." );
     do_say( questman, buf );
-    ch->nextquest = 10; /* 10 min until ch can quest again */
+    ch->nextquest = 10;
     return;
   }
 
@@ -535,7 +529,7 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
     do_say( questman, buf );
     sprintf( buf, "Try again later." );
     do_say( questman, buf );
-    ch->nextquest = 10; /* 10 min until ch can quest again */
+    ch->nextquest = 10;
     return;
   }
 
@@ -569,22 +563,21 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
     }
 
     questitem = create_object( get_obj_index( objvnum ), ch->level );
-    /*	obj_to_char(questitem, victim); */
 
-    /* Place quest obj in room of victim on ground */
-    obj_to_room( questitem, room );
+    if ( chance ( 50 ) ) {
+      obj_to_room( questitem, room );
+    } else {
+      obj_to_char( questitem, victim );
+    }
+
     ch->questobj = questitem;
 
     sprintf( buf, "Vile pilferers have stolen %s from the royal treasury!", questitem->short_descr );
-    do_say( questman, buf );
-    /*	do_say(questman, "My court wizardess, with her magic mirror, has pinpointed its location."); */
+    do_say(questman, buf);
 
-    /* I changed my area names so that they have just the name of the area
-       and none of the level stuff. You may want to comment these next two
-       lines. - Vassago */
-
-    /*	sprintf(buf, "Look in the general area of %s...\n\r", room->area->name);
-       do_say(questman, buf);*/
+    do_say(questman, "My court wizardess, with her magic mirror, has pinpointed its location.");
+    sprintf(buf, "Look in the general area of %s...\n\r", room->area->name);
+    do_say(questman, buf);
     return;
   }
   /* Quest to kill a mob */
@@ -598,24 +591,17 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
         break;
 
       case 1:
-        sprintf( buf, "EOSII's most heinous criminal, %s, has escaped from the dungeon!", victim->short_descr );
+        sprintf( buf, "The realm's most heinous criminal, %s, has escaped from the dungeon!", victim->short_descr );
         do_say( questman, buf );
-        sprintf( buf, "Since the escape, %s has murdered %d civillians!", victim->short_descr, number_range( 2, 20 ) );
+        sprintf( buf, "Since the escape, %s has murdered %d civilians!", victim->short_descr, number_range( 2, 20 ) );
         do_say( questman, buf );
         do_say( questman, "The penalty for this crime is death, and you are to deliver the sentence!" );
         break;
     }
 
     if ( room->name != NULL ) {
-      /*        sprintf(buf, "Seek %s out somewhere in the vicinity of %s!",victim->short_descr,room->name);
-            do_say(questman, buf);*/
-
-      /* I changed my area names so that they have just the name of the area
-         and none of the level stuff. You may want to comment these next two
-         lines. - Vassago */
-
-      /*	sprintf(buf, "That location is in the general area of %s...\n\r", room->area->name );
-         do_say(questman, buf);*/
+      sprintf(buf, "Seek %s out somewhere in the vicinity of %s!", victim->short_descr, room->area->name);
+      do_say(questman, buf);
     }
 
     ch->questmob = victim;

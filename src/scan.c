@@ -43,11 +43,7 @@ void do_scan( CHAR_DATA * ch, char * argument ) {
   }
 
   sprintf( buf, "Right here you see:\n\r" );
-
-  if ( scan_room( ch, ch->in_room, buf ) == 0 ) {
-    return;
-  }
-
+  scan_room( ch, ch->in_room, buf );
   send_to_char( AT_BLUE, buf, ch );
 
   for ( dir = 0; dir < MAX_DIR; dir++ ) {

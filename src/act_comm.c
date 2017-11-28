@@ -1694,17 +1694,6 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
 
   raffect_remall( ch );
 
-  if ( ( ch->money.gold > 500000 ) || ( ch->money.silver / SILVER_PER_GOLD > 500000 ) || ( ch->money.copper / COPPER_PER_GOLD > 500000 ) ) {
-
-    tax.gold = ( ch->money.gold > 500000 ) ? ch->money.gold * 0.15 : 0;
-    tax.silver = ( ch->money.silver / SILVER_PER_GOLD > 500000 ) ? ch->money.silver * 0.15 : 0;
-    tax.copper = ( ch->money.copper / COPPER_PER_GOLD > 500000 ) ? ch->money.copper * 0.15 : 0;
-
-    sprintf( log_buf, "You have been charged an out of the bank protection fee of %s\n\r", money_string( &tax ) );
-    send_to_char( AT_WHITE, log_buf, ch );
-    sub_money( &ch->money, &tax );
-  }
-
   send_to_char( AT_BLUE, "[ The clear sky of reality slowly crosses the horizon.\n\r", ch );
   send_to_char( AT_BLUE, "  With much effort you tear yourself free of the storm, but\n\r  ", ch );
   send_to_char( AT_BLUE, "deep within your heart you know that there is no escaping\n\r ", ch );

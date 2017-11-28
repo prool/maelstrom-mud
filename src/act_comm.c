@@ -1675,7 +1675,7 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( ch->combat_timer ) {
-    send_to_char( AT_WHITE, "Your adreneline is pumping too hard.\n\r", ch );
+    send_to_char( AT_WHITE, "Your adrenaline is pumping too hard.\n\r", ch );
     return;
   }
 

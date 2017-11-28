@@ -37,6 +37,11 @@ void do_scan( CHAR_DATA * ch, char * argument ) {
   int               dir;
   int               distance;
 
+  // can't scan if you're blind
+  if ( !check_blind( ch ) ) {
+    return;
+  }
+
   sprintf( buf, "Right here you see:\n\r" );
 
   if ( scan_room( ch, ch->in_room, buf ) == 0 ) {

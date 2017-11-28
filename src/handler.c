@@ -1340,8 +1340,7 @@ void unequip_char( CHAR_DATA * ch, OBJ_DATA * obj ) {
   char          buf[ MAX_STRING_LENGTH ];
 
   if ( obj->wear_loc == WEAR_NONE ) {
-    sprintf( buf, "Unequip_char: %s already unequipped with %d.",
-             ch->name, obj->pIndexData->vnum );
+    sprintf( buf, "Unequip_char: %s already unequipped with %d.", ch->name, obj->pIndexData->vnum );
     bug( buf, 0 );
     return;
   }
@@ -1357,11 +1356,12 @@ void unequip_char( CHAR_DATA * ch, OBJ_DATA * obj ) {
     affect_modify( ch, paf, FALSE );
   }
 
-  if ( obj->item_type == ITEM_LIGHT
-       && obj->value[ 2 ] != 0
-       && ch->in_room
-       && ch->in_room->light > 0 ) {
+  if ( obj->item_type == ITEM_LIGHT && obj->value[ 2 ] != 0 && ch->in_room && ch->in_room->light > 0 ) {
     --ch->in_room->light;
+  }
+
+  if (IS_SET(obj->wear_flags, ITEM_HOOD_ON)) {
+    REMOVE_BIT(obj->wear_flags, ITEM_HOOD_ON);
   }
 
   ch->carry_number += get_obj_number( obj );
@@ -1665,7 +1665,9 @@ void extract_char( CHAR_DATA * ch, bool fPull ) {
  */
 CHAR_DATA * get_char_room( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * rch;
+  OBJ_DATA  * obj;
   char        arg[ MAX_INPUT_LENGTH ];
+  char        buf[ MAX_STRING_LENGTH ];
   int         number;
   int         count;
 
@@ -1677,7 +1679,22 @@ CHAR_DATA * get_char_room( CHAR_DATA * ch, char * argument ) {
   }
 
   for ( rch = ch->in_room->people; rch; rch = rch->next_in_room ) {
-    if ( !can_see( ch, rch ) || !is_name( ch, arg, rch->name ) ) {
+    if ( !can_see( ch, rch ) ) {
+      continue;
+    }
+
+    if ( (obj=get_eq_char(rch, WEAR_ABOUT)) && (IS_SET( obj->wear_flags, ITEM_HOOD_ON )) ) {
+      if ( IS_NPC(ch) || (IS_IMMORTAL(ch) && (get_trust(ch) >= get_trust(rch) )) ) {
+        strcpy( buf, rch->name );
+      }
+
+      strcat( buf, " figure concealed " );
+      strcat( buf, obj->name );
+
+      if ( !is_name( ch, arg, buf ) ) {
+        continue;
+      }
+    } else if ( !is_name( ch, arg, rch->name ) ) {
       continue;
     }
 
@@ -2061,20 +2078,11 @@ bool can_see( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return TRUE;
   }
 
-  /*    if ( !str_cmp(ch->name, "Hannibal") )
-      return TRUE; */
-
-  if ( !IS_NPC( victim )
-       && IS_SET( victim->act, PLR_WIZINVIS )
-       && get_trust( ch ) < victim->wizinvis ) {
+  if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_WIZINVIS ) && get_trust( ch ) < victim->wizinvis ) {
     return FALSE;
   }
 
-  if ( !IS_NPC( victim )
-       && IS_SET( victim->act, PLR_CLOAKED )
-       && get_trust( ch ) < victim->cloaked
-       && ( ch->in_room->vnum != victim->in_room->vnum )
-       ) {
+  if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_CLOAKED ) && get_trust( ch ) < victim->cloaked && ( ch->in_room->vnum != victim->in_room->vnum ) ) {
     return FALSE;
   }
 
@@ -2086,16 +2094,11 @@ bool can_see( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return FALSE;
   }
 
-  if ( IS_AFFECTED( ch, AFF_BLIND )
-       && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) ) {
+  if ( IS_AFFECTED( ch, AFF_BLIND ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) ) {
     return FALSE;
   }
 
-  if ( room_is_dark( ch->in_room )
-       && !IS_AFFECTED( ch, AFF_INFRARED )
-       && !IS_AFFECTED2( ch, AFF_TRUESIGHT )
-       && ( ch->race != RACE_ELF   )
-       && ( ch->race != RACE_DWARF ) ) {
+  if ( room_is_dark( ch->in_room ) && !IS_AFFECTED( ch, AFF_INFRARED ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) && ( ch->race != RACE_ELF   ) && ( ch->race != RACE_DWARF ) ) {
     return FALSE;
   }
 
@@ -2103,26 +2106,15 @@ bool can_see( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return TRUE;
   }
 
-  if ( IS_AFFECTED2( victim, AFF_PHASED )
-       && ( !IS_AFFECTED2( ch, AFF_TRUESIGHT )
-            || ( IS_NPC( ch )
-                 && ch->level < 50 ) ) ) {
+  if ( IS_AFFECTED2( victim, AFF_PHASED ) && ( !IS_AFFECTED2( ch, AFF_TRUESIGHT ) || ( IS_NPC( ch ) && ch->level < 50 ) ) ) {
     return FALSE;
   }
 
-  if ( IS_AFFECTED( victim, AFF_INVISIBLE )
-       && !IS_AFFECTED( ch, AFF_DETECT_INVIS )
-       && !IS_AFFECTED2( ch, AFF_TRUESIGHT )
-       && ( !is_class( ch, CLASS_ROGUE )
-            && ch->level < 30 ) ) {
+  if ( IS_AFFECTED( victim, AFF_INVISIBLE ) && !IS_AFFECTED( ch, AFF_DETECT_INVIS ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) && ( !is_class( ch, CLASS_ROGUE ) && ch->level < 30 ) ) {
     return FALSE;
   }
 
-  if ( IS_AFFECTED( victim, AFF_HIDE )
-       && !IS_AFFECTED( ch, AFF_DETECT_HIDDEN )
-       && !IS_AFFECTED2( ch, AFF_TRUESIGHT )
-       && !victim->fighting
-       && ch->race != RACE_DWARF ) {
+  if ( IS_AFFECTED( victim, AFF_HIDE ) && !IS_AFFECTED( ch, AFF_DETECT_HIDDEN ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) && !victim->fighting && ch->race != RACE_DWARF ) {
     return FALSE;
   }
 
@@ -3512,4 +3504,29 @@ bool gets_zapped( CHAR_DATA * ch, OBJ_DATA * obj ) {
   }
 
   return FALSE;
+}
+
+char * visible_name( CHAR_DATA * ch, CHAR_DATA * looker, bool show_hooded ) {
+  OBJ_DATA    * obj;
+  static char   buf[MAX_STRING_LENGTH];
+
+  if ( can_see( looker, ch ) ) {
+    if ( (obj = get_eq_char( ch, WEAR_ABOUT )) && (IS_SET(obj->wear_flags, ITEM_HOOD_ON )) && !show_hooded ) {
+      if ( IS_NPC( looker ) || !IS_IMMORTAL( looker ) || ( IS_IMMORTAL(looker ) && ( get_trust( looker ) < get_trust( ch ) ) ) ) {
+        sprintf( buf, "A figure concealed in %s&X", obj->short_descr );
+      } else {
+        sprintf( buf, "A concealed figure (%s)", ch->name );
+      }
+
+      return buf;
+    } else if ( IS_NPC( ch ) ) {
+      return ch->short_descr;
+    }
+
+    return ch->name;
+  } else if ( IS_IMMORTAL( ch ) && ( IS_SET( ch->act, PLR_WIZINVIS) || IS_SET( ch->act, PLR_CLOAKED ) ) ) {
+    return "A Divine Being";
+  }
+
+  return "Someone";
 }

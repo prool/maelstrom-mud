@@ -352,11 +352,12 @@ const struct flag_type wear_flags[] = {
   { "wrist",   ITEM_WEAR_WRIST,   TRUE  },
   { "wield",   ITEM_WIELD,        TRUE  },
   { "hold",    ITEM_HOLD,         TRUE  },
-  { "lense", ITEM_WEAR_CONTACT,   TRUE  },
-  { "orbit", ITEM_WEAR_ORBIT,     TRUE  },
-  { "mask",  ITEM_WEAR_FACE,      TRUE  },
-  { "ears",  ITEM_WEAR_EARS,      TRUE  },
-  { "ankle", ITEM_WEAR_ANKLE,     TRUE  },
+  { "lense",   ITEM_WEAR_CONTACT, TRUE  },
+  { "orbit",   ITEM_WEAR_ORBIT,   TRUE  },
+  { "mask",    ITEM_WEAR_FACE,    TRUE  },
+  { "ears",    ITEM_WEAR_EARS,    TRUE  },
+  { "ankle",   ITEM_WEAR_ANKLE,   TRUE  },
+  { "hood",    ITEM_HOOD_ON,      FALSE },
   { "",        0,                 0     }
 };
 

@@ -1040,6 +1040,7 @@ struct  kill_data {
 #define ITEM_PROTOTYPE    262144
 #define ITEM_WEAR_EARS    524288
 #define ITEM_WEAR_ANKLE   1048576
+#define ITEM_HOOD_ON      2097152
 
 /*
  * Apply types (for affects).
@@ -2134,16 +2135,8 @@ int mmlvl_mana( CHAR_DATA * ch, int sn );
  */
 #define CAN_WEAR( obj, part )   ( IS_SET( ( obj )->wear_flags,  ( part ) ) )
 #define IS_OBJ_STAT( obj, stat )( IS_SET( ( obj )->extra_flags, ( stat ) ) )
-/* FOR NEW FLAGS */
 #define IS_ANTI_CLASS( obj, stat )( IS_SET( ( obj )->anti_class_flags, ( stat ) ) )
 #define IS_ANTI_RACE( obj, stat ) ( IS_SET( ( obj )->anti_race_flags, ( stat ) ) )
-
-/*
- * Description macros.
- */
-#define PERS( ch, looker ) ( can_see( looker, ( ch ) ) ?          \
-                             ( IS_NPC( ch ) ? ( ch )->short_descr \
-                               : ( ch )->name ) : "someone" )
 
 /*
  * Arena macro.
@@ -2374,6 +2367,7 @@ DECLARE_DO_FUN( do_hide );
 DECLARE_DO_FUN( do_high_kick );
 DECLARE_DO_FUN( do_hlist );
 DECLARE_DO_FUN( do_holylight );
+DECLARE_DO_FUN( do_hood );
 DECLARE_DO_FUN( do_hotreboo );
 DECLARE_DO_FUN( do_hotreboot );
 DECLARE_DO_FUN( do_identify );
@@ -3051,6 +3045,7 @@ void interpret( CHAR_DATA * ch, char * argument );
 bool is_number( char * arg );
 int number_argument( char * argument, char * arg );
 char * one_argument( char * argument, char * arg_first );
+char * visible_name( CHAR_DATA * ch, CHAR_DATA * looker, bool show_hooded );
 
 /* magic.c */
 int slot_lookup( int slot );

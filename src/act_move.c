@@ -206,11 +206,8 @@ void move_char( CHAR_DATA * ch, int door, bool Fall ) {
     char_to_room( ch, to_room );
   }
 
-  if ( !IS_AFFECTED( ch, AFF_SNEAK )
-       && ( IS_NPC( ch ) || !IS_SET( ch->act, PLR_WIZINVIS ) )
-       && ( ch->race != RACE_HALFLING ) && ( !Fall ) ) {
-    act( AT_GREY, "&B$n&w arrives from $T.", ch, NULL,
-         direction_table[ direction_table[ door ].reverse ].noun, TO_ROOM );
+  if ( !IS_AFFECTED( ch, AFF_SNEAK ) && ( IS_NPC( ch ) || !IS_SET( ch->act, PLR_WIZINVIS ) ) && ( ch->race != RACE_HALFLING ) && ( !Fall ) ) {
+    act( AT_GREY, "&B$n&w arrives from $T.", ch, NULL, direction_table[ direction_table[ door ].reverse ].noun, TO_ROOM );
   }
 
   do_look( ch, "auto" );
@@ -2155,8 +2152,7 @@ void do_scent( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !can_use_skpell( ch, gsn_scent ) ) {
-    send_to_char( C_DEFAULT, "Your sense of smell is not keen enough.\n\r",
-                  ch );
+    send_to_char( C_DEFAULT, "Your sense of smell is not keen enough.\n\r", ch );
     return;
   }
 
@@ -2169,8 +2165,7 @@ void do_scent( CHAR_DATA * ch, char * argument ) {
   in_room = ch->in_room;
 
   for ( dir = 0; dir < MAX_DIR; dir++ ) {
-    if ( !( pexit = in_room->exit[ dir ] )
-         || !( next_room = pexit->to_room ) ) {
+    if ( !( pexit = in_room->exit[ dir ] ) || !( next_room = pexit->to_room ) ) {
       continue;
     }
 
@@ -2180,9 +2175,7 @@ void do_scent( CHAR_DATA * ch, char * argument ) {
           return;
         }
 
-        if ( !( sch->desc )
-             && !IS_NPC( sch )
-             && get_trust( ch ) < LEVEL_IMMORTAL ) {
+        if ( !( sch->desc ) && !IS_NPC( sch ) && get_trust( ch ) < LEVEL_IMMORTAL ) {
           continue;
         }
 
@@ -2193,8 +2186,7 @@ void do_scent( CHAR_DATA * ch, char * argument ) {
 
         dir_message = direction_table[ dir ].navigation;
         dis_message = dis_table[ dis ];
-        sprintf( buf, "%s &w%s %s.\n\r", capitalize( PERS( sch, ch ) ),
-                 dis_message, dir_message );
+        sprintf( buf, "%s &w%s %s.\n\r", capitalize( visible_name( sch, ch, TRUE ) ), dis_message, dir_message );
         send_to_char( C_DEFAULT, buf, ch );
       }
 

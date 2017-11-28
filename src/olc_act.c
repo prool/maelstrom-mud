@@ -2714,9 +2714,9 @@ void show_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * obj ) {
       break;
 
     case ITEM_ARMOR:
-      sprintf( buf,
-               "&z[&Wv0&z] &cArmor class&w: &z[&R%d&z]\n\r",
-               obj->value[ 0 ] );
+      sprintf( buf, "&z[&Wv0&z] &cArmor class&w: &z[&R%d&z]\n\r", obj->value[ 0 ] );
+      send_to_char( C_DEFAULT, buf, ch );
+      sprintf( buf, "&z[&Wv1&z] &cHooded&w:      &z[&R%s&z] &cfor objects worn 'about' only\n\r", obj->value[1] ? "Yes" : "No" );
       send_to_char( C_DEFAULT, buf, ch );
       break;
 
@@ -3061,6 +3061,10 @@ bool set_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num, char 
           send_to_char( C_DEFAULT, "ARMOR CLASS SET.\n\r\n\r", ch );
           pObj->value[ 0 ] = atoi( argument );
           break;
+        case 1:
+          send_to_char(C_DEFAULT, "HOODED SET.\n\r\n\r", ch );
+          pObj->value[ 1 ] = !(pObj->value[ 1 ]);
+          break;
       }
 
       break;
@@ -3113,8 +3117,7 @@ bool set_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num, char 
           break;
         case 1:
 
-          if ( ( value = flag_value( container_flags, argument ) )
-               != NO_FLAG ) {
+          if ( ( value = flag_value( container_flags, argument ) ) != NO_FLAG ) {
             TOGGLE_BIT( pObj->value[ 1 ], value );
           } else {
             do_help( ch, "ITEM_CONTAINER" );

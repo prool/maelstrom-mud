@@ -1056,7 +1056,7 @@ shifting cloak cloth~
 &.A pile of cloth slowly cycles through the spectrum here.~
 ~
 9 320 202 0 1025 75
-0~ 0~ 0~ 0~
+0~ 1~ 0~ 0~
 2 75 0 0 0
 5 0
 mana~

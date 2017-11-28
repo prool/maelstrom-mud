@@ -1140,7 +1140,12 @@ bool remove_obj( CHAR_DATA * ch, int iWear, bool fReplace ) {
     return FALSE;
   }
 
-  /*    unequip_char( ch, obj ); */
+  if ( iWear == WEAR_ABOUT ) {
+    if ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) {
+      do_hood( ch, "" );
+    }
+  }
+
   act( AT_WHITE, "$n stops using $p.", ch, obj, NULL, TO_ROOM );
   act( AT_WHITE, "You stop using $p.", ch, obj, NULL, TO_CHAR );
 
@@ -5045,6 +5050,40 @@ void do_identify( CHAR_DATA * ch, char * argument ) {
       sprintf( buf, "Affects %s by %d.\n\r", affect_loc_name( paf->location ), paf->modifier );
       send_to_char( AT_BLUE, buf, ch );
     }
+  }
+
+  return;
+}
+
+
+void do_hood( CHAR_DATA *ch, char *argument ) {
+  OBJ_DATA *obj;
+  char buf[MAX_STRING_LENGTH];
+
+  if ( !( obj = get_eq_char( ch, WEAR_ABOUT ) ) ) {
+    send_to_char( C_DEFAULT, "You aren't wearing anything about your body.\n\r", ch );
+    return;
+  }
+
+  if ( !(obj->value[1]) ) {
+    sprintf( buf, "%s does not have a hood!\n\r", obj->short_descr );
+    send_to_char( C_DEFAULT, buf, ch );
+    return;
+  }
+
+  if ( is_affected( ch, gsn_nerve ) ) {
+    send_to_char( AT_YELLOW, "You cannot feel your arms.\n\r", ch );
+    return;
+  }
+
+  if ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) {
+    REMOVE_BIT( obj->wear_flags, ITEM_HOOD_ON );
+    act( AT_CYAN, "You lower the hood of $P.", ch, NULL, obj, TO_CHAR );
+    act( AT_CYAN, "$n lowers the hood of $P.", ch, NULL, obj, TO_ROOM );
+  } else {
+    act( AT_CYAN, "You don the hood of $P.", ch, NULL, obj, TO_CHAR );
+    act( AT_CYAN, "$n dons the hood of $P.", ch, NULL, obj, TO_ROOM );
+    SET_BIT( obj->wear_flags, ITEM_HOOD_ON );
   }
 
   return;

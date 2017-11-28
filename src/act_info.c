@@ -111,6 +111,12 @@ char * format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort ) {
     strcat( buf, "&B(Frosty)&w " );
   }
 
+	if ( IS_SET( obj->wear_flags, ITEM_HOOD_ON) ) {
+		strcat( buf, "&C(Hood On)&X " );
+  } else if ( (obj->item_type == ITEM_ARMOR) && (obj->value[1]) ) {
+		strcat( buf, "&C(Hooded)&X " );
+  }
+
   if ( fShort && obj->short_descr ) {
     strcat( buf, obj->short_descr );
   } else if ( obj->description ) {
@@ -413,22 +419,45 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
       }
     }
 
-    send_to_char( AT_PINK, buf, ch );
-  } else {
-    strcat( buf, PERS( victim, ch ) );
+    if ( IS_NPC( victim) ) {
+      send_to_char( AT_LBLUE, buf, ch );
+    } else {
+      OBJ_DATA *obj;
 
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf, " " );
-        }
-
-        strcat( buf, victim->pcdata->lname );
+      if ( (obj = get_eq_char( victim, WEAR_ABOUT)) && (IS_SET(obj->wear_flags, ITEM_HOOD_ON)) ) {
+        send_to_char( AT_LBLUE, buf, ch );
+      } else if( IS_IMMORTAL ( victim ) ) {
+        send_to_char( AT_YELLOW, buf, ch );
+      } else {
+        send_to_char(AT_PINK, buf, ch );
       }
     }
+  } else {
+    OBJ_DATA *obj;
 
-    if ( !IS_NPC( victim ) && !IS_SET( ch->act, PLR_BRIEF ) ) {
-      strcat( buf, victim->pcdata->title );
+    if ( ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
+      strcat( buf, "&C");
+    } else if ( IS_IMMORTAL( victim ) ) {
+      strcat( buf, "&Y");
+    } else if( IS_NPC( victim ) ) {
+      strcat( buf, "&C");
+    } else {
+      strcat( buf, "&P");
+    }
+
+    strcat( buf, visible_name( victim, ch, FALSE ) );
+
+
+    if ( !IS_NPC( victim ) ) {
+      if ( !obj || (obj && !IS_SET( obj->wear_flags, ITEM_HOOD_ON )) ) {
+        if ( victim->pcdata->lname ) {
+          if ( victim->pcdata->lname[0] != '\0' ) {
+            strcat( buf, " " );
+          }
+
+          strcat( buf, victim->pcdata->lname );
+        }
+      }
     }
 
     switch ( victim->position ) {
@@ -461,7 +490,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
         } else if ( victim->fighting == ch ) {
           strcat( buf, "YOU!" );
         } else if ( victim->in_room == victim->fighting->in_room ) {
-          strcat( buf, PERS( victim->fighting, ch ) );
+          strcat( buf, visible_name( victim->fighting, ch, FALSE ) );
           strcat( buf, "." );
         } else {
           strcat( buf, "someone who left??" );
@@ -472,25 +501,27 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
     strcat( buf, "\n\r" );
     buf[ 0 ] = UPPER( buf[ 0 ] );
-    send_to_char( AT_PINK, buf, ch );
+
+    if( !IS_NPC ( victim ) ) {
+      OBJ_DATA *obj;
+
+      if ( ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
+        send_to_char( AT_LBLUE, buf, ch );
+      } else if( IS_IMMORTAL ( victim ) ) {
+        send_to_char( AT_YELLOW, buf, ch );
+      } else {
+        send_to_char( AT_PINK, buf, ch );
+      }
+    } else {
+      send_to_char( AT_LBLUE, buf, ch );
+    }
   }
 
   buf2[ 0 ] = '\0';
 
   if ( IS_AFFECTED( victim, AFF_SANCTUARY ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&W's body is veiled in a glowing white mist.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_WHITE, buf2, ch );
@@ -499,18 +530,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED2( victim, AFF_GOLDEN ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&Y's body radiates a crisp golden aura.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_YELLOW, buf2, ch );
@@ -519,18 +539,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED2( victim, AFF_FIELD ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&z's body is enveloped in a black haze.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_DGREY, buf2, ch );
@@ -539,18 +548,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&R's body is burning with unfelt heat.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_RED, buf2, ch );
@@ -559,18 +557,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&B's body is sparking with electricity.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_BLUE, buf2, ch );
@@ -579,18 +566,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&C's body is covered in frost and ice.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_LBLUE, buf2, ch );
@@ -599,18 +575,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED( victim, AFF_CHAOS ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&Y's body shimmers randomly with raw chaos.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_YELLOW, buf2, ch );
@@ -619,18 +584,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED( victim, AFF_VIBRATING ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&w's body is vibrating rapidly.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( C_DEFAULT, buf2, ch );
@@ -639,18 +593,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED2( victim, AFF_BLADE ) ) {
     strcat( buf2, "    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, " " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, "&w is surrounded by thousands of spinning blades.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_GREY, buf2, ch );
@@ -659,18 +602,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED2( victim, AFF_DANCING ) ) {
     strcat( buf2, "&w    " );
-    strcat( buf2, PERS( victim, ch ) );
-
-    if ( !IS_NPC( victim ) ) {
-      if ( victim->pcdata->lname ) {
-        if ( victim->pcdata->lname[ 0 ] != '\0' ) {
-          strcat( buf2, "&w " );
-        }
-
-        strcat( buf2, victim->pcdata->lname );
-      }
-    }
-
+    strcat( buf2, visible_name( victim, ch, FALSE ) );
     strcat( buf2, " &.is s&.urrounde&.d by &.thou&.sand&.s of &.danci&.ng l&.igh&.ts&w.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_GREY, buf2, ch );
@@ -682,6 +614,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
 void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) {
   OBJ_DATA * obj;
+	OBJ_DATA * hood;
   char       buf[ MAX_STRING_LENGTH ];
   int        iWear;
   int        percent;
@@ -762,9 +695,27 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) 
   }
 
   if ( victim->description[ 0 ] != '\0' ) {
-    send_to_char( AT_GREEN, victim->description, ch );
+    // is the target wearing a cloak which is hooded?
+    if ( ( hood = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( hood->wear_flags, ITEM_HOOD_ON ) ) ) {
+      if ( IS_NPC( ch ) || !IS_IMMORTAL( ch ) || (IS_IMMORTAL( ch ) && (get_trust( ch ) < get_trust( victim ) ) ) ) {
+        send_to_char(AT_GREY, "They are concealed by their hood.\n\r", ch);
+      } else  {
+        send_to_char(AT_GREEN, victim->description, ch );
+      }
+    } else {
+      send_to_char(AT_GREEN, victim->description, ch );
+    }
   } else {
-    act( AT_GREY, "You see nothing special about $M.", ch, NULL, victim, TO_CHAR );
+    // is the target wearing a cloak which is hooded?
+    if ( ( hood = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( hood->wear_flags, ITEM_HOOD_ON ) ) ) {
+      if ( IS_NPC( ch ) || !IS_IMMORTAL( ch ) || (IS_IMMORTAL( ch ) && (get_trust( ch ) < get_trust( victim ) ) ) ) {
+        send_to_char(AT_GREY, "They are concealed by their hood.\n\r", ch);
+      } else {
+        act(AT_GREY, "You see nothing special about $M.", ch, NULL, victim, TO_CHAR );
+      }
+    } else {
+      act(AT_GREY, "You see nothing special about $M.", ch, NULL, victim, TO_CHAR );
+    }
   }
 
   if ( MAX_HIT( victim ) > 0 ) {
@@ -773,7 +724,7 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) 
     percent = -1;
   }
 
-  strcpy( buf, PERS( victim, ch ) );
+  strcpy( buf, visible_name( victim, ch, FALSE ) );
 
   if ( percent >= 100 ) {
     strcat( buf, " is in perfect health.\n\r" );
@@ -827,25 +778,32 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) 
 
   found = FALSE;
 
-  for ( iWear = 0; iWear < MAX_WEAR; iWear++ ) {
-    if ( ( obj = get_eq_char( victim, iWear ) )
-         && can_see_obj( ch, obj ) ) {
-      if ( !found ) {
-        send_to_char( AT_GREY, "\n\r", ch );
-        act( AT_WHITE, "$N is using:", ch, NULL, victim, TO_CHAR );
-        found = TRUE;
-      }
+  if ( !IS_IMMORTAL(ch) && ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
+    send_to_char(AT_GREY, "\n\r", ch );
+    act(AT_WHITE, "$N is using:", ch, NULL, victim, TO_CHAR );
+    send_to_char(AT_BLUE, where_name[WEAR_ABOUT], ch );
+    send_to_char( AT_CYAN, format_obj_to_char( obj, ch, TRUE ), ch );
+    send_to_char( AT_CYAN, "\n\r", ch );
+  } else {
+    for ( iWear = 0; iWear < MAX_WEAR; iWear++ ) {
+      if ( ( obj = get_eq_char( victim, iWear ) ) && can_see_obj( ch, obj ) ) {
+        if ( !found ) {
+          send_to_char( AT_GREY, "\n\r", ch );
+          act( AT_WHITE, "$N is using:", ch, NULL, victim, TO_CHAR );
+          found = TRUE;
+        }
 
-      send_to_char( AT_BLUE, where_name[ iWear ], ch );
-      send_to_char( AT_CYAN, format_obj_to_char( obj, ch, TRUE ), ch );
-      send_to_char( AT_CYAN, "\n\r", ch );
+        send_to_char( AT_BLUE, where_name[ iWear ], ch );
+        send_to_char( AT_CYAN, format_obj_to_char( obj, ch, TRUE ), ch );
+        send_to_char( AT_CYAN, "\n\r", ch );
+      }
     }
   }
 
-  if ( victim != ch
-       && !IS_NPC( ch )
-       && ( number_percent() < ch->pcdata->learned[ gsn_peek ]  || ( ch->race == RACE_HALFLING ) ) ) {
-    if ( ( victim->level > L_CON ) && !IS_IMMORTAL( ch ) ) {
+  if ( victim != ch && !IS_NPC( ch ) && ( number_percent() < ch->pcdata->learned[ gsn_peek ]  || ( ch->race == RACE_HALFLING ) ) ) {
+    if ( !IS_IMMORTAL(ch) && (obj = get_eq_char( victim, WEAR_ABOUT)) && (IS_SET(obj->wear_flags, ITEM_HOOD_ON)) ) {
+      send_to_char( AT_WHITE, "\n\rThe inventory is concealed.\n\r", ch );
+    } if ( IS_IMMORTAL(victim) && !IS_IMMORTAL( ch ) ) {
       send_to_char( AT_WHITE, "\n\rYou cannot peek into an Immortal's inventory.\n\r", ch );
     } else {
       send_to_char( AT_WHITE, "\n\rYou peek at the inventory:\n\r", ch );
@@ -2508,13 +2466,9 @@ void do_where( CHAR_DATA * ch, char * argument ) {
         found = TRUE;
 
         if ( ch->level >= LEVEL_IMMORTAL ) {
-          sprintf( buf, "%-18s [%c][%5d] %s\n\r",
-                   PERS( victim, ch ), victim->fighting ? 'F' :
-                   ( victim->desc && victim->desc->editor != 0 ) ? 'E' : ' ',
-                   victim->in_room->vnum, victim->in_room->name );
+          sprintf( buf, "%-18s [%c][%5d] %s\n\r", visible_name( victim, ch, TRUE ), victim->fighting ? 'F' : ( victim->desc && victim->desc->editor != 0 ) ? 'E' : ' ', victim->in_room->vnum, victim->in_room->name );
         } else {
-          sprintf( buf, "%-28s %s\n\r",
-                   PERS( victim, ch ), victim->in_room->name );
+          sprintf( buf, "%-28s %s\n\r", visible_name( victim, ch, FALSE ), victim->in_room->name );
         }
 
         send_to_char( AT_PINK, buf, ch );

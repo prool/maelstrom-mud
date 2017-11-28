@@ -912,23 +912,12 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
     return;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_SILENT )
-       && ( get_trust( ch ) < L_DIR ) ) {
+  if ( IS_SET( ch->in_room->room_flags, ROOM_SILENT ) && ( get_trust( ch ) < L_DIR ) ) {
     send_to_char( AT_WHITE, "You can't do that here.\n\r", ch );
     return;
   }
 
   REMOVE_BIT( ch->deaf, channel );
-
-  /*
-     if (    IS_QUESTOR( ch )
-     && channel != CHANNEL_SHOUT
-     && channel != CHANNEL_YELL  )
-     {
-     send_to_char(AT_WHITE, "You can't do that your questing.\n\r", ch);
-     return;
-     }
-   */
 
   switch ( channel ) {
     default:
@@ -944,9 +933,7 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
       ch->position = position;
       break;
     case CHANNEL_CLAN:
-      sprintf( buf, "<%s&R> $n: '$t'",
-               ( get_clan_index( ch->clan ) && ( get_clan_index( ch->clan ) )->name ?
-                 ( get_clan_index( ch->clan ) )->name : "Unclanned" ) );
+      sprintf( buf, "<%s&R> $n: '$t'", ( get_clan_index( ch->clan ) && ( get_clan_index( ch->clan ) )->name ? ( get_clan_index( ch->clan ) )->name : "Unclanned" ) );
       position     = ch->position;
       ch->position = POS_STANDING;
       act( AT_RED, buf, ch, argument, NULL, TO_CHAR );
@@ -960,8 +947,7 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
       ch->position = position;
       break;
     case CHANNEL_CLASS:
-      sprintf( buf, "{%s} $n: $t",
-               class_table[ prime_class( ch ) ].who_long );
+      sprintf( buf, "{%s} $n: $t", class_table[ prime_class( ch ) ].who_long );
       position     = ch->position;
       ch->position = POS_STANDING;
       act( AT_LBLUE, buf, ch, argument, NULL, TO_CHAR );
@@ -997,13 +983,8 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
     och = d->original ? d->original : d->character;
     vch = d->character;
 
-    if ( d->connected == CON_PLAYING
-         && vch != ch
-         && !IS_SET( och->deaf, channel )
-         && !IS_SET( och->in_room->room_flags, ROOM_SILENT ) ) {
-      if (    IS_QUESTOR( och )
-              && channel != CHANNEL_SHOUT
-              && channel != CHANNEL_YELL  ) {
+    if ( d->connected == CON_PLAYING && vch != ch && !IS_SET( och->deaf, channel ) && !IS_SET( och->in_room->room_flags, ROOM_SILENT ) ) {
+      if ( IS_QUESTOR( och ) && channel != CHANNEL_SHOUT && channel != CHANNEL_YELL ) {
         continue;
       }
 
@@ -1023,18 +1004,15 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
         continue;
       }
 
-      if ( ( channel == CHANNEL_CLASS )
-           && ( prime_class( vch ) != prime_class( ch ) ) ) {
+      if ( ( channel == CHANNEL_CLASS ) && ( prime_class( vch ) != prime_class( ch ) ) ) {
         if ( IS_SET( och->deaf, CHANNEL_CLASS_MASTER ) ||
              get_trust( och ) < L_IMP ) {
           continue;
         }
       }
 
-      if ( ( channel == CHANNEL_CLAN )
-           && ( vch->clan != ch->clan ) ) {
-        if ( IS_SET( och->deaf, CHANNEL_CLAN_MASTER ) ||
-             get_trust( och ) < L_IMP ) {
+      if ( ( channel == CHANNEL_CLAN ) && ( vch->clan != ch->clan ) ) {
+        if ( IS_SET( och->deaf, CHANNEL_CLAN_MASTER ) || get_trust( och ) < L_IMP ) {
           continue;
         }
       }
@@ -1043,21 +1021,6 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
            && vch->in_room->area != ch->in_room->area ) {
         continue;
       }
-
-      /* If ch is not in Mudschool, don't send to chars in mudschool unless you are Immortal
-         if ( ( !IS_SET( ch->in_room->area->area_flags, AREA_MUDSCHOOL ) )
-         && ( ch->level < LEVEL_IMMORTAL ) )
-         if ( ( IS_SET( vch->in_room->area->area_flags, AREA_MUDSCHOOL ) )
-         && ( vch->level < LEVEL_IMMORTAL ) )
-         continue;
-
-         If ch IS in Mudschool, send only to chars in mudschool and Immortals
-         if ( ( IS_SET( ch->in_room->area->area_flags, AREA_MUDSCHOOL ) )
-         && ( ch->level < LEVEL_IMMORTAL ) )
-         if ( ( !IS_SET( vch->in_room->area->area_flags, AREA_MUDSCHOOL ) )
-         && ( vch->level < LEVEL_IMMORTAL ) )
-         continue;
-       */
 
       position = vch->position;
 
@@ -1089,14 +1052,6 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
           act( AT_PINK, buf, ch, argument, vch, TO_VICT );
           break;
         case CHANNEL_VENT:
-
-          /* so only trust 112+ can see person's name */
-
-          /*                     if ( vch->trust > 111 )
-                       sprintf( buf, "&W<VENT> $n: '$t'" );
-                       else
-                       sprintf( buf, "&W<VENT>: '$t'" );   */
-
           act( AT_WHITE, buf, ch, argument, vch, TO_VICT );
           break;
       }
@@ -1256,7 +1211,6 @@ void do_auction( CHAR_DATA * ch, char * argument ) {
     }
   }
 
-  /*    talk_channel( ch, argument, CHANNEL_AUCTION, "auction" );*/
   return;
 }
 
@@ -1366,21 +1320,16 @@ void do_chat( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-/* OOC added by Hannibal */
 void do_ooc( CHAR_DATA * ch, char * argument ) {
   talk_channel( ch, argument, CHANNEL_OOC, "OOC" );
   return;
 }
 
-/* VENT added by Angi */
 void do_vent( CHAR_DATA * ch, char * argument ) {
   talk_channel( ch, argument, CHANNEL_VENT, "VENT" );
   return;
 }
 
-/*
- * Alander's new channels.
- */
 void do_music( CHAR_DATA * ch, char * argument ) {
   talk_channel( ch, argument, CHANNEL_MUSIC, "music" );
   return;
@@ -1527,7 +1476,7 @@ void do_tell( CHAR_DATA * ch, char * argument ) {
   act( AT_WHITE, "You tell $N '$t'", ch, argument, victim, TO_CHAR );
   position         = victim->position;
   victim->position = POS_STANDING;
-  
+
   act( AT_WHITE, "$n tells you '$t'", ch, argument, victim, TO_VICT );
   victim->position = position;
   victim->reply    = ch;
@@ -1624,7 +1573,7 @@ void do_reply( CHAR_DATA * ch, char * argument ) {
   act( AT_WHITE, "You tell $N '$t'",  ch, argument, victim, TO_CHAR );
   position         = victim->position;
   victim->position = POS_STANDING;
-  
+
   act( AT_WHITE, "$n tells you '$t'", ch, argument, victim, TO_VICT );
   victim->position = position;
   victim->reply    = ch;
@@ -2166,7 +2115,7 @@ void do_group( CHAR_DATA * ch, char * argument ) {
     CHAR_DATA * leader;
 
     leader = ( ch->leader ) ? ch->leader : ch;
-    sprintf( buf, "%s's group:\n\r", PERS( leader, ch ) );
+    sprintf( buf, "%s's group:\n\r", visible_name( leader, ch, TRUE ) );
     send_to_char( AT_DGREEN, buf, ch );
 
     for ( gch = char_list; gch; gch = gch->next ) {
@@ -2180,7 +2129,7 @@ void do_group( CHAR_DATA * ch, char * argument ) {
                  gch->level,
                  IS_NPC( gch ) ? "Mob"
                  : class_table[ prime_class( gch ) ].who_name,
-                 capitalize( PERS( gch, ch ) ),
+                 capitalize( visible_name( gch, ch, TRUE ) ),
                  gch->hit,   MAX_HIT( gch ),
                  gch->mana,  MAX_MANA( gch ),
                  gch->move,  MAX_MOVE( gch ),

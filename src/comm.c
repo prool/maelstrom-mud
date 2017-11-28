@@ -2709,9 +2709,7 @@ void act( int AType, const char * format, CHAR_DATA * ch, const void * arg1, con
   }
 
   for (; to; to = to->next_in_room ) {
-    if ( ( to->deleted )
-         /*	    || ( !to->desc && IS_NPC( to ) )*/
-         || !IS_AWAKE( to ) ) {
+    if ( ( to->deleted ) || !IS_AWAKE( to ) ) {
       continue;
     }
 
@@ -2731,8 +2729,7 @@ void act( int AType, const char * format, CHAR_DATA * ch, const void * arg1, con
       continue;
     }
 
-    if ( type == TO_COMBAT &&
-         ( to == ch || to == vch || !IS_SET( to->act, PLR_COMBAT ) ) ) {
+    if ( type == TO_COMBAT && ( to == ch || to == vch || !IS_SET( to->act, PLR_COMBAT ) ) ) {
       continue;
     }
 
@@ -2768,11 +2765,11 @@ void act( int AType, const char * format, CHAR_DATA * ch, const void * arg1, con
             set_str_color( AType, i );
             break;
           case 'n':
-            i = PERS( ch,  to );
+            i = visible_name( ch,  to, FALSE );
             set_str_color( AType, i );
             break;
           case 'N':
-            i = PERS( vch, to );
+            i = visible_name( vch, to, FALSE );
             set_str_color( AType, i );
             break;
           case 'e':

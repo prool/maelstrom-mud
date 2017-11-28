@@ -3174,16 +3174,11 @@ void spell_locate_object( int sn, int level, CHAR_DATA * ch, void * vo ) {
     }
 
     if ( in_obj->carried_by ) {
-      sprintf( buf, "%s carried by %s.\n\r",
-               obj->short_descr, PERS( in_obj->carried_by, ch ) );
+      sprintf( buf, "%s carried by %s.\n\r", obj->short_descr, visible_name( in_obj->carried_by, ch, TRUE ) );
     } else if ( in_obj->stored_by ) {
-      sprintf( buf, "%s in storage.\n\r",
-               obj->short_descr );
+      sprintf( buf, "%s in storage.\n\r", obj->short_descr );
     } else {
-      sprintf( buf, "%s in %s.\n\r",
-               obj->short_descr, !in_obj->in_room
-
-               ? "somewhere" : in_obj->in_room->name );
+      sprintf( buf, "%s in %s.\n\r", obj->short_descr, !in_obj->in_room ? "somewhere" : in_obj->in_room->name );
     }
 
     buf[ 0 ] = UPPER( buf[ 0 ] );

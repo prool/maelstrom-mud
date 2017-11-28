@@ -501,7 +501,7 @@ void do_wizhelp( CHAR_DATA * ch, char * argument ) {
 
       send_to_char( C_DEFAULT, buf, ch );
     }
-    
+
     if ( col % 5 != 0 ) {
       send_to_char( AT_GREY, "\n\r", ch );
     }
@@ -5572,12 +5572,12 @@ void do_owhere( CHAR_DATA * ch, char * argument ) {
 
         sprintf( buf, "[%2d] %s carried by %s at [%4d].\n\r",
                  obj_counter, obj->short_descr,
-                 PERS( in_obj->carried_by, ch ),
+                 visible_name( in_obj->carried_by, ch, TRUE ),
                  in_obj->carried_by->in_room->vnum );
       } else if ( in_obj->stored_by ) {
         sprintf( buf, "[%2d] %s in %s's storage box.\n\r",
                  obj_counter, obj->short_descr,
-                 PERS( in_obj->stored_by, ch ) );
+                 visible_name( in_obj->stored_by, ch, TRUE ) );
       } else {
         sprintf( buf, "[%2d] %s in %s at [%4d].\n\r", obj_counter,
                  obj->short_descr, ( !in_obj->in_room ) ?

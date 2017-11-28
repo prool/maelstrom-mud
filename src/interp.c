@@ -120,6 +120,7 @@ struct cmd_type cmd_table [] = {
   { "finger",          do_finger,            POS_DEAD,     0,     LOG_ALWAYS, TRUE    },
   { "forge",           do_forge,             POS_STANDING, 30,    LOG_ALWAYS, TRUE    },
   { "help",            do_help,              POS_DEAD,     0,     LOG_NORMAL, TRUE    },
+  { "hood",            do_hood,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "idea",            do_idea,              POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "report",          do_report,            POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "pagelength",      do_pagelen,           POS_DEAD,     0,     LOG_NORMAL, TRUE    },

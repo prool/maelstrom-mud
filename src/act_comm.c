@@ -1662,7 +1662,6 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
   DESCRIPTOR_DATA * d;
   CHAR_DATA       * PeT;
   CHAR_DATA       * gch;
-  MONEY_DATA        tax;
 
   if ( ch->position == POS_FIGHTING ) {
     send_to_char( AT_WHITE, "No way! You are fighting.\n\r", ch );

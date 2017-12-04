@@ -98,7 +98,6 @@ bool check_reconnect( DESCRIPTOR_DATA * d, char * name, bool fConn );
 bool check_playing( DESCRIPTOR_DATA * d, char * name );
 bool process_output( DESCRIPTOR_DATA * d, bool fPrompt );
 char * set_str_color( int AType, const char * txt );
-void reset_builder_levels();
 void hotreboot_recover();
 
 /*
@@ -126,18 +125,13 @@ int game_main( int argc, char ** argv ) {
   struct timeval now_time;
   bool           fHotReboot = FALSE;
 
-  /*
-   * Memory debugging if needed.
-   */
+  // memory debugging (if needed)
 #if defined( MALLOC_DEBUG )
   malloc_debug( 2 );
 #endif
 
-  /*
-   * Init time.
-   */
-
   exe_file = str_dup( argv[ 0 ] );
+
   {
     struct stat statis;
 
@@ -155,32 +149,19 @@ int game_main( int argc, char ** argv ) {
 
   strcpy( str_boot_time, ctime( &current_time ) );
 
-  /*
-   * Reserve one channel for our use.
-   */
+  // reserve one channel for our use
   if ( !( fpReserve = fopen( NULL_FILE, "r" ) ) ) {
     perror( NULL_FILE );
     exit( 0 );
   }
 
-  /*
-   * Get the port number.
-   */
-  port = 1234;
-
-  if ( argc > 1 ) {
-    if ( !is_number( argv[ 1 ] ) ) {
-      fprintf( stderr, "Usage: %s [port #]\n", argv[ 0 ] );
-      exit( 0 );
-    } else if ( ( port = atoi( argv[ 1 ] ) ) <= 1024 ) {
-      fprintf( stderr, "Port number must be above 1024.\n" );
-      exit( 0 );
-    }
-  }
-
-  /* Checks what port -- note Angi */
-  if ( port == 2222 ) {
-    reset_builder_levels();
+  // get the port number
+  if ( !is_number( argv[ 1 ] ) ) {
+    fprintf( stderr, "Usage: %s [port #]\n", argv[ 0 ] );
+    exit( 0 );
+  } else if ( ( port = atoi( argv[ 1 ] ) ) <= 1024 ) {
+    fprintf( stderr, "Port number must be above 1024.\n" );
+    exit( 0 );
   }
 
   if ( argv[ 2 ] && argv[ 2 ][ 0 ] ) {
@@ -190,15 +171,11 @@ int game_main( int argc, char ** argv ) {
     fHotReboot = FALSE;
   }
 
-  /*
-   * Run the game.
-   */
-
-  /*    control = init_socket( port ); */
+  // run the game
   boot_db();
   note_cleanup();
 
-  /* We already have the port if hot rebooting */
+  // we already have the port if hot rebooting
   if ( !fHotReboot ) {
     if ( ( control = init_socket( port ) ) < 0 ) {
       exit( 1 );
@@ -235,7 +212,7 @@ int game_main( int argc, char ** argv ) {
     fpReserve = fopen( NULL_FILE, "r" );
   }
 
-  /* Recover the players after a hot reboot */
+  // recover the players after a hot reboot
   if ( fHotReboot ) {
     hotreboot_recover();
   }
@@ -243,9 +220,6 @@ int game_main( int argc, char ** argv ) {
   game_loop_unix( control );
   close( control );
 
-  /*
-   * That's all, folks.
-   */
   log_string( "Normal termination of game.", CHANNEL_NONE, -1 );
   exit( 0 );
   return 0;
@@ -3125,26 +3099,6 @@ void do_desc_check( CHAR_DATA * ch, char * argument ) {
 
   if ( desc % 7 != 6 ) {
     send_to_char( C_DEFAULT, "\n\r", ch );
-  }
-
-  return;
-}
-
-void reset_builder_levels() {
-  int cmd;
-
-  for ( cmd = 0; cmd_table[ cmd ].name != '\0'; cmd++ ) {
-    if ( !str_prefix( "redit", cmd_table[ cmd ].name ) ) {
-      cmd_table[ cmd ].level = L_JUN;
-    } else if ( !str_prefix( "medit", cmd_table[ cmd ].name ) ) {
-      cmd_table[ cmd ].level = L_DEM;
-    } else if ( !str_prefix( "oedit", cmd_table[ cmd ].name ) ) {
-      cmd_table[ cmd ].level = L_SEN;
-    } else if ( !str_prefix( "resets", cmd_table[ cmd ].name ) ) {
-      cmd_table[ cmd ].level = L_SEN;
-    } else if ( !str_prefix( "oload", cmd_table[ cmd ].name ) ) {
-      cmd_table[ cmd ].level = L_SEN;
-    }
   }
 
   return;

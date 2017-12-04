@@ -9,9 +9,9 @@ if [ -e .env ]; then
 fi
 
 # Set the port number.
-PORT="1234"
-
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
+  PORT="1234"
+else
   PORT="$1"
 fi
 
@@ -47,7 +47,8 @@ while true; do
      rm -f shutdown.txt
   fi
 
-  ./bin/envy $PORT &> $LOGFILE
+  # ./bin/envy $PORT &> $LOGFILE
+  ./bin/envy $PORT
 
   if [ -e core ]; then
     mv core ./bin/$INDEX.core

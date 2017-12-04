@@ -23,11 +23,9 @@ extern CHAR_DATA * old_chars;
 bool chat_command( CHAR_DATA * ch, char * argument );
 void stop_chat_mode( CHAR_DATA * ch );
 void chat_interp( CHAR_DATA * ch, char * argument );
-#define CD CHAR_DATA *
-CD   get_char_chat( CHAR_DATA * ch, char * argument );
-#undef CD
+CHAR_DATA * get_char_chat( CHAR_DATA * ch, char * argument );
 void send_room_stuff( CHAR_DATA * ch );
-int  num_color( CHAR_DATA * ch );
+int num_color( CHAR_DATA * ch );
 char * get_color( CHAR_DATA * ch );
 
 DECLARE_DO_FUN( chat_page );

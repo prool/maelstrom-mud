@@ -2847,16 +2847,6 @@ char *  crypt( const char * key, const char * salt );
  * Our function prototypes.
  * One big lump ... this is every function in Merc.
  */
-// TODO remove unnecessary obfuscation
-#define CD  CHAR_DATA
-#define MID MOB_INDEX_DATA
-#define OD  OBJ_DATA
-#define OID OBJ_INDEX_DATA
-#define RID ROOM_INDEX_DATA
-#define CID CLAN_DATA
-#define SF  SPEC_FUN
-#define BD  BAN_DATA
-
 /* act_comm.c */
 void add_follower( CHAR_DATA * ch, CHAR_DATA * master );
 void stop_follower( CHAR_DATA * ch );
@@ -2898,15 +2888,15 @@ int game_main( int argc, char ** argv );
 /* db.c */
 void boot_db( void );
 void area_update( void );
-CD *  create_mobile( MOB_INDEX_DATA * pMobIndex );
-OD *  create_object( OBJ_INDEX_DATA * pObjIndex, int level );
+CHAR_DATA *  create_mobile( MOB_INDEX_DATA * pMobIndex );
+OBJ_DATA *  create_object( OBJ_INDEX_DATA * pObjIndex, int level );
 void clear_char( CHAR_DATA * ch );
 void free_char( CHAR_DATA * ch );
 char *  get_extra_descr( CHAR_DATA * CH, char * name, EXTRA_DESCR_DATA * ed );
-MID * get_mob_index( int vnum );
-OID * get_obj_index( int vnum );
-RID * get_room_index( int vnum );
-CID *   get_clan_index( int vnum );
+MOB_INDEX_DATA * get_mob_index( int vnum );
+OBJ_INDEX_DATA * get_obj_index( int vnum );
+ROOM_INDEX_DATA * get_room_index( int vnum );
+CLAN_DATA *   get_clan_index( int vnum );
 char fread_letter( FILE * fp );
 int fread_number( FILE * fp );
 char *  fread_string( FILE * fp );
@@ -2992,7 +2982,7 @@ void obj_to_storage( OBJ_DATA * obj, CHAR_DATA * ch );
 void obj_from_char( OBJ_DATA * obj );
 void obj_from_storage( OBJ_DATA * obj );
 int apply_ac( OBJ_DATA * obj, int iWear );
-OD *  get_eq_char( CHAR_DATA * ch, int iWear );
+OBJ_DATA *  get_eq_char( CHAR_DATA * ch, int iWear );
 void equip_char( CHAR_DATA * ch, OBJ_DATA * obj, int iWear );
 void unequip_char( CHAR_DATA * ch, OBJ_DATA * obj );
 int count_obj_list( OBJ_INDEX_DATA * obj, OBJ_DATA * list );
@@ -3002,17 +2992,17 @@ void obj_to_obj( OBJ_DATA * obj, OBJ_DATA * obj_to );
 void obj_from_obj( OBJ_DATA * obj );
 void extract_obj( OBJ_DATA * obj );
 void extract_char( CHAR_DATA * ch, bool fPull );
-CD * get_char_room( CHAR_DATA * ch, char * argument );
-CD * get_char_world( CHAR_DATA * ch, char * argument );
-CD * get_pc_world( CHAR_DATA * ch, char * argument );
-OD * get_obj_type( OBJ_INDEX_DATA * pObjIndexData );
-OD * get_obj_list( CHAR_DATA * ch, char * argument, OBJ_DATA * list );
-OD * get_obj_carry( CHAR_DATA * ch, char * argument );
-OD * get_obj_storage( CHAR_DATA * ch, char * argument );
-OD * get_obj_wear( CHAR_DATA * ch, char * argument );
-OD * get_obj_here( CHAR_DATA * ch, char * argument );
-OD * get_obj_world( CHAR_DATA * ch, char * argument );
-OD * create_money( MONEY_DATA * amount );
+CHAR_DATA * get_char_room( CHAR_DATA * ch, char * argument );
+CHAR_DATA * get_char_world( CHAR_DATA * ch, char * argument );
+CHAR_DATA * get_pc_world( CHAR_DATA * ch, char * argument );
+OBJ_DATA * get_obj_type( OBJ_INDEX_DATA * pObjIndexData );
+OBJ_DATA * get_obj_list( CHAR_DATA * ch, char * argument, OBJ_DATA * list );
+OBJ_DATA * get_obj_carry( CHAR_DATA * ch, char * argument );
+OBJ_DATA * get_obj_storage( CHAR_DATA * ch, char * argument );
+OBJ_DATA * get_obj_wear( CHAR_DATA * ch, char * argument );
+OBJ_DATA * get_obj_here( CHAR_DATA * ch, char * argument );
+OBJ_DATA * get_obj_world( CHAR_DATA * ch, char * argument );
+OBJ_DATA * create_money( MONEY_DATA * amount );
 int get_obj_number( OBJ_DATA * obj );
 int get_obj_weight( OBJ_DATA * obj );
 bool room_is_dark( ROOM_INDEX_DATA * pRoomIndex );
@@ -3029,7 +3019,7 @@ char * anticlass_bit_name( int anti_class_flags );
 char * antirace_bit_name( int anti_race_flags );
 char * act_bit_name( int act );
 char * imm_bit_name( int );
-CD * get_char( CHAR_DATA * ch );
+CHAR_DATA * get_char( CHAR_DATA * ch );
 bool longstring( CHAR_DATA * ch, char * argument );
 void end_of_game( void );
 long wiznet_lookup( const char * name );
@@ -3078,7 +3068,7 @@ void fread_finger( CHAR_DATA * ch, FILE * fp, char * name );
 void save_banlist( BAN_DATA * ban_list );
 
 /* special.c */
-SF *  spec_lookup( const char * name );
+SPEC_FUN *  spec_lookup( const char * name );
 
 /* update.c */
 void advance_level( CHAR_DATA * ch );
@@ -3190,13 +3180,6 @@ bool can_go( CHAR_DATA * ch, int dir );
 void start_chat_mode( DESCRIPTOR_DATA * d );
 void chat_interp( CHAR_DATA * ch, char * argument );
 
-#undef  CD
-#undef  MID
-#undef  OD
-#undef  OID
-#undef  RID
-#undef  SF
-#undef  BD
 
 /*****************************************************************************
 *                                    OLC                                    *

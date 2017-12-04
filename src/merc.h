@@ -108,13 +108,13 @@ typedef void SPELL_FUN ( int sn, int level, CHAR_DATA * ch, void * vo );
  * Increase the max'es if you add more of something.
  * Adjust the pulse numbers to suit yourself.
  */
-#define MAX_SKILL  400
-#define MAX_GSPELL 2
-#define MAX_CLASS  3
-#define MAX_RACE   5
-#define MAX_CLAN   21   // max 20 clans + 1 for clan 0
-#define MAX_LEVEL  113
-#define MAX_SIZE   9
+#define MAX_SKILL         400
+#define MAX_GSPELL        2
+#define MAX_CLASS         3
+#define MAX_RACE          5
+#define MAX_CLAN          21   // max 20 clans + 1 for clan 0
+#define MAX_LEVEL         113
+#define MAX_SIZE          9
 
 #define STUN_MAX 5
 
@@ -1519,11 +1519,8 @@ struct  char_data {
 };
 
 struct quest_data {
-  char * name;
-  char * colorname;
   int    vnum;
   int    qp;
-  int    level;
 };
 
 struct  mob_prog_act_list {

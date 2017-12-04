@@ -79,18 +79,16 @@ bool chance( int num ) {
 
 /* The main quest function */
 void do_quest( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * questman;
-  OBJ_DATA  * obj = NULL, * obj_next;
-
-  /*  OBJ_INDEX_DATA   *questinfoobj;
-     MOB_INDEX_DATA   *questinfo; */
-
-  char buf[ MAX_STRING_LENGTH ];
-  char result[ MAX_STRING_LENGTH * 2 ];
-  char arg1[ MAX_INPUT_LENGTH ];
-  char arg2[ MAX_INPUT_LENGTH ];
-  char arg3[ MAX_INPUT_LENGTH ];
-  int  amt = 0;
+  CHAR_DATA        * questman;
+  OBJ_DATA         * obj = NULL;
+  OBJ_DATA         * obj_next;
+  OBJ_INDEX_DATA   * rewardObj;
+  char               buf[ MAX_STRING_LENGTH ];
+  char               result[ MAX_STRING_LENGTH * 2 ];
+  char               arg1[ MAX_INPUT_LENGTH ];
+  char               arg2[ MAX_INPUT_LENGTH ];
+  char               arg3[ MAX_INPUT_LENGTH ];
+  int                amt = 0;
 
   argument = one_argument( argument, arg1 );
   argument = one_argument( argument, arg2 );
@@ -104,18 +102,14 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
 
   if ( !strcmp( arg1, "info" ) ) {
     if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
-      if ( ( !ch->questmob && !ch->questobj )
-           && ch->questgiver->short_descr != NULL ) {
+      if ( ( !ch->questmob && !ch->questobj ) && ch->questgiver->short_descr != NULL ) {
         send_to_char( AT_YELLOW, "&YYour quest is ALMOST complete!\n\r", ch );
-        /*		send_to_char(AT_YELLOW, buf, ch); */
       } else if ( ch->questobj ) {
-        sprintf( buf, "You are on a quest to find %s!\n\r",
-                 ch->questobj->short_descr );
+        sprintf( buf, "You are on a quest to find %s!\n\r", ch->questobj->short_descr );
         send_to_char( AT_WHITE, buf, ch );
         return;
       } else if ( ch->questmob ) {
-        sprintf( buf, "You are on a quest to kill %s!\n\r",
-                 ch->questmob->short_descr );
+        sprintf( buf, "You are on a quest to kill %s!\n\r", ch->questmob->short_descr );
         send_to_char( AT_WHITE, buf, ch );
         return;
       }
@@ -126,17 +120,10 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  /* Quest area: info on area only for object quests */
-
   if ( !strcmp( arg1, "area" ) ) {
     if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
-      if ( ch->questobj ) {
-        sprintf( buf, "AREA: %s\n\r", room->area->name );
-        send_to_char( AT_WHITE, buf, ch );
-      } else {
-        send_to_char( AT_WHITE, "You aren't currently on an object quest.\n\r", ch );
-      }
-
+      sprintf( buf, "AREA: %s\n\r", room->area->name );
+      send_to_char( AT_WHITE, buf, ch );
       return;
     } else {
       send_to_char( AT_WHITE, "You aren't currently on a quest.\n\r", ch );
@@ -195,15 +182,31 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
   if ( !strcmp( arg1, "list" ) ) {
     act( AT_WHITE, "$n asks $N for a list of quest items.", ch, NULL, questman, TO_ROOM );
     act( AT_WHITE, "You ask $N for a list of quest items.", ch, NULL, questman, TO_CHAR );
-    sprintf( result, "&W[&R%5s %10s&W] [&R%30s&W]\n\r", "Lvl", "Points", "Item" );
+    if ( IS_IMMORTAL(ch) ) {
+      sprintf( result, "&Y[ &RVnum   &Y] &C[ &R%5s %10s &C] [ &R%44s &C]\n\r", "Lvl", "Points", "Item" );
+    } else {
+      sprintf( result, "&C[ &R%5s %10s &C] [ &R%44s &C]\n\r", "Lvl", "Points", "Item" );
+    }
 
-    for ( cnt = 0; quest_table[ cnt ].name[ 0 ] != '\0'; cnt++ ) {
-      sprintf( buf, "&C[&R%5d &P%10d&C] &C[&R%*s&C]\n\r",
-               quest_table[ cnt ].level,
-               quest_table[ cnt ].qp,
-               (int)( 52 + strlen( quest_table[ cnt ].colorname ) - strlen_wo_col( quest_table[ cnt ].colorname ) ),
-               quest_table[ cnt ].colorname );
-      strcat( result, buf );
+    for ( cnt = 0; quest_table[ cnt ].vnum != -1; cnt++ ) {
+      if ( (rewardObj = get_obj_index( quest_table[ cnt ].vnum) ) ) {
+        if ( IS_IMMORTAL(ch) ) {
+          sprintf( buf, "&Y[ &R%-6d &Y] &C[ &R%5d &P%10d &C] &C[ &R%*s &C]\n\r",
+                  rewardObj->vnum,
+                  rewardObj->level,
+                  quest_table[ cnt ].qp,
+                  (int)( 44 + strlen( rewardObj->short_descr ) - strlen_wo_col( rewardObj->short_descr ) ),
+                  capitalize(rewardObj->short_descr) );
+        } else {
+          sprintf( buf, "&C[ &R%5d &P%10d &C] &C[ &R%*s &C]\n\r",
+                  rewardObj->level,
+                  quest_table[ cnt ].qp,
+                  (int)( 44 + strlen( rewardObj->short_descr ) - strlen_wo_col( rewardObj->short_descr ) ),
+                  capitalize(rewardObj->short_descr) );
+        }
+
+        strcat( result, buf );
+      }
     }
 
     send_to_char( AT_WHITE, result, ch );
@@ -214,59 +217,41 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    for ( cnt = 0; quest_table[ cnt ].name[ 0 ] != '\0'; cnt++ ) {
-      if ( is_name( ch, arg2, quest_table[ cnt ].name ) ) {
-        if ( ch->questpoints >= ( quest_table[ cnt ].qp * amt ) &&
-             amt > -1 ) {/* kjodo */
-          if ( quest_table[ cnt ].level <= ch->level ) {
-            ch->questpoints -= quest_table[ cnt ].qp * amt;
+    for ( cnt = 0; quest_table[ cnt ].vnum != -1; cnt++ ) {
+      if ( (rewardObj = get_obj_index( quest_table[ cnt ].vnum) ) ) {
+        if ( is_name( ch, arg2, rewardObj->name ) ) {
+          if ( ch->questpoints >= ( quest_table[ cnt ].qp * amt ) && amt > -1 ) {
+            if ( rewardObj->level <= ch->level ) {
+              ch->questpoints -= quest_table[ cnt ].qp * amt;
 
-            if ( is_name( ch, arg2, "prac pracs practice practices" ) ) {
-              ch->practice += amt;
-
-              if ( amt > 1 ) {
-                act( AT_WHITE, "$N gives some practice sessions to $n.", ch, NULL, questman, TO_ROOM );
-                act( AT_WHITE, "$N gives you some practice sessions.", ch, NULL, questman, TO_CHAR );
-              } else {
-                act( AT_WHITE, "$N gives a practice session to $n.", ch, NULL, questman, TO_ROOM );
-                act( AT_WHITE, "$N gives you a practice session.", ch, NULL, questman, TO_CHAR );
-              }
-            } else {
               while ( amt > 0 ) {
-                obj = create_object( get_obj_index(
-                                       quest_table[ cnt ].vnum ), quest_table[ cnt ].level );
+                obj = create_object( rewardObj, rewardObj->level );
                 act( AT_WHITE, "$N gives $p to $n.", ch, obj, questman, TO_ROOM );
                 act( AT_WHITE, "$N gives you $p.", ch, obj, questman, TO_CHAR );
                 obj_to_char( obj, ch );
                 amt--;
               }
+            } else {
+              sprintf( buf, "Sorry, %s, but you are too inexperienced to use that item.\n\r", ch->name );
+              do_say( questman, buf );
+              return;
             }
           } else {
-            sprintf( buf, "Sorry, %s, but you are too inexperienced to use that item.\n\r", ch->name );
+            sprintf( buf, "Sorry, %s, but you don't have enough quest points for that.\n\r", ch->name );
             do_say( questman, buf );
             return;
           }
-        } else {
-          sprintf( buf, "Sorry, %s, but you don't have enough quest points for that.\n\r", ch->name );
-          do_say( questman, buf );
-          return;
-        }
 
-        break;
+          break;
+        }
       }
     }
 
-    if ( ( obj == NULL ) && !( is_name( ch, arg2, "prac pracs practice practices" ) ) ) {
+    if ( obj == NULL ) {
       sprintf( buf, "I don't have that item, %s.\n\r", ch->name );
       do_say( questman, buf );
     }
 
-    /*        else
-          {
-          act( AT_WHITE, "$N gives $p to $n.", ch, obj, questman, TO_ROOM );
-          act( AT_WHITE, "$N gives you $p.",   ch, obj, questman, TO_CHAR );
-          obj_to_char( obj, ch );
-          } */
     return;
   } else if ( !strcmp( arg1, "request" ) ) {
     act( AT_WHITE, "$n asks $N for a quest.", ch, NULL, questman, TO_ROOM );
@@ -323,15 +308,14 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
     }
 
     if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
-      if ( ( !ch->questmob && !ch->questobj )
-           && ch->countdown > 0 ) {
+      if ( ( !ch->questmob && !ch->questobj ) && ch->countdown > 0 ) {
         int pointreward, pracreward;
 
-        /*reward = number_range(1500,25000);*/
         pointreward = number_range( 10, 30 );
 
         sprintf( buf, "Congratulations on completing your quest!" );
         do_say( questman, buf );
+
         sprintf( buf, "As a reward, I am giving you %d quest points!", pointreward );
         do_say( questman, buf );
 
@@ -430,12 +414,10 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
   if ( arg1[ 0 ] == '\0' ) {
     if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
       if ( ch->questobj ) {
-        sprintf( buf, "You are on a quest to find %s!\n\r",
-                 ch->questobj->short_descr );
+        sprintf( buf, "You are on a quest to find %s!\n\r", ch->questobj->short_descr );
         send_to_char( AT_WHITE, buf, ch );
       } else if ( ch->questmob ) {
-        sprintf( buf, "You are on a quest to kill %s!\n\r",
-                 ch->questmob->short_descr );
+        sprintf( buf, "You are on a quest to kill %s!\n\r", ch->questmob->short_descr );
         send_to_char( AT_WHITE, buf, ch );
       }
 

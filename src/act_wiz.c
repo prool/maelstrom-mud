@@ -3461,7 +3461,7 @@ void do_mset( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_WHITE, "  thirst drunk full security affected_by2\n\r",  ch );
     send_to_char( AT_WHITE, "  affected_by act mstr mint mwis mcha\n\r",    ch );
     send_to_char( AT_WHITE, "  mdex mcon bank carryn carryw save race\n\r",   ch );
-    send_to_char( AT_WHITE, "  lname sex salign size\n\r",      ch );
+    send_to_char( AT_WHITE, "  lname sex salign size qtime1 qtime2 qp\n\r",   ch );
     send_to_char( AT_WHITE, "&pString being one of:\n\r",       ch );
     send_to_char( AT_WHITE, "  name short long title spec\n\r",               ch );
     send_to_char( AT_WHITE, "&pSlot being 1-2 class slot.\n\r", ch );
@@ -3502,6 +3502,11 @@ void do_mset( CHAR_DATA * ch, char * argument ) {
 
   if ( !str_cmp( arg2, "qtime2" ) ) {
     victim->countdown = value;
+    return;
+  }
+
+  if ( !str_cmp( arg2, "qp" ) ) {
+    victim->questpoints = value;
     return;
   }
 

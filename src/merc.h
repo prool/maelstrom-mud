@@ -2814,21 +2814,34 @@ char *  crypt( const char * key, const char * salt );
  *   so players can go ahead and telnet to all the other descriptors.
  * Then we close it whenever we need to open a file (e.g. a save file).
  */
-// TODO change working directory to project root instead of area directory
-#define PLAYER_DIR      "../player/"            /* Player files */
-#define NULL_FILE       "/dev/null"             /* To reserve one stream */
-#define AREA_LIST       "area.lst"              /* List of areas */
-#define SHUTDOWN_FILE   "shutdown.txt"          /* For 'shutdown' */
-#define DOWN_TIME_FILE  "time.txt"              /* For automatic shutdown */
-#define AUTH_LIST       "auth.txt"              /* List of who auth who */
-#define BAN_LIST        "../banned.lst"         /* List of banned sites & users */
-#define CLAN_FILE       "../data/clans.json"    /* For 'clans' */
-#define HOTREBOOT_FILE  "../data/hotreboot.dat" /* temporary data file used */
-#define NEWBIE_FILE     "../data/newbie.json"   /* Newbie help file */
-#define NOTE_FILE       "../data/notes.dat"     /* For 'notes' */
-#define SOCIAL_FILE     "../data/social.json"   /* For 'socials' */
-#define PLAYERLIST_FILE "../player/player.lst"  /* Player List */
-#define EXE_FILE        "../bin/envy"           /* EXE file */
+// areas
+#define AREA_DIR        "area/"              // Area files
+#define AREA_LIST       "area/area.lst"      // List of areas
+
+// binaries
+#define EXE_FILE        "bin/envy"           // EXE file
+
+// game data
+#define HELP_FILE       "data/help.dat"      // Help file
+#define DOWN_TIME_FILE  "data/time.txt"      // For automatic shutdown
+#define BAN_LIST        "data/banned.lst"    // List of banned sites & users
+#define CLAN_FILE       "data/clans.json"    // For 'clans'
+#define SHUTDOWN_FILE   "data/shutdown.txt"  // For 'shutdown'
+#define HOTREBOOT_FILE  "data/hotreboot.dat" // temporary data file used
+#define NEWBIE_FILE     "data/newbie.json"   // Newbie help file
+#define NOTE_FILE       "data/notes.dat"     // For 'notes'
+#define SOCIAL_FILE     "data/social.json"   // For 'socials'
+
+// logs
+#define LOG_DIR         "log/"               // Log files
+#define AUTH_LOG        "log/auth.log"       // List of who authed who
+
+// players
+#define PLAYER_DIR      "player/"            // Player files
+#define PLAYERLIST_FILE "player/player.lst"  // Player List
+
+// misc
+#define NULL_FILE       "/dev/null"          // To reserve one stream
 
 /*
  * Our function prototypes.

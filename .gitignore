@@ -1,9 +1,8 @@
-area/comlog*
 player/player.lst
-area/shutdown.txt
+data/hotreboot.dat
+data/shutdown.txt
 data/notes.dat
-area/bugs.txt
-banned.lst
+data/banned.lst
 *.o
 *.core
 *.gcno

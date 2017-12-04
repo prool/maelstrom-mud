@@ -212,8 +212,8 @@ int game_main( int argc, char ** argv ) {
     char   new_comlog[ MAX_INPUT_LENGTH ];
     char   old_comlog[ MAX_INPUT_LENGTH ];
 
-    sprintf( new_comlog, "comlog%d.txt", port );
-    sprintf( old_comlog, "comlog%d.old", port );
+    sprintf( new_comlog, "%scomlog%d.txt", LOG_DIR, port );
+    sprintf( old_comlog, "%scomlog%d.old", LOG_DIR, port );
 
     unlink( old_comlog );
     rename( new_comlog, old_comlog );
@@ -447,7 +447,7 @@ void game_loop_unix( int control ) {
           strtime                          = ctime( &current_time );
           strtime[ strlen( strtime ) - 1 ] = '\0';
 
-          sprintf( buf, "comlog%d.txt", port );
+          sprintf( buf, "%scomlog%d.txt", LOG_DIR, port );
           sprintf( buf2, "%s: %s: %s\n", strtime, d->character ? d->character->name : "(Unknown)", d->incomm );
           fclose( fpReserve );
 
@@ -2928,26 +2928,22 @@ void do_authorize( CHAR_DATA * ch, char * argument ) {
                  class_short( d->character ) );
         send_to_char( C_DEFAULT, buf, ch );
       }
-    } else if ( d->connected >= CON_AUTHORIZE_NAME
-                && d->connected <= CON_AUTHORIZE_LOGOUT
-                && is_exact_name( d->character->name, arg1 ) ) {
+    } else if ( d->connected >= CON_AUTHORIZE_NAME && d->connected <= CON_AUTHORIZE_LOGOUT && is_exact_name( d->character->name, arg1 ) ) {
       if ( mode == 1 ) {
         send_to_char( C_DEFAULT, "Character authorized.\n\r", ch );
         d->connected = CON_READ_MOTD;
         write_to_buffer( d, "You have been authorized.\n\r", 0 );
-        sprintf( buf, "%s!%s@%s AUTHORIZED by %s.",
-                 d->character->name, d->user, d->host, ch->name );
+        sprintf( buf, "%s!%s@%s AUTHORIZED by %s.", d->character->name, d->user, d->host, ch->name );
         log_string( buf, CHANNEL_LOG, -1 );
-        append_file( ch, AUTH_LIST, buf );
+        append_file( ch, AUTH_LOG, buf );
         wiznet( buf, ch, NULL, WIZ_GENERAL, 0, 0 );
         return;
       } else if ( mode == 2 ) {
         send_to_char( C_DEFAULT, "Character denied.\n\r", ch );
         write_to_buffer( d, "Please choose a more medieval name.\n\r", 0 );
-        sprintf( buf, "%s!%s@%s denied by %s.",
-                 d->character->name, d->user, d->host, ch->name );
+        sprintf( buf, "%s!%s@%s denied by %s.", d->character->name, d->user, d->host, ch->name );
         log_string( buf, CHANNEL_LOG, -1 );
-        append_file( ch, AUTH_LIST, buf );
+        append_file( ch, AUTH_LOG, buf );
         close_socket( d );
         return;
       } else {

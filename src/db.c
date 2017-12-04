@@ -398,11 +398,26 @@ void boot_db( void ) {
     }
   }
 
+  // read in the help file
+  {
+      FILE * fpHelps;
+
+      if ( !( fpHelps = fopen( HELP_FILE, "r" ) ) ) {
+        perror( HELP_FILE );
+        exit( 1 );
+      } else {
+        log_string( "loading helps...", CHANNEL_NONE, -1 );
+        load_helps( fpHelps );
+        fclose( fpHelps );
+      }
+  }
+
   /*
    * Read in all the area files.
    */
   {
     FILE * fpList;
+    char   areaFilePath[ MAX_STRING_LENGTH ];
 
     if ( !( fpList = fopen( AREA_LIST, "r" ) ) ) {
       perror( AREA_LIST );
@@ -426,20 +441,11 @@ void boot_db( void ) {
       if ( strArea[ 0 ] == '-' ) {
         fpArea = stdin;
       } else {
-        if ( !( fpArea = fopen( strArea, "r" ) ) ) {
-          /* Let's see if the area file is zipped */
-          /*         sprintf ( strArea, "%s.zip", StrArea );
-                 if ( ( fpArea = fopen ( strArea, "r" ) ) )
-                 {
-                 fclose(fpArea);
-                 sprintf( buf, "unzip %s", strArea" );
-                 system ( buf );
-                 }
-                 else
-                 {*/
-          perror( strArea );
+        sprintf(areaFilePath, "%s%s", AREA_DIR, strArea);
+
+        if ( !( fpArea = fopen( areaFilePath, "r" ) ) ) {
+          perror( areaFilePath );
           continue;
-          /*  }*/
         }
       }
 
@@ -457,8 +463,6 @@ void boot_db( void ) {
           break;
         } else if ( !str_cmp( word, "AREA" ) ) {
           load_area( fpArea );
-        } else if ( !str_cmp( word, "HELPS" ) ) {
-          load_helps( fpArea );
         } else if ( !str_cmp( word, "RECALL" ) ) {
           load_recall( fpArea );
         } else if ( !str_cmp( word, "MOBILES" ) ) {

@@ -16,7 +16,7 @@ if [ -z $1 ]; then
 fi
 
 # Change to area directory.
-cd ./area
+# cd ./area
 
 # Set limits.
 ulimit -s 1024
@@ -33,7 +33,7 @@ while true; do
   INDEX=1000
 
   while true; do
-    LOGFILE="../log/$INDEX.log"
+    LOGFILE="./log/$INDEX.log"
 
     if [ ! -e $LOGFILE ]; then
       break
@@ -47,10 +47,10 @@ while true; do
      rm -f shutdown.txt
   fi
 
-  ../bin/envy $PORT &> $LOGFILE
+  ./bin/envy $PORT &> $LOGFILE
 
   if [ -e core ]; then
-    mv core ../bin/$INDEX.core
+    mv core ./bin/$INDEX.core
   fi
 
   # Restart, giving old connections a chance to die.

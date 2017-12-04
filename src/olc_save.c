@@ -161,15 +161,6 @@ void save_area_list() {
     bug( "Save_area_list: fopen", 0 );
     perror( "area.lst" );
   } else {
-    /*
-     * Add any help files that need to be loaded at
-     * startup to this section.
-     */
-    /*	fprintf( fp, "help.are\n" );   Not used anymore -Deck
-       fprintf( fp, "help1.are\n" );
-       fprintf( fp, "olc.hlp\n" ); */
-    fprintf( fp, "help.dat\n" );      /* all help files are here now-Deck */
-
     for ( pArea = area_first; pArea; pArea = pArea->next ) {
       fprintf( fp, "%s\n", pArea->filename );
     }
@@ -865,12 +856,15 @@ void save_helps() {
  ****************************************************************************/
 void save_area( AREA_DATA * pArea ) {
   FILE * fp;
+  char   areaFilePath[ MAX_STRING_LENGTH ];
 
   fclose( fpReserve );
 
-  if ( !( fp = fopen( pArea->filename, "w" ) ) ) {
+  sprintf(areaFilePath, "%s%s", AREA_DIR, pArea->filename);
+
+  if ( !( fp = fopen( areaFilePath, "w" ) ) ) {
     bug( "Open_area: fopen", 0 );
-    perror( pArea->filename );
+    perror( areaFilePath );
   }
 
   fprintf( fp, "#AREADATA\n" );

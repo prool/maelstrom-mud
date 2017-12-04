@@ -2821,10 +2821,7 @@ void do_list( CHAR_DATA * ch, char * argument ) {
           strcat( buf1, "Pets for sale:\n\r" );
         }
 
-        sprintf( buf, "[%2d] %5d Gold - %s\n\r",
-                 pet->level,
-                 10 * pet->level * pet->level,
-                 pet->short_descr );
+        sprintf( buf, "[%2d] %5d Gold - %s\n\r", pet->level, 10 * pet->level * pet->level, pet->short_descr );
         strcat( buf1, buf );
       }
     }
@@ -2856,16 +2853,22 @@ void do_list( CHAR_DATA * ch, char * argument ) {
         continue;
       }
 
-      if ( can_see_obj( ch, obj )
-           && ( arg[ 0 ] == '\0' || is_name( ch, arg, obj->name ) ) ) {
+      if ( can_see_obj( ch, obj ) && ( arg[ 0 ] == '\0' || is_name( ch, arg, obj->name ) ) ) {
         if ( !found ) {
           found = TRUE;
-          strcat( buf1, "[Lv Gold Silv Copp] Item\n\r" );
+          if ( IS_IMMORTAL(ch) ) {
+            strcat( buf1, "&Y[ &RVnum&Y   ] &c[ Lv Gold Silv Copp ] Item\n\r" );
+          } else {
+            strcat( buf1, "[ Lv Gold Silv Copp ] Item\n\r" );
+          }
         }
 
-        sprintf( buf, "[%2d %4d %4d %4d] %s.\n\r",
-                 obj->level, amt->gold, amt->silver, amt->copper,
-                 capitalize( obj->short_descr ) );
+        if ( IS_IMMORTAL(ch) ) {
+          sprintf( buf, "&Y[ &R%6d&Y ] &c[ %2d %4d %4d %4d ] %s.\n\r", obj->pIndexData->vnum, obj->level, amt->gold, amt->silver, amt->copper, capitalize( obj->short_descr ) );
+        } else {
+          sprintf( buf, "&c[ %2d %4d %4d %4d ] %s.\n\r", obj->level, amt->gold, amt->silver, amt->copper, capitalize( obj->short_descr ) );
+        }
+
         strcat( buf1, buf );
       }
     }

@@ -4004,14 +4004,20 @@ bool str_suffix( const char * astr, const char * bstr ) {
  */
 char * capitalize( const char * str ) {
   static char strcap[ MAX_STRING_LENGTH ];
+  bool        capitalized = FALSE;
   int         i;
 
-  for ( i = 0; str[ i ] != '\0'; i++ ) {
-    strcap[ i ] = LOWER( str[ i ] );
+  for ( i = 0; str[i] != '\0'; i++ ) {
+    if ( !capitalized && str[i] != '&' && (i == 0 || str[i - 1] != '&') ) {
+      strcap[i] = UPPER(str[i]);
+      capitalized = TRUE;
+    } else {
+      strcap[i] = str[i];
+    }
   }
 
-  strcap[ i ] = '\0';
-  strcap[ 0 ] = UPPER( strcap[ 0 ] );
+  strcap[i] = '\0';
+
   return strcap;
 }
 

@@ -47,8 +47,7 @@ while true; do
      rm -f shutdown.txt
   fi
 
-  # ./bin/envy $PORT &> $LOGFILE
-  ./bin/envy $PORT
+  ./bin/envy $PORT &> $LOGFILE
 
   if [ -e core ]; then
     mv core ./bin/$INDEX.core

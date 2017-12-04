@@ -33,7 +33,7 @@ DO_TEST(new_social_index) {
 DO_TEST(new_room_index) {
   ROOM_INDEX_DATA *testRoom;
 
-  CU_ASSERT_EQUAL(sizeof(*testRoom), 92);
+  CU_ASSERT_EQUAL(sizeof(*testRoom), 108);
 }
 
 DO_TEST(new_newbie_index) {

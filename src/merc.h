@@ -844,7 +844,7 @@ struct  kill_data {
 #define VULN_SILVER    ( Y )
 #define VULN_IRON      ( Z )
 
-/* weapon class */
+// weapon class
 #define WEAPON_EXOTIC  0
 #define WEAPON_SWORD   1
 #define WEAPON_DAGGER  2
@@ -855,7 +855,23 @@ struct  kill_data {
 #define WEAPON_WHIP    7
 #define WEAPON_POLEARM 8
 
-/* weapon types */
+// weapon damage types
+#define WEAPON_DAMAGE_HIT     0
+#define WEAPON_DAMAGE_SLICE   1
+#define WEAPON_DAMAGE_STAB    2
+#define WEAPON_DAMAGE_SLASH   3
+#define WEAPON_DAMAGE_WHIP    4
+#define WEAPON_DAMAGE_CLAW    5
+#define WEAPON_DAMAGE_BLAST   6
+#define WEAPON_DAMAGE_POUND   7
+#define WEAPON_DAMAGE_CRUSH   8
+#define WEAPON_DAMAGE_GREP    9
+#define WEAPON_DAMAGE_BITE    10
+#define WEAPON_DAMAGE_PIERCE  11
+#define WEAPON_DAMAGE_SUCTION 12
+#define WEAPON_DAMAGE_CHOP    13
+
+// weapon types
 #define WEAPON_FLAMING   ( A )
 #define WEAPON_FROST     ( B )
 #define WEAPON_VAMPIRIC  ( C )
@@ -865,19 +881,12 @@ struct  kill_data {
 #define WEAPON_SHOCKING  ( G )
 #define WEAPON_POISON    ( H )
 
-/* gate flags */
+// gate flags
 #define GATE_NORMAL_EXIT ( A )
 #define GATE_NOCURSE     ( B )
 #define GATE_GOWITH      ( C )
 #define GATE_BUGGY       ( D )
 #define GATE_RANDOM      ( E )
-/*
- * Types of attacks.
- * Must be non-overlapping with spell/skill types,
- * but may be arbitrary beyond that.
- */
-#define TYPE_UNDEFINED -1
-#define TYPE_HIT       1000
 
 /*
  * Sex.

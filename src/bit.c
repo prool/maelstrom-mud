@@ -563,21 +563,21 @@ const struct flag_type wear_loc_flags[] = {
 };
 
 const struct flag_type weapon_flags[] = {
-  { "hit",     0,        TRUE },
-  { "slice",   1,        TRUE },
-  { "stab",    2,        TRUE },
-  { "slash",   3,        TRUE },
-  { "whip",    4,        TRUE },
-  { "claw",    5,        TRUE },
-  { "blast",   6,        TRUE },
-  { "pound",   7,        TRUE },
-  { "crush",   8,        TRUE },
-  { "grep",    9,        TRUE },
-  { "bite",    10,       TRUE },
-  { "pierce",  11,       TRUE },
-  { "suction", 12,       TRUE },
-  { "chop",    13,       TRUE },
-  { "",        0,        0    }
+  { "hit",     WEAPON_DAMAGE_HIT,     TRUE },
+  { "slice",   WEAPON_DAMAGE_SLICE,   TRUE },
+  { "stab",    WEAPON_DAMAGE_STAB,    TRUE },
+  { "slash",   WEAPON_DAMAGE_SLASH,   TRUE },
+  { "whip",    WEAPON_DAMAGE_WHIP,    TRUE },
+  { "claw",    WEAPON_DAMAGE_CLAW,    TRUE },
+  { "blast",   WEAPON_DAMAGE_BLAST,   TRUE },
+  { "pound",   WEAPON_DAMAGE_POUND,   TRUE },
+  { "crush",   WEAPON_DAMAGE_CRUSH,   TRUE },
+  { "grep",    WEAPON_DAMAGE_GREP,    TRUE },
+  { "bite",    WEAPON_DAMAGE_BITE,    TRUE },
+  { "pierce",  WEAPON_DAMAGE_PIERCE,  TRUE },
+  { "suction", WEAPON_DAMAGE_SUCTION, TRUE },
+  { "chop",    WEAPON_DAMAGE_CHOP,    TRUE },
+  { "",        0,                     0    }
 };
 
 const struct flag_type container_flags[] = {

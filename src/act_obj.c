@@ -4775,7 +4775,7 @@ void do_chaoshand( CHAR_DATA * ch, char * argument ) {
 
   af.type      = gsn_chaoshand;
   af.level     = ch->level;
-  af.duration  = 20 + ( 5 * ( ch->level > 90 ) ) + ( 10 * ( ch->level >= 100 ) );
+  af.duration  = 20 + ( 5 * ( ch->level > 90 ) ) + ( 10 * ( ch->level >= LEVEL_HERO ) );
   af.location  = APPLY_NONE;
   af.modifier  = 0;
   af.bitvector = 0;

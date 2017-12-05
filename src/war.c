@@ -68,13 +68,15 @@ void do_declare( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( atoi( arg2 ) <= 0 || atoi( arg2 ) > 113 ) {
-    send_to_char( C_DEFAULT, "Level must be between 1 and 113.\n\r", ch );
+  if ( atoi( arg2 ) <= 0 || atoi( arg2 ) > MAX_LEVEL ) {
+    sprintf(buf, "Level must be between 1 and %d.\n\r", MAX_LEVEL);
+    send_to_char( C_DEFAULT, buf, ch );
     return;
   }
 
-  if ( atoi( arg3 ) <= 0 || atoi( arg3 ) > 113 ) {
-    send_to_char( C_DEFAULT, "Level must be between 1 and 113.\n\r", ch );
+  if ( atoi( arg3 ) <= 0 || atoi( arg3 ) > MAX_LEVEL ) {
+    sprintf(buf, "Level must be between 1 and %d.\n\r", MAX_LEVEL);
+    send_to_char( C_DEFAULT, buf, ch );
     return;
   }
 
@@ -162,7 +164,7 @@ void do_war( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !str_cmp( arg, "reset" ) ) {
-    if ( war.timeleft < 1 && ch->level < 108 ) {
+    if ( war.timeleft < 1 && ch->level < L_DEM ) {
       send_to_char( C_DEFAULT, "You cannot reset a running war.\n\r", ch );
       return;
     }

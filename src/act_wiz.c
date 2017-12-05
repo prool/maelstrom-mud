@@ -2574,13 +2574,13 @@ void do_advance( CHAR_DATA * ch, char * argument ) {
     }
   }
 
-  if ( ( level > 100 ) && ( level > victim->level ) ) {
+  if ( ( level > LEVEL_HERO ) && ( level > victim->level ) ) {
     victim->level = level;
     sprintf( log_buf, "advm_%d", level );
     do_help( victim, log_buf );
   }
 
-  if ( ( level > 100 ) && ( level < victim->level ) ) {
+  if ( ( level > LEVEL_HERO ) && ( level < victim->level ) ) {
     victim->level = level;
     sprintf( log_buf, "demm_%d", level );
     do_help( victim, log_buf );
@@ -5384,7 +5384,7 @@ void do_force( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( ch->level < 113 ) {
+    if ( ch->level < L_IMP ) {
       act( AT_RED, "$n forces you to '$t'.", ch, argument, victim, TO_VICT );
     }
 

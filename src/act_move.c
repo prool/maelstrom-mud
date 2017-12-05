@@ -657,7 +657,8 @@ void do_unlock( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !( key = has_key( ch, pexit->key ) ) ) {
+    // immortals don't need keys
+    if ( !IS_IMMORTAL(ch) && !( key = has_key( ch, pexit->key ) ) ) {
       send_to_char( C_DEFAULT, "You lack the key.\n\r",       ch );
       return;
     }
@@ -672,10 +673,8 @@ void do_unlock( CHAR_DATA * ch, char * argument ) {
     act( C_DEFAULT, "$n unlocks the $d.", ch, NULL, pexit->keyword, TO_ROOM );
     eprog_unlock_trigger( pexit, ch->in_room, ch, key );
 
-    /* unlock the other side */
-    if ( ( to_room   = pexit->to_room               )
-         && ( pexit_rev = to_room->exit[ direction_table[ door ].reverse ] )
-         && pexit_rev->to_room == ch->in_room ) {
+    // unlock the other side
+    if ( ( to_room   = pexit->to_room ) && ( pexit_rev = to_room->exit[ direction_table[ door ].reverse ] ) && pexit_rev->to_room == ch->in_room ) {
       REMOVE_BIT( pexit_rev->exit_info, EX_LOCKED );
     }
 

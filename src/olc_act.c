@@ -6088,7 +6088,7 @@ bool forge_show( CHAR_DATA * ch, char * argument ) {
   int           cnt, max_stat, max_dam, max_hit, max_hp, max_ac, max_mana;
   int           max_saves, max_saveb, max_ad;
   FORGE_OBJ( ch, pObj );
-  max_stat = ( pObj->level > 100 ) ? 3 : 2;
+  max_stat = ( pObj->level > LEVEL_HERO ) ? 3 : 2;
 
   if ( pObj->item_type == ITEM_WEAPON ) {
     max_dam = pObj->level / 2.5;
@@ -6141,7 +6141,7 @@ bool forge_show( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_DGREY, buf, ch );
   }
 
-  if ( pObj->level >= 101 ) {
+  if ( pObj->level >= L_CHAMP1 ) {
     sprintf( buf, " [&WStat 3&w:        &R+%d&z]", max_stat );
     send_to_char( AT_DGREY, buf, ch );
   }
@@ -6187,8 +6187,8 @@ bool forge_addaffect( CHAR_DATA * ch, char * argument ) {
   int           Mod   = 0;
   bool          legal = FALSE;
   FORGE_OBJ( ch, pObj );
-  max_statn = 1 + ( pObj->level >= 45 ) + ( pObj->level >= 101 );
-  max_stat  = ( pObj->level > 100 ) ? 3 : 2;
+  max_statn = 1 + ( pObj->level >= 45 ) + ( pObj->level >= L_CHAMP1 );
+  max_stat  = ( pObj->level > LEVEL_HERO ) ? 3 : 2;
 
   if ( pObj->item_type == ITEM_WEAPON ) {
     max_dam = pObj->level / 2.5;

@@ -56,8 +56,8 @@ OBJ_DATA  * random_object( int level ) {
     lowhigh = TRUE;
   }
 
-  if ( level > 100 ) {
-    level = 100;
+  if ( level > LEVEL_HERO ) {
+    level = LEVEL_HERO;
   }
 
   pObjIndex = get_obj_index( OBJ_VNUM_DUMMY );

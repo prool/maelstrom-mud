@@ -5730,7 +5730,7 @@ void spell_summon_demon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   mob               = create_mobile( get_mob_index( MOB_VNUM_DEMON ) );
-  mob->level        = URANGE( 51, level, 100 ) - 5;
+  mob->level        = URANGE( 51, level, LEVEL_HERO ) - 5;
   mob->perm_hit     = mob->level * 20 + dice( 1, mob->level );
   mob->hit          = MAX_HIT( mob );
   mob->summon_timer = level / 10;
@@ -5785,7 +5785,7 @@ void spell_summon_angel( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   mob               = create_mobile( get_mob_index( MOB_VNUM_ANGEL ) );
-  mob->level        = URANGE( 51, level, 100 ) - 5;
+  mob->level        = URANGE( 51, level, LEVEL_HERO ) - 5;
   mob->perm_hit     = mob->level * 20 + dice( 10, mob->level );
   mob->hit          = MAX_HIT( mob );
   mob->summon_timer = level / 10;
@@ -5840,7 +5840,7 @@ void spell_summon_shadow( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   mob               = create_mobile( get_mob_index( MOB_VNUM_SHADOW ) );
-  mob->level        = URANGE( 51, level, 100 ) - 20;
+  mob->level        = URANGE( 51, level, LEVEL_HERO ) - 20;
   mob->perm_hit     = mob->level * 20 + dice( 10, mob->level );
   mob->hit          = MAX_HIT( mob );
   mob->summon_timer = level / 10;
@@ -5895,7 +5895,7 @@ void spell_summon_trent( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   mob               = create_mobile( get_mob_index( MOB_VNUM_TRENT ) );
-  mob->level        = URANGE( 51, level, 100 ) - 10;
+  mob->level        = URANGE( 51, level, LEVEL_HERO ) - 10;
   mob->perm_hit     = mob->level * 20 + dice( 20, mob->level );
   mob->hit          = MAX_HIT( mob );
   mob->summon_timer = level / 10;
@@ -5988,7 +5988,7 @@ void spell_summon_beast( int sn, int level, CHAR_DATA * ch, void * vo ) {
   sprintf( buf, mob->long_descr, beast, ch->name );
   free_string( mob->long_descr );
   mob->long_descr   = str_dup( buf );
-  mob->level        = URANGE( 51, level, 100 ) - 20;
+  mob->level        = URANGE( 51, level, LEVEL_HERO ) - 20;
   mob->perm_hit     = mob->level * 20 + dice( 10, mob->level );
   mob->hit          = MAX_HIT( mob );
   mob->summon_timer = level / 10;

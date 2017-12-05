@@ -782,10 +782,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp ) {
         KEY( "Empower", ch->pcdata->empowerments, fread_string( fp ) );
 
         if ( !str_cmp( word, "End" ) ) {
-          /* Coders have "insane" trusts for a reason ELVIS *
-          * -- Altrag                                      */
-          /*	        if ( ch->trust > 107 && ch->level < 108 && !IS_CODER(ch) )
-                ch->trust = 0;*/
           if ( IS_CODER( ch ) ) {
             REMOVE_BIT( ch->affected_by2, CODER );
           }

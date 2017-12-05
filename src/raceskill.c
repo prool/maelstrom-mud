@@ -163,7 +163,7 @@ void do_forge( CHAR_DATA * ch, char * argument ) {
     obj->level           = lvl;
     obj->anti_race_flags = antirace;
 
-    if ( obj->level >= 101 ) {
+    if ( obj->level >= L_CHAMP1 ) {
       obj->extra_flags += ITEM_NO_DAMAGE;
     }
 

@@ -16,12 +16,10 @@ int scan_room( CHAR_DATA * ch, const ROOM_INDEX_DATA * room, char * buf ) {
 
     // players shouldn't see themselves
     if( ch == target ) {
-      continue;
-    }
-
-    if ( can_see( ch, target ) ) {
+      strcat( buf, " - You\n\r" );
+    } else if ( can_see( ch, target ) ) {
       strcat( buf, " - " );
-      strcat( buf, visible_name( target, ch, FALSE ) );
+      strcat( buf, capitalize(visible_name( target, ch, FALSE )) );
       strcat( buf, "\n\r" );
       number_found++;
     }

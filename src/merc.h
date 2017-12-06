@@ -856,20 +856,20 @@ struct  kill_data {
 #define WEAPON_POLEARM 8
 
 // weapon damage types
-#define WEAPON_DAMAGE_HIT     0
-#define WEAPON_DAMAGE_SLICE   1
-#define WEAPON_DAMAGE_STAB    2
-#define WEAPON_DAMAGE_SLASH   3
-#define WEAPON_DAMAGE_WHIP    4
-#define WEAPON_DAMAGE_CLAW    5
-#define WEAPON_DAMAGE_BLAST   6
-#define WEAPON_DAMAGE_POUND   7
-#define WEAPON_DAMAGE_CRUSH   8
-#define WEAPON_DAMAGE_GREP    9
-#define WEAPON_DAMAGE_BITE    10
-#define WEAPON_DAMAGE_PIERCE  11
-#define WEAPON_DAMAGE_SUCTION 12
-#define WEAPON_DAMAGE_CHOP    13
+#define WEAPON_TYPE_HIT     0
+#define WEAPON_TYPE_SLICE   1
+#define WEAPON_TYPE_STAB    2
+#define WEAPON_TYPE_SLASH   3
+#define WEAPON_TYPE_WHIP    4
+#define WEAPON_TYPE_CLAW    5
+#define WEAPON_TYPE_BLAST   6
+#define WEAPON_TYPE_POUND   7
+#define WEAPON_TYPE_CRUSH   8
+#define WEAPON_TYPE_GREP    9
+#define WEAPON_TYPE_BITE    10
+#define WEAPON_TYPE_PIERCE  11
+#define WEAPON_TYPE_SUCTION 12
+#define WEAPON_TYPE_CHOP    13
 
 // weapon types
 #define WEAPON_FLAMING   ( A )
@@ -2086,6 +2086,8 @@ extern int gsn_unholystrength;
 #define SET_BIT( var, bit )    ( ( var )  |=  ( bit ) )
 #define REMOVE_BIT( var, bit ) ( ( var )  &= ~( bit ) )
 #define TOGGLE_BIT( var, bit ) ( ( var )  ^=  ( bit ) )
+#define COUNT( a )             ( ( sizeof( a ) ) / ( sizeof( a[0] ) ) )
+#define RANDOM( a )            ( number_range( 0, ( COUNT( a ) - 1 ) ) )
 
 /*
  * Character macros.
@@ -2930,7 +2932,8 @@ bool str_cmp_ast( const char * astr, const char * bstr );
 bool str_prefix( const char * astr, const char * bstr );
 bool str_infix( const char * astr, const char * bstr );
 bool str_suffix( const char * astr, const char * bstr );
-char *  capitalize( const char * str );
+char * a_an( const char * str );
+char * capitalize( const char * str );
 void append_file( CHAR_DATA * ch, char * file, char * str );
 void info( const char * str, int param1, int param2 );
 void challenge( const char * str, int param1, int param2 );

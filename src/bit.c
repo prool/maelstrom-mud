@@ -563,21 +563,21 @@ const struct flag_type wear_loc_flags[] = {
 };
 
 const struct flag_type weapon_flags[] = {
-  { "hit",     WEAPON_DAMAGE_HIT,     TRUE },
-  { "slice",   WEAPON_DAMAGE_SLICE,   TRUE },
-  { "stab",    WEAPON_DAMAGE_STAB,    TRUE },
-  { "slash",   WEAPON_DAMAGE_SLASH,   TRUE },
-  { "whip",    WEAPON_DAMAGE_WHIP,    TRUE },
-  { "claw",    WEAPON_DAMAGE_CLAW,    TRUE },
-  { "blast",   WEAPON_DAMAGE_BLAST,   TRUE },
-  { "pound",   WEAPON_DAMAGE_POUND,   TRUE },
-  { "crush",   WEAPON_DAMAGE_CRUSH,   TRUE },
-  { "grep",    WEAPON_DAMAGE_GREP,    TRUE },
-  { "bite",    WEAPON_DAMAGE_BITE,    TRUE },
-  { "pierce",  WEAPON_DAMAGE_PIERCE,  TRUE },
-  { "suction", WEAPON_DAMAGE_SUCTION, TRUE },
-  { "chop",    WEAPON_DAMAGE_CHOP,    TRUE },
-  { "",        0,                     0    }
+  { "hit",     WEAPON_TYPE_HIT,     TRUE },
+  { "slice",   WEAPON_TYPE_SLICE,   TRUE },
+  { "stab",    WEAPON_TYPE_STAB,    TRUE },
+  { "slash",   WEAPON_TYPE_SLASH,   TRUE },
+  { "whip",    WEAPON_TYPE_WHIP,    TRUE },
+  { "claw",    WEAPON_TYPE_CLAW,    TRUE },
+  { "blast",   WEAPON_TYPE_BLAST,   TRUE },
+  { "pound",   WEAPON_TYPE_POUND,   TRUE },
+  { "crush",   WEAPON_TYPE_CRUSH,   TRUE },
+  { "grep",    WEAPON_TYPE_GREP,    TRUE },
+  { "bite",    WEAPON_TYPE_BITE,    TRUE },
+  { "pierce",  WEAPON_TYPE_PIERCE,  TRUE },
+  { "suction", WEAPON_TYPE_SUCTION, TRUE },
+  { "chop",    WEAPON_TYPE_CHOP,    TRUE },
+  { "",        0,                   0    }
 };
 
 const struct flag_type container_flags[] = {

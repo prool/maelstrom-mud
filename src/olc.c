@@ -71,9 +71,6 @@ bool run_olc_editor( DESCRIPTOR_DATA * d ) {
     case ED_NEWBIE:
       nedit( d->character, d->incomm );
       break;
-    case ED_SPEDIT:
-      spedit( d->character, d->incomm );
-      break;
     default:
       return FALSE;
   }
@@ -131,9 +128,6 @@ char * olc_ed_name( CHAR_DATA * ch ) {
       break;
     case ED_NEWBIE:
       sprintf( buf, "NEdit" );
-      break;
-    case ED_SPEDIT:
-      sprintf( buf, "SPEdit" );
       break;
     default:
       sprintf( buf, " " );
@@ -300,9 +294,6 @@ bool show_commands( CHAR_DATA * ch, char * argument ) {
       break;
     case ED_MRESET:
       show_olc_cmds( ch, mreset_table );
-      break;
-    case ED_SPEDIT:
-      show_olc_cmds( ch, spedit_table );
       break;
     case ED_NEWBIE:
       show_olc_cmds( ch, nedit_table );
@@ -554,23 +545,6 @@ const struct olc_cmd_type mreset_table[] = {
   {   "commands", show_commands   },
 
   {   "",        0,              }
-};
-
-const struct olc_cmd_type spedit_table[] = {
-  /*  {   command         function                }, */
-
-  {   "commands",  show_commands           },
-  {   "1",         spedit_damage_msg       },
-  {   "2",         spedit_spell_ends       },
-  {   "3",         spedit_spell_ends_room  },
-  {   "dispelable", spedit_dispelable       },
-  {   "min",       spedit_min              },
-  {   "mana",      spedit_mana             },
-  {   "name",      spedit_name             },
-  {   "show",      spedit_show             },
-  {   "wait",      spedit_wait             },
-
-  {   "",          0,                      }
 };
 
 const struct olc_cmd_type sedit_table[] = {
@@ -2673,83 +2647,6 @@ void forge_pay_cost( CHAR_DATA * ch ) {
 
   obj_to_char( obj, ch );
   spend_money( &ch->money, &obj->cost );
-  return;
-}
-
-void spedit( CHAR_DATA * ch, char * argument ) {
-  char command[ MAX_INPUT_LENGTH ];
-  char arg[ MAX_STRING_LENGTH ];
-  int  cmd;
-
-  smash_tilde( argument );
-  strcpy( arg, argument );
-  argument = one_argument( argument, command );
-
-  if ( command[ 0 ] == '\0' ) {
-    spedit_show( ch, argument );
-    return;
-  }
-
-  if ( !str_cmp( command, "credit" ) ) {
-    send_to_char( AT_YELLOW, "Made by Decklarean, 1997.\n\r", ch );
-    return;
-  }
-
-  if ( !str_cmp( command, "done" ) ) {
-    /*save_spellskill( );*/
-    edit_done( ch );
-    return;
-  }
-
-  /* Call editor function */
-  for ( cmd = 0; *spedit_table[ cmd ].name; cmd++ ) {
-    if ( !str_prefix( command, spedit_table[ cmd ].name ) ) {
-      ( *spedit_table[ cmd ].olc_fun )( ch, argument );
-      return;
-    }
-  }
-
-  /* Default to Standard Interpreter. */
-  interpret( ch, arg );
-  return;
-}
-
-void do_spedit( CHAR_DATA * ch, char * argument ) {
-  SKILL_TYPE * pSpell;
-  char         command[ MAX_INPUT_LENGTH ];
-  char         arg[ MAX_STRING_LENGTH ];
-  int          sn;
-
-  strcpy( arg, argument );
-  argument = one_argument( argument, command );
-
-  if ( command[ 0 ] == 'c' && !str_prefix( command, "create" ) ) {
-    if ( argument[ 0 ] == '\0' ) {
-      send_to_char( C_DEFAULT, "SPedit:  Syntax: spedit create <spell name>\n\r", ch );
-      return;
-    }
-
-    if ( skill_lookup( argument ) < 0 ) {
-      send_to_char( C_DEFAULT, "SPEdit:  Spell/Skill entry already exist.\n\r", ch );
-      return;
-    }
-
-    send_to_char( C_DEFAULT, "SPEdit:  Spell/Skill online creation not avable.\n\r", ch );
-    return;
-  } else {
-    if ( ( sn = skill_lookup( arg ) ) < 0 ) {
-      send_to_char( C_DEFAULT, "Spell/skill entry not found.\n\r", ch );
-      return;
-    }
-
-    pSpell = (SKILL_TYPE *)&skill_table[ sn ];
-  }
-
-  ch->desc->pEdit  = (void *) pSpell;
-  ch->desc->editor = ED_SPEDIT;
-  ch->desc->inEdit = NULL;
-  ch->desc->editin = 0;
-  spedit_show( ch, "" );
   return;
 }
 

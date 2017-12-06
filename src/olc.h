@@ -49,7 +49,6 @@ typedef bool OLC_FUN ( CHAR_DATA * ch, char * argument );
 #define RENAME_OBJECT 12
 #define FORGE_OBJECT  13
 #define ED_MRESET     14
-#define ED_SPEDIT     15
 #define ED_NEWBIE     16
 
 /*
@@ -68,7 +67,6 @@ void rename_object( CHAR_DATA * ch, char * argument );
 void forge_obj( CHAR_DATA * ch, OBJ_DATA * to_forge );
 void forge_object( CHAR_DATA * ch, char * argument );
 void mreset( CHAR_DATA * ch, char * argument );
-void spedit( CHAR_DATA * ch, char * argument );
 void nedit( CHAR_DATA * ch, char * argument );
 
 /*
@@ -114,7 +112,6 @@ extern const struct olc_cmd_type sedit_table[];
 extern const struct olc_cmd_type rename_obj_table[];
 extern const struct olc_cmd_type forge_obj_table[];
 extern const struct olc_cmd_type mreset_table[];
-extern const struct olc_cmd_type spedit_table[];
 extern const struct olc_cmd_type nedit_table[];
 
 /*
@@ -326,17 +323,6 @@ DECLARE_OLC_FUN( mreset_show );
 DECLARE_OLC_FUN( mreset_delet );
 DECLARE_OLC_FUN( mreset_delete );
 DECLARE_OLC_FUN( mreset_max_in_room );
-
-/* spedit editor -Decklarean */
-DECLARE_OLC_FUN( spedit_damage_msg );
-DECLARE_OLC_FUN( spedit_spell_ends );
-DECLARE_OLC_FUN( spedit_spell_ends_room );
-DECLARE_OLC_FUN( spedit_dispelable );
-DECLARE_OLC_FUN( spedit_min );
-DECLARE_OLC_FUN( spedit_mana );
-DECLARE_OLC_FUN( spedit_name );
-DECLARE_OLC_FUN( spedit_show );
-DECLARE_OLC_FUN( spedit_wait );
 
 /* Newbie help editor -Angi */
 DECLARE_OLC_FUN( nedit_keyword );

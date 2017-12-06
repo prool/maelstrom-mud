@@ -421,7 +421,6 @@ struct cmd_type cmd_table [] = {
   { "resets",          do_resets,            POS_DEAD,     L_CON, LOG_NORMAL, TRUE    },
   { "mreset",          do_mreset,            POS_DEAD,     L_CON, LOG_NORMAL, TRUE    },
   { "sedit",           do_sedit,             POS_DEAD,     L_CON, LOG_BUILD,  TRUE    },
-  { "spedit",          do_spedit,            POS_DEAD,     L_IMP, LOG_ALWAYS, TRUE    },
   { "rename_obj",      do_rename_obj,        POS_DEAD,     L_APP, LOG_ALWAYS, TRUE    },
   { "nedit",           do_nedit,             POS_DEAD,     L_CON, LOG_BUILD,  TRUE    },
   // fin.

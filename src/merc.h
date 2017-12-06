@@ -3246,7 +3246,6 @@ DECLARE_DO_FUN( do_medit );
 DECLARE_DO_FUN( do_cedit );
 DECLARE_DO_FUN( do_hedit );
 DECLARE_DO_FUN( do_sedit );
-DECLARE_DO_FUN( do_spedit );
 DECLARE_DO_FUN( do_rename_obj );
 DECLARE_DO_FUN( do_mreset );
 DECLARE_DO_FUN( do_nedit );

@@ -630,18 +630,11 @@ void do_drop( CHAR_DATA * ch, char * argument ) {
     for ( obj = ch->carrying; obj; obj = obj_next ) {
       obj_next = obj->next_content;
 
-      if ( ( arg[ 3 ] == '\0' || is_name( ch, &arg[ 4 ], obj->name ) )
-           && can_see_obj( ch, obj )
-           && obj->wear_loc == WEAR_NONE
-           && can_drop_obj( ch, obj ) ) {
+      if ( ( arg[ 3 ] == '\0' || is_name( ch, &arg[ 4 ], obj->name ) ) && can_see_obj( ch, obj ) && obj->wear_loc == WEAR_NONE && can_drop_obj( ch, obj ) ) {
         found = TRUE;
         obj_from_char( obj );
 
-        if ( ch->in_room->vnum == ROOM_VNUM_DON_1
-             || ch->in_room->vnum == ROOM_VNUM_DON_2
-             || ch->in_room->vnum == ROOM_VNUM_DON_3
-             || ch->in_room->vnum == ROOM_VNUM_DON_4
-             || obj->item_type == ITEM_CORPSE_PC ) {
+        if ( ch->in_room->vnum == ROOM_VNUM_DON_1 || ch->in_room->vnum == ROOM_VNUM_DON_2 || ch->in_room->vnum == ROOM_VNUM_DON_3 || ch->in_room->vnum == ROOM_VNUM_DON_4 || obj->item_type == ITEM_CORPSE_PC ) {
           obj->timer = 20;
         }
 
@@ -649,15 +642,13 @@ void do_drop( CHAR_DATA * ch, char * argument ) {
         oprog_drop_trigger( obj, ch );
         ObjCount++;
 
-        if ( !obj_next || obj->pIndexData->vnum !=
-             obj_next->pIndexData->vnum ) {
+        if ( !obj_next || str_cmp( obj->name, obj_next->name ) ) {
           sprintf( buf, "You drop %d $ps.", ObjCount );
           act( AT_WHITE, buf, ch, obj, NULL, TO_CHAR );
           sprintf( buf, "$n drops %d $ps.", ObjCount );
           act( AT_WHITE, buf, ch, obj, NULL, TO_ROOM );
           ObjCount = 0;
         }
-
       }
     }
 
@@ -665,8 +656,7 @@ void do_drop( CHAR_DATA * ch, char * argument ) {
       if ( arg[ 3 ] == '\0' ) {
         send_to_char( AT_DGREEN, "You are not carrying anything.", ch );
       } else {
-        act( AT_DGREEN, "You are not carrying any $T.",
-             ch, NULL, &arg[ 4 ], TO_CHAR );
+        act( AT_DGREEN, "You are not carrying any $T.", ch, NULL, &arg[ 4 ], TO_CHAR );
       }
     }
   }

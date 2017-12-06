@@ -146,11 +146,9 @@ void update_skpell( CHAR_DATA * ch, int sn ) {
     return;
   }
 
-  adept = IS_NPC( ch ) ? 100 :
-          class_table[ prime_class( ch ) ].skill_adept;
+  adept = IS_NPC( ch ) ? 100 : class_table[ prime_class( ch ) ].skill_adept;
 
-  if ( ch->pcdata->learned[ sn ] <= 0
-       || ch->pcdata->learned[ sn ] >= adept ) {
+  if ( ch->pcdata->learned[ sn ] >= adept ) {
     return;
   }
 
@@ -166,13 +164,10 @@ void update_skpell( CHAR_DATA * ch, int sn ) {
     xp = 2;
   }
 
-  xp = number_range( xp * 2, ( xp * xp ) / 3 );
+  xp = number_range( xp * 2, xp * 5 );
 
-  if ( !( ch->fighting ) ) {
-    sprintf( buf, "You gain %d experience for your success with %s.\n\r",
-             xp, skill_table[ sn ].name );
-    send_to_char( C_DEFAULT, buf, ch );
-  }
+  sprintf( buf, "You gain %d experience for your success with %s.\n\r", xp, skill_table[ sn ].name );
+  send_to_char( C_DEFAULT, buf, ch );
 
   gain_exp( ch, xp );
 

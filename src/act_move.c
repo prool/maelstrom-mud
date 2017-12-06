@@ -732,26 +732,26 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
 
   WAIT_STATE( ch, skill_table[ gsn_pick_lock ].beats );
 
-  /* look for guards */
+  // look for guards
   for ( gch = ch->in_room->people; gch; gch = gch->next_in_room ) {
     if ( gch->deleted ) {
       continue;
     }
 
     if ( IS_NPC( gch ) && IS_AWAKE( gch ) && ch->level + 5 < gch->level ) {
-      act( C_DEFAULT, "$N is standing too close to the lock.",
-           ch, NULL, gch, TO_CHAR );
+      act( C_DEFAULT, "$N is standing too close to the lock.", ch, NULL, gch, TO_CHAR );
       return;
     }
   }
 
-  if ( !IS_NPC( ch ) && number_percent() > ch->pcdata->learned[ gsn_pick_lock ] ) {
+  // there's always at least a 5% chance of successfully picking a lock
+  if ( !IS_NPC( ch ) && number_percent() > URANGE(5, ch->pcdata->learned[ gsn_pick_lock ], 100) ) {
     send_to_char( C_DEFAULT, "You failed.\n\r", ch );
     return;
   }
 
   if ( ( door = find_door( ch, arg, TRUE ) ) >= 0 ) {
-    /* 'pick door' */
+    // 'pick door'
     EXIT_DATA       * pexit;
     EXIT_DATA       * pexit_rev;
     ROOM_INDEX_DATA * to_room;
@@ -787,10 +787,8 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
 
     eprog_pick_trigger( pexit, ch->in_room, ch );
 
-    /* pick the other side */
-    if ( ( to_room   = pexit->to_room               )
-         && ( pexit_rev = to_room->exit[ direction_table[ door ].reverse ] )
-         && pexit_rev->to_room == ch->in_room ) {
+    // pick the other side
+    if ( ( to_room = pexit->to_room ) && ( pexit_rev = to_room->exit[ direction_table[ door ].reverse ] ) && pexit_rev->to_room == ch->in_room ) {
       REMOVE_BIT( pexit_rev->exit_info, EX_LOCKED );
     }
 
@@ -798,7 +796,7 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( ( obj = get_obj_here( ch, arg ) ) ) {
-    /* 'pick object' */
+    // 'pick object'
     if ( obj->item_type != ITEM_CONTAINER ) {
       send_to_char( C_DEFAULT, "That's not a container.\n\r", ch );
       return;

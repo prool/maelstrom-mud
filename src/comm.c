@@ -745,8 +745,7 @@ bool read_from_descriptor( DESCRIPTOR_DATA * d ) {
   if ( iStart >= sizeof( d->inbuf ) - 10 ) {
     sprintf( log_buf, "%s input overflow!", d->host );
     log_string( log_buf, CHANNEL_GOD, -1 );
-    wiznet( "Spam spam spam $N spam spam spam spam spam!",
-            d->character, NULL, WIZ_SPAM, 0, get_trust( d->character ) );
+    wiznet( "Spam spam spam $N spam spam spam spam spam!", d->character, NULL, WIZ_SPAM, 0, get_trust( d->character ) );
     write_to_descriptor(
       "\n\r*** PUT A LID ON IT!!! ***\n\r", 0, d );
     return FALSE;
@@ -847,16 +846,13 @@ void read_from_buffer( DESCRIPTOR_DATA * d ) {
     if ( d->incomm[ 0 ] != '!' && strcmp( d->incomm, d->inlast ) ) {
       d->repeat = 0;
     } else {
-      if ( ++d->repeat >= 20 ) {
+      if ( ++d->repeat >= 20 && !IS_IMMORTAL(d->character) ) {
         sprintf( log_buf, "%s input spamming!", d->host );
         log_string( log_buf, CHANNEL_GOD, -1 );
-        wiznet( "Spam spam spam $N spam spam spam spam spam!",
-                d->character, NULL, WIZ_SPAM, 0, get_trust( d->character ) );
-        write_to_descriptor(
-          "\n\r*** PUT A LID ON IT!!! ***\n\r", 0, d );
+        wiznet( "Spam spam spam $N spam spam spam spam spam!", d->character, NULL, WIZ_SPAM, 0, get_trust( d->character ) );
+        write_to_descriptor("\n\r*** PUT A LID ON IT!!! ***\n\r", 0, d );
         /*                if ( d->descriptor ) */
         strcpy( d->incomm, "quit" );
-
       }
     }
   }

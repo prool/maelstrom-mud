@@ -744,13 +744,13 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
     }
   }
 
-  // there's always at least a 5% chance of successfully picking a lock
-  if ( !IS_NPC( ch ) && number_percent() > URANGE(5, ch->pcdata->learned[ gsn_pick_lock ], 100) ) {
-    send_to_char( C_DEFAULT, "You failed.\n\r", ch );
-    return;
-  }
-
   if ( ( door = find_door( ch, arg, TRUE ) ) >= 0 ) {
+    // there's always at least a 5% chance of successfully picking a lock
+    if ( !IS_NPC( ch ) && number_percent() > URANGE(5, ch->pcdata->learned[ gsn_pick_lock ], 100) ) {
+      send_to_char( C_DEFAULT, "You failed.\n\r", ch );
+      return;
+    }
+
     // 'pick door'
     EXIT_DATA       * pexit;
     EXIT_DATA       * pexit_rev;
@@ -791,11 +791,13 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
     if ( ( to_room = pexit->to_room ) && ( pexit_rev = to_room->exit[ direction_table[ door ].reverse ] ) && pexit_rev->to_room == ch->in_room ) {
       REMOVE_BIT( pexit_rev->exit_info, EX_LOCKED );
     }
+  } else if ( ( obj = get_obj_here( ch, arg ) ) ) {
+    // there's always at least a 5% chance of successfully picking a lock
+    if ( !IS_NPC( ch ) && number_percent() > URANGE(5, ch->pcdata->learned[ gsn_pick_lock ], 100) ) {
+      send_to_char( C_DEFAULT, "You failed.\n\r", ch );
+      return;
+    }
 
-    return;
-  }
-
-  if ( ( obj = get_obj_here( ch, arg ) ) ) {
     // 'pick object'
     if ( obj->item_type != ITEM_CONTAINER ) {
       send_to_char( C_DEFAULT, "That's not a container.\n\r", ch );
@@ -830,6 +832,8 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
     }
 
     oprog_pick_trigger( obj, ch );
+  } else {
+    return;
   }
 
   update_skpell( ch, gsn_pick_lock );

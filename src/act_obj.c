@@ -187,12 +187,6 @@ void do_palm( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !can_use_skpell( ch, gsn_palm ) ) {
-    send_to_char( AT_WHITE, "You don't know how to palm objects",
-                  ch );
-    return;
-  }
-
   one_argument( argument, arg );
 
   if ( arg[ 0 ] == '\0' ) {
@@ -200,16 +194,15 @@ void do_palm( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( get_curr_dex( ch ) < 22 ) {
-    send_to_char( AT_WHITE,
-                  "You aren't coordinated enough to pull off this sleight of hand.\n\r", ch );
+  if ( get_curr_dex( ch ) < 20 ) {
+    send_to_char( AT_WHITE, "You aren't coordinated enough to pull off this sleight of hand.\n\r", ch );
     return;
   }
 
-  if ( number_percent() > ch->pcdata->learned[ gsn_palm ] ) {
-    get( ch, argument, FALSE ); /* fail */
+  if ( number_percent() > URANGE( 5, ch->pcdata->learned[ gsn_palm ], 100 ) ) {
+    get( ch, argument, FALSE );
   } else {
-    get( ch, argument, TRUE );  /* succeed */
+    get( ch, argument, TRUE );
     update_skpell( ch, gsn_palm );
   }
 

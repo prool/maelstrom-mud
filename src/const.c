@@ -1266,7 +1266,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "hide",
-    { L_APP,L_APP,L_APP },
+    { L_APP, L_APP, L_APP },
     spell_null,TAR_IGNORE,POS_RESTING,
     &gsn_hide,0,12,
     "",
@@ -1334,7 +1334,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "peek",
-    { L_APP,L_APP,L_APP },
+    { L_APP, 20, L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_peek,0,0,
     "","!Peek!","",FALSE,SLOT(0)
@@ -1342,7 +1342,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "pick lock",
-    { L_APP,L_APP,L_APP },
+    { L_APP, 15, L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_pick_lock,0,12,
     "","!Pick!","",FALSE,SLOT(0)
@@ -1446,7 +1446,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "steal",
-    { L_APP,L_APP,L_APP },
+    { L_APP, 30, L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_steal,0,24,
     "","!Steal!","",FALSE,SLOT(0)
@@ -1460,9 +1460,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","!Third Attack!","",FALSE,SLOT(0)
   },
 
-  /*
-   *  Spells for mega1.are from Glop/Erkenbrand.
-   */
   {
     "general purpose",
     { L_APP,L_APP,L_APP },
@@ -1478,11 +1475,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,0,12,
     "high explosive ammo","!High Explosive Ammo!","",FALSE,SLOT(0)
   },
-
-  /*
-   * Psionicist spell/skill definitions
-   * Psi class conceived, created, and coded by Thelonius (EnvyMud)
-   */
 
   {
     "adrenaline control",

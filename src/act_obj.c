@@ -2319,26 +2319,16 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( abs( ch->level - victim->level ) > 5 && ( !IS_NPC( victim ) ) ) {
-    send_to_char( AT_WHITE, "That is not in the pkill range... valid range is +/- 5 levels.\n\r", ch );
-    return;
-  }
-
   if ( victim == ch ) {
-    send_to_char( AT_BLOOD, "That's pointless.\n\r", ch );
+    send_to_char( AT_BLOOD, "You want to steal from yourself?\n\r", ch );
     return;
   }
 
   WAIT_STATE( ch, skill_table[ gsn_steal ].beats );
   percent = number_percent() + ( IS_AWAKE( victim ) ? 10 : -50 );
 
-  if ( ch->level + 5 < victim->level
-       || ( victim->position == POS_FIGHTING
-            && victim->fighting != ch )
-       || ( !IS_NPC( ch ) && percent > ch->pcdata->learned[ gsn_steal ] ) ) {
-    /*
-     * Failure.
-     */
+  if ( ( ch->level + 5 < victim->level ) || ( victim->position == POS_FIGHTING ) || ( !IS_NPC( ch ) && percent > URANGE( 5, ch->pcdata->learned[ gsn_steal ], 100 ) ) ) {
+    // fail.
     send_to_char( AT_RED, "Oops.\n\r", ch );
     act( AT_RED, "$n tried to steal from you.\n\r", ch, NULL, victim, TO_VICT );
     act( AT_RED, "$n tried to steal from $N.\n\r",  ch, NULL, victim, TO_NOTVICT );
@@ -2363,8 +2353,7 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if (   !str_prefix( arg1, "coins" ) ) {
-    /*	|| !str_cmp   ( arg1, "gold"  ) )  */
+  if ( !str_prefix( arg1, "coins" ) || !str_cmp( arg1, "money" ) ) {
     MONEY_DATA amount;
 
     amount.gold = victim->money.gold * number_range( 1, 10 ) / 100;
@@ -2374,11 +2363,11 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
 
       if ( amount.silver <= 0 ) {
         amount.copper = victim->money.copper * number_range( 1, 10 ) / 100;
-      }
 
-      if ( amount.copper <= 0 ) {
-        send_to_char( AT_BLOOD, "You couldn't get any coins.\n\r", ch );
-        return;
+        if ( amount.copper <= 0 ) {
+          send_to_char( AT_BLOOD, "You couldn't get any coins.\n\r", ch );
+          return;
+        }
       }
     }
 
@@ -2387,6 +2376,8 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
 
     sprintf( buf, "Jackpot!  You got %s\n\r", money_string( &amount ) );
     send_to_char( AT_RED, buf, ch );
+
+    update_skpell( ch, gsn_steal );
     return;
   }
 
@@ -2395,9 +2386,7 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !can_drop_obj( ch, obj )
-       || IS_SET( obj->extra_flags, ITEM_INVENTORY )
-       || obj->level > ch->level ) {
+  if ( !can_drop_obj( ch, obj ) || IS_SET( obj->extra_flags, ITEM_INVENTORY ) || obj->level > ch->level ) {
     send_to_char( AT_BLOOD, "You can't pry it away.\n\r", ch );
     return;
   }
@@ -2417,7 +2406,6 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
   send_to_char( AT_RED, "Ok.\n\r", ch );
 
   update_skpell( ch, gsn_steal );
-
   return;
 }
 

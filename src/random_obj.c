@@ -39,7 +39,7 @@
 #include <string.h>
 #include <time.h>
 #include "merc.h"
-#include "random_object.h"
+#include "random_obj.h"
 
 const struct random_item_type random_item_table[ ] = {
 //  type,        wear_flag,         prefix,      name,           plural, reprefixable, object_values

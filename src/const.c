@@ -1143,14 +1143,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "bash",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_STANDING,
-    &gsn_bash,0,24,
-    "bash","!Bash!","",FALSE,SLOT(0)
-  },
-
-  {
     "disarm",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,
@@ -1860,7 +1852,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "bash door",
-    { L_APP,L_APP,L_APP },
+    { L_APP, L_APP, 15 },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_bash_door,0,24,
     "bash","!Bash Door!","",FALSE,SLOT(0)

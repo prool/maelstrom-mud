@@ -99,7 +99,6 @@ int gsn_sneak;
 int gsn_steal;
 int gsn_disarm;
 int gsn_poison_weapon;
-int gsn_bash;
 int gsn_enhanced_damage;
 int gsn_enhanced_two;
 int gsn_enhanced_hit;

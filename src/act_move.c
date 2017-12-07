@@ -1677,13 +1677,6 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
   char        arg[ MAX_INPUT_LENGTH ];
   int         door;
 
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_bash_door ) ) {
-    send_to_char( C_DEFAULT,
-                  "You're not enough of a warrior to bash doors!\n\r", ch );
-    return;
-  }
-
   one_argument( argument, arg );
 
   if ( arg[ 0 ] == '\0' ) {
@@ -1711,25 +1704,21 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
 
     WAIT_STATE( ch, skill_table[ gsn_bash_door ].beats );
 
-    chance = ch->pcdata->learned[ gsn_bash_door ] / 2;
+    // always a small of successfully bashing a door
+    chance = UMAX(5, ch->pcdata->learned[ gsn_bash_door ] / 2);
 
     if ( IS_SET( pexit->exit_info, EX_LOCKED ) ) {
       chance /= 2;
     }
 
     if ( IS_SET( pexit->exit_info, EX_BASHPROOF ) ) {
-      act( C_DEFAULT, "WHAAAAM!!!  You bash against the $d, but it doesn't budge.",
-           ch, NULL, pexit->keyword, TO_CHAR );
-      act( C_DEFAULT, "WHAAAAM!!!  $n bashes against the $d, but it holds strong.",
-           ch, NULL, pexit->keyword, TO_ROOM );
+      act( C_DEFAULT, "WHAAAAM!!!  You bash against the $d, but it doesn't budge.", ch, NULL, pexit->keyword, TO_CHAR );
+      act( C_DEFAULT, "WHAAAAM!!!  $n bashes against the $d, but it holds strong.", ch, NULL, pexit->keyword, TO_ROOM );
       damage( ch, ch, ( MAX_HIT( ch ) / 5 ), gsn_bash_door );
       return;
     }
 
-    if ( ( get_curr_str( ch ) >= 20 )
-         && number_percent() < ( chance + 4 * ( get_curr_str( ch ) - 20 ) ) ) {
-      /* Success */
-
+    if ( number_percent() < ( chance + ( 4 * ( get_curr_str( ch ) - 20 ) ) ) ) {
       REMOVE_BIT( pexit->exit_info, EX_CLOSED );
 
       if ( IS_SET( pexit->exit_info, EX_LOCKED ) ) {
@@ -1744,10 +1733,8 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
       damage( ch, ch, ( MAX_HIT( ch ) / 20 ), gsn_bash_door );
       update_skpell( ch, gsn_bash_door );
 
-      /* Bash through the other side */
-      if ( ( to_room   = pexit->to_room               )
-           && ( pexit_rev = to_room->exit[ direction_table[ door ].reverse ] )
-           && pexit_rev->to_room == ch->in_room ) {
+      // bash through the other side
+      if ( ( to_room = pexit->to_room ) && ( pexit_rev = to_room->exit[ direction_table[ door ].reverse ] ) && pexit_rev->to_room == ch->in_room ) {
         CHAR_DATA * rch;
 
         REMOVE_BIT( pexit_rev->exit_info, EX_CLOSED );
@@ -1763,18 +1750,12 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
             continue;
           }
 
-          act( C_DEFAULT, "The $d crashes open!",
-               rch, NULL, pexit_rev->keyword, TO_CHAR );
+          act( C_DEFAULT, "The $d crashes open!", rch, NULL, pexit_rev->keyword, TO_CHAR );
         }
-
       }
     } else {
-      /* Failure */
-
-      act( C_DEFAULT, "OW!  You bash against the $d, but it doesn't budge.",
-           ch, NULL, pexit->keyword, TO_CHAR );
-      act( C_DEFAULT, "$n bashes against the $d, but it holds strong.",
-           ch, NULL, pexit->keyword, TO_ROOM );
+      act( C_DEFAULT, "OW!  You bash against the $d, but it doesn't budge.", ch, NULL, pexit->keyword, TO_CHAR );
+      act( C_DEFAULT, "$n bashes against the $d, but it holds strong.", ch, NULL, pexit->keyword, TO_ROOM );
       damage( ch, ch, ( MAX_HIT( ch ) / 10 ), gsn_bash_door );
     }
   }
@@ -1789,11 +1770,7 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
       continue;
     }
 
-    if ( IS_AWAKE( gch )
-         && !gch->fighting
-         && ( IS_NPC( gch ) && !IS_AFFECTED( gch, AFF_CHARM ) )
-         && ( ch->level - gch->level <= 4 )
-         && number_bits( 2 ) == 0 ) {
+    if ( IS_AWAKE( gch ) && !gch->fighting && ( IS_NPC( gch ) && !IS_AFFECTED( gch, AFF_CHARM ) ) && ( ch->level - gch->level <= 4 ) && number_bits( 2 ) == 0 ) {
       multi_hit( gch, ch, TYPE_UNDEFINED );
     }
   }

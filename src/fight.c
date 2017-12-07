@@ -600,11 +600,7 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
   }
 
   if ( dt == gsn_backstab ) {
-    if ( ch->clan == 4 ) {
-      dam *= number_range( 3, 8 );
-    } else {
-      dam *= 2 + UMIN( ( ch->level / 8 ), 4 );
-    }
+    dam *= 2 + UMIN( ( ch->level / 8 ), 4 );
   }
 
   if ( dam <= 0 ) {

@@ -2720,10 +2720,15 @@ void do_practice( CHAR_DATA * ch, char * argument ) {
     strcat( skbuf, (skcol % 3 != 0) ? "\n\r" : "" );
     strcat( spbuf, (spcol % 3 != 0) ? "\n\r" : "" );
 
-    send_to_char(AT_PINK,"-------------------=================[Spells]=================-------------------\n\r",ch );
-    send_to_char(AT_PINK, spbuf, ch );
-    send_to_char(AT_PURPLE,"-------------------=================[Skills]=================-------------------\n\r",ch );
-    send_to_char(AT_PURPLE, skbuf, ch );
+    if ( strcmp(spbuf, "") ) {
+      send_to_char(AT_PINK,"-------------------=================[Spells]=================-------------------\n\r",ch );
+      send_to_char(AT_PINK, spbuf, ch );
+    }
+
+    if ( strcmp(skbuf, "") ) {
+      send_to_char(AT_PURPLE,"-------------------=================[Skills]=================-------------------\n\r",ch );
+      send_to_char(AT_PURPLE, skbuf, ch );
+    }
 
     sprintf( buf, "\n\rYou have %d practice sessions left.\n\r", ch->practice );
     send_to_char( C_DEFAULT, buf, ch );

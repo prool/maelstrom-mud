@@ -44,8 +44,7 @@ bool is_wielding_flaming( CHAR_DATA * ch );
 bool is_wielding_chaos( CHAR_DATA * ch );
 bool is_wielding_icy( CHAR_DATA * ch );
 void make_corpse( CHAR_DATA * ch );
-void one_hit( CHAR_DATA * ch, CHAR_DATA * victi, int dt );
-void one_dual( CHAR_DATA * ch, CHAR_DATA * victim, int dt );
+void one_hit( CHAR_DATA * ch, CHAR_DATA * victi, int dt, bool dual );
 void raw_kill( CHAR_DATA * ch, CHAR_DATA * victim );
 void war_kill( CHAR_DATA * ch );
 void set_fighting( CHAR_DATA * ch, CHAR_DATA * victim );
@@ -166,193 +165,57 @@ void violence_update( void ) {
  * Do one group of attacks.
  */
 void multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
-  int chance;
-  int chance2;
-
   if ( IS_NPC( ch ) ) {
     mprog_hitprcnt_trigger( ch, victim );
     mprog_fight_trigger( ch, victim );
   }
 
-  if ( ( IS_AFFECTED2( ch, AFF_CONFUSED ) )
-       && number_percent() < 10 ) {
+  if ( ( IS_AFFECTED2( ch, AFF_CONFUSED ) ) && number_percent() < 10 ) {
     act( AT_YELLOW, "$n looks around confused at what's going on.", ch, NULL, NULL, TO_ROOM );
     send_to_char( AT_YELLOW, "You stand confused.\n\r", ch );
     return;
   }
 
-  one_hit( ch, victim, dt );
+  one_hit( ch, victim, dt, FALSE );
 
   if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-    one_hit( ch, victim, dt );
+    one_hit( ch, victim, dt, FALSE );
   }
 
   if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-    one_hit( ch, victim, dt );
+    one_hit( ch, victim, dt, FALSE );
   }
 
   if ( ch->fighting != victim || dt == gsn_backstab ) {
     return;
   }
 
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_dual ] > 0 ) {
-    one_dual( ch, victim, dt );
+  one_hit( ch, victim, dt, TRUE );
 
-    if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-      one_dual( ch, victim, dt );
-    }
-
-    if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-      one_dual( ch, victim, dt );
-    }
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
+  if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
+    one_hit( ch, victim, dt, TRUE );
   }
 
-  if ( ( IS_NPC( ch ) ) && ( ch->level > 15 ) ) {
-    one_dual( ch, victim, dt );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
+  if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
+    one_hit( ch, victim, dt, TRUE );
   }
 
-  chance  = IS_NPC( ch ) ? ch->level - 5 : ch->pcdata->learned[ gsn_second_attack ] / 2;
-  chance2 = IS_NPC( ch ) ? ch->level / 2 - 5 : ch->pcdata->learned[ gsn_dual ] / 2;
-
-  if ( number_percent() < chance ) {
-    one_hit( ch, victim, dt );
-    update_skpell( ch, gsn_second_attack );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
-
-    if ( number_percent() < chance2 ) {
-      one_dual( ch, victim, dt );
-
-      if ( ch->fighting != victim ) {
-        return;
-      }
-    }
-  }
-
-  chance  = IS_NPC( ch ) ? ch->level : ch->pcdata->learned[ gsn_third_attack ] / 4;
-  chance2 = IS_NPC( ch ) ? ch->level / 2 : ch->pcdata->learned[ gsn_dual ] / 4;
-
-  if ( number_percent() < chance ) {
-    one_hit( ch, victim, dt );
-    update_skpell( ch, gsn_third_attack );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
-
-    if ( number_percent() < chance2 ) {
-      one_dual( ch, victim, dt );
-
-      if ( ch->fighting != victim ) {
-        return;
-      }
-    }
-  }
-
-  chance = IS_NPC( ch ) ? ch->level / 2
-           : ch->pcdata->learned[ gsn_fourth_attack ] / 4;
-
-  if ( number_percent() < chance && ch->wait == 0 ) {
-    one_hit( ch, victim, dt );
-    update_skpell( ch, gsn_fourth_attack );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
-  }
-
-  chance  = IS_NPC( ch ) ? ch->level / 2 : ch->pcdata->learned[ gsn_fifth_attack ] / 8;
-  chance2 = IS_NPC( ch ) ? ch->level / 6 : ch->pcdata->learned[ gsn_dual ] / 8;
-
-  if ( number_percent() < chance && ch->wait == 0 ) {
-    one_hit( ch, victim, dt );
-    update_skpell( ch, gsn_fifth_attack );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
-
-    if ( number_percent() < chance2 ) {
-      one_dual( ch, victim, dt );
-
-      if ( ch->fighting != victim ) {
-        return;
-      }
-    }
-  }
-
-  chance = IS_NPC( ch ) ? ch->level / 4
-           : ch->pcdata->learned[ gsn_sixth_attack ] / 16;
-
-  if ( number_percent() < chance && ch->wait == 0 ) {
-    one_hit( ch, victim, dt );
-    update_skpell( ch, gsn_sixth_attack );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
-  }
-
-  chance  = IS_NPC( ch ) ? ch->level / 4 : ch->pcdata->learned[ gsn_seventh_attack ] / 32;
-  chance2 = IS_NPC( ch ) ? ch->level / 4 : ch->pcdata->learned[ gsn_dual ] / 32;
-
-  if ( number_percent() < chance && ch->wait == 0 ) {
-    one_hit( ch, victim, dt );
-    update_skpell( ch, gsn_seventh_attack );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
-
-    if ( number_percent() < chance2 ) {
-      one_dual( ch, victim, dt );
-
-      if ( ch->fighting != victim ) {
-        return;
-      }
-    }
+  if ( ch->fighting != victim ) {
+    return;
   }
 
   if ( IS_AFFECTED2( ch, AFF_BERSERK ) ) {
-    one_hit( ch, victim, dt );
+    one_hit( ch, victim, dt, FALSE );
 
     if ( ch->fighting != victim ) {
       return;
     }
 
-    one_dual( ch, victim, dt );
+    one_hit( ch, victim, dt, TRUE );
 
     if ( ch->fighting != victim ) {
       return;
     }
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
-
-  }
-
-  chance = IS_NPC( ch ) ? ch->level / 4
-           : 0;
-  chance2 = IS_NPC( ch ) ? ch->level / 8
-            : 0;
-
-  if ( number_percent() < chance ) {
-    one_hit( ch, victim, dt );
-  }
-
-  if ( number_percent() < chance2 ) {
-    one_dual( ch, victim, dt );
   }
 
   return;
@@ -361,7 +224,7 @@ void multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
 /*
  * Hit one guy once.
  */
-void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
+void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
   OBJ_DATA * wield;
   char       buf[ MAX_STRING_LENGTH ];
   int        victim_ac;
@@ -377,16 +240,24 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
     return;
   }
 
-  if ( IS_STUNNED( ch, STUN_NON_MAGIC ) ||
-       IS_STUNNED( ch, STUN_TOTAL ) ) {
+  if ( IS_STUNNED( ch, STUN_NON_MAGIC ) || IS_STUNNED( ch, STUN_TOTAL ) ) {
     return;
+  }
+
+  if ( dual ) {
+    wield = get_eq_char( ch, WEAR_WIELD_2 );
+
+    // gotta be dual wielding for a dual hit
+    if ( !wield ) {
+      return;
+    }
+  } else if ( !dual ) {
+    wield = get_eq_char( ch, WEAR_WIELD );
   }
 
   /*
    * Figure out the type of damage message.
    */
-  wield = get_eq_char( ch, WEAR_WIELD );
-
   if ( dt == TYPE_UNDEFINED ) {
     dt = TYPE_HIT;
 
@@ -399,6 +270,11 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
    * Calculate to-hit-armor-class-0 versus armor.
    */
   thac0 = GET_THAC0( ch );
+
+  // add a penalty if they can't train in dual wielding
+  if ( dual && !can_use_skpell( ch, gsn_dual ) ) {
+    thac0 += class_table[ prime_class( ch ) ].skill_adept - (ch->pcdata->learned[ gsn_dual ] / 3);
+  }
 
   if ( ( !IS_NPC( ch ) ) && ( ch->pcdata->learned[ gsn_enhanced_hit ] > 0 ) ) {
     thac0 -= ch->pcdata->learned[ gsn_enhanced_hit ] / 5;
@@ -414,16 +290,16 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
   /*
    * The moment of excitement!
    */
-  while ( ( diceroll = number_bits( 5 ) ) >= 20 ) {
-    ;
-  }
+  diceroll = dice(1, 20);
 
-  if (     diceroll == 0
-           || ( diceroll != 19 && diceroll < thac0 - victim_ac ) ) {
-    /* Miss. */
+  if ( diceroll == 1 || ( diceroll != 20 && diceroll < thac0 - victim_ac ) ) {
     damage( ch, victim, 0, dt );
     tail_chain();
     return;
+  }
+
+  if ( dual ) {
+    update_skpell( ch, gsn_dual );
   }
 
   /*
@@ -432,11 +308,7 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
    */
   if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
     if ( number_percent() < 50 ) {
-      if ( !IS_NPC( victim ) ) {
-        spell_fireball( skill_lookup( "fireball" ), 15, victim, ch );
-      } else {
-        spell_fireball( skill_lookup( "fireball" ), 25, victim, ch );
-      }
+      spell_fireball( skill_lookup( "fireball" ), 15, victim, ch );
     }
   }
 
@@ -445,13 +317,8 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
   }
 
   if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
-    if ( ( number_percent() < 50 )
-         || ( number_percent() < 17 ) ) {
-      if ( !IS_NPC( victim ) ) {
-        spell_icestorm( skill_lookup( "icestorm" ), 20, victim, ch );
-      } else {
-        spell_fireball( skill_lookup( "icestorm" ), 40, victim, ch );
-      }
+    if ( ( number_percent() < 50 ) || ( number_percent() < 17 ) ) {
+      spell_icestorm( skill_lookup( "icestorm" ), 20, victim, ch );
     }
   }
 
@@ -460,13 +327,8 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
   }
 
   if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) ) {
-    if ( ( number_percent() < 50 )
-         || ( number_percent() < 17 ) ) {
-      if ( !IS_NPC( victim ) ) {
-        spell_lightning_bolt( skill_lookup( "lightning bolt" ), 15, victim, ch );
-      } else {
-        spell_lightning_bolt( skill_lookup( "lightning bolt" ), 35, victim, ch );
-      }
+    if ( ( number_percent() < 50 ) || ( number_percent() < 17 ) ) {
+      spell_lightning_bolt( skill_lookup( "lightning bolt" ), 15, victim, ch );
     }
   }
 
@@ -476,11 +338,7 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
 
   if ( IS_AFFECTED( victim, AFF_CHAOS ) ) {
     if ( number_percent() < 50 ) {
-      if ( !IS_NPC( victim ) ) {
-        spell_energy_drain( skill_lookup( "energy drain" ), 30, victim, ch );
-      } else {
-        spell_energy_drain( skill_lookup( "energy drain" ), 40, victim, ch );
-      }
+      spell_energy_drain( skill_lookup( "energy drain" ), 30, victim, ch );
     }
   }
 
@@ -511,8 +369,7 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
 
   if ( IS_AFFECTED2( victim, AFF_FIELD ) ) {
     if ( number_percent() < 10 ) {
-      spell_death_field( skill_lookup( "death field" ),
-                         victim->level, victim, ch );
+      spell_death_field( skill_lookup( "death field" ), victim->level, victim, ch );
     }
   }
 
@@ -534,8 +391,7 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
     }
 
     if ( wield && dam > 1000 && !IS_IMMORTAL( ch ) ) {
-      sprintf( buf, "One_hit dam range > 1000 from %d to %d",
-               wield->value[ 1 ], wield->value[ 2 ] );
+      sprintf( buf, "One_hit dam range > 1000 from %d to %d", wield->value[ 1 ], wield->value[ 2 ] );
       bug( buf, 0 );
 
       if ( wield->name ) {
@@ -553,36 +409,21 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
     dam += dam / 8;
   }
 
-  if (
-    ( wield && IS_SET( wield->extra_flags, ITEM_FLAME ) )
-    ||  ( !wield && is_affected( ch, gsn_flamehand ) )
-    ) {
+  if ( ( wield && IS_SET( wield->extra_flags, ITEM_FLAME ) ) || ( !wield && is_affected( ch, gsn_flamehand ) ) ) {
     dam += dam / 8;
   }
 
-  if (
-    ( wield && IS_SET( wield->extra_flags, ITEM_CHAOS ) )
-    ||  ( !wield && is_affected( ch, gsn_chaoshand ) )
-    ) {
+  if ( ( wield && IS_SET( wield->extra_flags, ITEM_CHAOS ) ) || ( !wield && is_affected( ch, gsn_chaoshand ) ) ) {
     dam += dam / 4;
   }
 
-  if (
-    ( wield && IS_SET( wield->extra_flags, ITEM_ICY ) )
-    ||  ( !wield && is_affected( ch, gsn_frosthand ) )
-    ) {
+  if ( ( wield && IS_SET( wield->extra_flags, ITEM_ICY ) ) || ( !wield && is_affected( ch, gsn_frosthand ) ) ) {
     dam += dam / 8;
   }
 
   if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_damage ] > 0 ) {
     dam += dam * ch->pcdata->learned[ gsn_enhanced_damage ] / 150;
     update_skpell( ch, gsn_enhanced_damage );
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_claw ] > 0
-       && !wield ) {
-    dam += dam / 4 * ch->pcdata->learned[ gsn_enhanced_claw ] / 150;
-    update_skpell( ch, gsn_enhanced_claw );
   }
 
   if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_two ] > 0 ) {
@@ -592,174 +433,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
 
   if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_three ] > 0 ) {
     dam += dam / 4 * ch->pcdata->learned[ gsn_enhanced_three ] / 150;
-    update_skpell( ch, gsn_enhanced_three );
-  }
-
-  if ( !IS_AWAKE( victim ) ) {
-    dam *= 2;
-  }
-
-  if ( dt == gsn_backstab ) {
-    dam *= 2 + UMIN( ( ch->level / 8 ), 4 );
-  }
-
-  if ( dam <= 0 ) {
-    dam = 1;
-  }
-
-  damage( ch, victim, dam, dt );
-  tail_chain();
-  return;
-}
-
-void one_dual( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
-  OBJ_DATA * wield;
-  char       buf[ MAX_STRING_LENGTH ];
-  int        victim_ac;
-  int        thac0;
-  int        dam;
-  int        diceroll;
-
-  /*
-   * Can't beat a dead char!
-   * Guard against weird room-leavings.
-   */
-  if ( !get_eq_char( ch, WEAR_WIELD_2 ) ) {
-    return;
-  }
-
-  if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
-  if ( IS_STUNNED( ch, STUN_NON_MAGIC ) || IS_STUNNED( ch, STUN_TOTAL ) ) {
-    return;
-  }
-
-  /*
-   * Figure out the type of damage message.
-   */
-  wield = get_eq_char( ch, WEAR_WIELD_2 );
-
-  if ( dt == TYPE_UNDEFINED ) {
-    dt = TYPE_HIT;
-
-    if ( wield && wield->item_type == ITEM_WEAPON ) {
-      dt += wield->value[ 3 ];
-    }
-  }
-
-  /*
-   * Calculate to-hit-armor-class-0 versus armor.
-   */
-  thac0 = GET_THAC0( ch );
-
-  victim_ac = UMAX( -15, GET_AC( victim ) / 10 );
-
-  if ( !can_see( ch, victim ) ) {
-    victim_ac -= 4;
-  }
-
-  /*
-   * The moment of excitement!
-   */
-  while ( ( diceroll = number_bits( 5 ) ) >= 20 ) {
-    ;
-  }
-
-  if (     diceroll == 0
-           || ( diceroll != 19 && diceroll < thac0 - victim_ac ) ) {
-    /* Miss. */
-    damage( ch, victim, 0, dt );
-    tail_chain();
-    return;
-  }
-
-  update_skpell( ch, gsn_dual );
-
-  /*
-   * Hit.
-   * Calc damage.
-   */
-  /*	if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) )
-     {
-     if ( number_percent( ) < 50 )
-     spell_fireball ( skill_lookup("fireball"), 5, victim, ch );
-     }
-     if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) )
-     {
-     if ( number_percent( ) < 50 )
-     spell_lightning_bolt ( skill_lookup("lightning bolt"), 15, victim, ch );
-     }
-     if ( IS_AFFECTED( victim, AFF_CHAOS ) )
-     {
-     if ( number_percent( ) < 50 )
-     spell_energy_drain ( skill_lookup("energy drain"), 25, victim, ch );
-     }
-     if ( IS_AFFECTED( victim, AFF_VIBRATING ) )
-     {
-     if ( number_percent( ) < 50 )
-     spell_psionic_blast ( skill_lookup("psionic blast"), 25, victim, ch );
-     }*/
-
-  if ( IS_NPC( ch ) ) {
-    dam = number_range( ch->level / 3, ch->level );
-
-    if ( wield ) {
-      dam += dam / 4;
-    }
-  } else {
-    if ( wield ) {
-      dam = number_range( wield->value[ 1 ], wield->value[ 2 ] );
-    } else {
-      dam = number_range( 1, 4 );
-    }
-
-    if ( wield && dam > 1000 ) {
-      sprintf( buf, "One_hit dam range > 1000 from %d to %d",
-               wield->value[ 1 ], wield->value[ 2 ] );
-      bug( buf, 0 );
-    }
-  }
-
-  /*
-   * Bonuses.
-   */
-  dam += GET_DAMROLL( ch );
-
-  if ( wield && IS_SET( wield->extra_flags, ITEM_POISONED ) ) {
-    dam += dam / 4;
-  }
-
-  if ( ( wield && IS_SET( wield->extra_flags, ITEM_FLAME ) ) ||  ( !wield && is_affected( ch, gsn_flamehand ) ) ) {
-    dam += dam / 8;
-  }
-
-  if ( ( wield && IS_SET( wield->extra_flags, ITEM_CHAOS ) ) ||  ( !wield && is_affected( ch, gsn_chaoshand ) ) ) {
-    dam += dam / 8;
-  }
-
-  if ( ( wield && IS_SET( wield->extra_flags, ITEM_ICY ) ) ||  ( !wield && is_affected( ch, gsn_frosthand ) ) ) {
-    dam += dam / 4;
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_damage ] > 0 ) {
-    dam += dam * ch->pcdata->learned[ gsn_enhanced_damage ] / 150;
-    update_skpell( ch, gsn_enhanced_damage );
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_claw ] > 0 && !wield ) {
-    dam += dam * ch->pcdata->learned[ gsn_enhanced_claw ] / 150;
-    update_skpell( ch, gsn_enhanced_claw );
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_two ] > 0 ) {
-    dam += dam * ch->pcdata->learned[ gsn_enhanced_two ] / 150;
-    update_skpell( ch, gsn_enhanced_two );
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_three ] > 0 ) {
-    dam += dam * ch->pcdata->learned[ gsn_enhanced_three ] / 150;
     update_skpell( ch, gsn_enhanced_three );
   }
 
@@ -1731,24 +1404,24 @@ bool is_wielding_chaos( CHAR_DATA * ch ) {
 bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim ) {
   int chance;
 
-  if ( !IS_AWAKE( ch ) ) {
+  if ( !IS_AWAKE( victim ) ) {
     return FALSE;
   }
 
   // can't parry without a weapon
-  if ( !get_eq_char( ch, WEAR_WIELD ) ) {
+  if ( !get_eq_char( victim, WEAR_WIELD ) ) {
     return FALSE;
   }
 
   // can't really accidentally parry, gotta learn how first
-  if ( ch->pcdata->learned[ gsn_parry ] <= 0 ) {
+  if ( !IS_NPC(victim) && victim->pcdata->learned[ gsn_parry ] <= 0 ) {
     return FALSE;
   }
 
-  if ( IS_NPC( ch ) ) {
-    chance = UMIN( 60, 2 * ch->level );
+  if ( IS_NPC( victim ) ) {
+    chance = UMIN( 60, 2 * victim->level );
   } else {
-    chance = ch->pcdata->learned[ gsn_parry ] / 2;
+    chance = victim->pcdata->learned[ gsn_parry ] / 2;
   }
 
   if ( ch->wait != 0 ) {
@@ -1759,7 +1432,7 @@ bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return FALSE;
   }
 
-  update_skpell( ch, gsn_parry );
+  update_skpell( victim, gsn_parry );
 
   if ( IS_SET( ch->act, PLR_COMBAT ) ) {
     act( AT_GREEN, "$N parries your attack.", ch, NULL, victim, TO_CHAR );
@@ -1778,15 +1451,15 @@ bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim ) {
 bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim ) {
   int  chance;
 
-  if ( !IS_AWAKE( ch ) ) {
+  if ( !IS_AWAKE( victim ) ) {
     return FALSE;
   }
 
-  if ( IS_NPC( ch ) ) {
-    chance = UMIN( 60, 2 * ch->level );
+  if ( IS_NPC( victim ) ) {
+    chance = UMIN( 60, 2 * victim->level );
   } else {
     // always a miniscule chance of dodging, at least through sheer dumb luck
-    chance = UMAX(2, ch->pcdata->learned[ gsn_dodge ] / 2) + ( ch->pcdata->learned[ gsn_dodge_two ] / 2 );
+    chance = UMAX(2, victim->pcdata->learned[ gsn_dodge ] / 2) + ( victim->pcdata->learned[ gsn_dodge_two ] / 2 );
   }
 
   if ( ch->wait != 0 ) {
@@ -1797,11 +1470,11 @@ bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return FALSE;
   }
 
-  update_skpell( ch, gsn_dodge );
+  update_skpell( victim, gsn_dodge );
 
   // enhanced dodge is a trained skill
-  if ( ch->pcdata->learned[ gsn_dodge_two ] >= 0 ) {
-    update_skpell( ch, gsn_dodge_two );
+  if ( !IS_NPC(victim) && victim->pcdata->learned[ gsn_dodge_two ] > 0 ) {
+    update_skpell( victim, gsn_dodge_two );
   }
 
   if ( IS_SET( ch->act, PLR_COMBAT ) ) {
@@ -4876,80 +4549,6 @@ void do_rush( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_howl_of_fear( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * victim;
-
-  if ( !IS_NPC( ch )
-       && is_class( ch, gsn_howlfear ) ) {
-    send_to_char( C_DEFAULT, "You failed.\n\r", ch );
-    return;
-  }
-
-  if ( IS_NPC( ch ) ) {
-    return;
-  }
-
-  if ( argument[ 0 ] != '\0' ) {
-    if ( !( victim = get_char_room( ch, argument ) ) ) {
-      send_to_char( C_DEFAULT, "They aren't here.\n\r", ch );
-      return;
-    }
-  } else {
-    if ( !( victim = ch->fighting ) ) {
-      send_to_char( C_DEFAULT, "You aren't fighting anyone.\n\r", ch );
-      return;
-    }
-  }
-
-  if ( is_safe( ch, victim ) ) {
-    return;
-  }
-
-  if ( is_affected( victim, gsn_howlfear ) ) {
-    act( AT_RED, "$N is already scared witless.", ch, NULL, victim, TO_CHAR );
-    return;
-  }
-
-  WAIT_STATE( ch, skill_table[ gsn_howlfear ].beats );
-
-  if ( number_percent() < ch->pcdata->learned[ gsn_howlfear ] ) {
-    AFFECT_DATA af;
-    af.type      = gsn_howlfear;
-    af.level     = ch->level;
-    af.duration  = 10;
-    af.location  = APPLY_DAMROLL;
-    af.modifier  = 0 - ch->level / 2;
-    af.bitvector = 0;
-    affect_to_char( victim, &af );
-
-    af.location = APPLY_HITROLL;
-    af.modifier = 0 - ch->level / 2;
-    affect_to_char( victim, &af );
-
-    af.level     = ch->level;
-    af.duration  = 10;
-    af.location  = APPLY_NONE;
-    af.modifier  = 0;
-    af.bitvector = AFF_ANTI_FLEE;
-    affect_to_char( victim, &af );
-
-    act( AT_RED, "Your chilling howl instills fear in $N.",
-         ch, NULL, victim, TO_CHAR );
-    act( AT_RED, "You cringe in terror at the sound of $n's howl.",
-         ch, NULL, victim, TO_VICT );
-    act( AT_RED, "$n howls and $N cringes back in terror.",
-         ch, NULL, victim, TO_NOTVICT );
-
-    if ( !victim->fighting ) {
-      set_fighting( victim, ch );
-    }
-  }
-
-  update_skpell( ch, gsn_howlfear );
-
-  return;
-}
-
 void do_frenzy( CHAR_DATA * ch, char * argument ) {
   AFFECT_DATA af;
 
@@ -5406,49 +5005,23 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
     act( AT_WHITE, "$n lures $N into a vulnerable position.", ch, NULL, victim, TO_ROOM );
     send_to_char( AT_WHITE, "Your oppenet has lured you into a vulnerable position.\n\r", victim );
     send_to_char( AT_WHITE, "You lure your opponent into a vulnerable position.\n\r", ch );
-    one_hit( ch, victim, dt );
+    one_hit( ch, victim, dt, FALSE );
 
     if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-      one_hit( ch, victim, dt );
+      one_hit( ch, victim, dt, FALSE );
     }
 
     if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-      one_hit( ch, victim, dt );
+      one_hit( ch, victim, dt, FALSE );
     }
 
-    if ( can_use_skpell( ch, gsn_second_attack ) ) {
-      one_hit( ch, victim, dt );
-    }
-
-    if ( can_use_skpell( ch, gsn_third_attack ) ) {
-      one_hit( ch, victim, dt );
-    }
-
-    if ( can_use_skpell( ch, gsn_fourth_attack ) ) {
-      one_hit( ch, victim, dt );
-    }
-
-    if ( can_use_skpell( ch, gsn_fifth_attack ) ) {
-      one_hit( ch, victim, dt );
-    }
-
-    if ( can_use_skpell( ch, gsn_sixth_attack ) ) {
-      one_hit( ch, victim, dt );
-    }
-
-    if ( can_use_skpell( ch, gsn_seventh_attack ) ) {
-      one_hit( ch, victim, dt );
-    }
-
-    /*    if(can_use_skpell( ch, gsn_eigth_attack) )
-        one_hit( ch, victim, dt ); */
     if ( IS_AFFECTED2( ch, AFF_BERSERK ) ) {
-      one_hit( ch, victim, dt );
+      one_hit( ch, victim, dt, FALSE );
     }
 
     /* put more reasons to attack here */
 
-    one_dual( ch, victim, dt );
+    one_hit( ch, victim, dt, TRUE );
 
   }
 
@@ -5469,49 +5042,23 @@ void do_image( CHAR_DATA * ch, CHAR_DATA * victim ) {
   send_to_char( AT_WHITE, buf, victim );
   sprintf( buf, "%s attacks one of your images!", victim->name );
   send_to_char( AT_WHITE, buf, ch );
-  one_hit( ch, victim, dt );
+  one_hit( ch, victim, dt, FALSE );
 
   if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-    one_hit( ch, victim, dt );
+    one_hit( ch, victim, dt, FALSE );
   }
 
   if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-    one_hit( ch, victim, dt );
+    one_hit( ch, victim, dt, FALSE );
   }
 
-  if ( can_use_skpell( ch, gsn_second_attack ) ) {
-    one_hit( ch, victim, dt );
-  }
-
-  if ( can_use_skpell( ch, gsn_third_attack ) ) {
-    one_hit( ch, victim, dt );
-  }
-
-  if ( can_use_skpell( ch, gsn_fourth_attack ) ) {
-    one_hit( ch, victim, dt );
-  }
-
-  if ( can_use_skpell( ch, gsn_fifth_attack ) ) {
-    one_hit( ch, victim, dt );
-  }
-
-  if ( can_use_skpell( ch, gsn_sixth_attack ) ) {
-    one_hit( ch, victim, dt );
-  }
-
-  if ( can_use_skpell( ch, gsn_seventh_attack ) ) {
-    one_hit( ch, victim, dt );
-  }
-
-  /*    if(can_use_skpell( ch, gsn_eigth_attack) )
-      one_hit( ch, victim, dt ); */
   if ( IS_AFFECTED2( ch, AFF_BERSERK ) ) {
-    one_hit( ch, victim, dt );
+    one_hit( ch, victim, dt, FALSE );
   }
 
   /* put more reasons to attack here */
 
-  one_dual( ch, victim, dt );
+  one_hit( ch, victim, dt, TRUE );
   multi_hit( ch, victim, dt );
 
   return;

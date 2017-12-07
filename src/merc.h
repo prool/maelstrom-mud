@@ -107,7 +107,7 @@ typedef void SPELL_FUN ( int sn, int level, CHAR_DATA * ch, void * vo );
  * Increase the max'es if you add more of something.
  * Adjust the pulse numbers to suit yourself.
  */
-#define MAX_SKILL         396
+#define MAX_SKILL         386
 #define MAX_GSPELL        2
 #define MAX_CLASS         3
 #define MAX_RACE          5
@@ -1991,13 +1991,6 @@ extern int gsn_throw;
 extern int gsn_parry;
 extern int gsn_rescue;
 extern int gsn_patch;
-extern int gsn_second_attack;
-extern int gsn_third_attack;
-extern int gsn_fourth_attack;
-extern int gsn_fifth_attack;
-extern int gsn_sixth_attack;
-extern int gsn_seventh_attack;
-extern int gsn_eighth_attack;
 extern int gsn_gouge;
 extern int gsn_alchemy;
 extern int gsn_scribe;
@@ -2016,13 +2009,10 @@ extern int gsn_wands;
 extern int gsn_spellcraft;
 extern int gsn_gravebind;
 extern int gsn_multiburst;
-extern int gsn_enhanced_claw;
-extern int gsn_dualclaw;
 extern int gsn_fastheal;
 extern int gsn_rage;
 extern int gsn_bite;
 extern int gsn_rush;
-extern int gsn_howlfear;
 extern int gsn_scent;
 extern int gsn_frenzy;
 extern int gsn_reflex;
@@ -2555,7 +2545,6 @@ DECLARE_DO_FUN( do_gravebind );
 DECLARE_DO_FUN( do_rage );
 DECLARE_DO_FUN( do_bite );
 DECLARE_DO_FUN( do_rush );
-DECLARE_DO_FUN( do_howl_of_fear );
 DECLARE_DO_FUN( do_scent );
 DECLARE_DO_FUN( do_frenzy );
 DECLARE_DO_FUN( do_reflex );

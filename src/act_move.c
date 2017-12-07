@@ -45,12 +45,7 @@ void move_char( CHAR_DATA * ch, int door, bool Fall ) {
   ROOM_INDEX_DATA * to_room;
 
   if ( ( IS_AFFECTED( ch, AFF_ANTI_FLEE ) ) && ( !Fall ) ) {
-    if ( is_affected( ch, gsn_howlfear ) ) {
-      send_to_char( AT_WHITE, "You are too frightened to move.\n\r", ch );
-    } else {
-      send_to_char( AT_WHITE, "You cannot move.\n\r", ch );
-    }
-
+    send_to_char( AT_WHITE, "You cannot move.\n\r", ch );
     return;
   }
 
@@ -2226,12 +2221,7 @@ void do_retreat( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( IS_AFFECTED( ch, AFF_ANTI_FLEE ) ) {
-    if ( is_affected( ch, gsn_howlfear ) ) {
-      send_to_char( AT_WHITE, "You are too frightened to plan an escape.\n\r", ch );
-    } else {
-      send_to_char( AT_WHITE, "You can't move, how do you expect to retreat?\n\r", ch );
-    }
-
+    send_to_char( AT_WHITE, "You can't move, how do you expect to retreat?\n\r", ch );
     return;
   }
 

@@ -227,7 +227,7 @@ const struct  dex_app_type dex_app[ 31 ] = {
   { -65    },
   { -75    },
   { -90    },
-  { -L_SEN },
+  { -100   },
   { -120   },  /* 25 */
   { -140   },
   { -160   },
@@ -1144,7 +1144,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "disarm",
-    { L_APP,L_APP,L_APP },
+    { L_APP, L_APP, 30 },
     spell_null,TAR_IGNORE,POS_FIGHTING,
     &gsn_disarm,0,24,
     "","!Disarm!","",FALSE,SLOT(0)
@@ -1152,7 +1152,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "dodge",
-    { L_APP,L_APP,L_APP },
+    { L_APP, 5, 5 },
     spell_null,TAR_IGNORE,POS_FIGHTING,
     &gsn_dodge,0,0,
     "","!Dodge!","",FALSE,SLOT(0)
@@ -1160,18 +1160,10 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "dual",
-    { L_APP,L_APP,L_APP },
+    { L_APP, 5, 5 },
     spell_null,TAR_IGNORE,POS_RESTING,
     &gsn_dual,0,0,
     "","!DUAL!","",FALSE,SLOT(0)
-  },
-
-  {
-    "eighth attack",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_eighth_attack,0,0,
-    "","!eighth Attack!","",FALSE,SLOT(0)
   },
 
   {
@@ -1196,22 +1188,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_IGNORE,POS_FIGHTING,
     &gsn_enhanced_hit,0,0,
     "","!Enhanced Hit!","",FALSE,SLOT(0)
-  },
-
-  {
-    "fifth attack",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_fifth_attack,0,0,
-    "","!Fifth Attack!","",FALSE,SLOT(0)
-  },
-
-  {
-    "fourth attack",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_fourth_attack,0,0,
-    "","!FOURTH Attack!","",FALSE,SLOT(0)
   },
 
   {
@@ -1363,30 +1339,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "second attack",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_second_attack,0,0,
-    "","!Second Attack!","",FALSE,SLOT(0)
-  },
-
-  {
-    "seventh attack",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_seventh_attack,0,0,
-    "","!seventh Attack!","",FALSE,SLOT(0)
-  },
-
-  {
-    "sixth attack",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_sixth_attack,0,0,
-    "","!sixth Attack!","",FALSE,SLOT(0)
-  },
-
-  {
     "sneak",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
@@ -1400,14 +1352,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_steal,0,24,
     "","!Steal!","",FALSE,SLOT(0)
-  },
-
-  {
-    "third attack",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_third_attack,0,0,
-    "","!Third Attack!","",FALSE,SLOT(0)
   },
 
   {
@@ -2313,20 +2257,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
   /* Werewolf starts here -- Hannibal */
   {
-    "enhanced claws",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_enhanced_claw,0,0,
-    "","!Enhanced Claws!","",FALSE,SLOT(0)
-  },
-  {
-    "dual claws",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_dualclaw,0,0,
-    "","!Dual Claws!","",FALSE,SLOT(0)
-  },
-  {
     "fast healing",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_SLEEPING,
@@ -2356,15 +2286,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "",
     "You feel the rush of adrenaline wash away.",
     "$n has calmed down.",FALSE,SLOT(81)
-  },
-
-  {
-    "howl of fear",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_howlfear,0,24,
-    "","You shake off the terror and gather your senses.",
-    "$n doesn't look as terrified anymore.",FALSE,SLOT(82)
   },
 
   {

@@ -260,7 +260,6 @@ struct cmd_type cmd_table [] = {
   { "soulstrike",      do_soulstrike,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "multiburst",      do_multiburst,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "bite",            do_bite,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "howl of fear",    do_howl_of_fear,      POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "frenzy",          do_frenzy,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "account",         do_account,           POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "adrenaline rush", do_rush,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },

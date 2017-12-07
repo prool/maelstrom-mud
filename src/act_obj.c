@@ -1541,17 +1541,6 @@ void do_dual( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_dual ) ) {
-    send_to_char( AT_WHITE, "You cannot.\n\r", ch );
-    return;
-  }
-
-  if ( ch->pcdata->learned[ gsn_dual ] == 0 ) {
-    send_to_char( AT_WHITE, "You cannot.\n\r", ch );
-    return;
-  }
-
   if ( CAN_WEAR( obj, ITEM_WIELD ) ) {
     if ( !remove_obj( ch, WEAR_WIELD_2, fReplace ) ) {
       return;
@@ -1561,8 +1550,6 @@ void do_dual( CHAR_DATA * ch, char * argument ) {
       send_to_char( AT_BLUE, "It is too heavy for you to dual wield.\n\r", ch );
       return;
     }
-
-    /* Won't put update_skpell here since it is in fight.c */
 
     weapon_type = obj->value[ 3 ];
     act( AT_BLUE, "You dual wield $p.", ch, obj, NULL, TO_CHAR );

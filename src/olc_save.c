@@ -826,9 +826,9 @@ void save_helps() {
     return;
   }
 
-  if ( ( fp = fopen( "help.dat", "w" ) ) == NULL ) {
+  if ( ( fp = fopen( HELP_FILE, "w" ) ) == NULL ) {
     bug( "Save_helps: fopen", 0 );
-    perror( "help.dat" );
+    perror( HELP_FILE );
     return;
   }
 

@@ -107,7 +107,7 @@ typedef void SPELL_FUN ( int sn, int level, CHAR_DATA * ch, void * vo );
  * Increase the max'es if you add more of something.
  * Adjust the pulse numbers to suit yourself.
  */
-#define MAX_SKILL         400
+#define MAX_SKILL         397
 #define MAX_GSPELL        2
 #define MAX_CLASS         3
 #define MAX_RACE          5
@@ -1989,7 +1989,6 @@ extern int gsn_spin_kick;
 extern int gsn_jump_kick;
 extern int gsn_circle;
 extern int gsn_throw;
-extern int gsn_feed;
 extern int gsn_parry;
 extern int gsn_rescue;
 extern int gsn_patch;

@@ -890,7 +890,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
     /*
      * Check for disarm, trip, parry, and dodge.
      */
-    if (    dt >= TYPE_HIT           || dt == gsn_feed
+    if (    dt >= TYPE_HIT
             || dt == gsn_jab_punch      || dt == gsn_kidney_punch
             || dt == gsn_cross_punch    || dt == gsn_roundhouse_punch
             || dt == gsn_uppercut_punch || dt == gsn_punch
@@ -900,15 +900,11 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
             ) {
       int leveldiff = ch->level - victim->level;
 
-      if ( IS_NPC( ch ) && number_percent()
-           < ( leveldiff < -5 ? ch->level / 2 : UMAX( 10, leveldiff ) )
-           && dam == 0 && number_bits( 4 ) == 0 ) {
+      if ( IS_NPC( ch ) && number_percent() < ( leveldiff < -5 ? ch->level / 2 : UMAX( 10, leveldiff ) ) && dam == 0 && number_bits( 4 ) == 0 ) {
         disarm( ch, victim );
       }
 
-      if ( IS_NPC( ch ) && number_percent()
-           < ( leveldiff < -5 ? ch->level / 2 : UMAX( 20, leveldiff ) )
-           && dam == 0 && number_bits( 4 ) == 0 ) {
+      if ( IS_NPC( ch ) && number_percent() < ( leveldiff < -5 ? ch->level / 2 : UMAX( 20, leveldiff ) ) && dam == 0 && number_bits( 4 ) == 0 ) {
         trip( ch, victim );
       }
 
@@ -4007,11 +4003,10 @@ void do_slay( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  /*    if ( ch == victim )
-      {
-      send_to_char(C_DEFAULT, "Suicide is a mortal sin.\n\r", ch );
-      return;
-      }*/
+  if ( ch == victim ) {
+    send_to_char(C_DEFAULT, "Suicide is a mortal sin.\n\r", ch );
+    return;
+  }
 
   if ( ( !IS_NPC( victim ) && victim->level >= ch->level && victim != ch ) ||
        ( IS_NPC( ch ) && !IS_NPC( victim ) ) ) {
@@ -4019,29 +4014,16 @@ void do_slay( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  /*
-     act(C_DEFAULT, "You slay $M in cold blood!",  ch, NULL, victim, TO_CHAR    );
-     act(C_DEFAULT, "$n slays you in cold blood!", ch, NULL, victim, TO_VICT    );
-     act(C_DEFAULT, "$n slays $N in cold blood!",  ch, NULL, victim, TO_NOTVICT );
-   */
-
-  sprintf( buf, "You %s.",
-           ( ch->pcdata && ch->pcdata->slayusee[ 0 ] != '\0' )
-           ? ch->pcdata->slayusee : "slay $N in cold blood." );
+  sprintf( buf, "You %s.", ( ch->pcdata && ch->pcdata->slayusee[ 0 ] != '\0' ) ? ch->pcdata->slayusee : "slay $N in cold blood." );
   act( AT_RED, buf, ch, NULL, victim, TO_CHAR );
 
-  sprintf( buf, "%s %s.", ch->name,
-           ( ch->pcdata && ch->pcdata->slayvict[ 0 ] != '\0' )
-           ? ch->pcdata->slayvict : "slays you in cold blood!" );
+  sprintf( buf, "%s %s.", ch->name, ( ch->pcdata && ch->pcdata->slayvict[ 0 ] != '\0' ) ? ch->pcdata->slayvict : "slays you in cold blood!" );
   act( AT_RED, buf, ch, NULL, victim, TO_VICT );
 
-  sprintf( buf, "%s %s.", ch->name,
-           ( ch->pcdata && ch->pcdata->slayroom[ 0 ] != '\0' )
-           ? ch->pcdata->slayroom : "slays $N in cold blood!" );
+  sprintf( buf, "%s %s.", ch->name, ( ch->pcdata && ch->pcdata->slayroom[ 0 ] != '\0' ) ? ch->pcdata->slayroom : "slays $N in cold blood!" );
   act( AT_RED, buf, ch, NULL, victim, TO_NOTVICT );
 
-  sprintf( log_buf, "%s slays %s at %d.\n\r", ch->name, victim->name,
-           victim->in_room->vnum );
+  sprintf( log_buf, "%s slays %s at %d.\n\r", ch->name, victim->name, victim->in_room->vnum );
   log_string( log_buf, CHANNEL_LOG, ch->level - 1 );
 
   if ( !IS_NPC( victim ) ) {

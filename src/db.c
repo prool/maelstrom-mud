@@ -109,7 +109,6 @@ int gsn_high_kick;
 int gsn_spin_kick;
 int gsn_jump_kick;
 int gsn_circle;
-int gsn_feed;
 int gsn_parry;
 int gsn_rescue;
 int gsn_patch;

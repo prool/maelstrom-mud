@@ -1207,14 +1207,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "feed",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_feed,0,12,
-    "bite","!Feed!","",FALSE,SLOT(0)
-  },
-
-  {
     "fifth attack",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,

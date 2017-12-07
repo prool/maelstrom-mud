@@ -3782,6 +3782,14 @@ int number_bits( int width ) {
   return number_mm() & ( ( 1 << width ) - 1 );
 }
 
+bool chance( int num ) {
+  if ( number_range( 1, 100 ) <= num ) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 /*
  * I've gotten too many bad reports on OS-supplied random number generators.
  * This is the Mitchell-Moore algorithm from Knuth Volume II.

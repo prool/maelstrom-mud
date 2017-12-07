@@ -43,39 +43,54 @@
 #include <string.h>
 #include <time.h>
 #include "merc.h"
-
-/* moved to merc.h - Decklarean
- #define IS_QUESTOR( ch )       ( IS_SET( ( ch )->act, PLR_QUESTOR ) )
- */
-
-/* Object vnums for object quest 'tokens'. These items are worthless and
-   are type trash, as they are placed into the world when a player
-   receives an object quest. */
-
-#define QUEST_OBJQUEST1 2400     /* 2400 - 2405 Quest Objects */
-#define QUEST_OBJQUEST2 2401     /* Nolocate, [QUEST] flag    */
-#define QUEST_OBJQUEST3 2402
-#define QUEST_OBJQUEST4 2403
-#define QUEST_OBJQUEST5 2404
-#define QUEST_OBJQUEST6 2405
-
-/* Local functions */
-
-void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman );
-void quest_update( void );
+#include "quest.h"
 
 ROOM_INDEX_DATA * room;
 int               cnt =  0;
 
-/* CHANCE function. I use this everywhere in my code, very handy :> */
+const struct quest_data quest_table[ ] = {
+//{ vnum, qp,  }
+  { 2426, 100, },
+  { 2427, 200, },
+  { 2428, 300, },
+  { 2429, 100, },
+  { 2430, 200, },
+  { 2431, 300, },
+  { 2432, 100, },
+  { 2433, 200, },
+  { 2434, 300, },
+  { 2435, 100, },
+  { 2436, 200, },
+  { 2437, 300, },
+  { 2438, 100, },
+  { 2439, 200, },
+  { 2440, 300, },
+  { 2441, 150, },
+  { 2442, 250, },
+  { 2443, 350, },
+  { 2444, 150, },
+  { 2445, 250, },
+  { 2446, 350, },
+  { 2447, 150, },
+  { 2448, 250, },
+  { 2449, 350, },
+  { 2450, 150, },
+  { 2452, 350, },
+  { 2453, 150, },
+  { 2454, 250, },
+  { 2455, 350, },
+  { -1,   -1, }
+};
 
-bool chance( int num ) {
-  if ( number_range( 1, 100 ) <= num ) {
-    return TRUE;
-  } else {
-    return FALSE;
-  }
-}
+const struct quest_item_type quest_item_table[ ] = {
+//  name,          short,                         long
+  { "picture",     "&Wan ancient picture ",       "&WAn ancient picture of the &CRoyal Family&W lies here..."               },
+  { "sword",       "&Wa sacred &Ysword",          "&WA hereditary &Ysword&W belonging to the &CRoyal Family&W lies here..." },
+  { "gem",         "&Wa magical &pgem",           "&WA mysterious &pgem&W glittering faintly lies here..."                  },
+  { "locket",      "&Wa &Rheart-shaped&W locket", "&WJekka's tiny &Rheart-shaped&W locket lies here..."                     },
+  { "harp",        "&Wa &Cmagical&W harp",        "&WA &Cmagical&W harp playing a soft melody sits here..."                 },
+  { "crest royal", "&Wthe &PRoyal Crest",         "&WThe &PRoyal Crest&W of &zHis Majesty&W sits here..."                   }
+};
 
 /* The main quest function */
 void do_quest( CHAR_DATA * ch, char * argument ) {
@@ -448,6 +463,7 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
   CHAR_DATA * vsearch, * vsearch_next;
   CHAR_DATA * victim = NULL;
   /*  ROOM_INDEX_DATA *room;*/
+  OBJ_INDEX_DATA * pObjIndex;
   OBJ_DATA * questitem;
   char       buf[ MAX_STRING_LENGTH ];
   long       mcounter;
@@ -485,12 +501,6 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
          && ( !IS_SET( vsearch->in_room->room_flags, ROOM_SAFE ) )
          && ( !IS_SET( vsearch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) ) {
       if ( number_range( 0, mcounter ) == 0 ) {
-        /*
-           sprintf( buf, "%s&W->&X%d&W->&X%s&W->&XHQ&W[&X%c&W]\n\r",
-           vsearch->name, level_diff, vsearch->in_room->area->name,
-           ( IS_SET( vsearch->in_room->area->area_flags, AREA_NO_QUEST ) ) ? 'Y' : 'N' );
-           send_to_char( AT_DGREY, buf, ch );
-         */
         victim = vsearch;
         mcounter++;
       }
@@ -515,55 +525,46 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
     return;
   }
 
-  /* Player has a quest, turn all channels off except shout and yell */
+  // 50% chance it will send the player on a 'recover item' quest.
+  if ( chance( 50 ) ) {
+    pObjIndex = get_obj_index( OBJ_VNUM_DUMMY );
+    questitem = create_object( pObjIndex, ch->level );
 
-  /*      40% chance it will send the player on a 'recover item' quest. */
+    // pick a random item from the table
+    struct quest_item_type item = quest_item_table[ RANDOM( quest_item_table ) ];
 
-  if ( chance( 40 ) ) {
-    int objvnum = 0;
+    questitem->name         = str_dup( item.name );
 
-    switch ( number_range( 0, 4 ) ) {
-      case 0:
-        objvnum = QUEST_OBJQUEST1;
-        break;
+    sprintf( buf, "%s &R[QUEST]", item.short_desc);
 
-      case 1:
-        objvnum = QUEST_OBJQUEST2;
-        break;
+    questitem->short_descr  = str_dup( buf );
 
-      case 2:
-        objvnum = QUEST_OBJQUEST3;
-        break;
+    sprintf( buf, "%s &R[QUEST]", item.long_desc);
 
-      case 3:
-        objvnum = QUEST_OBJQUEST4;
-        break;
+    questitem->description  = str_dup( buf );
 
-      case 4:
-        objvnum = QUEST_OBJQUEST5;
-        break;
-    }
-
-    questitem = create_object( get_obj_index( objvnum ), ch->level );
-
-    if ( chance ( 50 ) ) {
-      obj_to_room( questitem, room );
-    } else {
-      obj_to_char( questitem, victim );
-    }
+    questitem->item_type    = ITEM_TRASH;
+    questitem->wear_flags  ^= ITEM_TAKE;
+    questitem->extra_flags ^= ITEM_GLOW;
+    questitem->extra_flags ^= ITEM_NO_LOCATE;
 
     ch->questobj = questitem;
 
-    sprintf( buf, "Vile pilferers have stolen %s from the royal treasury!", questitem->short_descr );
+    if ( chance ( 50 ) ) {
+      obj_to_room( questitem, room );
+      sprintf( buf, "Vile pilferers have stolen %s from the royal treasury!", victim->short_descr, questitem->short_descr );
+    } else {
+      obj_to_char( questitem, victim );
+      sprintf( buf, "An enemy of mine, %s, has stolen %s from the royal treasury!", victim->short_descr, questitem->short_descr );
+    }
+
     do_say(questman, buf);
 
     do_say(questman, "My court wizardess, with her magic mirror, has pinpointed its location.");
     sprintf(buf, "Look in the general area of %s...\n\r", room->area->name);
     do_say(questman, buf);
     return;
-  }
-  /* Quest to kill a mob */
-  else {
+  } else {
     switch ( number_range( 0, 1 ) ) {
       case 0:
         sprintf( buf, "An enemy of mine, %s, is making vile threats against the Oracle!", victim->short_descr );

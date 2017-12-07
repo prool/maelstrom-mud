@@ -38,40 +38,6 @@ const struct direction_type direction_table[ MAX_DIR ] = {
   { "southeast", "the southeast", "to the southeast", "southeastern",      "se",   "southeast", DIR_NORTHWEST }
 };
 
-const struct quest_data quest_table[ ] = {
-//{ vnum, qp,  }
-  { 2426, 100, },
-  { 2427, 200, },
-  { 2428, 300, },
-  { 2429, 100, },
-  { 2430, 200, },
-  { 2431, 300, },
-  { 2432, 100, },
-  { 2433, 200, },
-  { 2434, 300, },
-  { 2435, 100, },
-  { 2436, 200, },
-  { 2437, 300, },
-  { 2438, 100, },
-  { 2439, 200, },
-  { 2440, 300, },
-  { 2441, 150, },
-  { 2442, 250, },
-  { 2443, 350, },
-  { 2444, 150, },
-  { 2445, 250, },
-  { 2446, 350, },
-  { 2447, 150, },
-  { 2448, 250, },
-  { 2449, 350, },
-  { 2450, 150, },
-  { 2452, 350, },
-  { 2453, 150, },
-  { 2454, 250, },
-  { 2455, 350, },
-  { -1,   -1, }
-};
-
 const struct race_type race_table[ MAX_RACE ] = {
 //{ "Sml", "Full Name", mstr, mint, mwis, mdex, mcon, mcha, age, size        },
   { "Hum", "Human",     0,    0,    0,    0,    0,    0,    15,  SIZE_MEDIUM },

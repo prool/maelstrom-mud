@@ -72,7 +72,6 @@ typedef struct  time_info_data    TIME_INFO_DATA;
 typedef struct  weather_data      WEATHER_DATA;
 typedef struct  mob_prog_data     MPROG_DATA;
 typedef struct  mob_prog_act_list MPROG_ACT_LIST;
-typedef struct  quest_data        QUEST_DATA;
 typedef struct  alias_data        ALIAS_DATA;
 typedef struct  trap_data         TRAP_DATA;
 typedef struct  playerlist_data   PLAYERLIST_DATA;
@@ -1525,11 +1524,6 @@ struct  char_data {
 
 };
 
-struct quest_data {
-  int    vnum;
-  int    qp;
-};
-
 struct  mob_prog_act_list {
   MPROG_ACT_LIST * next;
   char           * buf;
@@ -2178,7 +2172,6 @@ extern const struct  size_type      size_table[ MAX_SIZE  ];
 extern const struct  direction_type direction_table[ MAX_DIR   ];
 
 extern const struct  wiznet_type wiznet_table    [];
-extern const struct  quest_data  quest_table     [];
 
 extern struct  cmd_type cmd_table[];
 

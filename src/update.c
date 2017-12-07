@@ -1758,8 +1758,6 @@ void update_handler( void ) {
     arena_update();
   }
 
-  chat_update();
-
   //    time_update( );
   aggr_update();
   tail_chain();

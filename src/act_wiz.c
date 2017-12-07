@@ -5242,10 +5242,6 @@ char * con_type_name( int connected ) {
     return "Auth Logout";
   }
 
-  if ( connected == CON_CHATTING ) {
-    return "Chatting";
-  }
-
   if ( connected == CON_CHECK_AUTHORIZE ) {
     return "Checking Authorize System";
   }

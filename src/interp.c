@@ -185,7 +185,6 @@ struct cmd_type cmd_table [] = {
   { "class",           do_class,             POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "ooc",             do_ooc,               POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "guard",           do_guard,             POS_DEAD,     L_CON, LOG_NORMAL, TRUE    },
-  { "conference",      do_conference,        POS_DEAD,     L_IMP, LOG_ALWAYS, TRUE    },
   { "info",            do_info,              POS_DEAD,     L_DIR, LOG_ALWAYS, TRUE    },
   { "vent",            do_vent,              POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "clear_alias",     do_clear,             POS_DEAD,     0,     LOG_NORMAL, FALSE   },

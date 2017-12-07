@@ -298,7 +298,6 @@ struct  weather_data {
 #define CON_AUTHORIZE_NAME2      102
 #define CON_AUTHORIZE_NAME3      103
 #define CON_AUTHORIZE_LOGOUT     104
-#define CON_CHATTING             200
 
 /*
  * Descriptor (channel) structure.
@@ -2321,7 +2320,6 @@ DECLARE_DO_FUN( do_combat );
 DECLARE_DO_FUN( do_combine );
 DECLARE_DO_FUN( do_commands );
 DECLARE_DO_FUN( do_compare );
-DECLARE_DO_FUN( do_conference );
 DECLARE_DO_FUN( do_config );
 DECLARE_DO_FUN( do_consider );
 DECLARE_DO_FUN( do_countcommands );

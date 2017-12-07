@@ -436,8 +436,6 @@ void game_loop_unix( int control ) {
             if ( !run_olc_editor( d ) ) {
               interpret( d->character, d->incomm );
             }
-          } else if ( d->connected == CON_CHATTING ) {
-            chat_interp( d->character, d->incomm );
           } else {
             nanny( d, d->incomm );
           }
@@ -656,7 +654,7 @@ void close_socket( DESCRIPTOR_DATA * dclose ) {
     sprintf( log_buf, "Closing link to %s.", ( ch->name ? ch->name : "(unknown)" ) );
     log_string( log_buf, CHANNEL_LOG, -1 );
 
-    if ( ( dclose->connected == CON_PLAYING || dclose->connected == CON_CHATTING ) && ch->in_room ) {
+    if ( dclose->connected == CON_PLAYING && ch->in_room ) {
       if ( ch->name ) {
         act( AT_GREEN, "$n has lost $s link.", ch, NULL, NULL, TO_ROOM );
       } else {
@@ -983,8 +981,6 @@ bool process_output( DESCRIPTOR_DATA * d, bool fPrompt ) {
         write_to_buffer( d, go_ahead_str, 0 );
       }
     }
-  } else if ( d->connected == CON_CHATTING ) {
-    write_to_buffer( d, "&w: ", 0 );
   }
 
   /*
@@ -3128,8 +3124,7 @@ void do_hotreboot( CHAR_DATA * ch, char * argument ) {
     d_next = d->next;                                /* We delete from the list , so need to save this */
 
     if (    !d->character                            /* drop those logging on */
-            ||  ( d->connected != CON_PLAYING        /* check if they're playing */
-                  &&  d->connected != CON_CHATTING ) /* check if they're in the chat room */
+            ||  d->connected != CON_PLAYING          /* check if they're playing */
             ) {
       write_to_descriptor( "\n\rSorry, we are rebooting.  Try again in a minute.\n\r", 0, d );
       close_socket( d ); /* throw'em out */

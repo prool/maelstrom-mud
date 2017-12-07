@@ -1374,8 +1374,8 @@ void do_say( CHAR_DATA * ch, char * argument ) {
   }
 
   MOBtrigger = FALSE;
-  act( AT_LBLUE, "$n says '$T'", ch, NULL, argument, TO_ROOM );
-  act( AT_LBLUE, "You say '$T'", ch, NULL, argument, TO_CHAR );
+  act( AT_LBLUE, "$n says &C'$T&C'", ch, NULL, argument, TO_ROOM );
+  act( AT_LBLUE, "You say '$T&C'", ch, NULL, argument, TO_CHAR );
 
   /* Check if ch is asking newbie helper for help */
 

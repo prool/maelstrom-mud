@@ -84,7 +84,7 @@ const struct quest_data quest_table[ ] = {
 
 const struct quest_item_type quest_item_table[ ] = {
 //  name,          short,                         long
-  { "picture",     "&Wan ancient picture ",       "&WAn ancient picture of the &CRoyal Family&W lies here..."               },
+  { "picture",     "&Wan ancient picture",        "&WAn ancient picture of the &CRoyal Family&W lies here..."               },
   { "sword",       "&Wa sacred &Ysword",          "&WA hereditary &Ysword&W belonging to the &CRoyal Family&W lies here..." },
   { "gem",         "&Wa magical &pgem",           "&WA mysterious &pgem&W glittering faintly lies here..."                  },
   { "locket",      "&Wa &Rheart-shaped&W locket", "&WJekka's tiny &Rheart-shaped&W locket lies here..."                     },
@@ -535,11 +535,11 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
 
     questitem->name         = str_dup( item.name );
 
-    sprintf( buf, "%s &R[QUEST]", item.short_desc);
+    sprintf( buf, "%s &R[QUEST]&X", item.short_desc);
 
     questitem->short_descr  = str_dup( buf );
 
-    sprintf( buf, "%s &R[QUEST]", item.long_desc);
+    sprintf( buf, "%s &R[QUEST]&X", item.long_desc);
 
     questitem->description  = str_dup( buf );
 
@@ -552,7 +552,7 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
 
     if ( chance ( 50 ) ) {
       obj_to_room( questitem, room );
-      sprintf( buf, "Vile pilferers have stolen %s from the royal treasury!", victim->short_descr, questitem->short_descr );
+      sprintf( buf, "Vile pilferers have stolen %s from the royal treasury!", questitem->short_descr );
     } else {
       obj_to_char( questitem, victim );
       sprintf( buf, "An enemy of mine, %s, has stolen %s from the royal treasury!", victim->short_descr, questitem->short_descr );
@@ -561,7 +561,7 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
     do_say(questman, buf);
 
     do_say(questman, "My court wizardess, with her magic mirror, has pinpointed its location.");
-    sprintf(buf, "Look in the general area of %s...\n\r", room->area->name);
+    sprintf(buf, "Look in the general area of %s...", room->area->name);
     do_say(questman, buf);
     return;
   } else {

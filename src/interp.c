@@ -229,7 +229,6 @@ struct cmd_type cmd_table [] = {
   { "frosthand",       do_frosthand,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "chaoshand",       do_chaoshand,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "backstab",        do_backstab,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
-  { "bladepalm",       do_bladepalm,         POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "bs",              do_backstab,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "disarm",          do_disarm,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "flee",            do_flee,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },

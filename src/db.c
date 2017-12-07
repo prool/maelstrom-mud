@@ -157,7 +157,6 @@ int gsn_headbutt;
 int gsn_flamehand;
 int gsn_frosthand;
 int gsn_chaoshand;
-int gsn_bladepalm;
 int gsn_flykick;
 int gsn_blackbelt;
 int gsn_nerve;

@@ -1136,7 +1136,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "palm",
-    { L_APP,L_APP,L_APP },
+    { L_APP, 10, L_APP },
     spell_null,TAR_IGNORE,POS_RESTING,
     &gsn_palm,0,0,
     "","!palm","",FALSE,SLOT(0)
@@ -2640,13 +2640,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","Your hands stop flickering, and order overtakes the &Ychaos&w.",
     "$n's hands stop flickering, and order overtakes the &Ychaos&w.",
     FALSE,SLOT(110)
-  },
-  {
-    "bladepalm",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_bladepalm,0,18,
-    "blade palm","!Blade Palm!","",FALSE,SLOT(0)
   },
   {
     "flying kick",

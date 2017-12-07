@@ -301,22 +301,21 @@ void gain_condition( CHAR_DATA * ch, int iCond, int value ) {
   hploss = ( ch->level < 10 ) ? 1 : ( ch->level < 20 ) ? 2 : 3;
 
   if ( ch->pcdata->condition[ iCond ] == 0 ) {
-    switch ( iCond ) {
-      case COND_FULL:
-        send_to_char( AT_ORANGE, "You are hungry.\n\r", ch );
-        break;
+    // let's not spam them, only show when the condition drops to zero
+    if ( condition != 0 ) {
+      switch ( iCond ) {
+        case COND_FULL:
+          send_to_char( AT_ORANGE, "You are hungry.\n\r", ch );
+          break;
 
-      case COND_THIRST:
-        send_to_char( AT_BLUE, "You are thirsty.\n\r", ch );
-        break;
+        case COND_THIRST:
+          send_to_char( AT_BLUE, "You are thirsty.\n\r", ch );
+          break;
 
-      case COND_DRUNK:
-
-        if ( condition != 0 ) {
+        case COND_DRUNK:
           send_to_char( AT_BLUE, "You are sober.\n\r", ch );
-        }
-
-        break;
+          break;
+      }
     }
 
     if ( ( iCond != COND_DRUNK ) && ( ch->hit - hploss ) > 5 ) {

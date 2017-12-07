@@ -3040,12 +3040,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
                   : " -clan",
                   ch );
 
-    /*  if( ch->level > 2 )
-       send_to_char(AT_WHITE, !IS_SET( ch->deaf, CHANNEL_VENT )
-       ? " +VENT"
-       : " -vent",
-       ch );
-     */
     if ( IS_HERO( ch ) ) { /* XOR */
       send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_HERO )
                     ? " +HERO"
@@ -3185,7 +3179,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
     } else if ( !str_cmp( arg + 1, "clan" ) ) {
       bit = CHANNEL_CLAN;
     }
-    /*      else if ( !str_cmp( arg+1, "vent"     ) ) bit = CHANNEL_VENT;  */
     else if ( !str_cmp( arg + 1, "classmaster" ) ) {
       bit = CHANNEL_CLASS_MASTER;
     } else if ( !str_cmp( arg + 1, "clanmaster" ) ) {

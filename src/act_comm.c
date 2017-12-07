@@ -967,13 +967,6 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
       act( AT_PINK, buf, ch, argument, NULL, TO_CHAR );
       ch->position = position;
       break;
-    case CHANNEL_VENT:
-      sprintf( buf, "&R<VENT>&W $n: '$t'" );
-      position     = ch->position;
-      ch->position = POS_STANDING;
-      act( AT_BLUE, buf, ch, argument, NULL, TO_CHAR );
-      ch->position = position;
-      break;
   }
 
   for ( d = descriptor_list; d; d = d->next ) {
@@ -985,10 +978,6 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
 
     if ( d->connected == CON_PLAYING && vch != ch && !IS_SET( och->deaf, channel ) && !IS_SET( och->in_room->room_flags, ROOM_SILENT ) ) {
       if ( IS_QUESTOR( och ) && channel != CHANNEL_SHOUT && channel != CHANNEL_YELL ) {
-        continue;
-      }
-
-      if ( channel == CHANNEL_VENT && och->level < 3 ) {
         continue;
       }
 
@@ -1050,9 +1039,6 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
           break;
         case CHANNEL_OOC:
           act( AT_PINK, buf, ch, argument, vch, TO_VICT );
-          break;
-        case CHANNEL_VENT:
-          act( AT_WHITE, buf, ch, argument, vch, TO_VICT );
           break;
       }
 
@@ -1322,11 +1308,6 @@ void do_chat( CHAR_DATA * ch, char * argument ) {
 
 void do_ooc( CHAR_DATA * ch, char * argument ) {
   talk_channel( ch, argument, CHANNEL_OOC, "OOC" );
-  return;
-}
-
-void do_vent( CHAR_DATA * ch, char * argument ) {
-  talk_channel( ch, argument, CHANNEL_VENT, "VENT" );
   return;
 }
 

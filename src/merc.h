@@ -1373,7 +1373,6 @@ struct  kill_data {
 #define CHANNEL_CLAN_MASTER   2097152
 
 #define CHANNEL_IMC   4194304
-#define CHANNEL_VENT  8388608
 #define CHANNEL_ARENA 16777216
 
 /*
@@ -2533,7 +2532,6 @@ DECLARE_DO_FUN( do_up );
 DECLARE_DO_FUN( do_uppercut_punch );
 DECLARE_DO_FUN( do_users );
 DECLARE_DO_FUN( do_value );
-DECLARE_DO_FUN( do_vent );
 DECLARE_DO_FUN( do_visible );
 DECLARE_DO_FUN( do_voodo );
 DECLARE_DO_FUN( do_vused );

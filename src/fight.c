@@ -1761,23 +1761,24 @@ bool is_wielding_chaos( CHAR_DATA * ch ) {
 bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim ) {
   int chance;
 
-  if ( !IS_AWAKE( victim ) ) {
+  if ( !IS_AWAKE( ch ) ) {
     return FALSE;
   }
 
-  if ( IS_NPC( victim ) ) {
-    /* Tuan was here.  :) */
-    chance = UMIN( 60, 2 * victim->level );
+  // can't parry without a weapon
+  if ( !get_eq_char( ch, WEAR_WIELD ) ) {
+    return FALSE;
+  }
 
-    if ( !get_eq_char( victim, WEAR_WIELD ) ) {
-      chance = chance / 2;
-    }
+  // can't really accidentally parry, gotta learn how first
+  if ( ch->pcdata->learned[ gsn_parry ] <= 0 ) {
+    return FALSE;
+  }
+
+  if ( IS_NPC( ch ) ) {
+    chance = UMIN( 60, 2 * ch->level );
   } else {
-    if ( !get_eq_char( victim, WEAR_WIELD ) ) {
-      return FALSE;
-    }
-
-    chance = victim->pcdata->learned[ gsn_parry ] / 2;
+    chance = ch->pcdata->learned[ gsn_parry ] / 2;
   }
 
   if ( ch->wait != 0 ) {
@@ -1805,18 +1806,18 @@ bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim ) {
  * Check for dodge.
  */
 bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim ) {
-  int chance;
+  int  chance;
+  int  adept;
 
-  if ( !IS_AWAKE( victim ) ) {
+  if ( !IS_AWAKE( ch ) ) {
     return FALSE;
   }
 
-  if ( IS_NPC( victim ) ) {
-    /* Tuan was here.  :) */
-    chance = UMIN( 60, 2 * victim->level );
+  if ( IS_NPC( ch ) ) {
+    chance = UMIN( 60, 2 * ch->level );
   } else {
-    chance = victim->pcdata->learned[ gsn_dodge ] / 2
-             + victim->pcdata->learned[ gsn_dodge_two ] / 2;
+    // always a miniscule chance of dodging, at least through sheer dumb luck
+    chance = UMAX(2, ch->pcdata->learned[ gsn_dodge ] / 2) + ( ch->pcdata->learned[ gsn_dodge_two ] / 2 );
   }
 
   if ( ch->wait != 0 ) {
@@ -1828,7 +1829,11 @@ bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim ) {
   }
 
   update_skpell( ch, gsn_dodge );
-  update_skpell( ch, gsn_dodge_two );
+
+  // enhanced dodge is a trained skill
+  if ( ch->pcdata->learned[ gsn_dodge_two ] >= 0 ) {
+    update_skpell( ch, gsn_dodge_two );
+  }
 
   if ( IS_SET( ch->act, PLR_COMBAT ) ) {
     act( AT_GREEN, "$N dodges your attack.", ch, NULL, victim, TO_CHAR );

@@ -137,7 +137,6 @@ int blood_count( OBJ_DATA * list, int amount ) {
 }
 
 void update_skpell( CHAR_DATA * ch, int sn ) {
-
   int  xp = 0;
   char buf[ MAX_STRING_LENGTH ];
   int  adept;
@@ -146,7 +145,7 @@ void update_skpell( CHAR_DATA * ch, int sn ) {
     return;
   }
 
-  adept = IS_NPC( ch ) ? 100 : class_table[ prime_class( ch ) ].skill_adept;
+  adept = class_table[ prime_class( ch ) ].skill_adept;
 
   if ( ch->pcdata->learned[ sn ] >= adept ) {
     return;

@@ -921,28 +921,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       }
     }
 
-    if ( !IS_NPC( ch )
-         && ( dt == 1014 || dt == 1015 )
-         && ch->pcdata->learned[ gsn_anatomyknow ] > 0
-         && number_percent() <= ch->pcdata->learned[ gsn_anatomyknow ] / 9 ) {
-      update_skpell( ch, gsn_anatomyknow );
-      send_to_char( AT_RED, "You hit a pressure point!\n\r", ch );
-      act( AT_RED, "$n hit one of $N's pressure points!",
-           ch, NULL, victim, TO_NOTVICT );
-      act( AT_RED, "$n hit you with a precise shot.",
-           ch, NULL, victim, TO_VICT );
-
-      if ( number_percent() < 2 ) {
-        victim->hit = 1;
-      } else if ( number_percent() < 10 ) {
-        STUN_CHAR( victim, 2, STUN_TOTAL );
-        victim->position = POS_STUNNED;
-        dam             *= 4;
-      } else {
-        dam += 500;
-      }
-    }
-
     if ( IS_AFFECTED( victim, AFF_SANCTUARY ) ) {
       dam /= 2;
     }
@@ -1807,7 +1785,6 @@ bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim ) {
  */
 bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim ) {
   int  chance;
-  int  adept;
 
   if ( !IS_AWAKE( ch ) ) {
     return FALSE;
@@ -5164,28 +5141,6 @@ void do_bladepalm( CHAR_DATA * ch, char * argument ) {
   WAIT_STATE( ch, skill_table[ gsn_bladepalm ].beats );
 
   if ( ch->pcdata->learned[ gsn_bladepalm ] > number_percent() ) {
-    int anatomy = ch->pcdata->learned[ gsn_anatomyknow ];
-
-    if ( anatomy > 0
-         && number_percent() < number_range( anatomy / 9, anatomy / 4.5 ) ) {
-      update_skpell( ch, gsn_anatomyknow );
-      send_to_char( AT_RED, "You hit a pressure point!\n\r", ch );
-      act( AT_RED, "$n hit one of $N's pressure points!",
-           ch, NULL, victim, TO_NOTVICT );
-      act( AT_RED, "$n hit you with a precise shot.",
-           ch, NULL, victim, TO_VICT );
-
-      if ( number_percent() < 5 ) {
-        victim->hit = 1;
-      } else if ( number_percent() < 25 ) {
-        STUN_CHAR( victim, 3, STUN_TOTAL );
-        victim->position = POS_STUNNED;
-        dam             += 500;
-      } else {
-        dam += 300;
-      }
-    }
-
     dam += number_fuzzy( ch->level / 2 + ch->level / 15 );
     dam += GET_DAMROLL( ch );
 

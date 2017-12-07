@@ -159,7 +159,6 @@ int gsn_frosthand;
 int gsn_chaoshand;
 int gsn_bladepalm;
 int gsn_flykick;
-int gsn_anatomyknow;
 int gsn_blackbelt;
 int gsn_nerve;
 int gsn_ironfist;

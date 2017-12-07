@@ -1292,7 +1292,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "parry",
-    { L_APP,L_APP,L_APP },
+    { L_APP, L_APP, 10 },
     spell_null,TAR_IGNORE,POS_FIGHTING,
     &gsn_parry,0,0,
     "","!Parry!","",FALSE,SLOT(0)
@@ -2656,13 +2656,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "flying kick","!Flying Kick!","",FALSE,SLOT(0)
   },
   {
-    "anatomy knowledge",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_STANDING,
-    &gsn_anatomyknow,0,0,
-    "","!Anatomy Knowledge!","",FALSE,SLOT(0)
-  },
-  {
     "blackbelt",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,
@@ -2776,7 +2769,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
   {
     "enhanced dodge",
-    { L_APP,L_APP,L_APP },
+    { L_APP, L_APP, 20 },
     spell_null,TAR_IGNORE,POS_FIGHTING,
     &gsn_dodge_two,0,0,
     "","","",FALSE,SLOT(0)

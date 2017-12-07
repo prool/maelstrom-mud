@@ -2035,7 +2035,6 @@ extern int gsn_frosthand;
 extern int gsn_chaoshand;
 extern int gsn_bladepalm;
 extern int gsn_flykick;
-extern int gsn_anatomyknow;
 extern int gsn_blackbelt;
 extern int gsn_nerve;
 extern int gsn_ironfist;

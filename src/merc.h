@@ -2017,7 +2017,6 @@ extern int gsn_headbutt;
 extern int gsn_flykick;
 extern int gsn_blackbelt;
 extern int gsn_nerve;
-extern int gsn_globedark;
 extern int gsn_enhanced_three;
 extern int gsn_retreat;
 extern int gsn_escape;

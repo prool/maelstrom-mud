@@ -2090,10 +2090,6 @@ bool can_see( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return TRUE;
   }
 
-  if ( is_raffected( ch->in_room, gsn_globedark ) ) {
-    return FALSE;
-  }
-
   if ( IS_AFFECTED( ch, AFF_BLIND ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) ) {
     return FALSE;
   }
@@ -2135,10 +2131,6 @@ bool can_see_obj( CHAR_DATA * ch, OBJ_DATA * obj ) {
 
   if ( IS_AFFECTED( ch, AFF_BLIND )
        && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) ) {
-    return FALSE;
-  }
-
-  if ( is_raffected( ch->in_room, gsn_globedark ) ) {
     return FALSE;
   }
 

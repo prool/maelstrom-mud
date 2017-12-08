@@ -141,7 +141,6 @@ int gsn_headbutt;
 int gsn_flykick;
 int gsn_blackbelt;
 int gsn_nerve;
-int gsn_globedark;
 int gsn_enhanced_three;
 int gsn_retreat;
 int gsn_escape;

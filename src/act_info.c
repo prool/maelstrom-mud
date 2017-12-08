@@ -907,11 +907,6 @@ void do_look( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( is_raffected( ch->in_room, gsn_globedark ) && !IS_SET( ch->act, PLR_HOLYLIGHT ) ) {
-    send_to_char( AT_DGREY, "It's completely and utterly black!\n\r", ch );
-    return;
-  }
-
   if ( !check_blind( ch ) ) {
     return;
   }

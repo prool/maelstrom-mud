@@ -2318,15 +2318,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","Your chi shield dissipates.",
     "The chi shield surrounding $n dissipates.",FALSE,SLOT(113)
   },
-  {
-    "Globe of Darkness",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_globedark,50,0,
-    "&zYou raise your hand and the globe dissipates.",
-    "You are no longer able to sustain your &zglobe &cin &w:&W",
-    "The globe of darkness about $n dissipates.",TRUE,SLOT(0)
-  },
 
   {
     "enhanced damage three",

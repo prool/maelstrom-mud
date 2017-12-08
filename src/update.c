@@ -1117,11 +1117,6 @@ void char_update( void ) {
       }
     }
 
-    if ( is_affected( ch, gsn_drowfire ) ) {
-      send_to_char( AT_RED, "The drow fire burns your skin.\n\r", ch );
-      damage( ch, ch, 25, gsn_drowfire );
-    }
-
     if ( IS_AFFECTED( ch, AFF_FLAMING ) ) {
       send_to_char( AT_RED, "Your skin blisters and burns.\n\r", ch );
       act( AT_RED, "$n's body blisters and burns as it is licked in flames.", ch, NULL, NULL, TO_ROOM );

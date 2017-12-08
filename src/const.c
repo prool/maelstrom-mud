@@ -1043,7 +1043,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "word of recall",
-    { L_APP,L_APP,L_APP },
+    { 25, L_APP, L_APP },
     spell_word_of_recall,TAR_CHAR_SELF,POS_RESTING,
     NULL,5,12,
     "","!Word of Recall!","",FALSE,SLOT(0)
@@ -2327,16 +2327,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "You are no longer able to sustain your &zglobe &cin &w:&W",
     "The globe of darkness about $n dissipates.",TRUE,SLOT(0)
   },
-  {
-    "drow fire",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_drowfire,0,12,
-    "drow fire",
-    "The purple aura around you fades away.",
-    "$n's outline fades away.",
-    TRUE,SLOT(0)
-  },
 
   {
     "enhanced damage three",
@@ -2348,9 +2338,17 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "retreat",
-    { L_APP,L_APP,L_APP },
+    { L_APP, L_APP, 25 },
     spell_null,TAR_IGNORE,POS_FIGHTING,
     &gsn_retreat,0,0,
+    "","!Run Away:P!","",FALSE,SLOT(0)
+  },
+
+  {
+    "escape",
+    { L_APP, 25, L_APP },
+    spell_null,TAR_IGNORE,POS_FIGHTING,
+    &gsn_escape,0,0,
     "","!Run Away:P!","",FALSE,SLOT(0)
   },
 
@@ -2375,6 +2373,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     &gsn_blindfight,0,0,
     "","","",FALSE,SLOT(0)
   },
+
   {
     "enhanced dodge",
     { L_APP, L_APP, 20 },

@@ -4140,7 +4140,7 @@ void do_rage( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !can_use_skpell( ch, gsn_rage || (!IS_NPC( ch ) && ch->pcdata->learned[ gsn_rage ] < number_percent()) ) {
+  if ( !can_use_skpell( ch, gsn_rage ) || (!IS_NPC( ch ) && ch->pcdata->learned[ gsn_rage ] < number_percent()) ) {
     send_to_char( C_DEFAULT, "You cannot summon enough anger.\n\r", ch );
     return;
   }

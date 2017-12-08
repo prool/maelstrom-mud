@@ -374,10 +374,6 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     strcat( buf, "(Pink Aura) " );
   }
 
-  if ( is_affected( victim, gsn_drowfire ) ) {
-    strcat( buf, "&p(Purple Aura)&X " );
-  }
-
   if ( IS_EVIL( victim ) && IS_AFFECTED( ch, AFF_DETECT_EVIL ) ) {
     strcat( buf, "&r(Red Aura)&X " );
   }

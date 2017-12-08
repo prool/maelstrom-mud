@@ -1998,19 +1998,89 @@ void do_retreat( CHAR_DATA * ch, char * argument ) {
   const char      * sdir;
   char              buf[ MAX_INPUT_LENGTH ];
 
-  if ( !can_use_skpell( ch, gsn_retreat )
-       || IS_NPC( ch ) ) {
-    send_to_char( AT_GREY, "Huh?\n\r", ch );
-    return;
-  }
-
   if ( !ch->fighting ) {
     send_to_char( AT_GREY, "Retreat from what? You're not even fighting!\n\r", ch );
     return;
   }
 
+  // don't know how to do a tactical retreat, so just flee
+  if ( !can_use_skpell( ch, gsn_retreat ) || IS_NPC( ch ) ) {
+    do_flee( ch, "" );
+    return;
+  }
+
+  if ( IS_AFFECTED( ch, AFF_ANTI_FLEE ) ) {
+    send_to_char( AT_WHITE, "You can't move, how do you expect to retreat?\n\r", ch );
+    return;
+  }
+
   if ( argument[ 0 ] == '\0' ) {
-    send_to_char( AT_GREY, "You're retreating, not fleeing!  Provide a direction!\n\r", ch );
+    send_to_char( AT_GREY, "You're retreating, not fleeing! Provide a direction!\n\r", ch );
+    return;
+  }
+
+  send_to_char( AT_DGREY, "You wait for your moment and...\n\r", ch );
+
+  if ( number_percent() < ch->pcdata->learned[ gsn_retreat ] ) {
+    update_skpell( ch, gsn_retreat );
+
+    if ( ( dir = get_direction( argument ) ) == -1 ) {
+      dir = number_door();
+    }
+
+    sdir    = direction_table[ dir ].navigation;
+    in_room = ch->in_room;
+
+    if ( !( pexit = in_room->exit[ dir ] ) || !pexit->to_room ) {
+      send_to_char( AT_GREY, "Wham! Ouch! Retreated straight into a wall!\n\r", ch );
+      STUN_CHAR( ch, 1, STUN_TOTAL );
+      ch->position = POS_STUNNED;
+      return;
+    } else if ( IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+      sprintf( buf, "Wham! Ouch! Retreated straight into the closed %s.\n\r", pexit->keyword );
+      send_to_char( AT_GREY, buf, ch );
+      STUN_CHAR( ch, 1, STUN_TOTAL );
+      ch->position = POS_STUNNED;
+      return;
+    } else {
+      sprintf( buf, "You find an opening and safely retreat %s.\n\r", sdir );
+      send_to_char( AT_DGREY, buf, ch );
+      move_char( ch, dir, FALSE );
+      return;
+    }
+  } else {
+    send_to_char( AT_GREY, "You were unable to find an opening to safely retreat!", ch );
+    WAIT_STATE( ch, skill_table[ gsn_retreat ].beats );
+    return;
+  }
+}
+
+void do_escape( CHAR_DATA * ch, char * argument ) {
+  OBJ_DATA        * smokebomb;
+  ROOM_INDEX_DATA * in_room;
+  EXIT_DATA       * pexit;
+  int               dir;
+  const char      * sdir;
+  char              buf[ MAX_INPUT_LENGTH ];
+
+  if ( !ch->fighting ) {
+    send_to_char( AT_GREY, "Escape from what? You're not even fighting!\n\r", ch );
+    return;
+  }
+
+  // don't know how to do a coordinated escape, so just flee
+  if ( !can_use_skpell( ch, gsn_escape ) || IS_NPC( ch ) ) {
+    do_flee( ch, "" );
+    return;
+  }
+
+  if ( IS_AFFECTED( ch, AFF_ANTI_FLEE ) ) {
+    send_to_char( AT_WHITE, "You can't move, how do you expect to escape?\n\r", ch );
+    return;
+  }
+
+  if ( argument[ 0 ] == '\0' ) {
+    send_to_char( AT_GREY, "You're escaping, not fleeing! Provide a direction!\n\r", ch );
     return;
   }
 
@@ -2021,21 +2091,15 @@ void do_retreat( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !smokebomb ) {
-    send_to_char( AT_GREY, "You need a smoke bomb to retreat!\n\r", ch );
-    return;
-  }
-
-  if ( IS_AFFECTED( ch, AFF_ANTI_FLEE ) ) {
-    send_to_char( AT_WHITE, "You can't move, how do you expect to retreat?\n\r", ch );
+    send_to_char( AT_GREY, "You need a smoke bomb to escape!\n\r", ch );
     return;
   }
 
   send_to_char( AT_DGREY, "You throw your smoke bomb to the ground and...\n\r", ch );
-  act( AT_DGREY, "$n throws $s smokebomb to the ground and...", ch, NULL,
-       NULL, TO_ROOM );
+  act( AT_DGREY, "$n throws $s smokebomb to the ground and...", ch, NULL, NULL, TO_ROOM );
 
-  if ( number_percent() < ch->pcdata->learned[ gsn_retreat ] ) {
-    update_skpell( ch, gsn_retreat );
+  if ( number_percent() < ch->pcdata->learned[ gsn_escape ] ) {
+    update_skpell( ch, gsn_escape );
     extract_obj( smokebomb );
 
     if ( ( dir = get_direction( argument ) ) == -1 ) {
@@ -2045,26 +2109,22 @@ void do_retreat( CHAR_DATA * ch, char * argument ) {
     sdir    = direction_table[ dir ].name;
     in_room = ch->in_room;
 
-    if ( !( pexit = in_room->exit[ dir ] )
-         || !pexit->to_room ) {
-      send_to_char( AT_GREY, "Wham!  Ouch! Retreated straight into a wall!\n\r", ch );
+    if ( !( pexit = in_room->exit[ dir ] ) || !pexit->to_room ) {
+      send_to_char( AT_GREY, "Wham! Ouch! Escaped straight into a wall!\n\r", ch );
       STUN_CHAR( ch, 1, STUN_TOTAL );
       ch->position = POS_STUNNED;
       return;
     } else {
       if ( IS_SET( pexit->exit_info, EX_CLOSED ) ) {
-        sprintf( buf, "Wham!  Ouch!  Retreated straight into the closed %s.\n\r",
-                 pexit->keyword );
+        sprintf( buf, "Wham! Ouch! Escaped straight into the closed %s.\n\r", pexit->keyword );
         send_to_char( AT_GREY, buf, ch );
         STUN_CHAR( ch, 1, STUN_TOTAL );
         ch->position = POS_STUNNED;
         return;
       } else {
-        sprintf( buf, "You retreat %s before the smoke clears.\n\r", sdir );
+        sprintf( buf, "You escape %s before the smoke clears.\n\r", sdir );
         send_to_char( AT_DGREY, buf, ch );
-        act( AT_DGREY,
-             "Smoke rises from the bomb... when it clears, $n is gone!",
-             ch, NULL, NULL, TO_ROOM );
+        act( AT_DGREY, "Smoke rises from the bomb... when it clears, $n is gone!", ch, NULL, NULL, TO_ROOM );
         move_char( ch, dir, FALSE );
         return;
       }
@@ -2074,7 +2134,7 @@ void do_retreat( CHAR_DATA * ch, char * argument ) {
     obj_to_room( smokebomb, ch->in_room );
     send_to_char( AT_GREY, "The bomb failed to explode!", ch );
     act( AT_GREY, "$n's smokebomb duds.", ch, NULL, NULL, TO_ROOM );
-    WAIT_STATE( ch, skill_table[ gsn_retreat ].beats );
+    WAIT_STATE( ch, skill_table[ gsn_escape ].beats );
     return;
   }
 }

@@ -6539,29 +6539,6 @@ void spell_iron_skin( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_chi_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  AFFECT_DATA af;
-
-  if ( is_affected( ch, sn ) ) {
-    return;
-  }
-
-  send_to_char( AT_BLUE, "You tap into your chi and use it to raise a chi shield.\n\r", ch );
-  act( AT_BLUE, "$n is surrounded by a chi shield.", ch, NULL, NULL, TO_ROOM );
-  af.type      = sn;
-  af.level     = ch->level * 2;
-  af.duration  = ch->level / 4;
-  af.location  = APPLY_SAVING_SPELL;
-  af.modifier  = 0 - ch->level / 4;
-  af.bitvector = AFF_PROTECT;
-  affect_to_char( ch, &af );
-  af.location  = APPLY_SAVING_BREATH;
-  af.modifier  = 0 - ch->level / 4;
-  af.bitvector = AFF_PROTECTION_GOOD;
-  affect_to_char2( ch, &af );
-  return;
-}
-
 /* Adds + dam to spells for having spellcraft skill */
 int sc_dam( CHAR_DATA * ch, int dam ) {
   double mod;

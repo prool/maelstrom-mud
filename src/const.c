@@ -2280,13 +2280,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "flying kick","!Flying Kick!","",FALSE,SLOT(0)
   },
   {
-    "blackbelt",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_blackbelt,0,0,
-    "","!Blackbelt!","",FALSE,SLOT(0)
-  },
-  {
     "nerve",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -2310,15 +2303,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "Your skin returns to normal.",
     "$n's skin returns to its normal texture.",TRUE,SLOT(112)
   },
-  {
-    "chi shield",
-    { L_APP,L_APP,L_APP },
-    spell_chi_shield,TAR_CHAR_SELF,POS_STANDING,
-    NULL,75,12,
-    "","Your chi shield dissipates.",
-    "The chi shield surrounding $n dissipates.",FALSE,SLOT(113)
-  },
-
   {
     "enhanced damage three",
     { L_APP,L_APP,L_APP },

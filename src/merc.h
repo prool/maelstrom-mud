@@ -2015,7 +2015,6 @@ extern int gsn_frenzy;
 extern int gsn_reflex;
 extern int gsn_headbutt;
 extern int gsn_flykick;
-extern int gsn_blackbelt;
 extern int gsn_nerve;
 extern int gsn_enhanced_three;
 extern int gsn_retreat;
@@ -2744,7 +2743,6 @@ DECLARE_SPELL_FUN( spell_dark_ritual );
 DECLARE_SPELL_FUN( spell_field_of_decay );
 DECLARE_SPELL_FUN( spell_stench_of_decay );
 DECLARE_SPELL_FUN( spell_iron_skin );
-DECLARE_SPELL_FUN( spell_chi_shield );
 DECLARE_SPELL_FUN( spell_soul_bind );
 
 char *  crypt( const char * key, const char * salt );

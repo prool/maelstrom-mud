@@ -207,7 +207,7 @@ mpechoat $n &wThe temperature changes drastically as a piercing chill floods the
 endif
 ~
 >rand_prog 30~
-cast 'chi shield'
+cast 'armor'
 ~
 >fight_prog 10~
 mpecho &BYou feel a piercing chill briefly.

@@ -2501,7 +2501,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "scrolls",
-    { L_APP,L_APP,L_APP },
+    { 1, 1, 1 },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_scrolls,0,0,
     "&Wfailure","!Scrolls!","",FALSE,SLOT(0)
@@ -2509,7 +2509,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "wands",
-    { L_APP,L_APP,L_APP },
+    { 1, L_APP, L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_wands,0,0,
     "&Wfailure","!Wands!","",FALSE,SLOT(0)
@@ -2517,7 +2517,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
 
   {
     "staves",
-    { L_APP,L_APP,L_APP },
+    { 5, L_APP, L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_staves,0,0,
     "&Wfailure","!Staves!","",FALSE,SLOT(0)
@@ -2531,7 +2531,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
   {
     "lure",
-    { L_APP,L_APP,L_APP },
+    { L_APP, 25, L_APP },
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     &gsn_lure,0,32,"","!lure!",FALSE,SLOT(0)
   },

@@ -4756,10 +4756,8 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim;
   char        arg[ MAX_INPUT_LENGTH ];
 
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_lure ) ) {
-    send_to_char( C_DEFAULT,
-                  "You cannot lure.\n\r", ch );
+  if ( !IS_NPC( ch ) && !can_use_skpell( ch, gsn_lure ) ) {
+    send_to_char( C_DEFAULT, "You cannot lure.\n\r", ch );
     return;
   }
 
@@ -4768,29 +4766,16 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  /*    if ( !( obj = get_eq_char( ch, WEAR_WIELD ) )
-  || ( obj->value[3] != 11 && obj->value[3] != 2 ) )
-      {
-      send_to_char(C_DEFAULT, "You need to wield a piercing or stabbing
-      weapon.\n\r", c$
-      return;
-      } */
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0
-       && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
-    if ( !check_blind( ch ) ) {
-      return;
-    }
+  if ( !IS_NPC( ch ) && !check_blind( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0 && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
+    return;
   }
 
   one_argument( argument, arg );
   victim = ch->fighting;
 
-  if ( arg[ 0 ] != '\0' ) {
-    if ( !( victim = get_char_room( ch, arg ) ) ) {
-      send_to_char( C_DEFAULT, "They aren't here.\n\r", ch );
-      return;
-    }
+  if ( arg[ 0 ] != '\0' && !( victim = get_char_room( ch, arg ) ) ) {
+    send_to_char( C_DEFAULT, "They aren't here.\n\r", ch );
+    return;
   }
 
   dt = TYPE_UNDEFINED;
@@ -4799,8 +4784,9 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
 
   if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_lure ] ) {
     act( AT_WHITE, "$n lures $N into a vulnerable position.", ch, NULL, victim, TO_ROOM );
-    send_to_char( AT_WHITE, "Your oppenet has lured you into a vulnerable position.\n\r", victim );
+    send_to_char( AT_WHITE, "Your opponent has lured you into a vulnerable position.\n\r", victim );
     send_to_char( AT_WHITE, "You lure your opponent into a vulnerable position.\n\r", ch );
+
     one_hit( ch, victim, dt, FALSE );
 
     if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
@@ -4818,7 +4804,6 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
     /* put more reasons to attack here */
 
     one_hit( ch, victim, dt, TRUE );
-
   }
 
   update_skpell( ch, gsn_lure );

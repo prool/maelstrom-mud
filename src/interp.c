@@ -127,7 +127,6 @@ struct cmd_type cmd_table [] = {
   { "read",            do_look,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "scan",            do_scan,              POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "score",           do_score,             POS_DEAD,     0,     LOG_NORMAL, TRUE    },
-  { "scent",           do_scent,             POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "slist",           do_slist,             POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "socials",         do_socials,           POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "time",            do_time,              POS_DEAD,     0,     LOG_NORMAL, TRUE    },
@@ -225,9 +224,6 @@ struct cmd_type cmd_table [] = {
   { "antidote",        do_antidote,          POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "scribe",          do_scribe,            POS_RESTING,  0,     LOG_ALWAYS, TRUE    },
   { "gravebind",       do_gravebind,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
-  { "flamehand",       do_flamehand,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
-  { "frosthand",       do_frosthand,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
-  { "chaoshand",       do_chaoshand,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "backstab",        do_backstab,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "bs",              do_backstab,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "disarm",          do_disarm,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
@@ -254,26 +250,21 @@ struct cmd_type cmd_table [] = {
   { "drain life",      do_drain_life,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "mental drain",    do_mental_drain,      POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "shriek",          do_shriek,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "snatch",          do_snatch,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "stun",            do_stun,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "berserk",         do_berserk,           POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "soulstrike",      do_soulstrike,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "multiburst",      do_multiburst,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "bite",            do_bite,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "frenzy",          do_frenzy,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "account",         do_account,           POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "adrenaline rush", do_rush,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "afk",             do_afk,               POS_DEAD,     0,     LOG_NORMAL, FALSE   },
   { "afkmes",          do_afkmes,            POS_DEAD,     0,     LOG_NORMAL, FALSE   },
   { "bash door",       do_bash,              POS_STANDING, 0,     LOG_NORMAL, TRUE    },
-  { "chameleon power", do_chameleon,         POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "follow",          do_follow,            POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "group",           do_group,             POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
   { "heighten senses", do_heighten,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "enhance reflexes", do_reflex,           POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "hide",            do_hide,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "iron grip",       do_irongrip,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
-  { "ironfist",        do_ironfist,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "poison weapon",   do_poison_weapon,     POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
   { "practice",        do_practice,          POS_SLEEPING, 0,     LOG_NORMAL, FALSE   },
   { "qui",             do_qui,               POS_DEAD,     0,     LOG_NORMAL, FALSE   },
@@ -281,7 +272,6 @@ struct cmd_type cmd_table [] = {
   { "rage",            do_rage,              POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "remote",          do_remote,            POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "save",            do_save,              POS_DEAD,     1,     LOG_NORMAL, FALSE   },
-  { "shadow",          do_shadow_walk,       POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "sleep",           do_sleep,             POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
   { "sneak",           do_sneak,             POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "spells",          do_spells,            POS_SLEEPING, L_IMP, LOG_NORMAL, TRUE    },
@@ -404,7 +394,6 @@ struct cmd_type cmd_table [] = {
   { "return",          do_return,            POS_DEAD,     L_DIR, LOG_NORMAL, TRUE    },
   { "gouge",           do_gouge,             POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "circle",          do_circle,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "rake",            do_rake,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "transport",       do_transport,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "aedit",           do_aedit,             POS_DEAD,     L_IMP, LOG_BUILD,  TRUE    },
   { "cedit",           do_cedit,             POS_DEAD,     L_CON, LOG_BUILD,  TRUE    },
@@ -517,7 +506,6 @@ void interpret( CHAR_DATA * ch, char * argument ) {
   if ( IS_AFFECTED( ch, AFF_HIDE ) ) {
     // things you can do while hiding
     if ( str_cmp( cmd_table[ cmd ].name, "pick" ) &&
-         str_cmp( cmd_table[ cmd ].name, "chameleon power" ) &&
          str_cmp( cmd_table[ cmd ].name, "save" ) &&
          str_cmp( cmd_table[ cmd ].name, "visible" ) &&
          str_cmp( cmd_table[ cmd ].name, "inventory" ) &&
@@ -539,22 +527,11 @@ void interpret( CHAR_DATA * ch, char * argument ) {
          str_cmp( cmd_table[ cmd ].name, "score" ) ) {
       // if you are sneaking you can move while hiding
       if ( IS_AFFECTED( ch, AFF_SNEAK ) ) {
-        // check and see if they are chameleon and remove it if they are trying to move
-        if ( is_affected( ch, gsn_chameleon ) ) {
-          send_to_char( AT_BLUE, "You return to your normal coloration.\n\r", ch );
-          affect_strip( ch, gsn_chameleon );
-        }
-
         // if they aren't hidding remove the hide bit
         if ( !is_affected( ch, gsn_hide ) ) {
           REMOVE_BIT( ch->affected_by, AFF_HIDE );
         }
       } else {
-        if ( is_affected( ch, gsn_chameleon ) ) {
-          send_to_char( AT_BLUE, "You return to your normal coloration.\n\r", ch );
-          affect_strip( ch, gsn_chameleon );
-        }
-
         if ( is_affected( ch, gsn_hide ) ) {
           send_to_char( AT_BLUE, "You stop hiding.\n\r", ch );
           affect_strip( ch, gsn_hide );

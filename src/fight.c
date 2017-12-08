@@ -409,18 +409,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
     dam += dam / 8;
   }
 
-  if ( ( wield && IS_SET( wield->extra_flags, ITEM_FLAME ) ) || ( !wield && is_affected( ch, gsn_flamehand ) ) ) {
-    dam += dam / 8;
-  }
-
-  if ( ( wield && IS_SET( wield->extra_flags, ITEM_CHAOS ) ) || ( !wield && is_affected( ch, gsn_chaoshand ) ) ) {
-    dam += dam / 4;
-  }
-
-  if ( ( wield && IS_SET( wield->extra_flags, ITEM_ICY ) ) || ( !wield && is_affected( ch, gsn_frosthand ) ) ) {
-    dam += dam / 8;
-  }
-
   if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_damage ] > 0 ) {
     dam += dam * ch->pcdata->learned[ gsn_enhanced_damage ] / 150;
     update_skpell( ch, gsn_enhanced_damage );
@@ -721,13 +709,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
     return;
   }
 
-  if ( dam > 0 && ( dt == 1014 || dt == 1015  )
-       && is_affected( ch, gsn_flamehand )
-       && number_percent() < 33 ) {
-    spell_burning_hands( skill_lookup( "burning hands" ),
-                         ch->level, ch, victim );
-  }
-
   if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
     return;
   }
@@ -742,13 +723,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
     return;
   }
 
-  if ( dam > 0 && ( dt == 1014 || dt == 1015 )
-       && is_affected( ch, gsn_frosthand )
-       && number_percent() < 20 ) {
-    spell_chill_touch( skill_lookup( "chill touch" ), ch->level * 3,
-                       ch, victim );
-  }
-
   if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
     return;
   }
@@ -761,13 +735,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
 
   if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
     return;
-  }
-
-  if ( dam > 0 && ( dt == 1014 || dt == 1015  )
-       && is_affected( ch, gsn_chaoshand )
-       && number_percent() < 10 ) {
-    spell_energy_drain( skill_lookup( "energy drain" ),
-                        ch->level * 1.5, ch, victim );
   }
 
   if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
@@ -2476,7 +2443,7 @@ void do_backstab( CHAR_DATA * ch, char * argument ) {
   if ( !IS_NPC( ch )
        && !can_use_skpell( ch, gsn_backstab ) ) {
     send_to_char( C_DEFAULT,
-                  "You better leave the assassin trade to thieves.\n\r", ch );
+                  "You better leave the assassin trade to rogues.\n\r", ch );
     return;
   }
 
@@ -2721,7 +2688,7 @@ void do_gouge( CHAR_DATA * ch, char * argument ) {
   if ( !IS_NPC( ch )
        && !can_use_skpell( ch, gsn_gouge ) ) {
     send_to_char( C_DEFAULT,
-                  "You'd better leave the martial arts to thieves.\n\r", ch );
+                  "You'd better leave the dirty tricks to rogues.\n\r", ch );
     return;
   }
 
@@ -2779,10 +2746,8 @@ void do_circle( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim;
   char        arg[ MAX_INPUT_LENGTH ];
 
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_circle ) ) {
-    send_to_char( C_DEFAULT,
-                  "You'd better leave the martial arts to thieves.\n\r", ch );
+  if ( !IS_NPC( ch ) && !can_use_skpell( ch, gsn_circle ) ) {
+    send_to_char( C_DEFAULT, "You'd better leave the dirty tricks to rogues.\n\r", ch );
     return;
   }
 
@@ -2791,14 +2756,12 @@ void do_circle( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !( obj = get_eq_char( ch, WEAR_WIELD ) )
-       || ( obj->value[ 3 ] != 11 && obj->value[ 3 ] != 2 ) ) {
+  if ( !( obj = get_eq_char( ch, WEAR_WIELD ) ) || ( obj->value[ 3 ] != 11 && obj->value[ 3 ] != 2 ) ) {
     send_to_char( C_DEFAULT, "You need to wield a piercing or stabbing weapon.\n\r", ch );
     return;
   }
 
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0
-       && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
+  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0 && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
     if ( !check_blind( ch ) ) {
       return;
     }
@@ -4058,54 +4021,6 @@ void do_berserk( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_soulstrike( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * victim = ch->fighting;
-  int         dam;
-
-  if ( !victim ) {
-    send_to_char( AT_WHITE, "You aren't fighting anyone!\n\r", ch );
-    return;
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_soulstrike ] < number_percent() ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  if ( IS_NEUTRAL( ch ) ) {
-    send_to_char( AT_RED, "Nothing happened.\n\r", ch );
-    return;
-  }
-
-  dam = number_range( ch->level / 3, ( ch->level * 2 ) / 3 );
-
-  if ( ch->hit < dam * 2 ) {
-    send_to_char( AT_WHITE, "You do not have the strength.\n\r", ch );
-    return;
-  }
-
-  /* Don't need a check for update_pos, because of the previous check. */
-  ch->hit -= dam;
-
-  dam = number_range( dam * 3, dam * 5 );
-  WAIT_STATE( ch, 2 * PULSE_VIOLENCE );
-
-  if ( IS_EVIL( ch ) ) {
-    send_to_char( AT_RED, "Your soul recoils!\n\r", ch );
-    damage( ch, ch, dam, gsn_soulstrike );
-    return;
-  }
-
-  act( AT_BLUE, "Your soul strikes deep into $N.", ch, NULL, victim, TO_CHAR );
-  act( AT_BLUE, "$n's soul strikes deep into you.", ch, NULL, victim, TO_VICT );
-  act( AT_BLUE, "$n's soul strikes deep into $N.", ch, NULL, victim, TO_NOTVICT );
-  damage( ch, victim, dam, gsn_soulstrike );
-
-  update_skpell( ch, gsn_soulstrike );
-
-  return;
-}
-
 void do_multiburst( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim = ch->fighting;
   char        arg1[ MAX_INPUT_LENGTH ];
@@ -4225,12 +4140,7 @@ void do_rage( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !can_use_skpell( ch, gsn_rage ) ) {
-    send_to_char( C_DEFAULT, "You are not enough of a beast.\n\r", ch );
-    return;
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_rage ] < number_percent() ) {
+  if ( !can_use_skpell( ch, gsn_rage || (!IS_NPC( ch ) && ch->pcdata->learned[ gsn_rage ] < number_percent()) ) {
     send_to_char( C_DEFAULT, "You cannot summon enough anger.\n\r", ch );
     return;
   }
@@ -4239,13 +4149,9 @@ void do_rage( CHAR_DATA * ch, char * argument ) {
   wield2 = get_eq_char( ch, WEAR_WIELD_2 );
 
   if ( wield || wield2 ) {
-    sprintf( buf,
-             "You become enraged and toss your weapon%s to the ground.\n\r",
-             ( wield && wield2 ) ? "s" : "" );
+    sprintf( buf, "You become enraged and toss your weapon%s to the ground.\n\r", ( wield && wield2 ) ? "s" : "" );
     send_to_char( AT_RED, buf, ch );
-    sprintf( buf,
-             "$n tosses his weapon%s to the ground in a fit of rage.",
-             ( wield && wield2 ) ? "s" : "" );
+    sprintf( buf, "$n tosses his weapon%s to the ground in a fit of rage.", ( wield && wield2 ) ? "s" : "" );
     act( C_DEFAULT, buf, ch, NULL, NULL, TO_ROOM );
 
     if ( wield ) {
@@ -4258,8 +4164,7 @@ void do_rage( CHAR_DATA * ch, char * argument ) {
       obj_to_room( wield2, ch->in_room );
     }
   } else {
-    send_to_char( AT_RED,
-                  "You become enraged and surge with power.\n\r", ch );
+    send_to_char( AT_RED, "You become enraged and surge with power.\n\r", ch );
   }
 
   update_skpell( ch, gsn_rage );
@@ -4458,59 +4363,6 @@ void do_accept( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_bite( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * victim;
-  int         dam;
-  float       wait_mod;
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_bite ) ) {
-    send_to_char( C_DEFAULT, "You gnash your teeth wildly.\n\r", ch );
-    return;
-  }
-
-  if ( argument[ 0 ] != '\0' ) {
-    if ( !( victim = get_char_room( ch, argument ) ) ) {
-      send_to_char( C_DEFAULT, "They aren't here.\n\r", ch );
-      return;
-    }
-  } else {
-    if ( !( victim = ch->fighting ) ) {
-      send_to_char( C_DEFAULT, "You aren't fighting anyone.\n\r", ch );
-      return;
-    }
-  }
-
-  if ( is_safe( ch, victim ) ) {
-    return;
-  }
-
-  if ( ch->level < 25 ) {
-    wait_mod = 0.5;
-  } else if ( ch->level < 40 ) {
-    wait_mod = 1;
-  } else if ( ch->level < 60 ) {
-    wait_mod = 1.5;
-  } else if ( ch->level < 80 ) {
-    wait_mod = 2;
-  } else {
-    wait_mod = 3;
-  }
-
-  WAIT_STATE( ch, skill_table[ gsn_bite ].beats / wait_mod );
-
-  if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_bite ] ) {
-    dam = ch->level + number_range( ch->level, ch->level * 5 );
-    damage( ch, victim, dam, gsn_bite );
-    update_skpell( ch, gsn_bite );
-  } else {
-    send_to_char( C_DEFAULT, "You failed.", ch );
-    damage( ch, victim, 0, gsn_bite );
-  }
-
-  return;
-}
-
 void do_rush( CHAR_DATA * ch, char * argument ) {
   AFFECT_DATA af;
 
@@ -4621,62 +4473,6 @@ void do_reflex( CHAR_DATA * ch, char * argument ) {
   affect_to_char( ch, &af );
 
   update_skpell( ch, gsn_reflex );
-
-  return;
-}
-
-void do_rake( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * victim;
-  char        arg[ MAX_INPUT_LENGTH ];
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_rake ) ) {
-    send_to_char( C_DEFAULT,
-                  "You'd better leave animalistic actions to werewolves.\n\r", ch );
-    return;
-  }
-
-  if ( !ch->fighting ) {
-    send_to_char( C_DEFAULT, "You aren't fighting anyone.\n\r", ch );
-    return;
-  }
-
-  one_argument( argument, arg );
-
-  victim = ch->fighting;
-
-  if ( arg[ 0 ] != '\0' ) {
-    if ( !( victim = get_char_room( ch, arg ) ) ) {
-      send_to_char( C_DEFAULT, "They aren't here.\n\r", ch );
-      return;
-    }
-  }
-
-  if ( IS_AFFECTED( victim, AFF_BLIND ) ) {
-    return;
-  }
-
-  WAIT_STATE( ch, skill_table[ gsn_rake ].beats );
-
-  if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_rake ] ) {
-    damage( ch, victim, number_range( 100, ch->level * 5 ), gsn_rake );
-    update_skpell( ch, gsn_rake );
-
-    if ( number_percent() < 75 ) {
-      AFFECT_DATA af;
-
-      af.type      = gsn_blindness;
-      af.duration  = 5;
-      af.location  = APPLY_HITROLL;
-      af.modifier  = -10;
-      af.bitvector = AFF_BLIND;
-      affect_join( victim, &af );
-    }
-
-    update_pos( victim );
-  } else {
-    damage( ch, victim, 0, gsn_rake );
-  }
 
   return;
 }

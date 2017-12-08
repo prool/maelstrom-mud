@@ -42,7 +42,6 @@ DECLARE_SPEC_FUN( spec_cast_adept );
 DECLARE_SPEC_FUN( spec_cast_healer );
 DECLARE_SPEC_FUN( spec_cast_cleric );
 DECLARE_SPEC_FUN( spec_cast_ghost );
-DECLARE_SPEC_FUN( spec_cast_judge );
 DECLARE_SPEC_FUN( spec_cast_mage );
 DECLARE_SPEC_FUN( spec_cast_psionicist );
 DECLARE_SPEC_FUN( spec_cast_undead );
@@ -74,7 +73,6 @@ const struct  spec_type spec_table  [] = {
   { "spec_cast_adept",       spec_cast_adept         },
   { "spec_cast_cleric",      spec_cast_cleric        },
   { "spec_cast_ghost",       spec_cast_ghost         },
-  { "spec_cast_judge",       spec_cast_judge         },
   { "spec_cast_mage",        spec_cast_mage          },
   { "spec_cast_psionicist",  spec_cast_psionicist    },
   { "spec_cast_undead",      spec_cast_undead        },
@@ -454,36 +452,6 @@ bool spec_cast_cleric( CHAR_DATA * ch ) {
       break;
     }
   }
-
-  if ( ( sn = skill_lookup( spell ) ) < 0 ) {
-    return FALSE;
-  }
-
-  ( *skill_table[ sn ].spell_fun )( sn, ch->level, ch, victim );
-  return TRUE;
-}
-
-bool spec_cast_judge( CHAR_DATA * ch ) {
-  CHAR_DATA * victim;
-  char      * spell;
-  int         sn;
-
-  if ( ch->position != POS_FIGHTING ) {
-    return FALSE;
-  }
-
-  for ( victim = ch->in_room->people; victim; victim = victim->next_in_room ) {
-    if ( victim->fighting == ch && can_see( ch, victim )
-         && number_bits( 2 ) == 0 ) {
-      break;
-    }
-  }
-
-  if ( !victim ) {
-    return FALSE;
-  }
-
-  spell = "high explosive";
 
   if ( ( sn = skill_lookup( spell ) ) < 0 ) {
     return FALSE;
@@ -1126,10 +1094,8 @@ bool spec_summon_demon( CHAR_DATA * ch ) {
 
   switch ( number_bits( 4 ) ) {
     case 0:
-      spell = "armor";
-      break;
     case 1:
-      spell = "protection";
+      spell = "armor";
       break;
     case 2:
       spell = "cure light";
@@ -1193,16 +1159,13 @@ bool spec_summon_light( CHAR_DATA * ch ) {
   }
 
   if ( ch->fighting ) {
-
-    return spec_cast_judge( ch );
+    return FALSE;
   }
 
   switch ( number_bits( 4 ) ) {
     case 0:
-      spell = "armor";
-      break;
     case 1:
-      spell = "protection";
+      spell = "armor";
       break;
     case 2:
       spell = "combat mind";

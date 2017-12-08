@@ -1014,19 +1014,14 @@ void do_sneak( CHAR_DATA * ch, char * argument ) {
 void do_hide( CHAR_DATA * ch, char * argument ) {
   AFFECT_DATA af;
 
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_hide ) ) {
-    send_to_char( C_DEFAULT, "Huh?\n\r", ch );
-    return;
-  }
-
   send_to_char( AT_LBLUE, "You attempt to hide.\n\r", ch );
 
   if ( IS_AFFECTED( ch, AFF_HIDE ) ) {
     affect_strip( ch, gsn_hide );
   }
 
-  if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_hide ] ) {
+  // always a small chance to hide
+  if ( IS_NPC( ch ) || number_percent() < UMAX(2, ch->pcdata->learned[ gsn_hide ]) ) {
     af.type      = gsn_hide;
     af.level     = ch->level;
     af.duration  = ch->level;
@@ -1034,9 +1029,9 @@ void do_hide( CHAR_DATA * ch, char * argument ) {
     af.modifier  = 0;
     af.bitvector = AFF_HIDE;
     affect_to_char( ch, &af );
+    update_skpell( ch, gsn_hide );
   }
 
-  update_skpell( ch, gsn_hide );
   return;
 }
 
@@ -1049,7 +1044,6 @@ void do_visible( CHAR_DATA * ch, char * argument ) {
   affect_strip( ch, gsn_sneak );
   affect_strip( ch, gsn_shadow );
   affect_strip( ch, gsn_hide );
-  affect_strip( ch, gsn_chameleon );
   affect_strip( ch, skill_lookup( "phase shift" ) );
   affect_strip( ch, skill_lookup( "mist form" ) );
   REMOVE_BIT( ch->affected_by, AFF_HIDE );
@@ -1504,37 +1498,6 @@ void do_raise( CHAR_DATA * ch, char * argument ) {
 
   act( AT_CYAN, "Your $T increase!", ch, NULL, pOutput, TO_CHAR );
   act( AT_CYAN, "$n's $T increase!", ch, NULL, pOutput, TO_ROOM );
-
-  return;
-}
-
-void do_chameleon( CHAR_DATA * ch, char * argument ) {
-  AFFECT_DATA af;
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_chameleon ) ) {
-    send_to_char( C_DEFAULT, "Huh?\n\r", ch );
-    return;
-  }
-
-  send_to_char( AT_DGREY, "You attempt to blend in with your surroundings.\n\r", ch );
-
-  if ( IS_AFFECTED( ch, AFF_HIDE ) ) {
-    REMOVE_BIT( ch->affected_by, AFF_HIDE );
-  }
-
-  if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_chameleon ] ) {
-    af.type      = gsn_chameleon;
-    af.level     = ch->level;
-    af.duration  = ch->level;
-    af.location  = APPLY_NONE;
-    af.modifier  = 0;
-    af.bitvector = AFF_HIDE;
-    affect_to_char( ch, &af );
-  }
-
-  update_skpell( ch, gsn_chameleon );
-  /*   SET_BIT( ch->affected_by, AFF_HIDE );*/
 
   return;
 }
@@ -2025,164 +1988,6 @@ void check_nofloor( CHAR_DATA * ch ) {
   }
 
   return;
-}
-
-void do_shadow_walk( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * victim;
-  char        arg[ MAX_STRING_LENGTH ];
-  bool        found = FALSE;
-
-  one_argument( argument, arg );
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_shadow_walk ) ) {
-    send_to_char( AT_GREY,
-                  "You know nothing of walking the shadows.\n\r", ch );
-    return;
-  }
-
-  if ( ch->fighting ) {
-    send_to_char( C_DEFAULT, "Not while in combat.\n\r", ch );
-    return;
-  }
-
-  if ( arg[ 0 ] == '\0' ) {
-    send_to_char( AT_GREY, "Shadow walk to whom?\n\r", ch );
-    return;
-  }
-
-  if ( IS_AFFECTED( ch, AFF_ANTI_FLEE ) ) {
-    send_to_char( AT_GREY, "You cannot shadow walk in your condition!\n\r", ch );
-    return;
-  }
-
-  /* OLD CODE */
-  /*
-
-     if ( !( victim = get_char_world( ch, arg ) )
-   || victim->in_room->area != ch->in_room->area
-   || IS_SET( victim->in_room->room_flags, ROOM_PRIVATE   )
-   || IS_SET( victim->in_room->room_flags, ROOM_SOLITARY  )
-   || IS_SET( ch->in_room->room_flags, ROOM_NO_SHADOW )
-   || IS_SET( victim->in_room->room_flags, ROOM_NO_SHADOW )
-   || IS_AFFECTED( victim, AFF_NOASTRAL ) )
-     {
-     send_to_char(AT_GREY, "The shadows offer no path to that one.\n\r", ch );
-     return;
-     }
-   */
-  for ( victim = char_list; victim; victim = victim->next ) {
-    if ( victim->deleted
-         ||   victim->in_room->area != ch->in_room->area
-         ||   IS_SET( victim->in_room->room_flags, ROOM_PRIVATE )
-         ||   IS_SET( victim->in_room->room_flags, ROOM_SOLITARY )
-         ||   IS_SET( ch->in_room->room_flags, ROOM_NO_SHADOW )
-         ||   IS_SET( victim->in_room->room_flags, ROOM_NO_SHADOW )
-         ||   IS_SET( victim->act, ACT_NOSHADOW )
-         ||   IS_AFFECTED( victim, AFF_NOASTRAL )
-         ||   !is_name( ch, arg, victim->name ) ) {
-      continue;
-    }
-
-    found = TRUE;
-    break;
-  }
-
-  if ( !found ) {
-    send_to_char( AT_GREY, "The shadows offer no path to that one.\n\r", ch );
-    return;
-  }
-
-  if ( !IS_AFFECTED( ch, AFF_HIDE ) ) {
-    act( AT_GREY, "$n steps into the shadows and is gone.", ch, NULL, NULL, TO_ROOM );
-  }
-
-  if ( ch != victim ) {
-    char_from_room( ch );
-    char_to_room( ch, victim->in_room );
-  }
-
-  if ( !IS_AFFECTED( ch, AFF_HIDE ) ) {
-    act( AT_GREY, "$n steps forth from the shadows.", ch, NULL, NULL, TO_ROOM );
-  }
-
-  do_look( ch, "auto" );
-  update_skpell( ch, gsn_shadow_walk );
-  return;
-}
-
-void do_scent( CHAR_DATA * ch, char * argument ) {
-  static const char * dis_table [] =
-  { "close by",
-    "not far off" };
-  CHAR_DATA       * sch;
-  EXIT_DATA       * pexit;
-  ROOM_INDEX_DATA * in_room;
-  ROOM_INDEX_DATA * next_room;
-  char              buf[ MAX_INPUT_LENGTH * 4 ];
-  int               dir, dis;
-  bool              found = FALSE;
-  const char      * dir_message;
-  const char      * dis_message;
-
-  if ( IS_NPC( ch ) ) {
-    return;
-  }
-
-  if ( !can_use_skpell( ch, gsn_scent ) ) {
-    send_to_char( C_DEFAULT, "Your sense of smell is not keen enough.\n\r", ch );
-    return;
-  }
-
-  if ( ch->pcdata->learned[ gsn_scent ] < number_percent() ) {
-    send_to_char( C_DEFAULT, "You sniff around and start to sneeze!.\n\r",
-                  ch );
-    return;
-  }
-
-  in_room = ch->in_room;
-
-  for ( dir = 0; dir < MAX_DIR; dir++ ) {
-    if ( !( pexit = in_room->exit[ dir ] ) || !( next_room = pexit->to_room ) ) {
-      continue;
-    }
-
-    for ( dis = 0; dis <= 1; dis++ ) {
-      for ( sch = next_room->people; sch; sch = sch->next_in_room ) {
-        if ( sch->deleted ) {
-          return;
-        }
-
-        if ( !( sch->desc ) && !IS_NPC( sch ) && get_trust( ch ) < LEVEL_IMMORTAL ) {
-          continue;
-        }
-
-        if ( !found ) {
-          send_to_char( C_DEFAULT, "You pick up the scent of:\n\r", ch );
-          found = TRUE;
-        }
-
-        dir_message = direction_table[ dir ].navigation;
-        dis_message = dis_table[ dis ];
-        sprintf( buf, "%s &w%s %s.\n\r", capitalize( visible_name( sch, ch, TRUE ) ), dis_message, dir_message );
-        send_to_char( C_DEFAULT, buf, ch );
-      }
-
-      if ( !( pexit = next_room->exit[ dir ] )
-           || !( next_room = pexit->to_room ) ) {
-        break;
-      }
-    }
-  }
-
-  update_skpell( ch, gsn_scent );
-
-  if ( !found ) {
-    send_to_char( C_DEFAULT, "You did not pick up anything's scent.\n\r", ch );
-  }
-
-  return;
-
 }
 
 void do_retreat( CHAR_DATA * ch, char * argument ) {

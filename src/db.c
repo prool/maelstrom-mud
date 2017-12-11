@@ -71,7 +71,6 @@ char            * warning2;
 int               stype;
 
 int gsn_trip;
-int gsn_dirt_kick;
 int gsn_track;
 int gsn_shield_block;
 int gsn_drain_life;

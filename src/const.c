@@ -1952,14 +1952,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "dirt kick",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_dirt_kick,0,12,
-    "dirt kick","!Dirt Kick!","",FALSE,SLOT(0)
-  },
-
-  {
     "chain lightning",
     { L_APP,L_APP,L_APP },
     spell_chain_lightning,TAR_IGNORE,POS_FIGHTING,

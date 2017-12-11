@@ -1950,7 +1950,6 @@ struct gskill_type {
  * These are skill_lookup return values for common skills and spells.
  */
 extern int gsn_trip;
-extern int gsn_dirt_kick;
 extern int gsn_track;
 extern int gsn_shield_block;
 extern int gsn_drain_life;

@@ -1,6 +1,5 @@
 player/player.lst
 data/hotreboot.dat
-data/shutdown.txt
 data/notes.dat
 data/banned.lst
 *.o
@@ -18,3 +17,4 @@ inspiration/
 *.todo
 .imdone/
 .DS_Store
+shutdown.txt

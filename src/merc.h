@@ -2669,7 +2669,6 @@ DECLARE_SPELL_FUN( spell_image );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_unholystrength );
 DECLARE_SPELL_FUN( spell_hallucinate );
-DECLARE_SPELL_FUN( spell_manabomb );
 DECLARE_SPELL_FUN( spell_vaccinate );
 /*
  * Psi spell_functions, in magic.c.

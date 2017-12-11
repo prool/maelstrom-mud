@@ -2469,14 +2469,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "$n looks better.",TRUE,SLOT(207)
   },
   {
-    "manabomb",
-    { L_APP,L_APP,L_APP },
-    spell_manabomb,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,500,12,
-    "&RManaBomb&X","!ManaBomb!","",FALSE,SLOT(0)
-  },
-
-  {
     "vaccinate",
     { L_APP,L_APP,L_APP },
     spell_vaccinate,TAR_CHAR_DEFENSIVE,POS_STANDING,

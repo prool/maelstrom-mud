@@ -182,7 +182,7 @@ void do_war( CHAR_DATA * ch, char * argument ) {
     for ( d = descriptor_list; d != NULL; d = d->next ) {
       if ( IS_SET( d->character->act2, PLR_WAR ) ) {
         char_from_room( d->character );
-        char_to_room( d->character, ( get_room_index( ROOM_VNUM_TEMPLE ) ) );
+        char_to_room( d->character, ( get_room_index( ROOM_VNUM_LIMBO ) ) );
         do_look( d->character, "auto" );
       }
     }
@@ -315,7 +315,7 @@ void war_update( void ) {
       for ( d = descriptor_list; d != NULL; d = d->next ) {
         if ( IS_SET( d->character->act2, PLR_WAR ) ) {
           char_from_room( d->character );
-          char_to_room( d->character, ( get_room_index( ROOM_VNUM_TEMPLE ) ) );
+          char_to_room( d->character, ( get_room_index( ROOM_VNUM_LIMBO ) ) );
           do_look( d->character, "auto" );
         }
       }

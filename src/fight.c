@@ -51,7 +51,6 @@ void set_fighting( CHAR_DATA * ch, CHAR_DATA * victim );
 void disarm( CHAR_DATA * ch, CHAR_DATA * victim );
 void trip( CHAR_DATA * ch, CHAR_DATA * victim );
 void item_damage( CHAR_DATA * ch, int dam );
-void do_image( CHAR_DATA * ch, CHAR_DATA * victim );
 void do_flip( CHAR_DATA * ch, char * argument );
 
 /*
@@ -885,7 +884,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
         war.iswar     = FALSE;
         REMOVE_BIT( ch->act2, PLR_WAR );
         char_from_room( ch );
-        char_to_room( ch, get_room_index( ROOM_VNUM_TEMPLE ) );
+        char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
       } else if ( war.team_red == 0 && war.wartype != 1 ) {
         sprintf( buf, "&CThe &BBLUE TEAM &chas won the war!" );
         info( buf, 0, 0 );
@@ -901,7 +900,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
         REMOVE_BIT( ch->act2, PLR_WAR );
         REMOVE_BIT( ch->act2, TEAM_BLUE );
         char_from_room( ch );
-        char_to_room( ch, get_room_index( ROOM_VNUM_TEMPLE ) );
+        char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
 
         for ( d = descriptor_list; d != NULL; d = d->next ) {
           if ( !IS_NPC( d->character ) ) {
@@ -939,7 +938,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
         }
 
         char_from_room( ch );
-        char_to_room( ch, get_room_index( ROOM_VNUM_TEMPLE ) );
+        char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
 
         for ( d = descriptor_list; d != NULL; d = d->next ) {
           if ( !IS_NPC( d->character ) ) {
@@ -1572,13 +1571,13 @@ void make_corpse( CHAR_DATA * ch ) {
                       "\n\r", award );
     send_to_char( AT_YELLOW, log_buf, gch );
     char_from_room( gch );
-    char_to_room( gch, get_room_index( ROOM_VNUM_ALTAR ) );
+    char_to_room( gch, get_room_index( ROOM_VNUM_LIMBO ) );
     return;
   }
 
   if ( !IS_NPC( ch ) && ch->level <= 20 ) {
     char_from_room( ch );
-    char_to_room( ch, get_room_index( ROOM_VNUM_MORGUE ) );
+    char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
   }
 
   if ( IS_NPC( ch ) ) {
@@ -1826,7 +1825,7 @@ void war_kill( CHAR_DATA * victim ) {
   stop_fighting( victim, TRUE );
   rprog_death_trigger( victim->in_room, victim );
   char_from_room( victim );
-  char_to_room( victim, get_room_index( ROOM_VNUM_MORGUE ) );
+  char_to_room( victim, get_room_index( ROOM_VNUM_LIMBO ) );
 
   for ( paf = victim->affected; paf; paf = paf_next ) {
     paf_next = paf->next;
@@ -2289,13 +2288,6 @@ void do_kill( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( is_affected( victim, gsn_image ) ) {
-    do_image( victim, ch );
-    affect_strip( victim, skill_lookup( "image" ) );
-    REMOVE_BIT( victim->affected_by, gsn_image );
-    return;
-  }
-
   if ( IS_AFFECTED( victim, AFF_PEACE ) ) {
     send_to_char( AT_WHITE, "A wave of peace overcomes you.\n\r", ch );
     return;
@@ -2378,13 +2370,6 @@ void do_murder( CHAR_DATA * ch, char * argument ) {
     REMOVE_BIT( ch->affected_by, AFF_PEACE );
   }
 
-  if ( is_affected( victim, gsn_image ) ) {
-    do_image( victim, ch );
-    affect_strip( victim, skill_lookup( "image" ) );
-    REMOVE_BIT( victim->affected_by, gsn_image );
-    return;
-  }
-
   if ( victim == ch ) {
     send_to_char( C_DEFAULT, "Suicide is a mortal sin.\n\r", ch );
     return;
@@ -2464,13 +2449,6 @@ void do_backstab( CHAR_DATA * ch, char * argument ) {
   if ( !( obj = get_eq_char( ch, WEAR_WIELD ) )
        || ( obj->value[ 3 ] != 11 && obj->value[ 3 ] != 2 ) ) {
     send_to_char( C_DEFAULT, "You need to wield a piercing or stabbing weapon.\n\r", ch );
-    return;
-  }
-
-  if ( is_affected( victim, gsn_image ) ) {
-    do_image( victim, ch );
-    affect_strip( victim, skill_lookup( "image" ) );
-    REMOVE_BIT( victim->affected_by, gsn_image );
     return;
   }
 
@@ -3549,8 +3527,7 @@ void do_challenge( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( rvnum == ROOM_VNUM_HELL
-       || rvnum == ROOM_VNUM_RJAIL ) {
+  if ( rvnum == ROOM_VNUM_HELL ) {
     send_to_char( C_DEFAULT, "Nice try, but get out the real way.\n\r", ch );
     return;
   }
@@ -3653,8 +3630,7 @@ void do_accept( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( rvnum == ROOM_VNUM_HELL
-       || rvnum == ROOM_VNUM_RJAIL ) {
+  if ( rvnum == ROOM_VNUM_HELL ) {
     send_to_char( C_DEFAULT, "Nice try, but get out the real way.\n\r", ch );
     return;
   }
@@ -4156,41 +4132,6 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
   }
 
   update_skpell( ch, gsn_lure );
-  return;
-}
-
-void do_image( CHAR_DATA * ch, CHAR_DATA * victim ) {
-  char dt;
-  char buf[ MAX_STRING_LENGTH ];
-
-  dt = TYPE_UNDEFINED;
-
-  act( AT_WHITE, "$n attacks $N!", ch, NULL, victim, TO_ROOM );
-  act( AT_WHITE, "An image of $n shatters!", ch, NULL, NULL, TO_ROOM
-       );
-  sprintf( buf, "An image of %s shatters!\n\r", ch->name );
-  send_to_char( AT_WHITE, buf, victim );
-  sprintf( buf, "%s attacks one of your images!", victim->name );
-  send_to_char( AT_WHITE, buf, ch );
-  one_hit( ch, victim, dt, FALSE );
-
-  if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-    one_hit( ch, victim, dt, FALSE );
-  }
-
-  if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-    one_hit( ch, victim, dt, FALSE );
-  }
-
-  if ( IS_AFFECTED2( ch, AFF_BERSERK ) ) {
-    one_hit( ch, victim, dt, FALSE );
-  }
-
-  /* put more reasons to attack here */
-
-  one_hit( ch, victim, dt, TRUE );
-  multi_hit( ch, victim, dt );
-
   return;
 }
 

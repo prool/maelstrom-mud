@@ -5,7 +5,7 @@ Builders    Altrag  Decklarean Thalador Diku~
 VNUMs       1 99
 Security    1
 Recall      1
-Flags       16
+Flags       17
 Color       6
 Sounds      The sounds of mortals crying out makes it all worth while.~
 End
@@ -1056,9 +1056,6 @@ S
 
 
 #SPECIALS
-M 31 spec_cast_mage
-M 32 spec_cast_cleric
-M 69 spec_breath_any
 S
 
 

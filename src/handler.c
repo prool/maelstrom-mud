@@ -1611,11 +1611,11 @@ void extract_char( CHAR_DATA * ch, bool fPull ) {
   if ( !fPull ) {
     ROOM_INDEX_DATA * location;
 
-    if ( is_arena && ( location = get_room_index( ROOM_ARENA_HALL_SHAME ) ) ) {
+    if ( is_arena && ( location = get_room_index( ROOM_VNUM_LIMBO ) ) ) {
       char_to_room( ch, location );
-    } else if ( !( location = get_room_index( ROOM_VNUM_MORGUE ) ) ) {
+    } else if ( !( location = get_room_index( ROOM_VNUM_LIMBO ) ) ) {
       bug( "Purgatory A does not exist!", 0 );
-      char_to_room( ch, get_room_index( ROOM_VNUM_ALTAR ) );
+      char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
     } else {
       char buf[ MAX_INPUT_LENGTH ];
       char_to_room( ch, location );

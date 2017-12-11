@@ -859,24 +859,6 @@ void obj_cast_spell( int sn, int level, CHAR_DATA * ch, CHAR_DATA * victim, OBJ_
   return;
 }
 
-/*
- * Spell functions.
- */
-void spell_acid_blast( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         dam;
-
-  dam = dice( level, 8 );
-  dam = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
 void spell_animate( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA * obj = (OBJ_DATA *) vo;
 
@@ -6836,29 +6818,6 @@ void spell_silence( int sn, int level, CHAR_DATA * ch, void * vo ) {
   act( AT_WHITE, "$N is silenced!", ch, NULL, victim, TO_CHAR );
   send_to_char( AT_WHITE, "You are silenced!\n\r", victim );
   act( AT_WHITE, "$N is silenced!", ch, NULL, victim, TO_NOTVICT );
-  return;
-}
-
-void spell_image( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  AFFECT_DATA af;
-
-  if ( ch->combat_timer ) {
-    send_to_char( AT_BLUE, "You can't right now.\n\r", ch );
-    return;
-  }
-
-  if ( is_affected( ch, gsn_image ) ) {
-    return;
-  }
-
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.duration  = ch->level;
-  af.bitvector = 0;
-  af.type      = sn;
-  affect_to_char( ch, &af );
-  send_to_char( AT_CYAN, "You are surrounded by images of yourself.\n\r", ch );
-  act( AT_CYAN, "$n suddenly splits into many images.", ch, NULL, NULL, TO_ROOM );
   return;
 }
 

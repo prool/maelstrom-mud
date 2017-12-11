@@ -1123,20 +1123,7 @@ struct  kill_data {
  */
 #define ROOM_VNUM_LIMBO       2
 #define ROOM_VNUM_CHAT        1
-#define ROOM_VNUM_TEMPLE      25000
-#define ROOM_VNUM_ALTAR       25000
-#define ROOM_VNUM_JEZ         25001
-#define ROOM_VNUM_LAIK        1301
-#define ROOM_VNUM_SCHOOL      800
-#define ROOM_VNUM_RW_SCHOOL   1251
-#define ROOM_VNUM_GRAVEYARD_A 25000
-#define ROOM_VNUM_MORGUE      25130
-#define ROOM_VNUM_DON_1       25129
-#define ROOM_VNUM_DON_2       25127
-#define ROOM_VNUM_DON_3       25126
-#define ROOM_VNUM_DON_4       25128
 #define ROOM_VNUM_HELL        8
-#define ROOM_VNUM_RJAIL       1497
 #define ROOM_VNUM_ARTIFACTOR  25097
 #define ROOM_VNUM_SMITHY      713
 #define ROOM_ARENA_VNUM       7350
@@ -2020,7 +2007,6 @@ extern int gsn_lure;
 extern int gsn_domination;
 extern int gsn_heighten;
 extern int gsn_shadow;
-extern int gsn_image;
 extern int gsn_flip;
 extern int gsn_hallucinate;
 extern int gsn_plague;
@@ -2530,7 +2516,6 @@ DECLARE_DO_FUN( do_flip );
  * Defined in magic.c.
  */
 DECLARE_SPELL_FUN( spell_null );
-DECLARE_SPELL_FUN( spell_acid_blast );
 DECLARE_SPELL_FUN( spell_aid );
 DECLARE_SPELL_FUN( spell_animate );
 DECLARE_SPELL_FUN( spell_armor );
@@ -2665,7 +2650,6 @@ DECLARE_SPELL_FUN( spell_phase_shift );
 DECLARE_SPELL_FUN( spell_healing_hands );
 DECLARE_SPELL_FUN( spell_mist_form );
 DECLARE_SPELL_FUN( spell_purify );
-DECLARE_SPELL_FUN( spell_image );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_unholystrength );
 DECLARE_SPELL_FUN( spell_hallucinate );

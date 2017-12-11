@@ -87,11 +87,7 @@ bool get_obj( CHAR_DATA * ch, OBJ_DATA * obj, OBJ_DATA * container, bool palming
     oprog_get_from_trigger( obj, ch, container );
     obj_from_obj( obj );
 
-    if ( ch->in_room->vnum == ROOM_VNUM_DON_1
-         || ch->in_room->vnum == ROOM_VNUM_DON_2
-         || ch->in_room->vnum == ROOM_VNUM_DON_3
-         || ch->in_room->vnum == ROOM_VNUM_DON_4
-         || obj->item_type == ITEM_CORPSE_PC ) {
+    if ( ch->in_room->vnum == ROOM_VNUM_LIMBO || obj->item_type == ITEM_CORPSE_PC ) {
       obj->timer = -1;
     }
   } else {
@@ -107,11 +103,7 @@ bool get_obj( CHAR_DATA * ch, OBJ_DATA * obj, OBJ_DATA * container, bool palming
     oprog_get_trigger( obj, ch );
     obj_from_room( obj );
 
-    if ( ch->in_room->vnum == ROOM_VNUM_DON_1
-         || ch->in_room->vnum == ROOM_VNUM_DON_2
-         || ch->in_room->vnum == ROOM_VNUM_DON_3
-         || ch->in_room->vnum == ROOM_VNUM_DON_4
-         || obj->item_type == ITEM_CORPSE_PC ) {
+    if ( ch->in_room->vnum == ROOM_VNUM_LIMBO || obj->item_type == ITEM_CORPSE_PC ) {
       obj->timer = -1;
     }
   }
@@ -158,11 +150,7 @@ bool get_obj( CHAR_DATA * ch, OBJ_DATA * obj, OBJ_DATA * container, bool palming
   } else {
     obj_to_char( obj, ch );
 
-    if ( ch->in_room->vnum == ROOM_VNUM_DON_1
-         || ch->in_room->vnum == ROOM_VNUM_DON_2
-         || ch->in_room->vnum == ROOM_VNUM_DON_3
-         || ch->in_room->vnum == ROOM_VNUM_DON_4
-         || obj->item_type == ITEM_CORPSE_PC ) {
+    if ( ch->in_room->vnum == ROOM_VNUM_LIMBO || obj->item_type == ITEM_CORPSE_PC ) {
       obj->timer = -1;
     }
   }
@@ -602,11 +590,7 @@ void do_drop( CHAR_DATA * ch, char * argument ) {
 
     obj_from_char( obj );
 
-    if ( ch->in_room->vnum == ROOM_VNUM_DON_1
-         || ch->in_room->vnum == ROOM_VNUM_DON_2
-         || ch->in_room->vnum == ROOM_VNUM_DON_3
-         || ch->in_room->vnum == ROOM_VNUM_DON_4
-         || obj->item_type == ITEM_CORPSE_PC ) {
+    if ( ch->in_room->vnum == ROOM_VNUM_LIMBO || obj->item_type == ITEM_CORPSE_PC ) {
       obj->timer = 30;
     }
 
@@ -627,7 +611,7 @@ void do_drop( CHAR_DATA * ch, char * argument ) {
         found = TRUE;
         obj_from_char( obj );
 
-        if ( ch->in_room->vnum == ROOM_VNUM_DON_1 || ch->in_room->vnum == ROOM_VNUM_DON_2 || ch->in_room->vnum == ROOM_VNUM_DON_3 || ch->in_room->vnum == ROOM_VNUM_DON_4 || obj->item_type == ITEM_CORPSE_PC ) {
+        if ( ch->in_room->vnum == ROOM_VNUM_LIMBO || obj->item_type == ITEM_CORPSE_PC ) {
           obj->timer = 20;
         }
 
@@ -4389,24 +4373,24 @@ void do_donate( CHAR_DATA * ch, char * argument ) {
   if ( obj->item_type == ITEM_SCROLL || obj->item_type == ITEM_STAFF
        || obj->item_type == ITEM_WAND   || obj->item_type == ITEM_POTION
        || obj->item_type == ITEM_PILL   || obj->item_type == ITEM_LENSE ) {
-    if ( ( donation_room = get_room_index( ROOM_VNUM_DON_1 ) ) == NULL ) {
+    if ( ( donation_room = get_room_index( ROOM_VNUM_LIMBO ) ) == NULL ) {
       bug( "Do_donate: invalid vnum for donation room.\n\r", 0 );
       send_to_char( AT_WHITE, "Donation failed.\n\r", ch );
       return;
     }
   } else if ( obj->item_type == ITEM_WEAPON ) {
-    if ( ( donation_room = get_room_index( ROOM_VNUM_DON_2 ) ) == NULL ) {
+    if ( ( donation_room = get_room_index( ROOM_VNUM_LIMBO ) ) == NULL ) {
       bug( "Do_donate: invalid vnum for donation room.\n\r", 0 );
       send_to_char( AT_WHITE, "Donation failed.\n\r", ch );
       return;
     }
   } else if ( obj->item_type == ITEM_ARMOR ) {
-    if ( ( donation_room = get_room_index( ROOM_VNUM_DON_3 ) ) == NULL ) {
+    if ( ( donation_room = get_room_index( ROOM_VNUM_LIMBO ) ) == NULL ) {
       bug( "Do_donate: invalid vnum for donation room.\n\r", 0 );
       send_to_char( AT_WHITE, "Donation failed.\n\r", ch );
       return;
     }
-  } else if ( ( donation_room = get_room_index( ROOM_VNUM_DON_4 ) ) == NULL ) {
+  } else if ( ( donation_room = get_room_index( ROOM_VNUM_LIMBO ) ) == NULL ) {
     bug( "Do_donate: invalid vnum for donation room.\n\r", 0 );
     send_to_char( AT_WHITE, "Donation failed.\n\r", ch );
     return;

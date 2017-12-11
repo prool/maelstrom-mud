@@ -63,7 +63,6 @@ void trap_update( void );
 void rtime_update( void );
 void quest_update( void );
 void war_update( void );
-void do_image( CHAR_DATA * ch, CHAR_DATA * victim );
 
 /*
  * Advancement stuff.
@@ -1383,11 +1382,7 @@ void aggr_update( void ) {
         continue;
       }
 
-      if ( is_affected( victim, gsn_image ) ) {
-        do_image( victim, mch );
-      } else {
-        multi_hit( mch, victim, TYPE_UNDEFINED );
-      }
+      multi_hit( mch, victim, TYPE_UNDEFINED );
 
       /*        if ( IS_NPC( mch ) && mch->mpactnum > 0
             && mch->in_room->area->nplayer > 0 )

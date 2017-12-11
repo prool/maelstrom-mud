@@ -1096,9 +1096,7 @@ void do_recall( CHAR_DATA * ch, char * argument ) {
     place = ch->in_room->area->recall;
   }
 
-  if ( place == ROOM_VNUM_JEZ && ch->alignment < -350 ) {
-    place = ROOM_VNUM_LAIK;
-  }
+  place = ROOM_VNUM_LIMBO;
 
   if ( !( location = get_room_index( place ) ) ) {
     send_to_char( C_DEFAULT, "You are completely lost.\n\r", ch );

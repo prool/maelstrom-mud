@@ -114,7 +114,6 @@ int gsn_poison;
 int gsn_sleep;
 int gsn_doomshield;
 int gsn_unholystrength;
-int gsn_image;
 int gsn_prayer;
 int gsn_spellcraft;
 int gsn_scrolls;
@@ -145,7 +144,6 @@ int gsn_domination;
 int gsn_heighten;
 int gsn_shadow;
 int gsn_lure;
-int gsn_image;
 int gsn_flip;
 int gsn_hallucinate;
 int gsn_plague;
@@ -861,7 +859,7 @@ void load_area( FILE * fp ) {
                                                          pArea->reset_first	= NULL;					 * OLC-Removed
                                                          pArea->reset_last	= NULL;					 */
   pArea->name       = fread_string( fp );
-  pArea->recall     = ROOM_VNUM_TEMPLE;
+  pArea->recall     = ROOM_VNUM_LIMBO;
   pArea->area_flags = AREA_LOADING;       /* OLC */
   pArea->security   = 1;                  /* OLC */
   pArea->builders   = str_dup( "None" );  /* OLC */
@@ -941,7 +939,7 @@ void new_load_area( FILE * fp ) {
   pArea->llevel      = 0;
   pArea->ulevel      = 0;
   pArea->area_flags  = 0;
-  pArea->recall      = ROOM_VNUM_TEMPLE;
+  pArea->recall      = ROOM_VNUM_LIMBO;
   pArea->def_color   = 6; /* Angi - AT_CYAN */
 
   for (;; ) {
@@ -1072,7 +1070,7 @@ void load_recall( FILE * fp ) {
   if ( pArea->recall < 1 ) {
     sprintf( buf, "Load_recall:  %s invalid recall point", pArea->name );
     bug( buf, 0 );
-    pArea->recall = ROOM_VNUM_TEMPLE;
+    pArea->recall = ROOM_VNUM_LIMBO;
   }
 
   return;
@@ -2337,15 +2335,13 @@ void area_update( void ) {
      * Note: Mud School resets every 3 minutes (not 15).
      */
     if ( pArea->nplayer == 0 || pArea->age >= 15 ) {
-      ROOM_INDEX_DATA * bh_school, * rw_school;
+      ROOM_INDEX_DATA * school;
 
       reset_area( pArea );
       pArea->age = number_range( 0, 3 );
-      bh_school  = get_room_index( ROOM_VNUM_SCHOOL );
-      rw_school  = get_room_index( ROOM_VNUM_RW_SCHOOL );
+      school  = get_room_index( ROOM_VNUM_LIMBO );
 
-      if ( ( bh_school && bh_school->area == pArea ) ||
-           ( rw_school && rw_school->area == pArea ) ) {
+      if ( school && school->area == pArea ) ) {
         pArea->age = 15 - 3;
       }
     }
@@ -2414,12 +2410,6 @@ void reset_room( ROOM_INDEX_DATA * pRoom ) {
         /*
          * Some hard coding.
          */
-        if ( ( pMobIndex->spec_fun == spec_lookup( "spec_cast_ghost" ) &&
-               ( weather_info.sunlight != SUN_DARK ) &&
-               !room_is_dark( pRoom ) ) ) {
-          continue;
-        }
-
         if ( pMobIndex->count >= pReset->arg2 ) {
           last = FALSE;
           break;

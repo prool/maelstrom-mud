@@ -105,7 +105,7 @@ AREA_DATA * new_area( void ) {
 
   pArea->next        = NULL;
   pArea->name        = str_dup( "New area" );
-  pArea->recall      = ROOM_VNUM_TEMPLE;
+  pArea->recall      = ROOM_VNUM_LIMBO;
   pArea->age         = 0;
   pArea->nplayer     = 0;
   pArea->reset_sound = NULL; /*&str_empty[0]; */
@@ -337,7 +337,7 @@ CLAN_DATA * new_clan_index( void ) {
   pClan->issecond           =   FALSE;
   pClan->ischamp            =   FALSE;
   pClan->vnum               =   0;
-  pClan->recall             =   ROOM_VNUM_TEMPLE;
+  pClan->recall             =   ROOM_VNUM_LIMBO;
   pClan->members            =   0;
   pClan->pkills             =   0;
   pClan->mkills             =   0;

@@ -320,14 +320,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "acid blast",
-    { L_APP,L_APP,L_APP },
-    spell_acid_blast,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,20,12,
-    "&gacid blast&X","!Acid Blast!","",FALSE,SLOT(0)
-  },
-
-  {
     "animate dead",
     { L_APP,L_APP,L_APP },
     spell_animate,TAR_OBJ_INV,POS_STANDING,
@@ -2421,14 +2413,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     { L_APP, 25, L_APP },
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     &gsn_lure,0,32,"","!lure!",FALSE,SLOT(0)
-  },
-  {
-    "image",
-    { L_APP,L_APP,L_APP },
-    spell_image,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    &gsn_image,50,12,"",
-    "Your images fade.",
-    "$n's multiple images fade.",TRUE,SLOT(203)
   },
   {
     "silence",

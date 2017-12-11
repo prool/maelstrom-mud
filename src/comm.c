@@ -2137,17 +2137,13 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
 
         ch->prompt = str_dup( "<&Y%hhp &C%mm &G%vmv&w> " );
 
-        if ( ch->start_align == 'E' ) {
-          char_to_room( ch, get_room_index( ROOM_VNUM_RW_SCHOOL ) );
-        } else {
-          char_to_room( ch, get_room_index( ROOM_VNUM_SCHOOL ) );
-        }
+        char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
       } else if ( ch->in_room ) {
         char_to_room( ch, ch->in_room );
       } else if ( IS_IMMORTAL( ch ) ) {
         char_to_room( ch, get_room_index( ROOM_VNUM_CHAT ) );
       } else {
-        char_to_room( ch, get_room_index( ROOM_VNUM_TEMPLE ) );
+        char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
       }
 
       if ( !IS_SET( ch->act, PLR_WIZINVIS ) && !IS_AFFECTED( ch, AFF_INVISIBLE ) ) {
@@ -3215,7 +3211,7 @@ void hotreboot_recover() {
 
       /* Just In Case */
       if ( !d->character->in_room ) {
-        d->character->in_room = get_room_index( ROOM_VNUM_TEMPLE );
+        d->character->in_room = get_room_index( ROOM_VNUM_LIMBO );
       }
 
       /* Insert in the char_list */

@@ -913,7 +913,6 @@ struct  kill_data {
 #define OBJ_VNUM_BERRY         19
 #define OBJ_VNUM_MUSHROOM      20
 #define OBJ_VNUM_LIGHT_BALL    21
-#define OBJ_VNUM_SPRING        22
 #define OBJ_VNUM_SOULGEM       23
 #define OBJ_VNUM_PARCHMENT     25050
 #define OBJ_VNUM_QUILL         25051
@@ -2576,7 +2575,6 @@ DECLARE_SPELL_FUN( spell_colour_spray );
 DECLARE_SPELL_FUN( spell_continual_light );
 DECLARE_SPELL_FUN( spell_control_weather );
 DECLARE_SPELL_FUN( spell_create_food );
-DECLARE_SPELL_FUN( spell_create_spring );
 DECLARE_SPELL_FUN( spell_create_water );
 DECLARE_SPELL_FUN( spell_cure_blindness );
 DECLARE_SPELL_FUN( spell_cure_critical );

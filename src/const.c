@@ -490,14 +490,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "create spring",
-    { L_APP,L_APP,L_APP },
-    spell_create_spring,TAR_IGNORE,POS_STANDING,
-    NULL,20,12,
-    "","!Create Spring!","",FALSE,SLOT(0)
-  },
-
-  {
     "create water",
     { L_APP,L_APP,L_APP },
     spell_create_water,TAR_OBJ_INV,POS_STANDING,

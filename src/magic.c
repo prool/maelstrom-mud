@@ -1476,19 +1476,6 @@ void spell_create_food( int sn, int level, CHAR_DATA * ch, void * vo ) {
   act( AT_ORANGE, "$p suddenly appears.", ch, mushroom, NULL, TO_CHAR );
   act( AT_ORANGE, "$p suddenly appears.", ch, mushroom, NULL, TO_ROOM );
   return;
-}
-
-void spell_create_spring( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * spring;
-
-  spring        = create_object( get_obj_index( OBJ_VNUM_SPRING ), 0 );
-  spring->timer = level;
-  obj_to_room( spring, ch->in_room );
-
-  act( AT_BLUE, "$p flows from the ground.", ch, spring, NULL, TO_CHAR );
-  act( AT_BLUE, "$p flows from the ground.", ch, spring, NULL, TO_ROOM );
-  return;
-}
 
 void spell_create_water( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA * obj = (OBJ_DATA *) vo;

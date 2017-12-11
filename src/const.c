@@ -1203,43 +1203,11 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "flury",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_flury,0,50,
-    "flury","!flury!","",FALSE,SLOT(0)
-  },
-
-  {
     "kick",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     &gsn_kick,0,8,
     "kick","!Kick!","",FALSE,SLOT(0)
-  },
-
-  {
-    "high kick",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_high_kick,0,10,
-    "high kick","!High Kick!","",FALSE,SLOT(0)
-  },
-
-  {
-    "jump kick",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_jump_kick,0,20,
-    "jump kick","!Jump Kick!","",FALSE,SLOT(0)
-  },
-
-  {
-    "spin kick",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_spin_kick,0,25,
-    "spin kick","!Spin Kick!","",FALSE,SLOT(0)
   },
 
   {
@@ -1280,46 +1248,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     &gsn_punch,0,10,
     "punch","!punch!","",FALSE,SLOT(0)
-  },
-
-  {
-    "jab punch",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_jab_punch,0,10,
-    "jab","!jab!","",FALSE,SLOT(0)
-  },
-
-  {
-    "kidney punch",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_kidney_punch,0,10,
-    "kindey punch","!kidney punch!","",FALSE,SLOT(0)
-  },
-
-  {
-    "cross punch",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_cross_punch,0,10,
-    "cross punch","!cross punch!","",FALSE,SLOT(0)
-  },
-
-  {
-    "roundhouse punch",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_roundhouse_punch,0,18,
-    "roundhouse","!roundhouse punch!","",FALSE,SLOT(0)
-  },
-
-  {
-    "uppercut punch",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_uppercut_punch,0,18,
-    "uppercut","!uppercut punch!","",FALSE,SLOT(0)
   },
 
   {

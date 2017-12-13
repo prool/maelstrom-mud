@@ -3626,32 +3626,6 @@ void do_auto( CHAR_DATA * ch, char * argument ) {
 
 }
 
-void do_irongrip( CHAR_DATA * ch, char * argument ) {
-  AFFECT_DATA af;
-
-  if ( IS_NPC( ch ) || number_percent() > ch->pcdata->learned[ gsn_grip ] ) {
-    send_to_char( AT_WHITE, "You failed.\n\r", ch );
-    return;
-  }
-
-  if ( ch->position == POS_FIGHTING || is_affected( ch, gsn_grip ) ) {
-    return;
-  }
-
-  af.type      = gsn_grip;
-  af.level     = ch->level;
-  af.duration  = ch->level / 6;
-  af.location  = APPLY_ANTI_DIS;
-  af.modifier  = ch->level - ( ch->level / 4 );
-  af.bitvector = 0;
-  affect_to_char( ch, &af );
-  send_to_char( AT_BLUE, "You grip your weapon tightly.\n\r", ch );
-
-  update_skpell( ch, gsn_grip );
-
-  return;
-}
-
 void do_induct( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA  * victim;
   char         arg[ MAX_STRING_LENGTH ];

@@ -244,7 +244,6 @@ struct cmd_type cmd_table [] = {
   { "follow",          do_follow,            POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "group",           do_group,             POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
   { "hide",            do_hide,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
-  { "iron grip",       do_irongrip,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "poison weapon",   do_poison_weapon,     POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
   { "practice",        do_practice,          POS_SLEEPING, 0,     LOG_NORMAL, FALSE   },
   { "qui",             do_qui,               POS_DEAD,     0,     LOG_NORMAL, FALSE   },

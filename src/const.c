@@ -630,16 +630,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "iron grip",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_STANDING,
-    &gsn_grip,0,8,
-    "",
-    "You loosen your hold on your weapon.",
-    "$n has loosened $s hold on $s weapon.",FALSE,SLOT(34)
-  },
-
-  {
     "kick",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -721,15 +711,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "shadow form",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_STANDING,
-    &gsn_shadow,0,12,
-    "","You no longer move in the shadows.",
-    "$n returns from the shadows.",FALSE,SLOT(54)
-  },
-
-  {
     "throw",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_OFFENSIVE,POS_STANDING,
@@ -795,15 +776,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "entangle",
-    { L_APP,L_APP,L_APP },
-    spell_entangle,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,25,14,
-    "","The vines release their grasp.",
-    "The vines unwrap themselves from $n.",TRUE,SLOT(67)
-  },
-
-  {
     "confusion",
     { L_APP,L_APP,L_APP },
     spell_confusion,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -818,15 +790,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     &gsn_trip,0,12,
     "trip","!Trip!","",FALSE,SLOT(0)
-  },
-
-  {
-    "fumble",
-    { L_APP,L_APP,L_APP },
-    spell_fumble,TAR_CHAR_OFFENSIVE,POS_STANDING,
-    NULL,50,24,
-    "","You feel more sure of hand.",
-    "$n looks more confident.",TRUE,SLOT(73)
   },
 
   {

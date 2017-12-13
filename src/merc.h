@@ -701,7 +701,6 @@ struct  kill_data {
 #define AFF_NOASTRAL        4
 #define AFF_TRUESIGHT       16
 #define AFF_CONFUSED        1024
-#define AFF_FUMBLE          2048
 #define AFF_HALLUCINATING   8192
 #define AFF_RAGE            65536
 #define AFF_PLOADED         1073741824
@@ -1887,9 +1886,7 @@ extern int gsn_escape;
 extern int gsn_antidote;
 extern int gsn_haggle;
 extern int gsn_incinerate;
-extern int gsn_grip;
 extern int gsn_lure;
-extern int gsn_shadow;
 extern int gsn_flip;
 extern int gsn_hallucinate;
 
@@ -2198,7 +2195,6 @@ DECLARE_DO_FUN( do_info );
 DECLARE_DO_FUN( do_inventory );
 DECLARE_DO_FUN( do_invoke );
 DECLARE_DO_FUN( do_invis );
-DECLARE_DO_FUN( do_irongrip );
 DECLARE_DO_FUN( do_join );
 DECLARE_DO_FUN( do_kick );
 DECLARE_DO_FUN( do_kill );
@@ -2288,7 +2284,6 @@ DECLARE_DO_FUN( do_sell );
 DECLARE_DO_FUN( do_seize );
 DECLARE_DO_FUN( do_separate );
 DECLARE_DO_FUN( do_setlev );
-DECLARE_DO_FUN( do_shadow );
 DECLARE_DO_FUN( do_shout );
 DECLARE_DO_FUN( do_shutdow );
 DECLARE_DO_FUN( do_shutdown );
@@ -2411,9 +2406,7 @@ DECLARE_SPELL_FUN( spell_summon );
 DECLARE_SPELL_FUN( spell_teleport );
 DECLARE_SPELL_FUN( spell_word_of_recall );
 DECLARE_SPELL_FUN( spell_truesight );
-DECLARE_SPELL_FUN( spell_entangle );
 DECLARE_SPELL_FUN( spell_confusion );
-DECLARE_SPELL_FUN( spell_fumble );
 DECLARE_SPELL_FUN( spell_purify );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_hallucinate );

@@ -1041,7 +1041,6 @@ void do_hide( CHAR_DATA * ch, char * argument ) {
 void do_visible( CHAR_DATA * ch, char * argument ) {
   affect_strip( ch, gsn_invis );
   affect_strip( ch, gsn_sneak );
-  affect_strip( ch, gsn_shadow );
   affect_strip( ch, gsn_hide );
   REMOVE_BIT( ch->affected_by, AFF_HIDE );
   REMOVE_BIT( ch->affected_by, AFF_INVISIBLE );
@@ -1493,34 +1492,6 @@ void do_raise( CHAR_DATA * ch, char * argument ) {
   act( AT_CYAN, "$n's $T increase!", ch, NULL, pOutput, TO_ROOM );
 
   return;
-}
-
-void do_shadow( CHAR_DATA * ch, char * argument ) {
-  AFFECT_DATA af;
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_shadow ) ) {
-    send_to_char( C_DEFAULT, "Huh?\n\r", ch );
-    return;
-  }
-
-  send_to_char( AT_DGREY, "You attempt to move in the shadows.\n\r", ch );
-  affect_strip( ch, gsn_shadow );
-
-  if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_shadow ] ) {
-    af.type      = gsn_shadow;
-    af.level     = ch->level;
-    af.duration  = ch->level;
-    af.modifier  = APPLY_NONE;
-    af.location  = 0;
-    af.bitvector = AFF_SNEAK;
-    affect_to_char( ch, &af );
-
-    update_skpell( ch, gsn_shadow );
-  }
-
-  return;
-
 }
 
 /*

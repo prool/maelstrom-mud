@@ -1547,62 +1547,6 @@ void spell_confusion( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_fumble( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-  char        buf[ MAX_STRING_LENGTH ];
-
-  if ( IS_AFFECTED2( victim, AFF_FUMBLE ) ) {
-    return;
-  }
-
-  if ( saves_spell( level, victim ) ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 10 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_FUMBLE;
-  affect_to_char2( victim, &af );
-
-  af.location  = APPLY_HITROLL;
-  af.modifier  = 0 - level / 5;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  sprintf( buf, "You feel clumsy.\n\r" );
-  send_to_char( AT_WHITE, buf, victim );
-  act( AT_WHITE, "$n looks very clumsy.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-void spell_entangle( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-  char        buf[ MAX_STRING_LENGTH ];
-
-  if ( IS_AFFECTED( victim, AFF_ANTI_FLEE ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 10 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_ANTI_FLEE;
-  affect_to_char( victim, &af );
-
-  sprintf( buf, "%s calls forth nature to hold you in place.\n\r", ch->name );
-  send_to_char( AT_GREEN, buf, victim );
-  act( AT_GREEN, "Hundreds of vines reach from the ground to entangle $n.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_scry( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

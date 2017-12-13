@@ -4640,10 +4640,6 @@ void do_oset( CHAR_DATA * ch, char * argument ) {
       value = ITEM_GLOW;
     }
 
-    if ( !str_cmp( arg3, "dark" ) || !str_cmp( arg3, "d" ) ) {
-      value = ITEM_DARK;
-    }
-
     if ( !strcmp( arg3, "lock" ) || !str_cmp( arg3, "l" ) ) {
       value = ITEM_LOCK;
     }

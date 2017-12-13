@@ -948,14 +948,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "turn evil",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_turn_evil,0,12,
-    "&Wdivine power&X","!Turn Evil!","",FALSE,SLOT(0)
-  },
-
-  {
     "gouge",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,

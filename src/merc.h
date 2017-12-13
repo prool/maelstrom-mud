@@ -1858,7 +1858,6 @@ extern int gsn_track;
 extern int gsn_shield_block;
 extern int gsn_drain_life;
 extern int gsn_mental_drain;
-extern int gsn_turn_evil;
 extern int gsn_bash_door;
 extern int gsn_stun;
 extern int gsn_backstab;

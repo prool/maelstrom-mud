@@ -75,7 +75,6 @@ int gsn_track;
 int gsn_shield_block;
 int gsn_drain_life;
 int gsn_mental_drain;
-int gsn_turn_evil;
 int gsn_bash_door;
 int gsn_stun;
 int gsn_backstab;

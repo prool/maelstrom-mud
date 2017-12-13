@@ -347,17 +347,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "bless",
-    { L_APP,L_APP,L_APP },
-    spell_bless,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,5,12,
-    "",
-    "You feel less righteous.",
-    "$n looks less righteous.",
-    FALSE,SLOT(2)
-  },
-
-  {
     "blindness",
     { L_APP,L_APP,L_APP },
     spell_blindness,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -1645,14 +1634,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "The vines unwrap themselves from $n.",TRUE,SLOT(67)
   },
 
-  {
-    "dark blessing",
-    { L_APP,L_APP,L_APP },
-    spell_darkbless,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,50,24,
-    "","The sweet caress of oblivion has lifted.",
-    "The sweet caress of oblivion rises from $n.",FALSE,SLOT(68)
-  },
   /* 250 */
 
   {

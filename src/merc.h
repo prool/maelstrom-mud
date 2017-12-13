@@ -959,7 +959,6 @@ struct  kill_data {
 #define ITEM_INVIS        32
 #define ITEM_MAGIC        64
 #define ITEM_NODROP       128
-#define ITEM_BLESS        256
 #define ITEM_ANTI_GOOD    512
 #define ITEM_ANTI_EVIL    1024
 #define ITEM_ANTI_NEUTRAL 2048
@@ -1052,7 +1051,6 @@ struct  kill_data {
 #define APPLY_PASS_DOOR        ( PERM_SPELL_BEGIN + 11 )
 #define APPLY_SCRY             ( PERM_SPELL_BEGIN + 17 )
 #define APPLY_POISON           ( PERM_SPELL_BEGIN + 20 )
-#define APPLY_BLESS            ( PERM_SPELL_BEGIN + 21 )
 #define APPLY_GIANT_STRENGTH   ( PERM_SPELL_BEGIN + 22 )
 #define APPLY_COMBAT_MIND      ( PERM_SPELL_BEGIN + 23 )
 
@@ -2458,7 +2456,6 @@ DECLARE_SPELL_FUN( spell_armor );
 DECLARE_SPELL_FUN( spell_astral );
 DECLARE_SPELL_FUN( spell_aura );
 DECLARE_SPELL_FUN( spell_bark_skin );
-DECLARE_SPELL_FUN( spell_bless );
 DECLARE_SPELL_FUN( spell_blindness );
 DECLARE_SPELL_FUN( spell_blood_bath );
 DECLARE_SPELL_FUN( spell_blur );
@@ -2547,7 +2544,6 @@ DECLARE_SPELL_FUN( spell_flame_blade );
 DECLARE_SPELL_FUN( spell_frost_blade );
 DECLARE_SPELL_FUN( spell_web );
 DECLARE_SPELL_FUN( spell_entangle );
-DECLARE_SPELL_FUN( spell_darkbless );
 DECLARE_SPELL_FUN( spell_confusion );
 DECLARE_SPELL_FUN( spell_mind_probe );
 DECLARE_SPELL_FUN( spell_chain_lightning );

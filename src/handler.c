@@ -535,9 +535,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
     case APPLY_SCRY:
       psn = skill_lookup( "scry" );
       break;
-    case APPLY_BLESS:
-      psn = skill_lookup( "bless" );
-      break;
     case APPLY_GIANT_STRENGTH:
       psn = skill_lookup( "giant strength" );
       strcpy( buf, "$n no longer looks so mighty." );
@@ -2230,8 +2227,6 @@ char * affect_loc_name( int location ) {
       return "'pass door'";
     case APPLY_SCRY:
       return "'scry'";
-    case APPLY_BLESS:
-      return "'bless'";
     case APPLY_GIANT_STRENGTH:
       return "'giant strength'";
   }
@@ -2397,10 +2392,6 @@ char * extra_bit_name( int extra_flags ) {
 
   if ( extra_flags & ITEM_NODROP       ) {
     strcat( buf, " nodrop" );
-  }
-
-  if ( extra_flags & ITEM_BLESS        ) {
-    strcat( buf, " bless" );
   }
 
   if ( extra_flags & ITEM_ANTI_GOOD    ) {

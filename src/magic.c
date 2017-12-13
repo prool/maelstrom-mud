@@ -211,7 +211,6 @@ void say_spell( CHAR_DATA * ch, int sn ) {
     { " ",    " "       },
     { "ar",   "abra"    },
     { "au",   "kada"    },
-    { "bless", "fido"    },
     { "blind", "nose"    },
     { "bur",  "mosa"    },
     { "cu",   "judi"    },
@@ -970,62 +969,6 @@ void spell_aura( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   send_to_char( AT_BLUE, "You feel a wave of peace flow lightly over your body.\n\r", victim );
   act( AT_BLUE, "$n looks very peaceful.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-void spell_bless( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( victim->position == POS_FIGHTING || is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 6 + level;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = level / 8;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_SAVING_SPELL;
-  af.modifier = 0 - level / 8;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "You feel righteous.\n\r", victim );
-  return;
-}
-
-void spell_darkbless( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( victim->position == POS_FIGHTING || is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 20 + level;
-  af.location  = APPLY_DAMROLL;
-  af.modifier  = level / 6;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_HIT;
-  af.modifier = level * 3;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "You call forth the hand of oblivion.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "The hand of oblivion rests upon you.\n\r", victim );
   return;
 }
 

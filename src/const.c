@@ -2082,13 +2082,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","You feel more sane.",
     "$n looks more sane.",FALSE,SLOT(82)
   },
-  {
-    "enhanced reflexes",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_SELF,POS_STANDING,
-    &gsn_reflex,0,36,
-    "","Your reflexes slow down.","$n slows down.",FALSE,SLOT(84)
-  },
 
   {
     "track",

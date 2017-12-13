@@ -3757,10 +3757,6 @@ void do_frenzy( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_reflex( CHAR_DATA * ch, char * argument ) {
-  return;
-}
-
 void do_flyingkick( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim;
   char        arg[ MAX_INPUT_LENGTH ];

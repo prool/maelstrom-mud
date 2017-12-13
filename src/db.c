@@ -125,7 +125,6 @@ int gsn_fastheal;
 int gsn_rage;
 int gsn_rush;
 int gsn_frenzy;
-int gsn_reflex;
 int gsn_headbutt;
 int gsn_flykick;
 int gsn_nerve;

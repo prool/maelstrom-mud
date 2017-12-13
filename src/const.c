@@ -941,16 +941,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "displacement",
-    { L_APP,L_APP,L_APP },
-    spell_displacement,TAR_CHAR_SELF,POS_STANDING,
-    NULL,10,12,
-    "",
-    "You are no longer displaced.",
-    "$n's image fades as he appears in another spot.",FALSE,SLOT(41)
-  },
-
-  {
     "flesh armor",
     { L_APP,L_APP,L_APP },
     spell_flesh_armor,TAR_CHAR_SELF,POS_STANDING,
@@ -1246,15 +1236,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,100,12,
     "","You shift back into the physical plane.",
     "$n's body shifts back into the existing world.",FALSE,SLOT(75)
-  },
-
-  {
-    "disrupt",
-    { L_APP,L_APP,L_APP },
-    spell_disrupt,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,125,12,
-    "disruption","You feel less disrupted.",
-    "$n looks more stable.",TRUE,SLOT(76)
   },
 
   {

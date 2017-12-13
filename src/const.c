@@ -1064,14 +1064,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "psionic blast",
-    { L_APP,L_APP,L_APP },
-    spell_psionic_blast,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,25,12,
-    "&wpsionic blast&X","!Psionic Blast!","",FALSE,SLOT(0)
-  },
-
-  {
     "psychic crush",
     { L_APP,L_APP,L_APP },
     spell_psychic_crush,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

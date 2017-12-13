@@ -2504,7 +2504,6 @@ DECLARE_SPELL_FUN( spell_intellect_fortress );
 DECLARE_SPELL_FUN( spell_lend_health );
 DECLARE_SPELL_FUN( spell_levitation );
 DECLARE_SPELL_FUN( spell_mind_thrust );
-DECLARE_SPELL_FUN( spell_psionic_blast );
 DECLARE_SPELL_FUN( spell_psychic_crush );
 DECLARE_SPELL_FUN( spell_psychic_drain );
 DECLARE_SPELL_FUN( spell_psychic_healing );

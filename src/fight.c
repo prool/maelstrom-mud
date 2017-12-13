@@ -267,17 +267,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
    * Hit.
    * Calc damage.
    */
-  if ( IS_AFFECTED( victim, AFF_VIBRATING ) ) {
-    if ( ( number_percent() < 50 )
-         || ( number_percent() < 17 ) ) {
-      spell_psionic_blast( skill_lookup( "psionic blast" ), 25, victim, ch );
-    }
-  }
-
-  if ( !victim || victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
   if ( IS_AFFECTED2( victim, AFF_BLADE ) ) {
     if ( number_percent() < 40 ) {
       spell_holy_fires( skill_lookup( "holy fires" ), 45, victim, ch );

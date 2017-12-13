@@ -2803,27 +2803,6 @@ void spell_detonate( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_flesh_armor( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_AC;
-  af.modifier  = -45;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "Your flesh turns to steel.\n\r", victim );
-  act( AT_BLUE, "$N's flesh turns to steel.", ch, NULL, victim, TO_NOTVICT );
-  return;
-}
-
 void spell_inflict_pain( int sn, int level, CHAR_DATA * ch, void * vo ) {
   int dam = dice( 2, 10 ) + level / 2;
   dam = sc_dam( ch, dam );

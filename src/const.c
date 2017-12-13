@@ -933,16 +933,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "flesh armor",
-    { L_APP,L_APP,L_APP },
-    spell_flesh_armor,TAR_CHAR_SELF,POS_STANDING,
-    NULL,15,12,
-    "",
-    "Your skin returns to normal.",
-    "$n's skin returns to its normal texture.",FALSE,SLOT(47)
-  },
-
-  {
     "inflict pain",
     { L_APP,L_APP,L_APP },
     spell_inflict_pain,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

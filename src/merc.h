@@ -2478,7 +2478,6 @@ DECLARE_SPELL_FUN( spell_combat_mind );
 DECLARE_SPELL_FUN( spell_control_flames );
 DECLARE_SPELL_FUN( spell_create_sound );
 DECLARE_SPELL_FUN( spell_detonate );
-DECLARE_SPELL_FUN( spell_flesh_armor );
 DECLARE_SPELL_FUN( spell_inflict_pain );
 DECLARE_SPELL_FUN( spell_thought_shield );
 

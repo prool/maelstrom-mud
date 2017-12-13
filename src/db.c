@@ -141,7 +141,6 @@ int gsn_ward_safe;
 int gsn_ward_heal;
 int gsn_throw;
 int gsn_domination;
-int gsn_heighten;
 int gsn_shadow;
 int gsn_lure;
 int gsn_flip;

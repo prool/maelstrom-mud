@@ -1096,7 +1096,6 @@ struct  kill_data {
 #define APPLY_BLESS            ( PERM_SPELL_BEGIN + 21 )
 #define APPLY_GIANT_STRENGTH   ( PERM_SPELL_BEGIN + 22 )
 #define APPLY_COMBAT_MIND      ( PERM_SPELL_BEGIN + 23 )
-#define APPLY_HEIGHTEN_SENSES  ( PERM_SPELL_BEGIN + 24 )
 #define APPLY_BIO_ACCELERATION ( PERM_SPELL_BEGIN + 25 )
 
 /*
@@ -1996,7 +1995,6 @@ extern int gsn_incinerate;
 extern int gsn_grip;
 extern int gsn_lure;
 extern int gsn_domination;
-extern int gsn_heighten;
 extern int gsn_shadow;
 extern int gsn_flip;
 extern int gsn_hallucinate;
@@ -2292,7 +2290,6 @@ DECLARE_DO_FUN( do_goto );
 DECLARE_DO_FUN( do_group );
 DECLARE_DO_FUN( do_gtell );
 DECLARE_DO_FUN( do_guard );
-DECLARE_DO_FUN( do_heighten );
 DECLARE_DO_FUN( do_help );
 DECLARE_DO_FUN( do_hero );
 DECLARE_DO_FUN( do_hide );

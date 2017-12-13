@@ -497,8 +497,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
       psn        = skill_lookup( "bio-acceleration" );
       paf->level = ch->level;
       break;
-    case APPLY_HEIGHTEN_SENSES:
-      break;
     case APPLY_SNEAK:
       sn = gsn_sneak;
 
@@ -2309,8 +2307,6 @@ char * affect_loc_name( int location ) {
       return "'bless'";
     case APPLY_GIANT_STRENGTH:
       return "'giant strength'";
-    case APPLY_HEIGHTEN_SENSES:
-      return "'heighten-senses'";
     case APPLY_BIO_ACCELERATION:
       return "'bio-acceleration'";
       /* END */

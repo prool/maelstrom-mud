@@ -252,7 +252,6 @@ struct cmd_type cmd_table [] = {
   { "bash door",       do_bash,              POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "follow",          do_follow,            POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "group",           do_group,             POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
-  { "heighten senses", do_heighten,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "enhance reflexes", do_reflex,           POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "hide",            do_hide,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "iron grip",       do_irongrip,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },

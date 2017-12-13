@@ -1431,15 +1431,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "heighten senses",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_SELF,POS_STANDING,
-    &gsn_heighten,0,0,
-    "","Your senses return to normal.",
-    "$n's senses return to normal.",FALSE,SLOT(48)
-  },
-
-  {
     "inertial barrier",
     { L_APP,L_APP,L_APP },
     spell_inertial_barrier,TAR_IGNORE,POS_STANDING,

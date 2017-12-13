@@ -1500,10 +1500,6 @@ void do_raise( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_heighten( CHAR_DATA * ch, char * argument ) {
-  return;
-}
-
 void do_shadow( CHAR_DATA * ch, char * argument ) {
   AFFECT_DATA af;
 

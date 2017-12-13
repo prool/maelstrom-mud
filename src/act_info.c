@@ -535,15 +535,6 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     buf2[ 0 ] = '\0';
   }
 
-  if ( IS_AFFECTED2( victim, AFF_DANCING ) ) {
-    strcat( buf2, "&w    " );
-    strcat( buf2, visible_name( victim, ch, FALSE ) );
-    strcat( buf2, " &.is s&.urrounde&.d by &.thou&.sand&.s of &.danci&.ng l&.igh&.ts&w.\n\r" );
-    buf2[ 4 ] = UPPER( buf2[ 4 ] );
-    send_to_char( AT_GREY, buf2, ch );
-    buf2[ 0 ] = '\0';
-  }
-
   return;
 }
 

@@ -508,10 +508,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       }
     }
 
-    if ( IS_AFFECTED2( victim, AFF_DANCING ) ) {
-      dam += dam / 2;
-    }
-
     if ( IS_AFFECTED( victim, AFF_CHAOS )
          && !( dt == gsn_backstab && chance( number_range( 5, 10 ) ) ) ) {
       dam -= dam / 4;

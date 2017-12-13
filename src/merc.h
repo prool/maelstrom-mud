@@ -707,7 +707,6 @@ struct  kill_data {
 #define AFF_BERSERK         256
 #define AFF_CONFUSED        1024
 #define AFF_FUMBLE          2048
-#define AFF_DANCING         4096
 #define AFF_HALLUCINATING   8192
 #define AFF_PHASED          16384
 #define AFF_FIELD           32768
@@ -2574,7 +2573,6 @@ DECLARE_SPELL_FUN( spell_chain_lightning );
 DECLARE_SPELL_FUN( spell_meteor_swarm );
 DECLARE_SPELL_FUN( spell_psychic_quake );
 DECLARE_SPELL_FUN( spell_fumble );
-DECLARE_SPELL_FUN( spell_dancing_lights );
 DECLARE_SPELL_FUN( spell_summon_shadow );
 DECLARE_SPELL_FUN( spell_summon_beast );
 DECLARE_SPELL_FUN( spell_summon_trent );

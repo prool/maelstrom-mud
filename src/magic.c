@@ -4048,32 +4048,6 @@ void spell_bladebarrier( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_dancing_lights( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED2( victim, AFF_DANCING ) ) {
-    return;
-  }
-
-  if ( IS_AFFECTED( victim, AFF_BLIND ) || saves_spell( level, victim ) ) {
-    send_to_char( AT_BLUE, "You have failed.\n\r", ch );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 6 );
-  af.location  = APPLY_HITROLL;
-  af.modifier  = level / 6;
-  af.bitvector = AFF_DANCING;
-  affect_to_char2( victim, &af );
-
-  act( AT_WHITE, "&.Thou&.sand&.s &.of &.danci&.ng &.ligh&.ts &.surr&.ound &.you&.!&w", victim, NULL, victim, TO_VICT );
-  act( AT_GREY, "&W$n's &.body &.is &.surr&.ounded &.by d&.anci&.ng l&.ights.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_combat_mind( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

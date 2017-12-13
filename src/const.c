@@ -931,15 +931,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "holy strength",
-    { L_APP,L_APP,L_APP },
-    spell_holy_strength,TAR_CHAR_SELF,POS_STANDING,
-    NULL,100,12,
-    "","Your divine strength fades.",
-    "The divine strength surrounding $n fades.",FALSE,SLOT(59)
-  },
-
-  {
     "shield block",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,

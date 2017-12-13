@@ -2865,38 +2865,6 @@ void spell_dispel_magic( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
 }
 
-void spell_holy_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( victim->position == POS_FIGHTING || is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 6 + level;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = level / 4;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_DAMROLL;
-  af.modifier = level / 4;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_STR;
-  af.modifier = level / 50;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "The strength of the gods fills you.\n\r", victim );
-  return;
-}
-
 /* Adds + dam to spells for having spellcraft skill */
 int sc_dam( CHAR_DATA * ch, int dam ) {
   double mod;

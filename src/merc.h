@@ -2445,7 +2445,6 @@ DECLARE_SPELL_FUN( spell_word_of_recall );
 DECLARE_SPELL_FUN( spell_summon_swarm );
 DECLARE_SPELL_FUN( spell_summon_pack );
 DECLARE_SPELL_FUN( spell_summon_demon );
-DECLARE_SPELL_FUN( spell_holy_strength );
 DECLARE_SPELL_FUN( spell_summon_angel );
 DECLARE_SPELL_FUN( spell_holy_fires );
 DECLARE_SPELL_FUN( spell_truesight );

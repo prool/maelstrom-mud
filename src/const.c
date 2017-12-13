@@ -909,14 +909,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "complete healing",
-    { L_APP,L_APP,L_APP },
-    spell_complete_healing,TAR_CHAR_SELF,POS_STANDING,
-    NULL,200,12,
-    "","!Complete Healing!","",FALSE,SLOT(0)
-  },
-
-  {
     "control flames",
     { L_APP,L_APP,L_APP },
     spell_control_flames,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -1266,14 +1258,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "healing hands",
-    { L_APP,L_APP,L_APP },
-    spell_healing_hands,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,40,12,
-    "","!Healing Hands!","",FALSE,SLOT(0)
-  },
-
-  {
     "pray",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_SELF,POS_RESTING,
@@ -1303,13 +1287,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","!Gravebind!","",FALSE,SLOT(0)
   },
 
-  {
-    "fast healing",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_SLEEPING,
-    &gsn_fastheal,0,0,
-    "","!Fast Healing!","",FALSE,SLOT(0)
-  },
   {
     "rage",
     { L_APP, L_APP, 25 },

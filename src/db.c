@@ -115,7 +115,6 @@ int gsn_staves;
 int gsn_wands;
 int gsn_gravebind;
 int gsn_multiburst;
-int gsn_fastheal;
 int gsn_rage;
 int gsn_headbutt;
 int gsn_retreat;

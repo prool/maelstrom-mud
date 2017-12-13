@@ -2733,31 +2733,6 @@ void spell_combat_mind( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-/* psi people shouldn't have this powerful healing */
-void spell_complete_healing( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         heal;
-
-  heal = UMIN( victim->hit + 600, MAX_HIT( victim ) );
-
-  // if ( ch->race == RACE_ANGEL )
-  //  heal = heal * 2;
-  if ( heal > MAX_HIT( victim ) ) {
-    heal = MAX_HIT( victim );
-  }
-
-  victim->hit = heal;
-  update_pos( victim );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "Ahhhhhh...You feel MUCH better!\n\r", victim );
-  send_to_char( AT_BLUE, "Have a nice day.\n\r", victim );
-  return;
-}
-
 void spell_control_flames( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA      * victim      = (CHAR_DATA *) vo;
   static const int dam_each [] = {
@@ -3826,45 +3801,6 @@ void spell_holy_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   send_to_char( AT_BLUE, "The strength of the gods fills you.\n\r", victim );
-  return;
-}
-
-void spell_healing_hands( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim  = (CHAR_DATA *)vo;
-  int         divisor = 1;
-  int         heal    = 0;
-
-  if ( ch == victim ) {
-    int mana;
-
-    /* Refund mana lost by casting.  Make it seem like a new target type. */
-    mana      = MANA_COST( ch, sn );
-    ch->mana -= mana;
-    send_to_char( AT_BLUE, "You cannot cast this spell on yourself.\n\r", ch );
-    return;
-  }
-
-  if ( victim->hit >= MAX_HIT( victim ) ) {
-    act( AT_BLUE, "You heal $N.", ch, NULL, victim, TO_CHAR );
-    return;
-  }
-
-  if ( IS_NEUTRAL( ch ) ) {
-    divisor = 2;
-  }
-
-  if ( IS_EVIL( ch ) ) {
-    divisor = 4;
-  }
-
-  /*  divisos += 2;*/
-  heal = ( MAX_HIT( victim ) - victim->hit ) / divisor;
-
-  victim->hit += heal;
-
-  act( AT_BLUE, "You heal $N.", ch, NULL, victim, TO_CHAR );
-  act( AT_BLUE, "$n heals you.", ch, NULL, victim, TO_VICT );
-  act( AT_BLUE, "$n heals $N.", ch, NULL, victim, TO_NOTVICT );
   return;
 }
 

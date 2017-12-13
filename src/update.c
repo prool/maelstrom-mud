@@ -166,21 +166,14 @@ int hit_gain( CHAR_DATA * ch ) {
 
     switch ( ch->position ) {
       case POS_SLEEPING:
-        gain += ( ch->pcdata->learned[ gsn_fastheal ] > 0
-                  && ch->pcdata->learned[ gsn_fastheal ] > number_percent() ) ?
-                get_curr_con( ch ) * 2 :
-                get_curr_con( ch );
+        gain += get_curr_con( ch );
         break;
       case POS_RESTING:
-        gain += ( ch->pcdata->learned[ gsn_fastheal ] > 0
-                  && ch->pcdata->learned[ gsn_fastheal ] > number_percent() ) ?
-                get_curr_con( ch ) :
-                get_curr_con( ch ) / 2;
+        gain += get_curr_con( ch ) / 2;
         break;
       default:
-        gain += ( ch->pcdata->learned[ gsn_fastheal ] > 0
-                  && ch->pcdata->learned[ gsn_fastheal ] > number_percent() ) ?
-                get_curr_con( ch ) : 0;
+        gain += 0;
+        break;
     }
 
     if ( ch->pcdata->condition[ COND_FULL  ] == 0 ) {

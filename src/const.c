@@ -1371,14 +1371,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "stench of decay",
-    { L_APP,L_APP,L_APP },
-    spell_stench_of_decay,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&zstench of decay&X","!Stench of Decay!","",FALSE,SLOT(0)
-  },
-  /* Werewolf starts here -- Hannibal */
-  {
     "fast healing",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_SLEEPING,

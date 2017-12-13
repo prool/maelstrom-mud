@@ -4016,36 +4016,6 @@ void spell_healing_hands( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_stench_of_decay( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA      * victim      = (CHAR_DATA *) vo;
-  static const int dam_each [] = {
-    0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  30, 35, 40, 45, 50, 55,
-    60, 65, 70, 75, 80, 82, 84, 86, 88, 90,
-    92, 94, 96, 98, 100, 102, 104, 106, 108, 110,
-    112, 114, 116, 118, 120, 122, 124, 126, 128, 130,
-    132, 134, 136, 138, 140, 142, 144, 146, 148, 150,
-    152, 154, 156, 158, 160, 162, 164, 166, 168, 170,
-    172, 174, 176, 178, 180, 182, 184, 186, 188, 190,
-    192, 194, 196, 198, 200, 202, 204, 206, 208, 210,
-    215, 220, 225, 230, 235, 240, 245, 250, 255, 260
-  };
-  int              dam;
-
-  level = UMIN( level, sizeof( dam_each ) / sizeof( dam_each[ 0 ] ) - 1 );
-  level = UMAX( 0, level );
-  dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 7 );
-  dam   = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
 /* Adds + dam to spells for having spellcraft skill */
 int sc_dam( CHAR_DATA * ch, int dam ) {
   double mod;

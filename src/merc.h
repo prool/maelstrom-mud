@@ -2499,7 +2499,6 @@ DECLARE_SPELL_FUN( spell_mind_thrust );
 DECLARE_SPELL_FUN( spell_thought_shield );
 DECLARE_SPELL_FUN( spell_ultrablast );
 DECLARE_SPELL_FUN( gspell_flamesphere );
-DECLARE_SPELL_FUN( spell_stench_of_decay );
 
 char *  crypt( const char * key, const char * salt );
 

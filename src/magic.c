@@ -3011,30 +3011,6 @@ void spell_inflict_pain( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_intellect_fortress( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * gch;
-  AFFECT_DATA af;
-
-  for ( gch = ch->in_room->people; gch; gch = gch->next_in_room ) {
-    if ( !is_same_group( gch, ch ) || is_affected( gch, sn ) ) {
-      continue;
-    }
-
-    send_to_char( AT_BLUE, "A virtual fortress forms around you.\n\r", gch );
-    act( AT_BLUE, "A virtual fortress forms around $N.", gch, NULL, gch, TO_ROOM );
-
-    af.type      = sn;
-    af.level     = level;
-    af.duration  = 24;
-    af.location  = APPLY_AC;
-    af.modifier  = -40;
-    af.bitvector = 0;
-    affect_to_char( gch, &af );
-  }
-
-  return;
-}
-
 void spell_thought_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

@@ -977,17 +977,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "intellect fortress",
-    { L_APP,L_APP,L_APP },
-    spell_intellect_fortress,TAR_IGNORE,POS_STANDING,
-    NULL,25,24,
-    "",
-    "Your intellectual fortress crumbles.",
-    "$n's intellectual fortress crumbles.",
-    FALSE,SLOT(50)
-  },
-
-  {
     "shadow form",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,

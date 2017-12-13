@@ -2490,7 +2490,6 @@ DECLARE_SPELL_FUN( spell_displacement );
 DECLARE_SPELL_FUN( spell_disrupt );
 DECLARE_SPELL_FUN( spell_flesh_armor );
 DECLARE_SPELL_FUN( spell_inflict_pain );
-DECLARE_SPELL_FUN( spell_intellect_fortress );
 DECLARE_SPELL_FUN( spell_thought_shield );
 
 char *  crypt( const char * key, const char * salt );

@@ -693,9 +693,6 @@ struct  kill_data {
 #define AFF_SUMMONED      BV22
 #define AFF_MUTE          BV23
 #define AFF_PEACE         BV24
-#define AFF_FIRESHIELD    BV25
-#define AFF_SHOCKSHIELD   BV26
-#define AFF_ICESHIELD     BV27
 #define AFF_CHAOS         BV28
 #define AFF_SCRY          BV29
 #define AFF_ANTI_FLEE     BV30
@@ -1073,9 +1070,6 @@ struct  kill_data {
 #define APPLY_HIDE             ( PERM_SPELL_BEGIN + 9 )
 #define APPLY_FLYING           ( PERM_SPELL_BEGIN + 10 )
 #define APPLY_PASS_DOOR        ( PERM_SPELL_BEGIN + 11 )
-#define APPLY_FIRESHIELD       ( PERM_SPELL_BEGIN + 13 )
-#define APPLY_SHOCKSHIELD      ( PERM_SPELL_BEGIN + 14 )
-#define APPLY_ICESHIELD        ( PERM_SPELL_BEGIN + 15 )
 #define APPLY_CHAOS            ( PERM_SPELL_BEGIN + 16 )
 #define APPLY_SCRY             ( PERM_SPELL_BEGIN + 17 )
 #define APPLY_POISON           ( PERM_SPELL_BEGIN + 20 )
@@ -2518,7 +2512,6 @@ DECLARE_SPELL_FUN( spell_earthquake );
 DECLARE_SPELL_FUN( spell_enchant_weapon );
 DECLARE_SPELL_FUN( spell_energy_drain );
 DECLARE_SPELL_FUN( spell_fireball );
-DECLARE_SPELL_FUN( spell_fireshield );
 DECLARE_SPELL_FUN( spell_firewall );
 DECLARE_SPELL_FUN( spell_flamestrike );
 DECLARE_SPELL_FUN( spell_fly );
@@ -2529,7 +2522,6 @@ DECLARE_SPELL_FUN( spell_golden_aura );
 DECLARE_SPELL_FUN( spell_goodberry );
 DECLARE_SPELL_FUN( spell_harm );
 DECLARE_SPELL_FUN( spell_heal );
-DECLARE_SPELL_FUN( spell_iceshield );
 DECLARE_SPELL_FUN( spell_icestorm );
 DECLARE_SPELL_FUN( spell_incinerate );
 DECLARE_SPELL_FUN( spell_infravision );
@@ -2549,7 +2541,6 @@ DECLARE_SPELL_FUN( spell_protection );
 DECLARE_SPELL_FUN( spell_refresh );
 DECLARE_SPELL_FUN( spell_scry );
 DECLARE_SPELL_FUN( spell_shocking_grasp );
-DECLARE_SPELL_FUN( spell_shockshield );
 DECLARE_SPELL_FUN( spell_shield );
 DECLARE_SPELL_FUN( spell_sleep );
 DECLARE_SPELL_FUN( spell_spell_bind );

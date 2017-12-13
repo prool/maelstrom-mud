@@ -387,9 +387,6 @@ const struct flag_type act_flags[] = {
 const struct flag_type affect_flags[] = {
   { "blind",         AFF_BLIND,         TRUE  },
   { "invisible",     AFF_INVISIBLE,     TRUE  },
-  { "fireshield",    AFF_FIRESHIELD,    TRUE  },
-  { "shockshield",   AFF_SHOCKSHIELD,   TRUE  },
-  { "iceshield",     AFF_ICESHIELD,     TRUE  },
   { "chaos-field",   AFF_CHAOS,         TRUE  },
   { "vibrating",     AFF_VIBRATING,     TRUE  },
   { "infrared",      AFF_INFRARED,      TRUE  },

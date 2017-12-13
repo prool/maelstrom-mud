@@ -517,33 +517,6 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     buf2[ 0 ] = '\0';
   }
 
-  if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
-    strcat( buf2, "    " );
-    strcat( buf2, visible_name( victim, ch, FALSE ) );
-    strcat( buf2, "&R's body is burning with unfelt heat.\n\r" );
-    buf2[ 4 ] = UPPER( buf2[ 4 ] );
-    send_to_char( AT_RED, buf2, ch );
-    buf2[ 0 ] = '\0';
-  }
-
-  if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) ) {
-    strcat( buf2, "    " );
-    strcat( buf2, visible_name( victim, ch, FALSE ) );
-    strcat( buf2, "&B's body is sparking with electricity.\n\r" );
-    buf2[ 4 ] = UPPER( buf2[ 4 ] );
-    send_to_char( AT_BLUE, buf2, ch );
-    buf2[ 0 ] = '\0';
-  }
-
-  if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
-    strcat( buf2, "    " );
-    strcat( buf2, visible_name( victim, ch, FALSE ) );
-    strcat( buf2, "&C's body is covered in frost and ice.\n\r" );
-    buf2[ 4 ] = UPPER( buf2[ 4 ] );
-    send_to_char( AT_LBLUE, buf2, ch );
-    buf2[ 0 ] = '\0';
-  }
-
   if ( IS_AFFECTED( victim, AFF_CHAOS ) ) {
     strcat( buf2, "    " );
     strcat( buf2, visible_name( victim, ch, FALSE ) );

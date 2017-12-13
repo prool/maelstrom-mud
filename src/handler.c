@@ -536,43 +536,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
     case APPLY_PASS_DOOR:
       psn = skill_lookup( "pass door" );
       break;
-    case APPLY_FIRESHIELD:
-      psn = skill_lookup( "fireshield" );
-      /*  if(fAdd)
-         {
-         if(IS_AFFECTED(ch, AFF_FIRESHIELD))
-         break;
-         if(IS_AFFECTED(ch, AFF_ICESHIELD))
-         {
-         affect_strip(ch, (sn = skill_lookup("iceshield")));
-         send_to_char(AT_LBLUE, skill_table[sn].msg_off, ch);
-         act(AT_LBLUE, "The icy crust about $n's body melts to a puddle.",
-         ch, NULL, NULL, TO_ROOM );
-         }
-         }*/
-      strcpy( buf, "The flames about $n's body burn out." );
-      break;
-    case APPLY_SHOCKSHIELD:
-      psn = skill_lookup( "shockshield" );
-      strcpy( buf, "The electricity about $n's body flee's into the ground." );
-      break;
-    case APPLY_ICESHIELD:
-      psn = skill_lookup( "iceshield" );
-      /* if(fAdd)
-         {
-         if(IS_AFFECTED(ch, AFF_ICESHIELD))
-         break;
-         if(IS_AFFECTED(ch, AFF_FIRESHIELD))
-         {
-         affect_strip(ch, skill_lookup("fireshield"));
-         send_to_char(AT_RED,
-         "The flames aboout your body are doused.\n\r", ch);
-         act(AT_RED, "The flames about $n's body steam away to nothing.",
-         ch, NULL, NULL, TO_ROOM );
-         }
-         }*/
-      strcpy( buf, "The icy crust about $n's body melts to a puddle." );
-      break;
     case APPLY_CHAOS:
       psn = skill_lookup( "chaos field" );
       strcpy( buf, "The chaos around $n fades away." );
@@ -2273,12 +2236,6 @@ char * affect_loc_name( int location ) {
       return "'fly'";
     case APPLY_PASS_DOOR:
       return "'pass door'";
-    case APPLY_FIRESHIELD:
-      return "'fireshield'";
-    case APPLY_SHOCKSHIELD:
-      return "'shockshield'";
-    case APPLY_ICESHIELD:
-      return "'iceshield'";
     case APPLY_CHAOS:
       return "'chaos field'";
     case APPLY_SCRY:
@@ -2310,18 +2267,6 @@ char * affect_bit_name( int vector ) {
 
   if ( vector & AFF_INVISIBLE     ) {
     strcat( buf, " invisible" );
-  }
-
-  if ( vector & AFF_FIRESHIELD    ) {
-    strcat( buf, " fireshield" );
-  }
-
-  if ( vector & AFF_SHOCKSHIELD   ) {
-    strcat( buf, " shockshield" );
-  }
-
-  if ( vector & AFF_ICESHIELD     ) {
-    strcat( buf, " iceshield" );
   }
 
   if ( vector & AFF_CHAOS         ) {

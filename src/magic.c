@@ -2092,14 +2092,6 @@ void spell_fireball( int sn, int level, CHAR_DATA * ch, void * vo ) {
   dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 7 );
   dam   = sc_dam( ch, dam );
 
-  if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
-    dam /= 6;
-  }
-
-  if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
-    dam += dam / 2;
-  }
-
   if ( saves_spell( level, victim ) ) {
     dam /= 2;
   }
@@ -2242,41 +2234,12 @@ void spell_shatter( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_fireshield( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 8 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_FIRESHIELD;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_RED, "Your body is engulfed by unfelt flame.\n\r", victim );
-  act( AT_RED, "$n's body is engulfed in flames.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_flamestrike( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   int         dam;
 
   dam = dice( 6, level / 2 );
   dam = sc_dam( ch, dam );
-
-  if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
-    dam /= 2;
-  }
-
-  if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
-    dam += dam / 4;
-  }
 
   if ( saves_spell( level, victim ) ) {
     dam /= 2;
@@ -2468,26 +2431,6 @@ void spell_heal( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_iceshield( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 3 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_ICESHIELD;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_LBLUE, "An Icy crust forms about your body.\n\r", victim );
-  act( AT_LBLUE, "An icy crust forms about $n's body.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
 
 void spell_icestorm( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
@@ -2495,14 +2438,6 @@ void spell_icestorm( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   dam = dice( level, 10 );
   dam = sc_dam( ch, dam );
-
-  if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
-    dam /= 2;
-  }
-
-  if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
-    dam += dam / 4;
-  }
 
   if ( saves_spell( level, victim ) ) {
     dam /= 2;
@@ -2706,10 +2641,6 @@ void spell_lightning_bolt( int sn, int level, CHAR_DATA * ch, void * vo ) {
   dam   = sc_dam( ch, dam );
 
   if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) ) {
     dam /= 2;
   }
 
@@ -3478,27 +3409,6 @@ void spell_shocking_grasp( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   damage( ch, victim, dam, sn );
-  return;
-}
-
-void spell_shockshield( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 6 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_SHOCKSHIELD;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "Sparks of electricity flow into your body.\n\r", victim );
-  act( AT_BLUE, "Bolts of electricity flow from the ground into $n's body.", victim, NULL, NULL, TO_ROOM );
   return;
 }
 
@@ -4299,14 +4209,6 @@ void spell_control_flames( int sn, int level, CHAR_DATA * ch, void * vo ) {
   level = UMAX( 0, level );
   dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 2 );
   dam   = sc_dam( ch, dam );
-
-  if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
-    dam /= 2;
-  }
-
-  if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
-    dam += dam / 4;
-  }
 
   if ( saves_spell( level, victim ) ) {
     dam /= 2;
@@ -5561,15 +5463,12 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
 
   check_dispel_aff( victim, &found, level, "blindness", AFF_BLIND );
   check_dispel_aff( victim, &found, level, "charm person", AFF_CHARM );
-  check_dispel_aff( victim, &found, level, "fireshield", AFF_FIRESHIELD );
   check_dispel_aff( victim, &found, level, "flaming", AFF_FLAMING );
   check_dispel_aff( victim, &found, level, "fly", AFF_FLYING );
-  check_dispel_aff( victim, &found, level, "iceshield", AFF_ICESHIELD );
   check_dispel_aff( victim, &found, level, "infravision", AFF_INFRARED );
   check_dispel_aff( victim, &found, level, "invis", AFF_INVISIBLE );
   check_dispel_aff( victim, &found, level, "pass door", AFF_PASS_DOOR );
   check_dispel_aff( victim, &found, level, "protection evil", AFF_PROTECT );
-  check_dispel_aff( victim, &found, level, "shockshield", AFF_SHOCKSHIELD );
   check_dispel_aff( victim, &found, level, "sleep", AFF_SLEEP );
   check_dispel_aff2( victim, &found, level, "field of decay", AFF_FIELD );
   check_dispel_aff2( victim, &found, level, "protection good", AFF_PROTECTION_GOOD );
@@ -6031,10 +5930,6 @@ void spell_thunder_strike( int sn, int level, CHAR_DATA * ch, void * vo ) {
   level = UMAX( 0, level );
   dam   = number_range( dam_each[ level ], dam_each[ level ] * 8 );
   dam   = sc_dam( ch, dam );
-
-  if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) ) {
-    dam /= 2;
-  }
 
   if ( saves_spell( level, victim ) ) {
     dam /= 2;

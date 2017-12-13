@@ -292,36 +292,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
    * Hit.
    * Calc damage.
    */
-  if ( IS_AFFECTED( victim, AFF_FIRESHIELD ) ) {
-    if ( number_percent() < 50 ) {
-      spell_fireball( skill_lookup( "fireball" ), 15, victim, ch );
-    }
-  }
-
-  if ( !victim || victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
-  if ( IS_AFFECTED( victim, AFF_ICESHIELD ) ) {
-    if ( ( number_percent() < 50 ) || ( number_percent() < 17 ) ) {
-      spell_icestorm( skill_lookup( "icestorm" ), 20, victim, ch );
-    }
-  }
-
-  if ( !victim || victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
-  if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD ) ) {
-    if ( ( number_percent() < 50 ) || ( number_percent() < 17 ) ) {
-      spell_lightning_bolt( skill_lookup( "lightning bolt" ), 15, victim, ch );
-    }
-  }
-
-  if ( !victim || victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
   if ( IS_AFFECTED( victim, AFF_CHAOS ) ) {
     if ( number_percent() < 50 ) {
       spell_energy_drain( skill_lookup( "energy drain" ), 30, victim, ch );
@@ -546,22 +516,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       dam += dam / 2;
     }
 
-    if ( IS_AFFECTED( victim, AFF_FIRESHIELD )
-         && !( dt == gsn_backstab && chance( number_range( 5, 10 ) ) ) ) {
-      dam -= dam / 8;
-    }
-
-    if ( IS_AFFECTED( victim, AFF_ICESHIELD )
-         && !( dt == gsn_backstab && chance( number_range( 5, 10 ) ) ) ) {
-      dam -= dam / 8;
-    }
-
     if ( IS_AFFECTED( victim, AFF_CHAOS )
-         && !( dt == gsn_backstab && chance( number_range( 5, 10 ) ) ) ) {
-      dam -= dam / 4;
-    }
-
-    if ( IS_AFFECTED( victim, AFF_SHOCKSHIELD )
          && !( dt == gsn_backstab && chance( number_range( 5, 10 ) ) ) ) {
       dam -= dam / 4;
     }

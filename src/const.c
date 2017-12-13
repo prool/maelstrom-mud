@@ -578,17 +578,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "fireshield",
-    { L_APP,L_APP,L_APP },
-    spell_fireshield,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,75,12,
-    "",
-    "The flames engulfing your body burn out.",
-    "The flames about $n's body burn out.",
-    TRUE,SLOT(14)
-  },
-
-  {
     "flamestrike",
     { L_APP,L_APP,L_APP },
     spell_flamestrike,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -657,17 +646,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_heal,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
     NULL,50,12,
     "","!Heal!","",FALSE,SLOT(0)
-  },
-
-  {
-    "iceshield",
-    { L_APP,L_APP,L_APP },
-    spell_iceshield,TAR_CHAR_SELF,POS_STANDING,
-    NULL,150,12,
-    "",
-    "The icy crust about your body melts away.",
-    "The icy crust about $n's body melts to a puddle.",
-    TRUE,SLOT(17)
   },
 
   {
@@ -859,17 +837,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,15,12,
     "&Ysh&Bo&Yck&Bin&Yg g&Bra&Ysp","!Shocking Grasp!","",
     FALSE,SLOT(0)
-  },
-
-  {
-    "shockshield",
-    { L_APP,L_APP,L_APP },
-    spell_shockshield,TAR_CHAR_SELF,POS_STANDING,
-    NULL,100,12,
-    "",
-    "The electricity flows into the ground.",
-    "The electricity about $n's body flows into the ground.",
-    TRUE,SLOT(29)
   },
 
   {

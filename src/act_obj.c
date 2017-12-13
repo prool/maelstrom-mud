@@ -1816,15 +1816,6 @@ void do_quaff( CHAR_DATA * ch, char * argument ) {
     }
   }
 
-  if ( obj->value[ 1 ] == skill_lookup( "iceshield" )
-       || obj->value[ 2 ] == skill_lookup( "iceshield" )
-       || obj->value[ 3 ] == skill_lookup( "iceshield" ) ) {
-    if ( obj->value[ 0 ] > 50 ) {
-      extract_obj( obj );
-      return;
-    }
-  }
-
   if ( obj->level > ch->level ) {
     act( AT_BLUE, "$p is too high level for you.", ch, obj, NULL, TO_CHAR );
   } else {
@@ -4153,10 +4144,6 @@ void do_alchemy( CHAR_DATA * ch, char * argument ) {
 
   if ( sn == skill_lookup( "aura of peace" ) ) {
     chance = 0;
-  }
-
-  if ( sn == skill_lookup( "iceshield" ) ) {
-    chance = 15;
   }
 
   if ( number_percent() > chance ) {

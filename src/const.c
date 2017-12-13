@@ -1019,17 +1019,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "levitation",
-    { L_APP,L_APP,L_APP },
-    spell_levitation,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,10,18,
-    "",
-    "You slowly float to the ground.",
-    "$n slowly floats to the ground.",
-    FALSE,SLOT(51)
-  },
-
-  {
     "mind thrust",
     { L_APP,L_APP,L_APP },
     spell_mind_thrust,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

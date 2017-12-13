@@ -3122,27 +3122,6 @@ void spell_intellect_fortress( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_levitation( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_FLYING ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level + 3;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_FLYING;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "Your feet rise off the ground.\n\r", victim );
-  act( AT_BLUE, "$n's feet rise off the ground.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_mind_thrust( int sn, int level, CHAR_DATA * ch, void * vo ) {
   int dam = dice( 1, 10 ) + level / 2;
   dam = sc_dam( ch, dam );

@@ -40,8 +40,6 @@ int xp_compute( CHAR_DATA * gch, CHAR_DATA * victim );
 bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim );
 bool is_bare_hand( CHAR_DATA * ch );
 bool is_wielding_poisoned( CHAR_DATA * ch );
-bool is_wielding_flaming( CHAR_DATA * ch );
-bool is_wielding_icy( CHAR_DATA * ch );
 void make_corpse( CHAR_DATA * ch );
 void one_hit( CHAR_DATA * ch, CHAR_DATA * victi, int dt, bool dual );
 void raw_kill( CHAR_DATA * ch, CHAR_DATA * victim );
@@ -577,9 +575,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
     victim->hit = 1;
   }
 
-  if ( dam > 0 && dt > TYPE_HIT
-       && ( ( is_wielding_poisoned( ch )
-              && !saves_spell( ch->level, victim ) ) ) ) {
+  if ( dam > 0 && dt > TYPE_HIT && ( ( is_wielding_poisoned( ch ) && !saves_spell( ch->level, victim ) ) ) ) {
     AFFECT_DATA af;
 
     af.type      = gsn_poison;
@@ -588,34 +584,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
     af.modifier  = -2;
     af.bitvector = AFF_POISON;
     affect_join( victim, &af );
-  }
-
-  if ( dam > 0 && dt > TYPE_HIT
-       && is_wielding_flaming( ch )
-       && number_percent() < 10 ) {
-    spell_fireball( skill_lookup( "fireball" ), 20, ch, victim );
-  }
-
-  if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
-  if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
-  if ( dam > 0 && dt > TYPE_HIT
-       && is_wielding_icy( ch )
-       && number_percent() < 20 ) {
-    spell_icestorm( skill_lookup( "icestorm" ), 30, ch, victim );
-  }
-
-  if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
-  if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
   }
 
   update_pos( victim );
@@ -1199,30 +1167,6 @@ bool is_wielding_poisoned( CHAR_DATA * ch ) {
 
   if ( ( obj = get_eq_char( ch, WEAR_WIELD ) )
        && IS_SET( obj->extra_flags, ITEM_POISONED ) ) {
-    return TRUE;
-  }
-
-  return FALSE;
-
-}
-
-bool is_wielding_flaming( CHAR_DATA * ch ) {
-  OBJ_DATA * obj;
-
-  if ( ( obj = get_eq_char( ch, WEAR_WIELD ) )
-       && IS_SET( obj->extra_flags, ITEM_FLAME ) ) {
-    return TRUE;
-  }
-
-  return FALSE;
-
-}
-
-bool is_wielding_icy( CHAR_DATA * ch ) {
-  OBJ_DATA * obj;
-
-  if ( ( obj = get_eq_char( ch, WEAR_WIELD ) )
-       && IS_SET( obj->extra_flags, ITEM_ICY ) ) {
     return TRUE;
   }
 

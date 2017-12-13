@@ -4676,10 +4676,6 @@ void do_oset( CHAR_DATA * ch, char * argument ) {
       value = ITEM_POISONED;
     }
 
-    if ( !str_cmp( arg3, "flame" ) || !str_cmp( arg3, "f" ) ) {
-      value = ITEM_FLAME;
-    }
-
     if ( !str_cmp( arg3, "nolocate" ) || !str_cmp( arg3, "nl" ) ) {
       value = ITEM_NO_LOCATE;
     }
@@ -4690,10 +4686,6 @@ void do_oset( CHAR_DATA * ch, char * argument ) {
 
     if ( !str_cmp( arg3, "patched" ) || !str_cmp( arg3, "p" ) ) {
       value = ITEM_PATCHED;
-    }
-
-    if ( !str_cmp( arg3, "frosty" ) || !str_cmp( arg3, "f" ) ) {
-      value = ITEM_ICY;
     }
 
     if ( value == 0 || !str_cmp( arg3, "none" ) ) {

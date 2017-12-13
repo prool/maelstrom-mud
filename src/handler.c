@@ -2376,16 +2376,8 @@ char * extra_bit_name( int extra_flags ) {
     strcat( buf, " poisoned" );
   }
 
-  if ( extra_flags & ITEM_FLAME        ) {
-    strcat( buf, " burning" );
-  }
-
   if ( extra_flags & ITEM_NO_DAMAGE    ) {
     strcat( buf, " indestructable" );
-  }
-
-  if ( extra_flags & ITEM_ICY          ) {
-    strcat( buf, " frosty" );
   }
 
   return ( buf[ 0 ] != '\0' ) ? buf + 1 : "none";

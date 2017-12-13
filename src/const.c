@@ -358,30 +358,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "bloodbath",
-    { L_APP,L_APP,L_APP },
-    spell_blood_bath,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,100,12,
-    "","!Blood Bath!","",FALSE,SLOT(0)
-  },
-
-  {
-    "burning hands",
-    { L_APP,L_APP,L_APP },
-    spell_burning_hands,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&rbu&Yrni&Wng &rh&Oa&Yn&Wds&X","!Burning Hands!","",FALSE,SLOT(0)
-  },
-
-  {
-    "call lightning",
-    { L_APP,L_APP,L_APP },
-    spell_call_lightning,TAR_IGNORE,POS_FIGHTING,
-    NULL,15,12,
-    "&Blightning bolt&X","!Call Lightning!","",FALSE,SLOT(0)
-  },
-
-  {
     "change sex",
     { L_APP,L_APP,L_APP },
     spell_change_sex,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
@@ -401,25 +377,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "You feel more self-confident.",
     "$n regains $s free will.",
     TRUE,SLOT(5)
-  },
-
-  {
-    "chill touch",
-    { L_APP,L_APP,L_APP },
-    spell_chill_touch,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&Cch&wil&Cli&wng &Cto&wu&Cch&X",
-    "You feel less cold.",
-    "$n looks warmer.",TRUE,SLOT(6)
-  },
-
-  {
-    "colour spray",
-    { L_APP,L_APP,L_APP },
-    spell_colour_spray,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&rc&go&cl&Yo&Gu&Rr &rsp&gr&Ba&Gy&X","!Colour Spray!","",
-    FALSE,SLOT(0)
   },
 
   {
@@ -463,43 +420,11 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "cure critical",
-    { L_APP,L_APP,L_APP },
-    spell_cure_critical,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
-    NULL,20,12,
-    "","!Cure Critical!","",FALSE,SLOT(0)
-  },
-
-  {
-    "cure light",
-    { L_APP,L_APP,L_APP },
-    spell_cure_light,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
-    NULL,10,12,
-    "","!Cure Light!","",FALSE,SLOT(0)
-  },
-
-  {
     "cure poison",
     { L_APP,L_APP,L_APP },
     spell_cure_poison,TAR_CHAR_DEFENSIVE,POS_STANDING,
     NULL,5,12,
     "","!Cure Poison!","",FALSE,SLOT(0)
-  },
-
-  {
-    "cure serious",
-    { L_APP,L_APP,L_APP },
-    spell_cure_serious,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "","!Cure Serious!","",FALSE,SLOT(0)
-  },
-
-  {
-    "dispel evil",
-    { L_APP,L_APP,L_APP },
-    spell_dispel_evil,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "dispel &zevil&X","!Dispel Evil!","",FALSE,SLOT(0)
   },
 
   {
@@ -1233,16 +1158,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "energy containment",
-    { L_APP,L_APP,L_APP },
-    spell_energy_containment,TAR_CHAR_SELF,POS_STANDING,
-    NULL,10,12,
-    "",
-    "You no longer absorb energy.",
-    "$n no longer absorbs energy.",FALSE,SLOT(45)
-  },
-
-  {
     "flesh armor",
     { L_APP,L_APP,L_APP },
     spell_flesh_armor,TAR_CHAR_SELF,POS_STANDING,
@@ -1581,22 +1496,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_scribe,0,50,
     "","!SCRIBE!","",FALSE,SLOT(0)
-  },
-
-  {
-    "flame blade",
-    { L_APP,L_APP,L_APP },
-    spell_flame_blade,TAR_OBJ_INV,POS_STANDING,
-    NULL,100,24,
-    "","!Flame Blade!","",FALSE,SLOT(0)
-  },
-
-  {
-    "frost blade",
-    { L_APP,L_APP,L_APP },
-    spell_frost_blade,TAR_OBJ_INV,POS_STANDING,
-    NULL,100,24,
-    "","!Frost Blade!","",FALSE,SLOT(0)
   },
 
   {

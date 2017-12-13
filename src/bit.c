@@ -309,7 +309,6 @@ const struct flag_type extra_flags[] = {
   { "poisoned",     ITEM_POISONED,     TRUE  },
   { "nolocate",     ITEM_NO_LOCATE,    TRUE  },
   { "nodamage",     ITEM_NO_DAMAGE,    TRUE  },
-  { "flame",        ITEM_FLAME,        TRUE  },
   { "patched",      ITEM_PATCHED,      TRUE  },
   { "",             0,                 0     }
 };

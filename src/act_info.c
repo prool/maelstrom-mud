@@ -91,14 +91,6 @@ char * format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort ) {
     strcat( buf, "&G(Poisoned)&w " );
   }
 
-  if ( IS_OBJ_STAT( obj, ITEM_FLAME ) ) {
-    strcat( buf, "&r(Burning)&w " );
-  }
-
-  if ( IS_OBJ_STAT( obj, ITEM_ICY ) ) {
-    strcat( buf, "&B(Frosty)&w " );
-  }
-
 	if ( IS_SET( obj->wear_flags, ITEM_HOOD_ON) ) {
 		strcat( buf, "&C(Hood On)&X " );
   } else if ( (obj->item_type == ITEM_ARMOR) && (obj->value[1]) ) {

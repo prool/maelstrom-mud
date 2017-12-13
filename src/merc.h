@@ -845,16 +845,6 @@ struct  kill_data {
 #define WEAPON_TYPE_SUCTION 12
 #define WEAPON_TYPE_CHOP    13
 
-// weapon types
-#define WEAPON_FLAMING   ( A )
-#define WEAPON_FROST     ( B )
-#define WEAPON_VAMPIRIC  ( C )
-#define WEAPON_SHARP     ( D )
-#define WEAPON_VORPAL    ( E )
-#define WEAPON_TWO_HANDS ( F )
-#define WEAPON_SHOCKING  ( G )
-#define WEAPON_POISON    ( H )
-
 // gate flags
 #define GATE_NORMAL_EXIT ( A )
 #define GATE_GOWITH      ( C )
@@ -965,11 +955,9 @@ struct  kill_data {
 #define ITEM_NOREMOVE     4096
 #define ITEM_INVENTORY    8192
 #define ITEM_POISONED     16384
-#define ITEM_FLAME        33554432
 #define ITEM_NO_LOCATE    ( cc )
 #define ITEM_NO_DAMAGE    ( dd )
 #define ITEM_PATCHED      ( ee )
-#define ITEM_ICY          ( bb )
 
 #define ITEM_ANTI_CASTER  1
 #define ITEM_ANTI_ROGUE   4
@@ -1289,12 +1277,10 @@ struct  kill_data {
 #define CHANNEL_BUILD     4096
 #define CHANNEL_GOD       8192
 #define CHANNEL_GUARDIAN  16384
-#define CHANNEL_UNUSED    32768
 #define CHANNEL_CODER     65536
 #define CHANNEL_INFO      131072
 #define CHANNEL_CHALLENGE 262144
 
-#define CHANNEL_UNUSED_MASTER 524288
 #define CHANNEL_CLASS_MASTER  1048576
 #define CHANNEL_CLAN_MASTER   2097152
 
@@ -2452,25 +2438,16 @@ DECLARE_SPELL_FUN( spell_astral );
 DECLARE_SPELL_FUN( spell_aura );
 DECLARE_SPELL_FUN( spell_bark_skin );
 DECLARE_SPELL_FUN( spell_blindness );
-DECLARE_SPELL_FUN( spell_blood_bath );
 DECLARE_SPELL_FUN( spell_blur );
-DECLARE_SPELL_FUN( spell_burning_hands );
-DECLARE_SPELL_FUN( spell_call_lightning );
 DECLARE_SPELL_FUN( spell_change_sex );
 DECLARE_SPELL_FUN( spell_chant );
 DECLARE_SPELL_FUN( spell_charm_person );
-DECLARE_SPELL_FUN( spell_chill_touch );
-DECLARE_SPELL_FUN( spell_colour_spray );
 DECLARE_SPELL_FUN( spell_continual_light );
 DECLARE_SPELL_FUN( spell_control_weather );
 DECLARE_SPELL_FUN( spell_create_food );
 DECLARE_SPELL_FUN( spell_create_water );
 DECLARE_SPELL_FUN( spell_cure_blindness );
-DECLARE_SPELL_FUN( spell_cure_critical );
-DECLARE_SPELL_FUN( spell_cure_light );
 DECLARE_SPELL_FUN( spell_cure_poison );
-DECLARE_SPELL_FUN( spell_cure_serious );
-DECLARE_SPELL_FUN( spell_dispel_evil );
 DECLARE_SPELL_FUN( spell_dispel_magic );
 DECLARE_SPELL_FUN( spell_draw_strength );
 DECLARE_SPELL_FUN( spell_earthquake );
@@ -2535,8 +2512,6 @@ DECLARE_SPELL_FUN( spell_summon_angel );
 DECLARE_SPELL_FUN( spell_holy_fires );
 DECLARE_SPELL_FUN( spell_truesight );
 DECLARE_SPELL_FUN( spell_bladebarrier );
-DECLARE_SPELL_FUN( spell_flame_blade );
-DECLARE_SPELL_FUN( spell_frost_blade );
 DECLARE_SPELL_FUN( spell_web );
 DECLARE_SPELL_FUN( spell_entangle );
 DECLARE_SPELL_FUN( spell_confusion );
@@ -2577,7 +2552,6 @@ DECLARE_SPELL_FUN( spell_disrupt );
 DECLARE_SPELL_FUN( spell_domination );
 DECLARE_SPELL_FUN( spell_ectoplasmic_form );
 DECLARE_SPELL_FUN( spell_ego_whip );
-DECLARE_SPELL_FUN( spell_energy_containment );
 DECLARE_SPELL_FUN( spell_flesh_armor );
 DECLARE_SPELL_FUN( spell_inertial_barrier );
 DECLARE_SPELL_FUN( spell_inflict_pain );

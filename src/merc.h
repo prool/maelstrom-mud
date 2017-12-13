@@ -2495,10 +2495,6 @@ DECLARE_SPELL_FUN( spell_healing_hands );
 DECLARE_SPELL_FUN( spell_purify );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_hallucinate );
-/*
- * Psi spell_functions, in magic.c.
- */
-DECLARE_SPELL_FUN( spell_agitation );
 DECLARE_SPELL_FUN( spell_aura_sight );
 DECLARE_SPELL_FUN( spell_combat_mind );
 DECLARE_SPELL_FUN( spell_complete_healing );

@@ -964,14 +964,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "agitation",
-    { L_APP,L_APP,L_APP },
-    spell_agitation,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,10,12,
-    "agitation","!Agitation!","",FALSE,SLOT(0)
-  },
-
-  {
     "aura sight",
     { L_APP,L_APP,L_APP },
     spell_aura_sight,TAR_CHAR_DEFENSIVE,POS_STANDING,

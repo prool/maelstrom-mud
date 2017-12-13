@@ -2163,41 +2163,6 @@ void spell_combat_mind( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_control_flames( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA      * victim      = (CHAR_DATA *) vo;
-  static const int dam_each [] = {
-    0,
-    0, 0, 0, 0, 0, 0, 0, 16, 20, 24,
-    28, 32, 35, 38, 40, 42, 44, 45, 45, 45,
-    46, 46, 46, 47, 47, 47, 48, 48, 48, 49,
-    49, 49, 50, 50, 50, 51, 51, 51, 52, 52,
-    52, 53, 53, 53, 54, 54, 54, 55, 55, 55,
-    56, 56, 57, 57, 58, 58, 59, 59, 60, 60,
-    62, 63, 63, 63, 64, 64, 64, 65, 65, 65,
-    72, 73, 73, 73, 74, 74, 74, 75, 75, 75,
-    82, 83, 83, 83, 84, 84, 84, 85, 85, 85,
-    92, 93, 93, 93, 94, 94, 94, 95, 95, 95
-  };
-  int              dam;
-
-  if ( !get_eq_char( ch, WEAR_LIGHT ) ) {
-    send_to_char( AT_RED, "You must be carrying a light source.\n\r", ch );
-    return;
-  }
-
-  level = UMIN( level, sizeof( dam_each ) / sizeof( dam_each[ 0 ] ) - 1 );
-  level = UMAX( 0, level );
-  dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 2 );
-  dam   = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
 void spell_summon_swarm( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * mob;
   CHAR_DATA * fch;

@@ -866,14 +866,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "control flames",
-    { L_APP,L_APP,L_APP },
-    spell_control_flames,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "tongue of &Rflame&X","!Control Flames!","",FALSE,SLOT(0)
-  },
-
-  {
     "shadow form",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,

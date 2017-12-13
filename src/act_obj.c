@@ -4344,60 +4344,6 @@ void do_donate( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_gravebind( CHAR_DATA * ch, char * argument ) {
-  OBJ_DATA * obj;
-  char       arg[ MAX_INPUT_LENGTH ];
-  int        hp;
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_gravebind ) ) {
-    send_to_char( C_DEFAULT,
-                  "You do not know how to gravebind corpses.\n\r", ch );
-    return;
-  }
-
-  one_argument( argument, arg );
-
-  if ( arg == '\0' ) {
-    send_to_char( AT_DGREY, "You must gravebind something.\n\r", ch );
-    return;
-  }
-
-  obj = get_obj_list( ch, arg, ch->in_room->contents );
-
-  if ( !obj ) {
-    send_to_char( AT_DGREY, "You can't find it.\n\r", ch );
-    return;
-  }
-
-  if ( obj->item_type != ITEM_CORPSE_NPC ) {
-    send_to_char( AT_DGREY, "You can only gravebind corpses.\n\r", ch );
-    return;
-  }
-
-  if ( ch->pcdata->learned[ gsn_gravebind ] < number_percent() ) {
-    send_to_char( AT_DGREY,
-                  "You gravebind the corpse incorrectly and destroy it.\n\r", ch );
-    act( AT_DGREY, "$n's gravebind of the $p fails and it is destroyed.",
-         ch, obj, NULL, TO_ROOM );
-    extract_obj( obj );
-    return;
-  }
-
-  hp       = UMAX( 20, ch->level + ch->level / 2 );
-  ch->hit += hp;
-  ch->hit  = UMIN( MAX_HIT( ch ), ch->hit );
-  send_to_char( AT_DGREY,
-                "You gravebind the corpse, sucking away it's remaining life force.\n\r",
-                ch );
-  act( AT_DGREY,
-       "The last of the $p's life force is sucked away by $n and then decays.",
-       ch, obj, NULL, TO_ROOM );
-  extract_obj( obj );
-  update_skpell( ch, gsn_gravebind );
-  return;
-}
-
 void do_indestructable( CHAR_DATA * ch, char * argument ) {
   OBJ_DATA  * obj;
   CHAR_DATA * gch;

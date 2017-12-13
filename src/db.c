@@ -113,7 +113,6 @@ int gsn_spellcraft;
 int gsn_scrolls;
 int gsn_staves;
 int gsn_wands;
-int gsn_gravebind;
 int gsn_rage;
 int gsn_headbutt;
 int gsn_retreat;

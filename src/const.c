@@ -1272,13 +1272,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     &gsn_spellcraft,0,0,
     "","!Spellcraft!","",FALSE,SLOT(0)
   },
-  {
-    "gravebind",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_OBJ_INV,POS_RESTING,
-    &gsn_gravebind,0,0,
-    "","!Gravebind!","",FALSE,SLOT(0)
-  },
 
   {
     "rage",

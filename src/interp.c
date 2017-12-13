@@ -223,7 +223,6 @@ struct cmd_type cmd_table [] = {
   { "alchemy",         do_alchemy,           POS_RESTING,  0,     LOG_ALWAYS, TRUE    },
   { "antidote",        do_antidote,          POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "scribe",          do_scribe,            POS_RESTING,  0,     LOG_ALWAYS, TRUE    },
-  { "gravebind",       do_gravebind,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "backstab",        do_backstab,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "bs",              do_backstab,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "disarm",          do_disarm,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },

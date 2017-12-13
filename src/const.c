@@ -1363,13 +1363,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","!Multiburst!","",FALSE,SLOT(0)
   },
   {
-    "dark ritual",
-    { L_APP,L_APP,L_APP },
-    spell_dark_ritual,TAR_IGNORE,POS_STANDING,
-    NULL,5,12,
-    "","!Dark Ritual!","",FALSE,SLOT(0)
-  },
-  {
     "gravebind",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_OBJ_INV,POS_RESTING,

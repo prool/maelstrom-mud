@@ -4016,38 +4016,6 @@ void spell_healing_hands( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_dark_ritual( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * obj;
-  int        mana;
-  bool       found = FALSE;
-
-  for ( obj = ch->in_room->contents; obj; obj = obj->next ) {
-    if ( obj->deleted ) {
-      continue;
-    }
-
-    if ( obj->item_type == ITEM_CORPSE_NPC ) {
-      found = TRUE;
-      break;
-    }
-  }
-
-  if ( found == TRUE ) {
-    mana      = UMAX( 30, number_fuzzy( level / 2 ) );
-    ch->mana += mana;
-    ch->mana  = UMIN( MAX_MANA( ch ), ch->mana );
-    send_to_char( AT_DGREY, "You extract the last of the energy from the corpse.\n\r",
-                  ch );
-    act( AT_DGREY, "$n saps away the last of the mystical energies from the $p.",
-         ch, obj, NULL, TO_ROOM );
-    extract_obj( obj );
-  } else {
-    send_to_char( AT_DGREY, "You must have a corpse to sacrifice to perform a dark ritual.\n\r", ch );
-  }
-
-  return;
-}
-
 void spell_stench_of_decay( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA      * victim      = (CHAR_DATA *) vo;
   static const int dam_each [] = {

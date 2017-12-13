@@ -1273,13 +1273,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","!Spellcraft!","",FALSE,SLOT(0)
   },
   {
-    "multiburst",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_multiburst,0,8,
-    "","!Multiburst!","",FALSE,SLOT(0)
-  },
-  {
     "gravebind",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_OBJ_INV,POS_RESTING,

@@ -240,7 +240,6 @@ struct cmd_type cmd_table [] = {
   { "drain life",      do_drain_life,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "mental drain",    do_mental_drain,      POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "stun",            do_stun,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "multiburst",      do_multiburst,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "account",         do_account,           POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "afk",             do_afk,               POS_DEAD,     0,     LOG_NORMAL, FALSE   },
   { "afkmes",          do_afkmes,            POS_DEAD,     0,     LOG_NORMAL, FALSE   },

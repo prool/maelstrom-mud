@@ -109,7 +109,6 @@ int gsn_mass_invis;
 int gsn_poison;
 int gsn_sleep;
 int gsn_doomshield;
-int gsn_unholystrength;
 int gsn_prayer;
 int gsn_spellcraft;
 int gsn_scrolls;
@@ -138,8 +137,6 @@ int gsn_shadow;
 int gsn_lure;
 int gsn_flip;
 int gsn_hallucinate;
-int gsn_plague;
-int gsn_unholystrength;
 
 int port;
 

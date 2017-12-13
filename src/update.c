@@ -193,8 +193,7 @@ int hit_gain( CHAR_DATA * ch ) {
 
   }
 
-  if ( ( IS_AFFECTED( ch, AFF_POISON ) || IS_AFFECTED2( ch, AFF_PLAGUE ) )
-       && gain > 0 ) {
+  if ( IS_AFFECTED( ch, AFF_POISON ) && gain > 0 ) {
     gain /= 10;
   }
 
@@ -237,7 +236,7 @@ int mana_gain( CHAR_DATA * ch ) {
     }
   }
 
-  if ( IS_AFFECTED( ch, AFF_POISON ) || IS_AFFECTED2( ch, AFF_PLAGUE ) ) {
+  if ( IS_AFFECTED( ch, AFF_POISON ) ) {
     gain /= 10;
   }
 
@@ -270,7 +269,7 @@ int move_gain( CHAR_DATA * ch ) {
     }
   }
 
-  if ( IS_AFFECTED( ch, AFF_POISON ) || IS_AFFECTED( ch, AFF_PLAGUE ) ) {
+  if ( IS_AFFECTED( ch, AFF_POISON ) ) {
     gain /= 10;
   }
 
@@ -1086,34 +1085,6 @@ void char_update( void ) {
       send_to_char( AT_GREEN, "You shiver and suffer.\n\r", ch );
       act( AT_GREEN, "$n shivers and suffers.", ch, NULL, NULL, TO_ROOM );
       damage( ch, ch, 10, gsn_poison );
-    }
-
-    if ( IS_AFFECTED2( ch, AFF_PLAGUE ) ) {
-      send_to_char( AT_GREEN, "You shiver and suffer.\n\r", ch );
-      act( AT_GREEN, "$n shivers and suffers.", ch, NULL, NULL, TO_ROOM );
-      damage( ch, ch, ch->level * 4, gsn_plague );
-    }
-
-    if ( IS_AFFECTED2( ch, AFF_PLAGUE ) || IS_AFFECTED2( ch, AFF_UNHOLYSTRENGTH ) ) {
-      for ( victim = ch->in_room->people; victim; victim = victim->next_in_room ) {
-        if ( ch == victim ) {
-          continue;
-        }
-
-        if ( IS_AFFECTED2( victim, AFF_UNHOLYSTRENGTH ) || IS_AFFECTED2( victim, AFF_PLAGUE ) || IS_AFFECTED2( victim, AFF_VACCINATE ) ) {
-          continue;
-        }
-
-        af.type      = gsn_plague;
-        af.level     = ch->level;
-        af.duration  = ch->level / 4;
-        af.location  = APPLY_STR;
-        af.modifier  = -4;
-        af.bitvector = AFF_PLAGUE;
-        affect_to_char2( victim, &af );
-        send_to_char( AT_GREEN, "You begin to cough.\n\r", ch );
-        act( AT_GREEN, "$n begins to cough.", ch, NULL, NULL, TO_ROOM );
-      }
     }
 
     if ( IS_AFFECTED( ch, AFF_FLAMING ) ) {

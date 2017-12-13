@@ -715,9 +715,6 @@ struct  kill_data {
 #define AFF_RUSH            131072
 #define AFF_INERTIAL        262144
 #define AFF_GOLDEN          524288
-#define AFF_UNHOLYSTRENGTH  1048576
-#define AFF_PLAGUE          2097152
-#define AFF_VACCINATE       4194304
 #define AFF_PLOADED         1073741824
 
 /* damage classes */
@@ -1971,8 +1968,6 @@ extern int gsn_domination;
 extern int gsn_shadow;
 extern int gsn_flip;
 extern int gsn_hallucinate;
-extern int gsn_plague;
-extern int gsn_unholystrength;
 
 /*
  * Utility macros.
@@ -2592,9 +2587,7 @@ DECLARE_SPELL_FUN( spell_healing_hands );
 DECLARE_SPELL_FUN( spell_mist_form );
 DECLARE_SPELL_FUN( spell_purify );
 DECLARE_SPELL_FUN( spell_silence );
-DECLARE_SPELL_FUN( spell_unholystrength );
 DECLARE_SPELL_FUN( spell_hallucinate );
-DECLARE_SPELL_FUN( spell_vaccinate );
 /*
  * Psi spell_functions, in magic.c.
  */

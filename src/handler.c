@@ -2385,14 +2385,6 @@ char * affect_bit_name2( int vector ) {
     strcat( buf, " hallucinate" );
   }
 
-  if ( vector & AFF_PLAGUE  ) {
-    strcat( buf, " plague" );
-  }
-
-  if ( vector & AFF_UNHOLYSTRENGTH ) {
-    strcat( buf, " unholystrength" );
-  }
-
   return ( buf[ 0 ] != '\0' ) ? buf + 1 : "none";
 }
 

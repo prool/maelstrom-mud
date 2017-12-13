@@ -2167,31 +2167,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,160,12,"","You regain your sanity.",
     "$n looks better.",TRUE,SLOT(205)
   },
-  {
-    "unholystrength",
-    { L_APP,L_APP,L_APP },
-    spell_unholystrength,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    &gsn_unholystrength,50,12,"",
-    "The unholy strength of the plague leaves you.",
-    "$n's aura of disease evaporates.",TRUE,SLOT(206)
-  },
-  {
-    "plague",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_STANDING,
-    &gsn_plague,10,12,
-    "&zp&wl&za&wg&zu&we",
-    "You feel less sick.",
-    "$n looks better.",TRUE,SLOT(207)
-  },
-  {
-    "vaccinate",
-    { L_APP,L_APP,L_APP },
-    spell_vaccinate,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,5,12,
-    "","You are no longer vaccinated.",
-    "$n is no longer vaccinated.",FALSE,SLOT(208)
-  },
 
   /*
    * Place all new spells/skills BEFORE this one.  It is used as an index marker

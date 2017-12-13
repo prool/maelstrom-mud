@@ -197,12 +197,6 @@ int hit_gain( CHAR_DATA * ch ) {
     gain /= 10;
   }
 
-  /* Ward of Healing */
-  if ( is_raffected( ch->in_room, gsn_ward_heal ) ) {
-    send_to_char( AT_WHITE, "The wards of healing soothe your wounds.\n\r", ch );
-    gain += 100;
-  }
-
   return UMIN( gain, MAX_HIT( ch ) - ch->hit );
 }
 

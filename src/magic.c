@@ -972,34 +972,6 @@ void spell_aura( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_aid( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( victim->position == POS_FIGHTING || is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 8 + level;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = level / 6;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_HIT;
-  af.modifier = level * 3;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "You grant them divine aid.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "You feel divine aid reashure you.\n\r", victim );
-  return;
-}
-
 void spell_blindness( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -1217,43 +1189,6 @@ void spell_truesight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_meteor_swarm( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-  AFFECT_DATA af;
-
-  send_to_char( AT_RED, "Flaming meteors fly forth from your outstreched hands!\n\r", ch );
-  act( AT_RED, "Hundreds of flaming meteors fly forth from $n's hands.", ch, NULL, NULL, TO_ROOM );
-
-  for ( vch = char_list; vch; vch = vch->next ) {
-    if ( vch->deleted || !vch->in_room ) {
-      continue;
-    }
-
-    if ( vch->in_room == ch->in_room ) {
-      if ( vch != ch && ( IS_NPC( ch ) ? !IS_NPC( vch )
-                          :  IS_NPC( vch ) ) ) {
-        damage( ch, vch, level + dice( level, 8 ), sn );
-      }
-
-      if ( vch != ch ) {
-        af.type      = sn;
-        af.level     = level;
-        af.duration  = level / 8;
-        af.location  = APPLY_NONE;
-        af.modifier  = 0;
-        af.bitvector = AFF_FLAMING;
-        affect_join( vch, &af );
-        send_to_char( AT_RED, "You body bursts into flame!\n\r", vch );
-      }
-
-      continue;
-    }
-
-  }
-
-  return;
-}
-
 void spell_enchant_weapon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA    * obj = (OBJ_DATA *) vo;
   AFFECT_DATA * paf;
@@ -1398,36 +1333,6 @@ void spell_energy_drain( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   dam = sc_dam( ch, dam );
   damage( ch, victim, dam, sn );
-
-  return;
-}
-
-void spell_psychic_quake( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-
-  send_to_char( AT_YELLOW, "You let the chaos free from your mind!\n\r", ch );
-  act( AT_YELLOW, "$n's face becomes blank and concentrated.", ch, NULL, NULL, TO_ROOM );
-
-  for ( vch = char_list; vch; vch = vch->next ) {
-    if ( vch->deleted || !vch->in_room ) {
-      continue;
-    }
-
-    if ( vch->in_room == ch->in_room ) {
-      if ( vch != ch && ( IS_NPC( ch ) ? !IS_NPC( vch )
-                          :  IS_NPC( vch ) ) ) {
-        if ( vch != ch ) {
-          spell_energy_drain( sn, level / 2, ch, vch );
-        }
-      }
-
-      continue;
-    }
-
-    if ( vch->in_room->area == ch->in_room->area ) {
-      send_to_char( AT_BLUE, "A wave of chaos brushes your mind.\n\r", vch );
-    }
-  }
 
   return;
 }
@@ -1904,27 +1809,6 @@ void spell_phase_shift( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   send_to_char( AT_GREY, "You phase into another plane.\n\r", victim );
   act( AT_GREY, "$n phases out of reality.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-void spell_mist_form( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED2( victim, AFF_PHASED ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = ch->level / 6;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_PHASED;
-  affect_to_char2( victim, &af );
-
-  send_to_char( AT_GREY, "You seem to feel transparent.\n\r", victim );
-  act( AT_GREY, "$n takes on the form of a mist.", victim, NULL, NULL, TO_ROOM );
   return;
 }
 
@@ -4995,59 +4879,6 @@ void spell_stench_of_decay( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_soul_bind( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  OBJ_DATA  * soulgem;
-
-  if ( !IS_NPC( victim ) || saves_spell( level, victim ) ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  soulgem                 = create_object( get_obj_index( OBJ_VNUM_SOULGEM ), 0 );
-  soulgem->ac_vnum        = victim->pIndexData->vnum;
-  soulgem->level          = ch->level;
-  soulgem->timer          = ch->level / 4;
-  soulgem->cost.silver    = soulgem->cost.copper = 0;
-  soulgem->cost.gold      = victim->level * 10;
-  soulgem->ac_charge[ 0 ] = soulgem->ac_charge[ 1 ] = 1;
-  obj_to_char( soulgem, ch );
-
-  act( AT_BLUE, "You tear out $Ns soul, binding it to form a Soulgem.", ch, NULL, victim, TO_CHAR );
-  act( AT_BLUE, "$n tears out $Ns soul, binding it to form a Soulgem.", ch, NULL, victim, TO_ROOM );
-  act( AT_BLUE, "$N screams in agony as it slowly dissipates into nothingness!", ch, NULL, victim, TO_CHAR );
-  act( AT_BLUE, "$N screams in agony as it slowly dissipates into nothingness!", ch, NULL, victim, TO_ROOM );
-  act( AT_WHITE, "Your SOUL is STOLEN by $n!", ch, NULL, victim, TO_VICT );
-
-  if ( IS_NPC( victim ) ) {
-    extract_char( victim, TRUE );
-  } else {
-    extract_char( victim, FALSE );
-  }
-
-  return;
-}
-
-/* MONK SPELLS */
-void spell_iron_skin( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  AFFECT_DATA af;
-
-  if ( is_affected( ch, sn ) ) {
-    return;
-  }
-
-  send_to_char( AT_GREY, "Your skin turns to iron.\n\r", ch );
-  act( AT_GREY, "$n's skin turns to iron.", ch, NULL, NULL, TO_ROOM );
-  af.type      = sn;
-  af.level     = ch->level;
-  af.duration  = ch->level / 6;
-  af.location  = APPLY_AC;
-  af.modifier  = 0 - number_fuzzy( ch->level ) / 2;
-  af.bitvector = AFF_INERTIAL;
-  affect_to_char2( ch, &af );
-  return;
-}
-
 /* Adds + dam to spells for having spellcraft skill */
 int sc_dam( CHAR_DATA * ch, int dam ) {
   double mod;
@@ -5074,150 +4905,6 @@ int sc_dam( CHAR_DATA * ch, int dam ) {
   }
 
   return dam;
-}
-
-void spell_thunder_strike( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  AFFECT_DATA af;
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-
-  static const int dam_each [] = {
-    0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  150, 155, 160, 165, 170, 175,
-    185, 190, 195, 200, 205, 207, 209, 211, 213, 215,
-    222, 224, 226, 228, 230, 232, 234, 236, 238, 240,
-    247, 249, 251, 253, 255, 257, 259, 261, 263, 265,
-    272, 274, 276, 278, 280, 282, 284, 286, 288, 290,
-    297, 299, 301, 303, 305, 307, 309, 311, 313, 315,
-    322, 324, 326, 328, 330, 332, 334, 336, 338, 340,
-    347, 349, 351, 353, 355, 357, 359, 361, 363, 365,
-    375, 380, 385, 390, 395, 400, 405, 410, 415, 420
-  };
-
-  int dam;
-
-  level = UMIN( level, sizeof( dam_each ) / sizeof( dam_each[ 0 ] ) - 1 );
-  level = UMAX( 0, level );
-  dam   = number_range( dam_each[ level ], dam_each[ level ] * 8 );
-  dam   = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-
-  if (    IS_AFFECTED( victim, AFF_BLIND )
-          && IS_AFFECTED2( victim, AFF_CONFUSED ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level / 50;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_BLIND;
-  affect_to_char( victim, &af );
-
-  act( AT_YELLOW,
-       "A brilliant flash of lightning strikes $N !",
-       ch, NULL, victim, TO_CHAR );
-
-  send_to_char( AT_YELLOW,
-                "A flash of lightning makes everything dark!\n\r",
-                victim );
-
-  act( AT_YELLOW,
-       "A tremendous bolt of lightning has blinded $N !",
-       ch, NULL, victim, TO_NOTVICT );
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 2;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_CONFUSED;
-  affect_to_char2( victim, &af );
-
-  STUN_CHAR( ch, 3, STUN_COMMAND );
-
-  act( AT_WHITE,
-       "Booming thunder causes momentary confusion to $N!",
-       ch, NULL, victim, TO_CHAR );
-
-  send_to_char( AT_WHITE,
-                "Loud thunder wracks your ears and leaves you confused in the midst of battle!\n\r",
-                victim );
-
-  act( AT_WHITE,
-       "$N looks confused!",
-       ch, NULL, victim, TO_NOTVICT );
-
-  return;
-
-}
-
-void spell_war_cry( int sn, int level, CHAR_DATA * ch, void * vo ) {
-
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  act( AT_BLOOD,
-       "$n's cry for the death of $s enemies pierces through the room!",
-       ch, NULL, NULL, TO_ROOM );
-
-  if ( saves_spell( level, victim ) ) {
-    act( AT_WHITE, "$N ignores your cry for blood.",
-         ch, NULL, victim, TO_CHAR );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 3;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = -level / 20;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_DAMROLL;
-  af.modifier = -level / 20;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLOOD,
-                  "Your cry for war sends fear into your opponent!\n\r",
-                  ch );
-  }
-
-  send_to_char( AT_BLOOD, "A bloodthirsty cry sends shivers down your spine.\n\r",
-                victim );
-
-  return;
-}
-
-void spell_blur( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 3 + level;
-  af.location  = APPLY_AC;
-  af.modifier  = 0 - level / 2;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_GREY, "Your form blurs.\n\r",
-                victim );
-  act( AT_GREY, "$N form becomes blurred, shifting and wavering before you.",
-       ch, NULL, victim, TO_NOTVICT );
-  return;
 }
 
 void spell_purify( int sn, int level, CHAR_DATA * ch, void * vo ) {

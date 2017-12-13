@@ -2754,10 +2754,6 @@ char * imm_bit_name( int imm_flags ) {
     strcat( buf, " silver" );
   }
 
-  if ( imm_flags & IMM_NERVE   ) {
-    strcat( buf, " nerve" );
-  }
-
   return ( buf[ 0 ] != '\0' ) ? buf + 1 : "none";
 }
 

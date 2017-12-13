@@ -159,11 +159,6 @@ bool get_obj( CHAR_DATA * ch, OBJ_DATA * obj, OBJ_DATA * container, bool palming
 }
 
 void do_get( CHAR_DATA * ch, char * argument ) {
-  if ( is_affected( ch, gsn_nerve ) ) {
-    send_to_char( AT_YELLOW, "You cannot feel your arms.\n\r", ch );
-    return;
-  }
-
   get( ch, argument, FALSE );
   return;
 }
@@ -409,11 +404,6 @@ void do_put( CHAR_DATA * ch, char * argument ) {
   int        ObjCount = 0;
   argument = one_argument( argument, arg1 );
   argument = one_argument( argument, arg2 );
-
-  if ( is_affected( ch, gsn_nerve ) ) {
-    send_to_char( AT_YELLOW, "You can't feel your arms.\n\r", ch );
-    return;
-  }
 
   if ( arg1[ 0 ] == '\0' || arg2[ 0 ] == '\0' ) {
     send_to_char( AT_DGREEN, "Put what in what?\n\r", ch );
@@ -1550,11 +1540,6 @@ void do_wear( CHAR_DATA * ch, char * argument ) {
 
   one_argument( argument, arg );
 
-  if ( is_affected( ch, gsn_nerve ) ) {
-    send_to_char( AT_YELLOW, "You cannot feel your arms.\n\r", ch );
-    return;
-  }
-
   if ( arg[ 0 ] == '\0' ) {
     send_to_char( AT_BLUE, "Wear, wield, or hold what?\n\r", ch );
     return;
@@ -1596,11 +1581,6 @@ void do_remove( CHAR_DATA * ch, char * argument ) {
   char       arg[ MAX_INPUT_LENGTH ];
 
   one_argument( argument, arg );
-
-  if ( is_affected( ch, gsn_nerve ) ) {
-    send_to_char( AT_YELLOW, "You cannot feel your arms.\n\r", ch );
-    return;
-  }
 
   if ( arg[ 0 ] == '\0' ) {
     send_to_char( AT_BLUE, "Remove what?\n\r", ch );
@@ -4831,11 +4811,6 @@ void do_hood( CHAR_DATA *ch, char *argument ) {
   if ( !(obj->value[1]) ) {
     sprintf( buf, "%s does not have a hood!\n\r", obj->short_descr );
     send_to_char( C_DEFAULT, buf, ch );
-    return;
-  }
-
-  if ( is_affected( ch, gsn_nerve ) ) {
-    send_to_char( AT_YELLOW, "You cannot feel your arms.\n\r", ch );
     return;
   }
 

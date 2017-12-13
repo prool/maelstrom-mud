@@ -590,7 +590,6 @@ const struct flag_type immune_flags[] = {
   { "disease",   IMM_DISEASE,   TRUE  },
   { "drowning",  IMM_DROWNING,  TRUE  },
   { "light",     IMM_LIGHT,     TRUE  },
-  { "nerve",     IMM_NERVE,     TRUE  },
   { "",          0,             0     }
 };
 

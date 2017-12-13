@@ -1515,22 +1515,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "meteor swarm",
-    { L_APP,L_APP,L_APP },
-    spell_meteor_swarm,TAR_IGNORE,POS_FIGHTING,
-    NULL,150,25,
-    "&rm&Oe&Yt&Oe&ro&Yr&rs","!SWARM!","",TRUE,SLOT(72)
-  },
-
-  {
-    "psychic quake",
-    { L_APP,L_APP,L_APP },
-    spell_psychic_quake,TAR_IGNORE,POS_FIGHTING,
-    NULL,150,25,
-    "&wmental shockwave&X","!PSY-QUAKE!","",FALSE,SLOT(0)
-  },
-
-  {
     "fumble",
     { L_APP,L_APP,L_APP },
     spell_fumble,TAR_CHAR_OFFENSIVE,POS_STANDING,
@@ -1715,38 +1699,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "flying kick",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_flykick,0,12,
-    "flying kick","!Flying Kick!","",FALSE,SLOT(0)
-  },
-  {
-    "nerve",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_nerve,0,24,
-    "","You can feel your arms again.",
-    "Feeling returns to $n's arms.",FALSE,SLOT(111)
-  },
-  {
-    "soulbind",
-    { L_APP,L_APP,L_APP },
-    spell_soul_bind,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,200,18,
-    "","!SOULBIND!","",FALSE,SLOT(0)
-  },
-  {
-    "iron skin",
-    { L_APP,L_APP,L_APP },
-    spell_iron_skin,TAR_CHAR_SELF,POS_STANDING,
-    NULL,50,12,
-    "",
-    "Your skin returns to normal.",
-    "$n's skin returns to its normal texture.",TRUE,SLOT(112)
-  },
-
-  {
     "retreat",
     { L_APP, L_APP, 25 },
     spell_null,TAR_IGNORE,POS_FIGHTING,
@@ -1775,85 +1727,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_IGNORE,POS_FIGHTING,
     &gsn_haggle,0,0,
     "","","",FALSE,SLOT(0)
-  },
-  {
-    "blind fighting",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_blindfight,0,0,
-    "","","",FALSE,SLOT(0)
-  },
-
-  {
-    "mist form",
-    { L_APP,L_APP,L_APP },
-    spell_mist_form,TAR_CHAR_SELF,POS_STANDING,
-    NULL,100,12,
-    "","A strange feeling comes over you as you solidify.",
-    "$n's body returns to it's normal structure.",
-    TRUE,SLOT(116)
-  },
-  {
-    "shriek",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_shriek,0,16,
-    "shriek","","",FALSE,SLOT(0)
-  },
-  {
-    "ward of safety",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_STANDING,
-    &gsn_ward_safe,100,12,
-    "You remove the ward of safety from the room.",
-    "You are no longer able to sustain your &zward of safety &cin &w:&W",
-    "The wards of safety crumble.",FALSE,SLOT(0)
-  },
-  {
-    "ward of healing",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_STANDING,
-    &gsn_ward_heal,200,12,
-    "You remove the ward of healing from the room.",
-    "You are no longer able to sustain your &Wward of healing &cin &w:&W",
-    "The wards of healing crumble.",FALSE,SLOT(0)
-  },
-
-  {
-    "thunder strike",
-    { L_APP,L_APP,L_APP },
-    spell_thunder_strike,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "thunder strike","!thunder strike!","",SLOT(0)
-  },
-
-  {
-    "warcry",
-    { L_APP,L_APP,L_APP },
-    spell_war_cry,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "war cry","!War cry!","",SLOT(0)
-  },
-
-  {
-    "aid",
-    { L_APP,L_APP,L_APP },
-    spell_aid,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,30,12,
-    "",
-    "You feel divine aid disipate.",
-    "$n looks less righteous.",
-    FALSE,SLOT(199)
-  },
-
-  {
-    "blur",
-    { L_APP,L_APP,L_APP },
-    spell_blur,TAR_CHAR_SELF,POS_STANDING,
-    NULL,15,12,
-    "",
-    "You are no longer blured.",
-    "$n's blured form focused suddenly.",FALSE,SLOT(201)
   },
 
   {

@@ -467,7 +467,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
 
     if ( IS_AFFECTED2( ch, AFF_PHASED ) ) {
       affect_strip( ch, skill_lookup( "phase shift" ) );
-      affect_strip( ch, skill_lookup( "mist form" ) );
       REMOVE_BIT( ch->affected_by2, AFF_PHASED );
       act( AT_GREY, "$n returns from an alternate plane.", ch, NULL, NULL, TO_ROOM );
     }
@@ -2480,11 +2479,8 @@ void do_gouge( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0
-       && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
-    if ( !check_blind( ch ) ) {
-      return;
-    }
+  if ( !check_blind( ch ) ) {
+    return;
   }
 
   one_argument( argument, arg );
@@ -2544,10 +2540,8 @@ void do_circle( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0 && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
-    if ( !check_blind( ch ) ) {
-      return;
-    }
+  if ( !check_blind( ch ) ) {
+    return;
   }
 
   one_argument( argument, arg );
@@ -2590,11 +2584,8 @@ void do_kick( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0
-       && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
-    if ( !check_blind( ch ) ) {
-      return;
-    }
+  if ( !check_blind( ch ) ) {
+    return;
   }
 
   one_argument( argument, arg );
@@ -2637,11 +2628,8 @@ void do_punch( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0
-       && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
-    if ( !check_blind( ch ) ) {
-      return;
-    }
+  if ( !check_blind( ch ) ) {
+    return;
   }
 
   one_argument( argument, arg );
@@ -3577,129 +3565,6 @@ void do_frenzy( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_flyingkick( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * victim;
-  char        arg[ MAX_INPUT_LENGTH ];
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_flykick ) ) {
-    send_to_char( AT_GREY, "You do not hav knowledge of martial arts.\n\r", ch );
-    return;
-  }
-
-  if ( !ch->fighting ) {
-    send_to_char( AT_GREY, "You aren't fighting anyone.\n\r", ch );
-    return;
-  }
-
-  one_argument( argument, arg );
-  victim = ch->fighting;
-
-  if ( arg[ 0 ] != '\0' ) {
-    if ( !( victim = get_char_room( ch, arg ) ) ) {
-      send_to_char( AT_GREY, "They aren't here.\n\r", ch );
-      return;
-    }
-  }
-
-  WAIT_STATE( ch, skill_table[ gsn_flykick ].beats );
-
-  if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_flykick ] ) {
-    damage( ch, victim, number_range( 200, ch->level * 6 ), gsn_flykick );
-    update_skpell( ch, gsn_flykick );
-  } else {
-    damage( ch, victim, 0, gsn_flykick );
-  }
-
-  return;
-}
-
-void do_nerve( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * victim;
-  char        buf[ MAX_INPUT_LENGTH ];
-  OBJ_DATA  * wield;
-  OBJ_DATA  * dual;
-  OBJ_DATA  * hold;
-
-  if ( IS_NPC( ch ) ) {
-    return;
-  }
-
-  if ( !can_use_skpell( ch, gsn_nerve ) ) {
-    send_to_char( AT_GREY, "Huh?\n\r", ch );
-    return;
-  }
-
-  if ( !( victim = ch->fighting ) ) {
-    send_to_char( C_DEFAULT, "You aren't fighting anyone.\n\r", ch );
-    return;
-  }
-
-  if ( number_percent() < ch->pcdata->learned[ gsn_nerve ]
-       && number_percent() < ( ch->level * 75 ) / victim->level ) {
-    AFFECT_DATA af;
-    act( AT_YELLOW, "You pinch $N's arm nerves!", ch, NULL, victim, TO_CHAR );
-    act( AT_YELLOW, "$n pinched your arm nerves.", ch, NULL, victim, TO_VICT );
-    act( AT_YELLOW, "$n pinched $N's arm nerves.", ch, NULL, victim, TO_NOTVICT );
-    wield = get_eq_char( victim, WEAR_WIELD );
-    dual  = get_eq_char( victim, WEAR_WIELD_2 );
-
-    if ( wield || dual ) {
-      if ( IS_SIMM( victim, IMM_NERVE ) ) {
-        sprintf( buf,
-                 "$N shrugs off the blow and grips $S weapon%s tightly.",
-                 ( wield && dual ) ? "s" : "" );
-        act( AT_GREY, buf, ch, NULL, victim, TO_NOTVICT );
-      } else {
-        sprintf( buf, "$N drops $S weapon%s to the ground.",
-                 ( wield && dual ) ? "s" : "" );
-        act( AT_GREY, buf, ch, NULL, victim, TO_CHAR );
-        act( AT_GREY, buf, ch, NULL, victim, TO_NOTVICT );
-        sprintf( buf, "You drop your weapon%s to the ground.\n\r",
-                 ( wield && dual ) ? "s" : "" );
-        send_to_char( AT_GREY, buf, victim );
-
-        if ( wield ) {
-          obj_from_char( wield );
-          obj_to_room( wield, victim->in_room );
-        }
-
-        if ( dual ) {
-          obj_from_char( dual );
-          obj_to_room( dual, victim->in_room );
-        }
-      }
-    }
-
-    if ( ( hold = get_eq_char( victim, WEAR_HOLD ) ) ) {
-      if ( !IS_SIMM( victim, IMM_NERVE ) ) {
-        act( AT_GREY, "$N drops $S $p.", ch, hold, victim, TO_CHAR );
-        act( AT_GREY, "$N drops $S $p.", ch, hold, victim, TO_NOTVICT );
-        act( AT_GREY, "You drop your $p.", ch, hold, victim, TO_VICT );
-        obj_from_char( hold );
-        obj_to_room( hold, victim->in_room );
-      } else {
-        act( AT_GREY, "$N grips $S $p tightly.", ch, hold, victim, TO_NOTVICT );
-      }
-    }
-
-    if ( IS_SIMM( ch, IMM_NERVE ) ) {
-      return;
-    }
-
-    af.type      = gsn_nerve;
-    af.duration  = 1;
-    af.location  = APPLY_NONE;
-    af.modifier  = 0;
-    af.bitvector = 0;
-    affect_join( victim, &af );
-
-    update_skpell( ch, gsn_nerve );
-  }
-
-  return;
-}
-
 void do_trip( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim;
 
@@ -3724,93 +3589,6 @@ void do_trip( CHAR_DATA * ch, char * argument ) {
 
   return;
 
-}
-
-void do_shriek( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * victim;
-  OBJ_DATA  * obj, * obj_next;
-  OBJ_DATA  * potion, * potion_next;
-  int         dam;
-  int         blown     = 0;
-  int         max_blown = 0;
-
-  if ( !IS_NPC( ch )
-       &&   !can_use_skpell( ch, gsn_shriek ) ) {
-    send_to_char( AT_GREY, "Huh?\n\r", ch );
-    return;
-  }
-
-  if ( !( victim = ch->fighting ) ) {
-    send_to_char( C_DEFAULT, "You aren't fighting anyone.\n\r", ch );
-    return;
-  }
-
-  max_blown = ( IS_NPC( ch ) ) ? 10 : 25;
-
-  if ( ( obj = victim->carrying ) && !saves_spell( ch->level, victim ) ) {
-    for ( obj = victim->carrying; obj; obj = obj_next ) {
-      obj_next = obj->next_content;
-
-      if ( blown >= max_blown ) {
-        break;
-      }
-
-      if ( obj->deleted ) {
-        continue;
-      }
-
-      switch ( obj->item_type ) {
-        default:
-          continue;
-        case ITEM_POTION:
-        case ITEM_CONTAINER:
-          break;
-      }
-
-      if ( obj->item_type == ITEM_CONTAINER ) {
-        if ( !obj->contains ) {
-          continue;
-        }
-
-        for ( potion = obj->contains; potion; potion = potion_next ) {
-          potion_next = potion->next_content;
-
-          if ( blown >= max_blown ) {
-            break;
-          }
-
-          if ( potion->deleted ) {
-            continue;
-          }
-
-          if ( potion->item_type != ITEM_POTION ) {
-            continue;
-          }
-
-          if ( number_bits( 2 ) != 0 ) {
-            extract_obj( potion );
-            act( AT_BLUE, "You feel something explode from within $p.",
-                 victim, obj, NULL, TO_CHAR );
-            blown++;
-          }
-        }
-
-        continue;
-      }
-
-      if ( number_bits( 2 ) != 0 ) {
-        act( AT_BLUE, "$p vibrates and explodes!", victim, obj, NULL, TO_CHAR );
-        extract_obj( obj );
-        blown++;
-      }
-    }
-  }
-
-  dam  = number_range( 100, ch->level * 3 );
-  dam += blown * 10;
-  damage( ch, victim, dam, gsn_shriek );
-  update_skpell( ch, gsn_shriek );
-  WAIT_STATE( ch, skill_table[ gsn_shriek ].beats );
 }
 
 void death_xp_loss( CHAR_DATA * victim ) {
@@ -3866,7 +3644,7 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_NPC( ch ) && !check_blind( ch ) && ch->pcdata->learned[ gsn_blindfight ] > 0 && ch->pcdata->learned[ gsn_blindfight ] < number_percent() ) {
+  if ( !check_blind( ch ) ) {
     return;
   }
 

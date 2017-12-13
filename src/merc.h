@@ -766,7 +766,6 @@ struct  kill_data {
 #define IMM_WOOD      ( X )
 #define IMM_SILVER    ( Y )
 #define IMM_IRON      ( Z )
-#define IMM_NERVE     ( aa )
 
 /* RES bits for mobs */
 #define RES_SUMMON    ( A )
@@ -878,7 +877,6 @@ struct  kill_data {
 #define OBJ_VNUM_BERRY         19
 #define OBJ_VNUM_MUSHROOM      20
 #define OBJ_VNUM_LIGHT_BALL    21
-#define OBJ_VNUM_SOULGEM       23
 #define OBJ_VNUM_PARCHMENT     25050
 #define OBJ_VNUM_QUILL         25051
 #define OBJ_VNUM_FLASK         25052
@@ -896,7 +894,6 @@ struct  kill_data {
 #define OBJ_VNUM_SMOKEBOMB     25064
 #define OBJ_VNUM_TO_FORGE_A    25065 // armor
 #define OBJ_VNUM_TO_FORGE_W    25066 // weapon
-#define OBJ_VNUM_WARD_PHYS     25067
 #define OBJ_VNUM_SMITHY_HAMMER 713
 #define OBJ_VNUM_SCHOOL_MACE   3001
 #define OBJ_VNUM_SCHOOL_DAGGER 138
@@ -1912,15 +1909,10 @@ extern int gsn_rage;
 extern int gsn_rush;
 extern int gsn_frenzy;
 extern int gsn_headbutt;
-extern int gsn_nerve;
 extern int gsn_retreat;
 extern int gsn_escape;
 extern int gsn_antidote;
 extern int gsn_haggle;
-extern int gsn_blindfight;
-extern int gsn_shriek;
-extern int gsn_ward_safe;
-extern int gsn_ward_heal;
 extern int gsn_incinerate;
 extern int gsn_grip;
 extern int gsn_lure;
@@ -2379,7 +2371,6 @@ DECLARE_DO_FUN( do_visible );
 DECLARE_DO_FUN( do_voodo );
 DECLARE_DO_FUN( do_vused );
 DECLARE_DO_FUN( do_wake );
-DECLARE_DO_FUN( do_ward );
 DECLARE_DO_FUN( do_wear );
 DECLARE_DO_FUN( do_weather );
 DECLARE_DO_FUN( do_west );
@@ -2411,8 +2402,6 @@ DECLARE_DO_FUN( do_rush );
 DECLARE_DO_FUN( do_frenzy );
 DECLARE_DO_FUN( do_palm );
 DECLARE_DO_FUN( do_forge );
-DECLARE_DO_FUN( do_nerve );
-DECLARE_DO_FUN( do_shriek );
 DECLARE_DO_FUN( do_permban );
 DECLARE_DO_FUN( do_tempban );
 DECLARE_DO_FUN( do_newban );
@@ -2431,13 +2420,11 @@ DECLARE_DO_FUN( do_flip );
  * Defined in magic.c.
  */
 DECLARE_SPELL_FUN( spell_null );
-DECLARE_SPELL_FUN( spell_aid );
 DECLARE_SPELL_FUN( spell_animate );
 DECLARE_SPELL_FUN( spell_armor );
 DECLARE_SPELL_FUN( spell_astral );
 DECLARE_SPELL_FUN( spell_aura );
 DECLARE_SPELL_FUN( spell_blindness );
-DECLARE_SPELL_FUN( spell_blur );
 DECLARE_SPELL_FUN( spell_change_sex );
 DECLARE_SPELL_FUN( spell_charm_person );
 DECLARE_SPELL_FUN( spell_continual_light );
@@ -2481,10 +2468,8 @@ DECLARE_SPELL_FUN( spell_sleep );
 DECLARE_SPELL_FUN( spell_spell_bind );
 DECLARE_SPELL_FUN( spell_summon );
 DECLARE_SPELL_FUN( spell_teleport );
-DECLARE_SPELL_FUN( spell_thunder_strike );
 DECLARE_SPELL_FUN( spell_turn_undead );
 DECLARE_SPELL_FUN( spell_vibrate );
-DECLARE_SPELL_FUN( spell_war_cry );
 DECLARE_SPELL_FUN( spell_word_of_recall );
 DECLARE_SPELL_FUN( spell_acid_breath );
 DECLARE_SPELL_FUN( spell_fire_breath );
@@ -2507,8 +2492,6 @@ DECLARE_SPELL_FUN( spell_web );
 DECLARE_SPELL_FUN( spell_entangle );
 DECLARE_SPELL_FUN( spell_confusion );
 DECLARE_SPELL_FUN( spell_mind_probe );
-DECLARE_SPELL_FUN( spell_meteor_swarm );
-DECLARE_SPELL_FUN( spell_psychic_quake );
 DECLARE_SPELL_FUN( spell_fumble );
 DECLARE_SPELL_FUN( spell_summon_shadow );
 DECLARE_SPELL_FUN( spell_summon_beast );
@@ -2517,7 +2500,6 @@ DECLARE_SPELL_FUN( spell_shatter );
 DECLARE_SPELL_FUN( spell_molecular_unbind );
 DECLARE_SPELL_FUN( spell_phase_shift );
 DECLARE_SPELL_FUN( spell_healing_hands );
-DECLARE_SPELL_FUN( spell_mist_form );
 DECLARE_SPELL_FUN( spell_purify );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_hallucinate );
@@ -2563,8 +2545,6 @@ DECLARE_SPELL_FUN( gspell_mass_shield );
 DECLARE_SPELL_FUN( spell_dark_ritual );
 DECLARE_SPELL_FUN( spell_field_of_decay );
 DECLARE_SPELL_FUN( spell_stench_of_decay );
-DECLARE_SPELL_FUN( spell_iron_skin );
-DECLARE_SPELL_FUN( spell_soul_bind );
 
 char *  crypt( const char * key, const char * salt );
 

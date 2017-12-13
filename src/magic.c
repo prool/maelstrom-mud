@@ -3122,39 +3122,6 @@ void spell_intellect_fortress( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_lend_health( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         hpch;
-
-  if ( ch == victim ) {
-    send_to_char( AT_BLUE, "Lend health to yourself?  Easily done.\n\r", ch );
-    return;
-  }
-
-  hpch = UMIN( 50, MAX_HIT( victim ) - victim->hit );
-
-  if ( hpch == 0 ) {
-    act( AT_BLUE, "Nice thought, but $N doesn't need healing.", ch, NULL,
-         victim, TO_CHAR );
-    return;
-  }
-
-  if ( ch->hit - hpch < 50 ) {
-    send_to_char( AT_BLUE, "You aren't healthy enough yourself!\n\r", ch );
-    return;
-  }
-
-  victim->hit += hpch;
-  ch->hit     -= hpch;
-  update_pos( victim );
-  update_pos( ch );
-
-  act( AT_BLUE, "You lend some of your health to $N.", ch, NULL, victim, TO_CHAR );
-  act( AT_BLUE, "$n lends you some of $s health.", ch, NULL, victim, TO_VICT );
-
-  return;
-}
-
 void spell_levitation( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

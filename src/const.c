@@ -1019,14 +1019,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "lend health",
-    { L_APP,L_APP,L_APP },
-    spell_lend_health,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,10,12,
-    "","!Lend Health!","",FALSE,SLOT(0)
-  },
-
-  {
     "levitation",
     { L_APP,L_APP,L_APP },
     spell_levitation,TAR_CHAR_DEFENSIVE,POS_STANDING,

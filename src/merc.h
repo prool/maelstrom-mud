@@ -2495,7 +2495,6 @@ DECLARE_SPELL_FUN( spell_ego_whip );
 DECLARE_SPELL_FUN( spell_flesh_armor );
 DECLARE_SPELL_FUN( spell_inflict_pain );
 DECLARE_SPELL_FUN( spell_intellect_fortress );
-DECLARE_SPELL_FUN( spell_lend_health );
 DECLARE_SPELL_FUN( spell_levitation );
 DECLARE_SPELL_FUN( spell_mind_thrust );
 DECLARE_SPELL_FUN( spell_thought_shield );

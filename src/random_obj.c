@@ -170,7 +170,6 @@ const struct random_item_affects random_affect_table[ ] = {
   { "infrared",         -1,   100,   "of infravision"    },
   { "sanctuary",        -1,   100,   "of sanctuary"      },
   { "pass-door",        -1,   100,   "of entry"          },
-  { "haste",            -1,   100,   "of haste"          },
   { "bless",            -1,   100,   "of blessings"      },
   { "faerie-fire",      -1,   100,   "of fire"           },
   { "giant-str",        -1,   100,   "of the giant"      },

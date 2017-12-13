@@ -1865,15 +1865,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "haste",
-    { L_APP,L_APP,L_APP },
-    spell_haste,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,30,12,
-    "","You feel yourself slow down",
-    "$n slows down.",TRUE,SLOT(71)
-  },
-
-  {
     "trip",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

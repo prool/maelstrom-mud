@@ -678,7 +678,6 @@ struct  kill_data {
  */
 #define AFF_BLIND         BV00
 #define AFF_INVISIBLE     BV01
-#define AFF_HASTE         BV06
 #define AFF_SANCTUARY     BV07
 #define AFF_FAERIE_FIRE   BV08
 #define AFF_INFRARED      BV09
@@ -1085,7 +1084,6 @@ struct  kill_data {
 #define APPLY_HIDE             ( PERM_SPELL_BEGIN + 9 )
 #define APPLY_FLYING           ( PERM_SPELL_BEGIN + 10 )
 #define APPLY_PASS_DOOR        ( PERM_SPELL_BEGIN + 11 )
-#define APPLY_HASTE            ( PERM_SPELL_BEGIN + 12 )
 #define APPLY_FIRESHIELD       ( PERM_SPELL_BEGIN + 13 )
 #define APPLY_SHOCKSHIELD      ( PERM_SPELL_BEGIN + 14 )
 #define APPLY_ICESHIELD        ( PERM_SPELL_BEGIN + 15 )
@@ -2551,7 +2549,6 @@ DECLARE_SPELL_FUN( spell_gate );
 DECLARE_SPELL_FUN( spell_giant_strength );
 DECLARE_SPELL_FUN( spell_eternal_intellect );
 DECLARE_SPELL_FUN( spell_golden_aura );
-DECLARE_SPELL_FUN( spell_haste );
 DECLARE_SPELL_FUN( spell_goodberry );
 DECLARE_SPELL_FUN( spell_harm );
 DECLARE_SPELL_FUN( spell_heal );

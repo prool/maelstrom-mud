@@ -5828,7 +5828,6 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
   check_dispel_aff( victim, &found, level, "fireshield", AFF_FIRESHIELD );
   check_dispel_aff( victim, &found, level, "flaming", AFF_FLAMING );
   check_dispel_aff( victim, &found, level, "fly", AFF_FLYING );
-  check_dispel_aff( victim, &found, level, "haste", AFF_HASTE );
   check_dispel_aff( victim, &found, level, "iceshield", AFF_ICESHIELD );
   check_dispel_aff( victim, &found, level, "infravision", AFF_INFRARED );
   check_dispel_aff( victim, &found, level, "invis", AFF_INVISIBLE );
@@ -6096,48 +6095,6 @@ void spell_curse_of_nature( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   send_to_char( AT_GREEN, "The wrath of nature wrecks you.\n\r", victim );
-  return;
-}
-
-/* RT haste spell */
-
-void spell_haste( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) || IS_AFFECTED( victim, AFF_HASTE )
-       /*    ||   IS_SET(victim->off_flags,OFF_FAST)*/ ) {
-    if ( victim == ch ) {
-      send_to_char( C_DEFAULT, "You can't move any faster!\n\r", ch );
-    } else {
-      act( C_DEFAULT, "$N is already moving as fast as $e can.",
-           ch, NULL, victim, TO_CHAR );
-    }
-
-    return;
-  }
-
-  af.type  = sn;
-  af.level = level;
-
-  if ( victim == ch ) {
-    af.duration = level / 2;
-  } else {
-    af.duration = level / 4;
-  }
-
-  af.location  = APPLY_DEX;
-  af.modifier  = 1 + ( level >= 18 ) + ( level >= 25 ) + ( level >= 32 );
-  af.bitvector = AFF_HASTE;
-  affect_to_char( victim, &af );
-  send_to_char( C_DEFAULT,
-                "You feel yourself moving more quickly.\n\r", victim );
-  act( C_DEFAULT, "$n is moving more quickly.", victim, NULL, NULL, TO_ROOM );
-
-  if ( ch != victim ) {
-    send_to_char( C_DEFAULT, "Ok.\n\r", ch );
-  }
-
   return;
 }
 

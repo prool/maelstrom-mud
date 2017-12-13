@@ -177,10 +177,6 @@ void multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
 
   one_hit( ch, victim, dt, FALSE );
 
-  if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-    one_hit( ch, victim, dt, FALSE );
-  }
-
   if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
     one_hit( ch, victim, dt, FALSE );
   }
@@ -190,10 +186,6 @@ void multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
   }
 
   one_hit( ch, victim, dt, TRUE );
-
-  if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-    one_hit( ch, victim, dt, TRUE );
-  }
 
   if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
     one_hit( ch, victim, dt, TRUE );
@@ -3766,39 +3758,6 @@ void do_frenzy( CHAR_DATA * ch, char * argument ) {
 }
 
 void do_reflex( CHAR_DATA * ch, char * argument ) {
-  AFFECT_DATA af;
-
-  if ( IS_NPC( ch ) ) {
-    return;
-  }
-
-  if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-    return;
-  }
-
-  if ( !can_use_skpell( ch, gsn_reflex ) ) {
-    return;
-  }
-
-  WAIT_STATE( ch, skill_table[ gsn_reflex ].beats );
-
-  if ( ch->pcdata->learned[ gsn_reflex ] < number_percent() ) {
-    send_to_char( C_DEFAULT, "You failed.\n\r", ch );
-    return;
-  }
-
-  send_to_char( AT_RED, "You feel yourself more agile.\n\r", ch );
-  act( AT_WHITE, "$n is moving more fluidly.", ch, NULL, NULL, TO_ROOM );
-  af.type      = gsn_reflex;
-  af.level     = ch->level;
-  af.duration  = ch->level / 4;
-  af.location  = APPLY_DEX;
-  af.modifier  = 4;
-  af.bitvector = AFF_HASTE;
-  affect_to_char( ch, &af );
-
-  update_skpell( ch, gsn_reflex );
-
   return;
 }
 
@@ -4113,10 +4072,6 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_WHITE, "You lure your opponent into a vulnerable position.\n\r", ch );
 
     one_hit( ch, victim, dt, FALSE );
-
-    if ( IS_AFFECTED( ch, AFF_HASTE ) ) {
-      one_hit( ch, victim, dt, FALSE );
-    }
 
     if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
       one_hit( ch, victim, dt, FALSE );

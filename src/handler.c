@@ -544,12 +544,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
     case APPLY_PASS_DOOR:
       psn = skill_lookup( "pass door" );
       break;
-    case APPLY_HASTE:
-      /*
-         psn = skill_lookup("haste");
-         strcpy(buf, "$n is no longer moving so quickly.");
-       */
-      break;
     case APPLY_FIRESHIELD:
       psn = skill_lookup( "fireshield" );
       /*  if(fAdd)
@@ -2291,8 +2285,6 @@ char * affect_loc_name( int location ) {
       return "'fly'";
     case APPLY_PASS_DOOR:
       return "'pass door'";
-    case APPLY_HASTE:
-      return "'haste'";
     case APPLY_FIRESHIELD:
       return "'fireshield'";
     case APPLY_SHOCKSHIELD:
@@ -2330,10 +2322,6 @@ char * affect_bit_name( int vector ) {
 
   if ( vector & AFF_INVISIBLE     ) {
     strcat( buf, " invisible" );
-  }
-
-  if ( vector & AFF_HASTE         ) {
-    strcat( buf, " haste" );
   }
 
   if ( vector & AFF_SANCTUARY     ) {

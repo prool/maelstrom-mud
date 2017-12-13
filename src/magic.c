@@ -3316,12 +3316,6 @@ void spell_mind_thrust( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_project_force( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  int dam = dice( 4, 6 ) + level;
-  damage( ch, (CHAR_DATA *) vo, dam, sn );
-  return;
-}
-
 void spell_psionic_blast( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA      * victim      = (CHAR_DATA *) vo;
   static const int dam_each [] = {

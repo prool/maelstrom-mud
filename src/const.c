@@ -1064,14 +1064,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "project force",
-    { L_APP,L_APP,L_APP },
-    spell_project_force,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,18,12,
-    "&wprojected force&X","!Project Force!","",FALSE,SLOT(0)
-  },
-
-  {
     "psionic blast",
     { L_APP,L_APP,L_APP },
     spell_psionic_blast,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

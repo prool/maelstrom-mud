@@ -907,14 +907,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "shield block",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_shield_block,0,0,
-    "","!Shield Block!","",FALSE,SLOT(0)
-  },
-
-  {
     "gouge",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,

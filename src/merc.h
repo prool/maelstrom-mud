@@ -1855,7 +1855,6 @@ struct gskill_type {
  */
 extern int gsn_trip;
 extern int gsn_track;
-extern int gsn_shield_block;
 extern int gsn_bash_door;
 extern int gsn_stun;
 extern int gsn_backstab;

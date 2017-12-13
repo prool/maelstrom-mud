@@ -72,7 +72,6 @@ int               stype;
 
 int gsn_trip;
 int gsn_track;
-int gsn_shield_block;
 int gsn_bash_door;
 int gsn_stun;
 int gsn_backstab;

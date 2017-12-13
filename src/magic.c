@@ -1267,27 +1267,6 @@ void spell_call_lightning( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_cause_light( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  int dam = dice( 1, 8 ) + level / 3;
-  dam = sc_dam( ch, dam );
-  damage( ch, (CHAR_DATA *) vo, dam, sn );
-  return;
-}
-
-void spell_cause_critical( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  int dam = dice( 3, 8 ) + level - 6;
-  dam = sc_dam( ch, dam );
-  damage( ch, (CHAR_DATA *) vo, dam, sn );
-  return;
-}
-
-void spell_cause_serious( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  int dam = dice( 2, 8 ) + level / 2;
-  dam = sc_dam( ch, dam );
-  damage( ch, (CHAR_DATA *) vo, dam, sn );
-  return;
-}
-
 void spell_change_sex( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

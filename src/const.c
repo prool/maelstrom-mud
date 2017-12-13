@@ -393,30 +393,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "cause critical",
-    { L_APP,L_APP,L_APP },
-    spell_cause_critical,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,20,12,
-    "spell","!Cause Critical!","",FALSE,SLOT(0)
-  },
-
-  {
-    "cause light",
-    { L_APP,L_APP,L_APP },
-    spell_cause_light,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&wspell&X","!Cause Light!","",FALSE,SLOT(0)
-  },
-
-  {
-    "cause serious",
-    { L_APP,L_APP,L_APP },
-    spell_cause_serious,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,17,12,
-    "&wspell&X","!Cause Serious!","",FALSE,SLOT(0)
-  },
-
-  {
     "change sex",
     { L_APP,L_APP,L_APP },
     spell_change_sex,TAR_CHAR_DEFENSIVE,POS_FIGHTING,

@@ -456,22 +456,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
     case APPLY_DAMROLL:
       ch->damroll += mod;
       break;
-    case APPLY_SAVING_PARA:
-      ch->saving_throw += mod;
-      break;
-    case APPLY_SAVING_ROD:
-      ch->saving_throw += mod;
-      break;
-    case APPLY_SAVING_PETRI:
-      ch->saving_throw += mod;
-      break;
-    case APPLY_SAVING_BREATH:
-      ch->saving_throw += mod;
-      break;
-    case APPLY_SAVING_SPELL:
-      ch->saving_throw += mod;
-      break;
-    /* XORPHOX perm spells */
     case APPLY_INVISIBLE:
       psn = skill_lookup( "invis" );
       strcpy( buf, "$n slowly fades into existence." );
@@ -691,21 +675,6 @@ void affect_modify2( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
       break;
     case APPLY_DAMROLL:
       ch->damroll += mod;
-      break;
-    case APPLY_SAVING_PARA:
-      ch->saving_throw += mod;
-      break;
-    case APPLY_SAVING_ROD:
-      ch->saving_throw += mod;
-      break;
-    case APPLY_SAVING_PETRI:
-      ch->saving_throw += mod;
-      break;
-    case APPLY_SAVING_BREATH:
-      ch->saving_throw += mod;
-      break;
-    case APPLY_SAVING_SPELL:
-      ch->saving_throw += mod;
       break;
   }
 
@@ -2198,17 +2167,6 @@ char * affect_loc_name( int location ) {
       return "hit roll";
     case APPLY_DAMROLL:
       return "damage roll";
-    case APPLY_SAVING_PARA:
-      return "save vs paralysis";
-    case APPLY_SAVING_ROD:
-      return "save vs rod";
-    case APPLY_SAVING_PETRI:
-      return "save vs petrification";
-    case APPLY_SAVING_BREATH:
-      return "save vs breath";
-    case APPLY_SAVING_SPELL:
-      return "save vs spell";
-    /* X */
     case APPLY_INVISIBLE:
       return "'invisible'";
     case APPLY_INFRARED:

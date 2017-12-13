@@ -1032,11 +1032,6 @@ struct  kill_data {
 #define APPLY_AC            17
 #define APPLY_HITROLL       18
 #define APPLY_DAMROLL       19
-#define APPLY_SAVING_PARA   20
-#define APPLY_SAVING_ROD    21
-#define APPLY_SAVING_PETRI  22
-#define APPLY_SAVING_BREATH 23
-#define APPLY_SAVING_SPELL  24
 #define APPLY_ANTI_DIS      26
 #define APPLY_CHA           27
 

@@ -156,11 +156,6 @@ const char * random_color_table[ ] = {
 
 const struct random_item_affects random_affect_table[ ] = {
 //  skill,              mlow, mhigh, suffix
-  { "saving-rod",       -50,  50,    "of the snake"      },
-  { "saving-petri",     -50,  50,    "of the forest"     },
-  { "saving-breath",    -50,  50,    "of the seas"       },
-  { "saving-spell",     -50,  50,    "of neutralization" },
-  { "saving-para",      -20,  20,    "of movement"       },
   { "invis",            -1,   100,   "of invisibility"   },
   { "hide",             -1,   100,   "of hiding"         },
   { "sneak",            -1,   100,   "of sneaking"       },

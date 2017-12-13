@@ -6086,7 +6086,7 @@ bool forge_show( CHAR_DATA * ch, char * argument ) {
   AFFECT_DATA * paf;
   AFFECT_DATA * paf_next = NULL;
   int           cnt, max_stat, max_dam, max_hit, max_hp, max_ac, max_mana;
-  int           max_saves, max_saveb, max_ad;
+  int           max_ad;
   FORGE_OBJ( ch, pObj );
   max_stat = ( pObj->level > LEVEL_HERO ) ? 3 : 2;
 
@@ -6099,7 +6099,6 @@ bool forge_show( CHAR_DATA * ch, char * argument ) {
 
   max_hit   = max_dam * 2 / 3;
   max_hp    = max_mana = pObj->level;
-  max_saves = max_saveb = 0 - UMAX( 1, pObj->level / 7 );
   max_ad    = pObj->level * 0.4;
   max_ac    = 0 - ( pObj->level * 3 / 4 );
   send_to_char( AT_GREY, "Forging an item; type &RDONE &wonly when finished.\n\r", ch );
@@ -6124,12 +6123,6 @@ bool forge_show( CHAR_DATA * ch, char * argument ) {
   sprintf( buf, "[&WHit Points&w: &R+%d&z] [&WMana&w:        &R+%d&z] [&WArmor Class&w:  &R%d&z]",
            max_hp, max_mana, max_ac );
   send_to_char( AT_DGREY, buf, ch );
-
-  if ( pObj->level >= 40 ) {
-    sprintf( buf, "[&WSaving-Spell&w: &R%d&z] [&WSaving-Breath&w: &R%d&z]\n\r",
-             max_saves, max_saveb );
-    send_to_char( AT_DGREY, buf, ch );
-  }
 
   if ( pObj->level >= 45 ) {
     sprintf( buf, "[&WStat 2&w:        &R+%d&z]", max_stat );
@@ -6182,7 +6175,7 @@ bool forge_addaffect( CHAR_DATA * ch, char * argument ) {
   char          mod[ MAX_STRING_LENGTH ];
   char          buf[ MAX_INPUT_LENGTH ];
   int           cnt, max_stat, max_dam, max_hit, max_hp, max_ac, max_mana;
-  int           max_saves, max_saveb, max_ad, stat_cnt, max_statn;
+  int           max_ad, stat_cnt, max_statn;
   int           cost  = 0;
   int           Mod   = 0;
   bool          legal = FALSE;
@@ -6199,7 +6192,6 @@ bool forge_addaffect( CHAR_DATA * ch, char * argument ) {
 
   max_hit   = max_dam * 2 / 3;
   max_hp    = max_mana = pObj->level;
-  max_saves = max_saveb = 0 - UMAX( 1, pObj->level / 7 );
   max_ad    = pObj->level * 0.4;
   max_ac    = 0 - ( pObj->level * 3 / 4 );
 
@@ -6376,34 +6368,6 @@ bool forge_addaffect( CHAR_DATA * ch, char * argument ) {
     }
 
     cost  = Mod * 3000;
-    legal = TRUE;
-  }
-
-  if ( !str_prefix( loc, "saving-spell" ) ) {
-    strcpy( loc, "saving-spell" );
-
-    if ( ( Mod = atoi( mod ) ) < max_saves ) {
-      sprintf( buf, "You may not add more than %d %s.\n\r",
-               max_saves, loc );
-      send_to_char( AT_GREY, buf, ch );
-      return FALSE;
-    }
-
-    cost  = abs( Mod ) * 10000;
-    legal = TRUE;
-  }
-
-  if ( !str_prefix( loc, "saving-breath" ) ) {
-    strcpy( loc, "saving-breath" );
-
-    if ( ( Mod = atoi( mod ) ) < max_saveb ) {
-      sprintf( buf, "You may not add more than %d %s.\n\r",
-               max_saveb, loc );
-      send_to_char( AT_GREY, buf, ch );
-      return FALSE;
-    }
-
-    cost  = abs( Mod ) * 10000;
     legal = TRUE;
   }
 

@@ -988,10 +988,6 @@ void spell_aid( int sn, int level, CHAR_DATA * ch, void * vo ) {
   af.bitvector = 0;
   affect_to_char( victim, &af );
 
-  af.location = APPLY_SAVING_SPELL;
-  af.modifier = 0 - level / 6;
-  affect_to_char( victim, &af );
-
   af.location = APPLY_HIT;
   af.modifier = level * 3;
   affect_to_char( victim, &af );
@@ -1035,31 +1031,6 @@ void spell_draw_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
   act( AT_BLUE, "$n's body weakens.", ch, NULL, NULL, TO_ROOM );
   return;
 }
-
-/*
-   void spell_barkskin( int sn, int level, CHAR_DATA *ch, void *vo )
-   {
-   CHAR_DATA *victim = (CHAR_DATA *) vo;
-   AFFECT_DATA af;
-   if ( IS_AFFECTED( victim, sn))
-   return;
-   af.type       = sn;
-   af.duration   = 35;
-   af.location   = APPLY_AC;
-   af.modifier   = -30;
-   af.bitvector  = 0;
-   affect_to_char( victim, &af);
-
-   af.location = APPLY_SAVING_SPELL;
-   af.modifier   = 0 - LEVEL / 12;
-   affect_to_char( victim, &af);
-   if ( ch != victim )
-   send_to_char( "Ok.\n\r", ch );
-   send_to_char( "Your skin turns into a bark-like texture.\n\r",
-   victim, );
-   return;
-   }
- */
 
 void spell_blindness( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
@@ -4188,14 +4159,6 @@ void spell_disrupt( int sn, int level, CHAR_DATA * ch, void * vo ) {
       case APPLY_DAMROLL:
         val = ( level / 2 ) + 1;
         break;
-      case APPLY_SAVING_PARA:
-      case APPLY_SAVING_ROD:
-      case APPLY_SAVING_PETRI:
-      case APPLY_SAVING_BREATH:
-      case APPLY_SAVING_SPELL:
-        val     = ( ( level * 2 ) / 5 ) + 1;
-        negchar = TRUE;
-        break;
     }
   }
 
@@ -4342,10 +4305,6 @@ void spell_ego_whip( int sn, int level, CHAR_DATA * ch, void * vo ) {
   af.bitvector = 0;
   affect_to_char( victim, &af );
 
-  af.location = APPLY_SAVING_SPELL;
-  af.modifier = 2;
-  affect_to_char( victim, &af );
-
   af.location = APPLY_AC;
   af.modifier = level / 2;
   affect_to_char( victim, &af );
@@ -4358,22 +4317,6 @@ void spell_ego_whip( int sn, int level, CHAR_DATA * ch, void * vo ) {
 }
 
 void spell_energy_containment( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level / 2 + 7;
-  af.modifier  = -level / 3;
-  af.location  = APPLY_SAVING_SPELL;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "You can now absorb some forms of energy.\n\r", ch );
   return;
 }
 
@@ -5860,10 +5803,6 @@ void spell_blur( int sn, int level, CHAR_DATA * ch, void * vo ) {
   af.location  = APPLY_AC;
   af.modifier  = 0 - level / 2;
   af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_SAVING_SPELL;
-  af.modifier = 0 - level / 3;
   affect_to_char( victim, &af );
 
   send_to_char( AT_GREY, "Your form blurs.\n\r",

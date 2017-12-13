@@ -1345,33 +1345,6 @@ void spell_fly( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_gate( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * gch;
-  int         npccount = 0;
-  int         pccount  = 0;
-
-  for ( gch = ch->in_room->people; gch; gch = gch->next_in_room ) {
-    if ( IS_NPC( gch ) && !IS_AFFECTED( gch, AFF_CHARM ) ) {
-      npccount++;
-    }
-
-    if ( !IS_NPC( gch ) ||
-         ( IS_NPC( gch ) && IS_AFFECTED( gch, AFF_CHARM ) ) ) {
-      pccount++;
-    }
-  }
-
-  if ( npccount > pccount ) {
-    do_say( ch, "There are too many of us here!  One must die!" );
-    return;
-  }
-
-  do_say( ch, "Come brothers!  Join me in this glorious bloodbath!" );
-  char_to_room( create_mobile( get_mob_index( MOB_VNUM_DEMON1 ) ),
-                ch->in_room );
-  return;
-}
-
 void spell_giant_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -1438,22 +1411,6 @@ void spell_goodberry( int sn, int level, CHAR_DATA * ch, void * vo ) {
   berry->value[ 1 ] = ch->level * 8;
   extract_obj( obj );
   obj_to_char( berry, ch );
-  return;
-}
-
-void spell_harm( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         dam;
-
-  dam = UMAX( 20, victim->hit - dice( 1, 4 ) );
-  dam = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam = UMIN( 50, dam / 4 );
-  }
-
-  dam = UMIN( 175, dam );
-  damage( ch, victim, dam, sn );
   return;
 }
 
@@ -1769,24 +1726,6 @@ void spell_pass_door( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   send_to_char( AT_GREY, "You turn translucent.\n\r", victim );
   act( AT_GREY, "$n turns translucent.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-void spell_permenancy( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * obj = (OBJ_DATA *) vo;
-  /*    AFFECT_DATA *paf;*/
-
-  if ( obj->item_type != ITEM_WAND
-       && obj->item_type != ITEM_STAFF
-       && obj->item_type != ITEM_LENSE ) {
-    send_to_char( AT_BLUE, "You cannot make that item permenant.\n\r", ch );
-    return;
-  }
-
-  obj->value[ 2 ] = -1;
-  obj->value[ 1 ] = -1;
-  act( AT_BLUE, "You run your finger up $p, you can feel it's power growing.", ch, obj, NULL, TO_CHAR );
-  act( AT_BLUE, "$n slowly runs $s finger up $p.", ch, obj, NULL, TO_ROOM );
   return;
 }
 
@@ -2316,27 +2255,6 @@ void spell_control_flames( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_create_sound( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-  char        buf1[ MAX_STRING_LENGTH ];
-  char        buf2[ MAX_STRING_LENGTH ];
-  char        speaker[ MAX_INPUT_LENGTH  ];
-
-  target_name = one_argument( target_name, speaker );
-
-  sprintf( buf1, "%s says '%s'.\n\r", speaker, target_name );
-  sprintf( buf2, "Someone makes %s say '%s'.\n\r", speaker, target_name );
-  buf1[ 0 ] = UPPER( buf1[ 0 ] );
-
-  for ( vch = ch->in_room->people; vch; vch = vch->next_in_room ) {
-    if ( !is_name( NULL, speaker, vch->name ) ) {
-      send_to_char( AT_RED, saves_spell( level, vch ) ? buf2 : buf1, vch );
-    }
-  }
-
-  return;
-}
-
 void spell_summon_swarm( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * mob;
   CHAR_DATA * fch;
@@ -2804,7 +2722,7 @@ bool saves_dispel( int dis_level, int spell_level, int duration ) {
   return number_percent() < save;
 }
 
-/* co-routine for dispel magic and cancellation */
+/* co-routine for dispel magic */
 bool check_dispel( int dis_level, CHAR_DATA * victim, int sn ) {
   AFFECT_DATA * af;
 
@@ -2965,60 +2883,6 @@ void spell_dispel_magic( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   if ( found ) {
     send_to_char( AT_RED, "You feel a brief tingling sensation.\n\r", victim );
-    send_to_char( AT_YELLOW,
-                  "Unraveled magical energy ripple away at your succes.\n\r", ch );
-  } else {
-    send_to_char( AT_RED, "The spell failed.\n\r", ch );
-  }
-
-}
-
-/* New cancellation by Decklarean
- * The old way was just to stupid. :>
- * This will dispell all magic spells.
- */
-void spell_cancellation( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA   * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA * paf;
-  bool          found;
-
-  if ( ( !IS_NPC( ch ) && IS_NPC( victim )
-         && !( IS_AFFECTED( ch, AFF_CHARM ) && ch->master == victim ) )
-       || ( IS_NPC( ch ) && !IS_NPC( victim ) )
-       || !is_same_group( ch, victim ) ) {
-    send_to_char( C_DEFAULT, "You failed, try dispel magic.\n\r", ch );
-    return;
-  }
-
-  found = FALSE;
-
-  /* Check dispel of spells that mobs where built with */
-  if ( IS_NPC( victim ) ) {
-    found = dispel_flag_only_spells( level, victim );
-  }
-
-  /* Check dispel of spells cast */
-  for ( paf = victim->affected; paf; paf = paf->next ) {
-    if ( skill_table[ paf->type ].spell_fun != spell_null
-         && skill_table[ paf->type ].spell_fun != spell_poison
-         ) {
-      if ( check_dispel( level, victim, paf->type ) ) {
-        found = TRUE;
-      }
-    }
-  }
-
-  for ( paf = victim->affected2; paf; paf = paf->next ) {
-    if ( skill_table[ paf->type ].spell_fun != spell_null
-         && skill_table[ paf->type ].spell_fun != spell_poison
-         ) {
-      if ( check_dispel( level, victim, paf->type ) ) {
-        found = TRUE;
-      }
-    }
-  }
-
-  if ( found ) {
     send_to_char( AT_YELLOW,
                   "Unraveled magical energy ripple away at your succes.\n\r", ch );
   } else {

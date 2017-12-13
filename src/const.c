@@ -471,14 +471,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "gate",
-    { L_APP,L_APP,L_APP },
-    spell_gate,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
-    NULL,50,12,
-    "","!Gate!","",FALSE,SLOT(0)
-  },
-
-  {
     "giant strength",
     { L_APP,L_APP,L_APP },
     spell_giant_strength,TAR_CHAR_DEFENSIVE,POS_STANDING,
@@ -504,14 +496,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_goodberry,TAR_OBJ_INV,POS_STANDING,
     NULL,25,8,
     "","!GOODBERRY!","",FALSE,SLOT(0)
-  },
-
-  {
-    "harm",
-    { L_APP,L_APP,L_APP },
-    spell_harm,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,35,12,
-    "&zharm &wspell&X","!Harm!","",FALSE,SLOT(0)
   },
 
   {
@@ -627,14 +611,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "",
     "The peace aura around your body fades.",
     "The peace aura around $n fades.",FALSE,SLOT(24)
-  },
-
-  {
-    "permenancy",
-    { L_APP,L_APP,L_APP },
-    spell_permenancy,TAR_OBJ_INV,POS_STANDING,
-    NULL,200,24,
-    "","!Permenancy!","",FALSE,SLOT(0)
   },
 
   {
@@ -917,28 +893,12 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "create sound",
-    { L_APP,L_APP,L_APP },
-    spell_create_sound,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,5,12,
-    "","!Create Sound!","",FALSE,SLOT(0)
-  },
-
-  {
     "shadow form",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_shadow,0,12,
     "","You no longer move in the shadows.",
     "$n returns from the shadows.",FALSE,SLOT(54)
-  },
-
-  {
-    "cancellation",
-    { L_APP,L_APP,L_APP },
-    spell_cancellation,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
-    NULL,15,16,
-    "","!Cancellation!","",FALSE,SLOT(0)
   },
 
   {

@@ -297,7 +297,6 @@ const struct flag_type type_flags[] = {
 
 const struct flag_type extra_flags[] = {
   { "glow",         ITEM_GLOW,         TRUE  },
-  { "hum",          ITEM_HUM,          TRUE  },
   { "dark",         ITEM_DARK,         TRUE  },
   { "lock",         ITEM_LOCK,         TRUE  },
   { "evil",         ITEM_EVIL,         TRUE  },

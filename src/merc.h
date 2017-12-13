@@ -955,7 +955,6 @@ struct  kill_data {
  * Used in #OBJECTS.
  */
 #define ITEM_GLOW         1
-#define ITEM_HUM          2
 #define ITEM_DARK         4
 #define ITEM_LOCK         8
 #define ITEM_EVIL         16

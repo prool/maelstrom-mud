@@ -87,10 +87,6 @@ char * format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort ) {
     strcat( buf, "&W(Glowing)&B " );
   }
 
-  if ( IS_OBJ_STAT( obj, ITEM_HUM ) ) {
-    strcat( buf, "(Humming) " );
-  }
-
   if ( IS_OBJ_STAT( obj, ITEM_POISONED ) ) {
     strcat( buf, "&G(Poisoned)&w " );
   }

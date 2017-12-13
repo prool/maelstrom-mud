@@ -2390,10 +2390,6 @@ char * extra_bit_name( int extra_flags ) {
     strcat( buf, " glow" );
   }
 
-  if ( extra_flags & ITEM_HUM          ) {
-    strcat( buf, " hum" );
-  }
-
   if ( extra_flags & ITEM_DARK         ) {
     strcat( buf, " dark" );
   }

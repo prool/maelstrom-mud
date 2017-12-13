@@ -1276,21 +1276,6 @@ void spell_farsight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_flamestrike( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         dam;
-
-  dam = dice( 6, level / 2 );
-  dam = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
 void spell_fly( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

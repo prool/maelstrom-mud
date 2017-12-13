@@ -2401,7 +2401,6 @@ DECLARE_SPELL_FUN( spell_cure_blindness );
 DECLARE_SPELL_FUN( spell_cure_poison );
 DECLARE_SPELL_FUN( spell_dispel_magic );
 DECLARE_SPELL_FUN( spell_enchant_weapon );
-DECLARE_SPELL_FUN( spell_flamestrike );
 DECLARE_SPELL_FUN( spell_fly );
 DECLARE_SPELL_FUN( spell_heal );
 DECLARE_SPELL_FUN( spell_incinerate );

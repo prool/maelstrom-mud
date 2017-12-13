@@ -444,14 +444,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "flamestrike",
-    { L_APP,L_APP,L_APP },
-    spell_flamestrike,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,20,12,
-    "&rflame&Rstrike","!Flamestrike!","",FALSE,SLOT(0)
-  },
-
-  {
     "fly",
     { L_APP,L_APP,L_APP },
     spell_fly,TAR_CHAR_DEFENSIVE,POS_STANDING,

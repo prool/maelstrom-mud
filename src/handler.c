@@ -485,10 +485,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
     case APPLY_PROTECT:
       psn = skill_lookup( "protection evil" );
       break;
-    case APPLY_BIO_ACCELERATION:
-      psn        = skill_lookup( "bio-acceleration" );
-      paf->level = ch->level;
-      break;
     case APPLY_SNEAK:
       sn = gsn_sneak;
 
@@ -2238,9 +2234,6 @@ char * affect_loc_name( int location ) {
       return "'bless'";
     case APPLY_GIANT_STRENGTH:
       return "'giant strength'";
-    case APPLY_BIO_ACCELERATION:
-      return "'bio-acceleration'";
-      /* END */
   }
 
   bug( "Affect_location_name: unknown location %d.", location );

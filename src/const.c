@@ -1654,14 +1654,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "The sweet caress of oblivion rises from $n.",FALSE,SLOT(68)
   },
   /* 250 */
-  {
-    "bio-acceleration",
-    { L_APP,L_APP,L_APP },
-    spell_bio_acceleration,TAR_CHAR_SELF,POS_STANDING,
-    NULL,50,24,
-    "","Your body structure returns to normal.",
-    "$n's body returns to a normal form.",FALSE,SLOT(69)
-  },
 
   {
     "confusion",

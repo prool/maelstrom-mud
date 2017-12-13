@@ -1055,7 +1055,6 @@ struct  kill_data {
 #define APPLY_BLESS            ( PERM_SPELL_BEGIN + 21 )
 #define APPLY_GIANT_STRENGTH   ( PERM_SPELL_BEGIN + 22 )
 #define APPLY_COMBAT_MIND      ( PERM_SPELL_BEGIN + 23 )
-#define APPLY_BIO_ACCELERATION ( PERM_SPELL_BEGIN + 25 )
 
 /*
  * Values for containers (value[1]).
@@ -2550,7 +2549,6 @@ DECLARE_SPELL_FUN( spell_web );
 DECLARE_SPELL_FUN( spell_entangle );
 DECLARE_SPELL_FUN( spell_darkbless );
 DECLARE_SPELL_FUN( spell_confusion );
-DECLARE_SPELL_FUN( spell_bio_acceleration );
 DECLARE_SPELL_FUN( spell_mind_probe );
 DECLARE_SPELL_FUN( spell_chain_lightning );
 DECLARE_SPELL_FUN( spell_meteor_swarm );

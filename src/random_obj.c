@@ -187,8 +187,7 @@ const struct random_item_affects random_affect_table[ ] = {
   { "ac",               -200, 200,   "of armoring"       },
   { "hitroll",          -200, 200,   "of accuracy"       },
   { "damroll",          -200, 200,   "of the brute"      },
-  { "combat-mind",      -1,   100,   "of combat"         },
-  { "bio-acceleration", -1,   100,   "of meditation"     }
+  { "combat-mind",      -1,   100,   "of combat"         }
 };
 
 OBJ_DATA * random_object( int level ) {

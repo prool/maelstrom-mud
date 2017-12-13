@@ -458,7 +458,6 @@ const struct flag_type apply_flags[] = {
   { "poison",             APPLY_POISON,                  TRUE  },
   { "giant-str",          APPLY_GIANT_STRENGTH,          TRUE  },
   { "combat-mind",        APPLY_COMBAT_MIND,             TRUE  },
-  { "bio-acceleration",   APPLY_BIO_ACCELERATION,        TRUE  },
   { "",                   0,                             0     }
 };
 

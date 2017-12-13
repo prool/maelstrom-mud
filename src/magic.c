@@ -1061,31 +1061,6 @@ void spell_aid( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_bio_acceleration( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( victim->position == POS_FIGHTING || is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 20 + level;
-  af.location  = APPLY_HIT;
-  af.modifier  = number_fuzzy( level * 4 );
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_MOVE;
-  af.modifier = level * 2;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "You greatly enhance your bio-functions.\n\r", ch );
-  act( AT_BLUE, "$n's body shudders briefly.", ch, NULL, NULL, TO_ROOM );
-  return;
-}
-
 /*Decklarean*/
 void spell_draw_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;

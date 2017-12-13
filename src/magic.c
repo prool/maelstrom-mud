@@ -2159,29 +2159,6 @@ void spell_refresh( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_web( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-  char        buf[ MAX_STRING_LENGTH ];
-
-  if ( IS_AFFECTED( victim, AFF_ANTI_FLEE ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 10 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_ANTI_FLEE;
-  affect_to_char( victim, &af );
-
-  sprintf( buf, "%s lifts his hands and webs entanle you!\n\r", ch->name );
-  send_to_char( AT_WHITE, buf, victim );
-  act( AT_WHITE, "$n has been imobilized by a plethora of sticky webs.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_confusion( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -2603,36 +2580,6 @@ void spell_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_shocking_grasp( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA      * victim      = (CHAR_DATA *) vo;
-  static const int dam_each [] = {
-    0,
-    0, 0, 0, 0,  0,  0,  20, 25, 29, 33,
-    36, 39, 39, 39, 40, 40, 41, 41, 42, 42,
-    43, 43, 44, 44, 45, 45, 46, 46, 47, 47,
-    48, 48, 49, 49, 50, 50, 51, 51, 52, 52,
-    53, 53, 54, 54, 55, 55, 56, 56, 57, 57,
-    58, 58, 59, 60, 61, 62, 63, 64, 65, 66,
-    67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
-    77, 78, 79, 80, 81, 82, 83, 84, 85, 86,
-    87, 88, 89, 90, 91, 92, 93, 94, 95, 96,
-    97, 98, 99, 100, 101, 102, 103, 104, 105, 106
-  };
-  int              dam;
-
-  level = UMIN( level, sizeof( dam_each ) / sizeof( dam_each[ 0 ] ) - 1 );
-  level = UMAX( 0, level );
-  dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 2 );
-  dam   = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
 void spell_sleep( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -2827,27 +2774,6 @@ void spell_aura_sight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   act( AT_BLUE, msg, ch, NULL, victim, TO_CHAR );
-}
-
-void spell_bladebarrier( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED2( victim, AFF_BLADE ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 6 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_BLADE;
-  affect_to_char2( victim, &af );
-
-  send_to_char( AT_GREY, "You bring forth thousands of tiny spinning blades about your body.\n\r", victim );
-  act( AT_GREY, "$n's body is surrounded by thousands of spinning blades.", victim, NULL, NULL, TO_ROOM );
-  return;
 }
 
 void spell_combat_mind( int sn, int level, CHAR_DATA * ch, void * vo ) {
@@ -3298,31 +3224,6 @@ void spell_flesh_armor( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_inertial_barrier( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * gch;
-  AFFECT_DATA af;
-
-  for ( gch = ch->in_room->people; gch; gch = gch->next_in_room ) {
-    if ( !is_same_group( gch, ch ) || IS_AFFECTED2( gch, AFF_INERTIAL ) ) {
-      continue;
-    }
-
-    act( AT_BLUE, "An inertial barrier forms around $n.", gch, NULL, NULL,
-         TO_ROOM );
-    send_to_char( AT_BLUE, "An inertial barrier forms around you.\n\r", gch );
-
-    af.type      = sn;
-    af.level     = level;
-    af.duration  = 24;
-    af.modifier  = 0;
-    af.location  = APPLY_NONE;
-    af.bitvector = AFF_INERTIAL;
-    affect_to_char2( gch, &af );
-  }
-
-  return;
-}
-
 void spell_inflict_pain( int sn, int level, CHAR_DATA * ch, void * vo ) {
   int dam = dice( 2, 10 ) + level / 2;
   dam = sc_dam( ch, dam );
@@ -3405,27 +3306,6 @@ void spell_levitation( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   send_to_char( AT_BLUE, "Your feet rise off the ground.\n\r", victim );
   act( AT_BLUE, "$n's feet rise off the ground.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-void spell_mental_barrier( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 24;
-  af.location  = APPLY_AC;
-  af.modifier  = -20;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "You erect a mental barrier around yourself.\n\r",
-                victim );
   return;
 }
 

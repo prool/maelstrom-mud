@@ -705,15 +705,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "shocking grasp",
-    { L_APP,L_APP,L_APP },
-    spell_shocking_grasp,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&Ysh&Bo&Yck&Bin&Yg g&Bra&Ysp","!Shocking Grasp!","",
-    FALSE,SLOT(0)
-  },
-
-  {
     "sleep",
     { L_APP,L_APP,L_APP },
     spell_sleep,TAR_CHAR_OFFENSIVE,POS_STANDING,
@@ -1027,16 +1018,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "inertial barrier",
-    { L_APP,L_APP,L_APP },
-    spell_inertial_barrier,TAR_IGNORE,POS_STANDING,
-    NULL,40,24,
-    "",
-    "Your inertial barrier dissipates.",
-    "$n's inertial barrier dissipates.",FALSE,SLOT(49)
-  },
-
-  {
     "inflict pain",
     { L_APP,L_APP,L_APP },
     spell_inflict_pain,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -1072,15 +1053,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "You slowly float to the ground.",
     "$n slowly floats to the ground.",
     FALSE,SLOT(51)
-  },
-
-  {
-    "mental barrier",
-    { L_APP,L_APP,L_APP },
-    spell_mental_barrier,TAR_CHAR_SELF,POS_STANDING,
-    NULL,8,12,
-    "","Your mental barrier breaks down.",
-    "$n's mental barrier diminishes.",FALSE,SLOT(52)
   },
 
   {
@@ -1333,15 +1305,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "blade barrier",
-    { L_APP,L_APP,L_APP },
-    spell_bladebarrier,TAR_CHAR_SELF,POS_STANDING,
-    NULL,150,12,
-    "","The phantom blades dissipate into the air.",
-    "The phantom blades surrounding $n disappear.",TRUE,SLOT(65)
-  },
-
-  {
     "alchemy",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
@@ -1366,15 +1329,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "web",
-    { L_APP,L_APP,L_APP },
-    spell_web,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,25,14,
-    "","The webs melt away.",
-    "The webs entangling $n melt away.",TRUE,SLOT(66)
-  },
-
-  {
     "entangle",
     { L_APP,L_APP,L_APP },
     spell_entangle,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -1382,8 +1336,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","The vines release their grasp.",
     "The vines unwrap themselves from $n.",TRUE,SLOT(67)
   },
-
-  /* 250 */
 
   {
     "confusion",

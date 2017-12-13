@@ -1769,15 +1769,6 @@ void do_quaff( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( obj->value[ 1 ] == skill_lookup( "blade barrier" )
-       || obj->value[ 2 ] == skill_lookup( "blade barrier" )
-       || obj->value[ 3 ] == skill_lookup( "blade barrier" ) ) {
-    if ( obj->value[ 0 ] > 50 ) {
-      extract_obj( obj );
-      return;
-    }
-  }
-
   if ( obj->value[ 1 ] == skill_lookup( "vibrate" )
        || obj->value[ 2 ] == skill_lookup( "vibrate" )
        || obj->value[ 3 ] == skill_lookup( "vibrate" ) ) {

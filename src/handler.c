@@ -2285,10 +2285,6 @@ char * affect_bit_name2( int vector ) {
     strcat( buf, " truesight" );
   }
 
-  if ( vector & AFF_BLADE         ) {
-    strcat( buf, " bladebarrier" );
-  }
-
   if ( vector & AFF_PROTECTION_GOOD ) {
     strcat( buf, " protection_good" );
   }

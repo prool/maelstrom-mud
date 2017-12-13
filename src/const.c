@@ -483,14 +483,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "goodberry",
-    { L_APP,L_APP,L_APP },
-    spell_goodberry,TAR_OBJ_INV,POS_STANDING,
-    NULL,25,8,
-    "","!GOODBERRY!","",FALSE,SLOT(0)
-  },
-
-  {
     "heal",
     { L_APP,L_APP,L_APP },
     spell_heal,TAR_CHAR_DEFENSIVE,POS_FIGHTING,

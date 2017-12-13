@@ -195,7 +195,6 @@ void show_list_to_char( OBJ_DATA * list, CHAR_DATA * ch, bool fShort, bool fShow
             send_to_char( AT_WHITE, buf, ch );
             break;
           case ITEM_FOOD:
-          case ITEM_BERRY:
           case ITEM_PILL:
             sprintf( buf, "(%2d) ", prgnShow[ iShow ] );
             send_to_char( AT_ORANGE, buf, ch );
@@ -3968,65 +3967,6 @@ void do_setlev( CHAR_DATA * ch, char * argument ) {
     victim->clev = level;
     return;
   }
-
-  return;
-}
-
-void do_smash( CHAR_DATA * ch, char * argument ) {
-  OBJ_DATA  * obj;
-  char        arg[ MAX_INPUT_LENGTH ];
-  CHAR_DATA * victim;
-  char      * name;
-
-  if ( ch->clan != 5 ) {
-    send_to_char( C_DEFAULT, "Huh?\n\r", ch );
-    return;
-  }
-
-  if ( ch->ctimer ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  one_argument( argument, arg );
-
-  if ( !( obj = get_obj_carry( ch, arg ) ) ) {
-    send_to_char( AT_WHITE, "You do not have that doll.\n\r", ch );
-    return;
-  }
-
-  name = obj->name;
-
-  if ( !( victim = get_char_world( ch, name ) ) || victim->in_room->area != ch->in_room->area ) {
-    send_to_char( AT_WHITE, "That person's life cannot be sensed.\n\r", ch );
-    return;
-  }
-
-  if ( ch->level - victim->level > 8 || victim->level - ch->level > 8 ) {
-    send_to_char( AT_BLUE, "The doll remains undamaged.\n\r", ch );
-    return;
-  }
-
-  act( AT_RED, "You call down the Dark forces of Retribution on $N.", ch, NULL, victim, TO_CHAR );
-  act( AT_RED, "$n smashes $p.", ch, obj, NULL, TO_ROOM );
-
-  if ( !victim->wait ) {
-    act( AT_RED, "You feel a wave of nausia come over you.", victim, NULL, NULL, TO_CHAR );
-  }
-
-  extract_obj( obj );
-
-  ch->ctimer = 5;
-
-  if ( victim->wait ) {
-    return;
-  }
-
-  STUN_CHAR( victim, 10, STUN_TOTAL );
-
-  victim->position = POS_STUNNED;
-
-  update_pos( victim );
 
   return;
 }

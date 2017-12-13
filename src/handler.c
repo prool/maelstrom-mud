@@ -2088,10 +2088,6 @@ char * item_type_name( OBJ_DATA * obj ) {
       return "contacts";
     case ITEM_PORTAL:
       return "portal";
-    case ITEM_VODOO:
-      return "voodo doll";
-    case ITEM_BERRY:
-      return "goodberry";
   }
 
   for ( in_obj = obj; in_obj->in_obj; in_obj = in_obj->in_obj ) {

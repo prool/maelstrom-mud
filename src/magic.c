@@ -1360,27 +1360,6 @@ void spell_eternal_intellect( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_goodberry( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * obj = (OBJ_DATA *) vo;
-  OBJ_DATA * berry;
-
-  if ( obj->item_type != ITEM_FOOD
-       || IS_OBJ_STAT( obj, ITEM_MAGIC ) ) {
-    send_to_char( AT_BLUE, "You can do nothing to that item.\n\r", ch );
-    return;
-  }
-
-  act( AT_BLUE, "You pass your hand over $p slowly.", ch, obj, NULL, TO_CHAR );
-  act( AT_BLUE, "$n has created a goodberry.", ch, NULL, NULL, TO_ROOM );
-  berry             = create_object( get_obj_index( OBJ_VNUM_BERRY ), 0 );
-  berry->timer      = ch->level;
-  berry->value[ 0 ] = ch->level * 3;
-  berry->value[ 1 ] = ch->level * 8;
-  extract_obj( obj );
-  obj_to_char( berry, ch );
-  return;
-}
-
 void spell_heal( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   int         heal;

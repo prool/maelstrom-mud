@@ -1169,12 +1169,6 @@ void obj_update( void ) {
         case ITEM_PORTAL:
           message = "$p shimmers and is gone.";
           break;
-        case ITEM_VODOO:
-          message = "$p slowly fades out of existance.";
-          break;
-        case ITEM_BERRY:
-          message = "$p rots away.";
-          break;
       }
 
       if ( obj->carried_by ) {

@@ -999,7 +999,6 @@ void do_eat( CHAR_DATA * ch, char * argument ) {
   if ( !IS_IMMORTAL( ch ) ) {
     if ( obj->item_type != ITEM_FOOD
          && obj->item_type != ITEM_PILL
-         && obj->item_type != ITEM_BERRY
          && obj->item_type != ITEM_CORPSE_NPC ) {
       send_to_char( AT_ORANGE, "That's not edible.\n\r", ch );
       return;
@@ -1052,12 +1051,6 @@ void do_eat( CHAR_DATA * ch, char * argument ) {
         affect_join( ch, &af );
       }
 
-      break;
-    case ITEM_BERRY:
-      amnt    = number_range( obj->value[ 0 ], obj->value[ 1 ] );
-      ch->hit = UMIN( ch->hit + amnt, MAX_HIT( ch ) );
-      update_pos( ch );
-      send_to_char( AT_ORANGE, "You feel warm all over.\n\r", ch );
       break;
     case ITEM_PILL:
 
@@ -3247,56 +3240,6 @@ void do_invoke( CHAR_DATA * ch, char * argument ) {
   }
 
   return;
-}
-
-void do_voodo( CHAR_DATA * ch, char * argument ) {
-  OBJ_DATA  * obj;
-  CHAR_DATA * victim;
-  char        buf[ MAX_STRING_LENGTH ];
-  char        arg[ MAX_INPUT_LENGTH ];
-  char      * name;
-
-  if ( ch->clan != 5 ) {
-    send_to_char( C_DEFAULT, "Huh?\n\r", ch );
-    return;
-  }
-
-  buf[ 0 ] = '\0';
-  one_argument( argument, arg );
-
-  if ( !( victim = get_char_world( ch, arg ) ) ) {
-    send_to_char( AT_RED, "No such person exists.", ch );
-    return;
-  }
-
-  if ( saves_spell( ch->level, victim ) ) {
-    send_to_char( AT_RED, "You failed.\n\r", ch );
-    return;
-  }
-
-  if ( ( !IS_NPC( victim ) ) && ( victim->clan == 0 ) ) {
-    send_to_char( AT_RED, "Not on the unclanned.\n\r", ch );
-    return;
-  }
-
-  if ( IS_NPC( victim ) ) {
-    name = victim->short_descr;
-  } else {
-    name = victim->name;
-  }
-
-  obj = create_object( get_obj_index( OBJ_VNUM_DOLL ), 0 );
-  sprintf( buf, obj->short_descr, name );
-  free_string( obj->short_descr );
-  obj->short_descr = str_dup( buf );
-  free_string( obj->name );
-  obj->name  = str_dup( arg );
-  obj->timer = 10;
-  obj_to_char( obj, ch );
-  act( AT_RED, "You call upon the dark forces of Retribution to create $p.", ch, obj, NULL, TO_CHAR );
-  act( AT_RED, "$n calls upon the dark forces of Retribution to create $p.", ch, obj, NULL, TO_ROOM );
-  return;
-
 }
 
 void do_deposit( CHAR_DATA * ch, char * argument ) {

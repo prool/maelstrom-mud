@@ -290,8 +290,6 @@ const struct flag_type type_flags[] = {
   { "pill",            ITEM_PILL,            TRUE  },
   { "contact",         ITEM_LENSE,           TRUE  },
   { "portal",          ITEM_PORTAL,          TRUE  },
-  { "doll",            ITEM_VODOO,           TRUE  },
-  { "berry",           ITEM_BERRY,           TRUE  },
   { "",                0,                    0     }
 };
 

@@ -866,7 +866,6 @@ struct  kill_data {
 #define OBJ_VNUM_SLICED_LEG    15
 #define OBJ_VNUM_FINAL_TURD    16
 #define OBJ_VNUM_PORTAL        17
-#define OBJ_VNUM_DOLL          18
 #define OBJ_VNUM_BERRY         19
 #define OBJ_VNUM_MUSHROOM      20
 #define OBJ_VNUM_LIGHT_BALL    21
@@ -926,9 +925,6 @@ struct  kill_data {
 #define ITEM_LENSE      27
 #define ITEM_LIQUID     28
 #define ITEM_PORTAL     29
-#define ITEM_VODOO      30
-#define ITEM_BERRY      31
-//#define ITEM_POTION_BAG        32
 
 /*
  * Extra flags.
@@ -2310,7 +2306,6 @@ DECLARE_DO_FUN( do_slaymes );
 DECLARE_DO_FUN( do_sleep );
 DECLARE_DO_FUN( do_slist );
 DECLARE_DO_FUN( do_slookup );
-DECLARE_DO_FUN( do_smash );
 DECLARE_DO_FUN( do_sneak );
 DECLARE_DO_FUN( do_snoop );
 DECLARE_DO_FUN( do_socials );
@@ -2347,7 +2342,6 @@ DECLARE_DO_FUN( do_up );
 DECLARE_DO_FUN( do_users );
 DECLARE_DO_FUN( do_value );
 DECLARE_DO_FUN( do_visible );
-DECLARE_DO_FUN( do_voodo );
 DECLARE_DO_FUN( do_vused );
 DECLARE_DO_FUN( do_wake );
 DECLARE_DO_FUN( do_wear );
@@ -2413,7 +2407,6 @@ DECLARE_SPELL_FUN( spell_flamestrike );
 DECLARE_SPELL_FUN( spell_fly );
 DECLARE_SPELL_FUN( spell_giant_strength );
 DECLARE_SPELL_FUN( spell_eternal_intellect );
-DECLARE_SPELL_FUN( spell_goodberry );
 DECLARE_SPELL_FUN( spell_heal );
 DECLARE_SPELL_FUN( spell_incinerate );
 DECLARE_SPELL_FUN( spell_infravision );

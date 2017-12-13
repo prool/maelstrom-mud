@@ -2315,65 +2315,6 @@ void spell_flamestrike( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_faerie_fire( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_FAERIE_FIRE ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_AC;
-  af.modifier  = 2 * level;
-  af.bitvector = AFF_FAERIE_FIRE;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_HITROLL;
-  af.modifier = 0 - level / 10;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_PINK, "You are surrounded by a pink outline.\n\r", victim );
-  act( AT_PINK, "$n is surrounded by a pink outline.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-void spell_faerie_fog( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * ich;
-
-  send_to_char( AT_PURPLE, "You conjure a cloud of purple smoke.\n\r", ch );
-  act( AT_PURPLE, "$n conjures a cloud of purple smoke.", ch, NULL, NULL, TO_ROOM );
-
-  for ( ich = ch->in_room->people; ich; ich = ich->next_in_room ) {
-    if ( !IS_NPC( ich ) && IS_SET( ich->act, PLR_WIZINVIS ) ) {
-      continue;
-    }
-
-    if ( ich == ch || saves_spell( level, ich ) ) {
-      continue;
-    }
-
-    affect_strip( ich, gsn_invis );
-    affect_strip( ich, gsn_mass_invis );
-    affect_strip( ich, gsn_sneak );
-    affect_strip( ich, gsn_shadow );
-    affect_strip( ich, skill_lookup( "phase shift" ) );
-    affect_strip( ich, skill_lookup( "mist form" ) );
-    affect_strip( ich, gsn_hide );
-    REMOVE_BIT( ich->affected_by, AFF_HIDE );
-    REMOVE_BIT( ich->affected_by, AFF_INVISIBLE );
-    REMOVE_BIT( ich->affected_by, AFF_SNEAK );
-    REMOVE_BIT( ich->affected_by2, AFF_PHASED );
-
-    act( AT_PURPLE, "$n is revealed!", ich, NULL, NULL, TO_ROOM );
-    send_to_char( AT_PURPLE, "You are revealed!\n\r", ich );
-  }
-
-  return;
-}
-
 void spell_fly( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -5708,7 +5649,6 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
   check_dispel_aff( victim, &found, level, "blindness", AFF_BLIND );
   check_dispel_aff( victim, &found, level, "charm person", AFF_CHARM );
   check_dispel_aff( victim, &found, level, "curse", AFF_CURSE );
-  check_dispel_aff( victim, &found, level, "faerie fire", AFF_FAERIE_FIRE );
   check_dispel_aff( victim, &found, level, "fireshield", AFF_FIRESHIELD );
   check_dispel_aff( victim, &found, level, "flaming", AFF_FLAMING );
   check_dispel_aff( victim, &found, level, "fly", AFF_FLYING );

@@ -366,10 +366,6 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     strcat( buf, "(Translucent) " );
   }
 
-  if ( IS_AFFECTED( victim, AFF_FAERIE_FIRE ) ) {
-    strcat( buf, "(Pink Aura) " );
-  }
-
   if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_KILLER ) ) {
     strcat( buf, "(KILLER) " );
   }

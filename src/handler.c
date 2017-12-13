@@ -476,10 +476,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
       psn = skill_lookup( "invis" );
       strcpy( buf, "$n slowly fades into existence." );
       break;
-    case APPLY_FAERIE_FIRE:
-      psn = skill_lookup( "faerie fire" );
-      strcpy( buf, "$n's outline fades." );
-      break;
     case APPLY_INFRARED:
       psn = skill_lookup( "infravision" );
       break;
@@ -2263,8 +2259,6 @@ char * affect_loc_name( int location ) {
     /* X */
     case APPLY_INVISIBLE:
       return "'invisible'";
-    case APPLY_FAERIE_FIRE:
-      return "'faerie fire'";
     case APPLY_INFRARED:
       return "'infrared'";
     case APPLY_PROTECT:
@@ -2332,10 +2326,6 @@ char * affect_bit_name( int vector ) {
 
   if ( vector & AFF_CHAOS         ) {
     strcat( buf, " chaos_field" );
-  }
-
-  if ( vector & AFF_FAERIE_FIRE   ) {
-    strcat( buf, " faerie_fire" );
   }
 
   if ( vector & AFF_INFRARED      ) {

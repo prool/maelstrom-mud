@@ -678,7 +678,6 @@ struct  kill_data {
  */
 #define AFF_BLIND         BV00
 #define AFF_INVISIBLE     BV01
-#define AFF_FAERIE_FIRE   BV08
 #define AFF_INFRARED      BV09
 #define AFF_CURSE         BV10
 #define AFF_FLAMING       BV11
@@ -1081,7 +1080,6 @@ struct  kill_data {
 #define APPLY_ICESHIELD        ( PERM_SPELL_BEGIN + 15 )
 #define APPLY_CHAOS            ( PERM_SPELL_BEGIN + 16 )
 #define APPLY_SCRY             ( PERM_SPELL_BEGIN + 17 )
-#define APPLY_FAERIE_FIRE      ( PERM_SPELL_BEGIN + 19 )
 #define APPLY_POISON           ( PERM_SPELL_BEGIN + 20 )
 #define APPLY_BLESS            ( PERM_SPELL_BEGIN + 21 )
 #define APPLY_GIANT_STRENGTH   ( PERM_SPELL_BEGIN + 22 )
@@ -2523,8 +2521,6 @@ DECLARE_SPELL_FUN( spell_draw_strength );
 DECLARE_SPELL_FUN( spell_earthquake );
 DECLARE_SPELL_FUN( spell_enchant_weapon );
 DECLARE_SPELL_FUN( spell_energy_drain );
-DECLARE_SPELL_FUN( spell_faerie_fire );
-DECLARE_SPELL_FUN( spell_faerie_fog );
 DECLARE_SPELL_FUN( spell_fireball );
 DECLARE_SPELL_FUN( spell_fireshield );
 DECLARE_SPELL_FUN( spell_firewall );

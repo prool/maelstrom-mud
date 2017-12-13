@@ -579,25 +579,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "faerie fire",
-    { L_APP,L_APP,L_APP },
-    spell_faerie_fire,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,5,12,
-    "faerie fire",
-    "The pink aura around you fades away.",
-    "$n's outline fades.",
-    TRUE,SLOT(13)
-  },
-
-  {
-    "faerie fog",
-    { L_APP,L_APP,L_APP },
-    spell_faerie_fog,TAR_IGNORE,POS_STANDING,
-    NULL,12,12,
-    "faerie fog","!Faerie Fog!","",FALSE,SLOT(0)
-  },
-
-  {
     "fireball",
     { L_APP,L_APP,L_APP },
     spell_fireball,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

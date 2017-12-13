@@ -2405,7 +2405,6 @@ DECLARE_SPELL_FUN( spell_heal );
 DECLARE_SPELL_FUN( spell_incinerate );
 DECLARE_SPELL_FUN( spell_infravision );
 DECLARE_SPELL_FUN( spell_invis );
-DECLARE_SPELL_FUN( spell_know_alignment );
 DECLARE_SPELL_FUN( spell_lightning_bolt );
 DECLARE_SPELL_FUN( spell_locate_object );
 DECLARE_SPELL_FUN( spell_magic_missile );

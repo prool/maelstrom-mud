@@ -492,14 +492,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "know alignment",
-    { L_APP,L_APP,L_APP },
-    spell_know_alignment,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
-    NULL,9,12,
-    "","!Know Alignment!","",FALSE,SLOT(0)
-  },
-
-  {
     "lightning bolt",
     { L_APP,L_APP,L_APP },
     spell_lightning_bolt,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

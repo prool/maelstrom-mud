@@ -4644,10 +4644,6 @@ void do_oset( CHAR_DATA * ch, char * argument ) {
       value = ITEM_LOCK;
     }
 
-    if ( !str_cmp( arg3, "evil" ) || !str_cmp( arg3, "e" ) ) {
-      value = ITEM_EVIL;
-    }
-
     if ( !str_cmp( arg3, "invis" ) || !str_cmp( arg3, "i" ) ) {
       value = ITEM_INVIS;
     }

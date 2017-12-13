@@ -2394,10 +2394,6 @@ char * extra_bit_name( int extra_flags ) {
     strcat( buf, " lock" );
   }
 
-  if ( extra_flags & ITEM_EVIL         ) {
-    strcat( buf, " evil" );
-  }
-
   if ( extra_flags & ITEM_INVIS        ) {
     strcat( buf, " invis" );
   }

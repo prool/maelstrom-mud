@@ -956,7 +956,6 @@ struct  kill_data {
  */
 #define ITEM_GLOW         1
 #define ITEM_LOCK         8
-#define ITEM_EVIL         16
 #define ITEM_INVIS        32
 #define ITEM_MAGIC        64
 #define ITEM_NODROP       128
@@ -968,15 +967,6 @@ struct  kill_data {
 #define ITEM_INVENTORY    8192
 #define ITEM_POISONED     16384
 #define ITEM_DWARVEN      32768
-#define ITEM_FREE_FLAG_2  65536
-#define ITEM_FREE_FLAG_3  131072
-#define ITEM_FREE_FLAG_4  262144
-#define ITEM_FREE_FLAG_5  524288
-#define ITEM_FREE_FLAG_6  1048576
-#define ITEM_FREE_FLAG_7  2097152
-#define ITEM_FREE_FLAG_8  4194304
-#define ITEM_FREE_FLAG_9  8388608
-#define ITEM_FREE_FLAG_10 16777216
 #define ITEM_FLAME        33554432
 #define ITEM_NO_LOCATE    ( cc )
 #define ITEM_NO_DAMAGE    ( dd )

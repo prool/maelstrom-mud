@@ -532,16 +532,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "mass invis",
-    { L_APP,L_APP,L_APP },
-    spell_mass_invis,TAR_IGNORE,POS_STANDING,
-    &gsn_mass_invis,20,24,
-    "",
-    "!Mass Invis!",
-    "$n fades into existance.",TRUE,SLOT(22)
-  },
-
-  {
     "pass door",
     { L_APP,L_APP,L_APP },
     spell_pass_door,TAR_CHAR_SELF,POS_STANDING,

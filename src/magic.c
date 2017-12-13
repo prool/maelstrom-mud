@@ -1553,32 +1553,6 @@ void spell_mana( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_mass_invis( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * gch;
-  AFFECT_DATA af;
-
-  for ( gch = ch->in_room->people; gch; gch = gch->next_in_room ) {
-    if ( !is_same_group( gch, ch ) || IS_AFFECTED( gch, AFF_INVISIBLE ) ) {
-      continue;
-    }
-
-    send_to_char( AT_GREY, "You slowly fade out of existence.\n\r", gch );
-    act( AT_GREY, "$n slowly fades out of existence.", gch, NULL, NULL, TO_ROOM );
-
-    af.type      = sn;
-    af.level     = level;
-    af.duration  = 24;
-    af.location  = APPLY_NONE;
-    af.modifier  = 0;
-    af.bitvector = AFF_INVISIBLE;
-    affect_to_char( gch, &af );
-  }
-
-  send_to_char( AT_BLUE, "Ok.\n\r", ch );
-
-  return;
-}
-
 void spell_null( int sn, int level, CHAR_DATA * ch, void * vo ) {
   send_to_char( AT_WHITE, "That's not a spell!\n\r", ch );
   return;

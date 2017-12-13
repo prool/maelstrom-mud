@@ -100,7 +100,6 @@ int gsn_blindness;
 int gsn_charm_person;
 int gsn_incinerate;
 int gsn_invis;
-int gsn_mass_invis;
 int gsn_poison;
 int gsn_sleep;
 int gsn_doomshield;

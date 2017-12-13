@@ -1040,7 +1040,6 @@ void do_hide( CHAR_DATA * ch, char * argument ) {
  */
 void do_visible( CHAR_DATA * ch, char * argument ) {
   affect_strip( ch, gsn_invis );
-  affect_strip( ch, gsn_mass_invis );
   affect_strip( ch, gsn_sneak );
   affect_strip( ch, gsn_shadow );
   affect_strip( ch, gsn_hide );

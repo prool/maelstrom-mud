@@ -2803,13 +2803,6 @@ void spell_detonate( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_inflict_pain( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  int dam = dice( 2, 10 ) + level / 2;
-  dam = sc_dam( ch, dam );
-  damage( ch, (CHAR_DATA *) vo, dam, sn );
-  return;
-}
-
 void spell_summon_swarm( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * mob;
   CHAR_DATA * fch;

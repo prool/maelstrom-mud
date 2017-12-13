@@ -933,14 +933,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "inflict pain",
-    { L_APP,L_APP,L_APP },
-    spell_inflict_pain,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,10,12,
-    "&wmind&Wpower&X","!Inflict Pain!","",FALSE,SLOT(0)
-  },
-
-  {
     "shadow form",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,

@@ -412,12 +412,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       act( AT_GREY, "$n fades into existence.", ch, NULL, NULL, TO_ROOM );
     }
 
-    if ( IS_AFFECTED2( ch, AFF_PHASED ) ) {
-      affect_strip( ch, skill_lookup( "phase shift" ) );
-      REMOVE_BIT( ch->affected_by2, AFF_PHASED );
-      act( AT_GREY, "$n returns from an alternate plane.", ch, NULL, NULL, TO_ROOM );
-    }
-
     /*
      * Check for disarm, trip, parry, and dodge.
      */

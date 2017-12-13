@@ -1044,9 +1044,7 @@ void do_visible( CHAR_DATA * ch, char * argument ) {
   affect_strip( ch, gsn_sneak );
   affect_strip( ch, gsn_shadow );
   affect_strip( ch, gsn_hide );
-  affect_strip( ch, skill_lookup( "phase shift" ) );
   REMOVE_BIT( ch->affected_by, AFF_HIDE );
-  REMOVE_BIT( ch->affected_by, AFF_PHASED );
   REMOVE_BIT( ch->affected_by, AFF_INVISIBLE );
   REMOVE_BIT( ch->affected_by, AFF_SNEAK );
   send_to_char( AT_WHITE, "Ok.\n\r", ch );

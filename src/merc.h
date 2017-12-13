@@ -704,7 +704,6 @@ struct  kill_data {
 #define AFF_CONFUSED        1024
 #define AFF_FUMBLE          2048
 #define AFF_HALLUCINATING   8192
-#define AFF_PHASED          16384
 #define AFF_RAGE            65536
 #define AFF_INERTIAL        262144
 #define AFF_PLOADED         1073741824
@@ -2469,7 +2468,6 @@ DECLARE_SPELL_FUN( spell_summon_beast );
 DECLARE_SPELL_FUN( spell_summon_trent );
 DECLARE_SPELL_FUN( spell_shatter );
 DECLARE_SPELL_FUN( spell_molecular_unbind );
-DECLARE_SPELL_FUN( spell_phase_shift );
 DECLARE_SPELL_FUN( spell_purify );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_hallucinate );

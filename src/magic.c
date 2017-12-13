@@ -1711,27 +1711,6 @@ void spell_invis( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_phase_shift( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED2( victim, AFF_PHASED ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = ch->level / 6;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_PHASED;
-  affect_to_char2( victim, &af );
-
-  send_to_char( AT_GREY, "You phase into another plane.\n\r", victim );
-  act( AT_GREY, "$n phases out of reality.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_know_alignment( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   char      * msg;

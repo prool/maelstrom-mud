@@ -1968,10 +1968,6 @@ bool can_see( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return TRUE;
   }
 
-  if ( IS_AFFECTED2( victim, AFF_PHASED ) && ( !IS_AFFECTED2( ch, AFF_TRUESIGHT ) || ( IS_NPC( ch ) && ch->level < 50 ) ) ) {
-    return FALSE;
-  }
-
   if ( IS_AFFECTED( victim, AFF_INVISIBLE ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) && ( !is_class( ch, CLASS_ROGUE ) && ch->level < 30 ) ) {
     return FALSE;
   }
@@ -2287,10 +2283,6 @@ char * affect_bit_name2( int vector ) {
 
   if ( vector & AFF_RAGE      ) {
     strcat( buf, " rage" );
-  }
-
-  if ( vector & AFF_PHASED        ) {
-    strcat( buf, " phase_shift" );
   }
 
   if ( vector & AFF_HALLUCINATING ) {

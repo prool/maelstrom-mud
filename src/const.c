@@ -1195,15 +1195,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "phase shift",
-    { L_APP,L_APP,L_APP },
-    spell_phase_shift,TAR_CHAR_SELF,POS_STANDING,
-    NULL,100,12,
-    "","You shift back into the physical plane.",
-    "$n's body shifts back into the existing world.",FALSE,SLOT(75)
-  },
-
-  {
     "pray",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_SELF,POS_RESTING,

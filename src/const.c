@@ -531,16 +531,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "vibrate",
-    { L_APP,L_APP,L_APP },
-    spell_vibrate,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,75,0,
-    "",
-    "Your body stops vibrating.",
-    "$n body stops vibrating.",FALSE,SLOT(18)
-  },
-
-  {
     "infravision",
     { L_APP,L_APP,L_APP },
     spell_infravision,TAR_CHAR_DEFENSIVE,POS_STANDING,
@@ -1237,14 +1227,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     &gsn_turn_evil,0,12,
     "&Wdivine power&X","!Turn Evil!","",FALSE,SLOT(0)
-  },
-
-  {
-    "mass shield",
-    { L_APP,L_APP,L_APP },
-    gspell_mass_shield,TAR_GROUP_ALL,POS_STANDING,
-    NULL,80,12,
-    "","!Mass Shield!","",TRUE,SLOT(63)
   },
 
   {

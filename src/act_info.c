@@ -492,24 +492,6 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     buf2[ 0 ] = '\0';
   }
 
-  if ( IS_AFFECTED( victim, AFF_VIBRATING ) ) {
-    strcat( buf2, "    " );
-    strcat( buf2, visible_name( victim, ch, FALSE ) );
-    strcat( buf2, "&w's body is vibrating rapidly.\n\r" );
-    buf2[ 4 ] = UPPER( buf2[ 4 ] );
-    send_to_char( C_DEFAULT, buf2, ch );
-    buf2[ 0 ] = '\0';
-  }
-
-  if ( IS_AFFECTED2( victim, AFF_BLADE ) ) {
-    strcat( buf2, "    " );
-    strcat( buf2, visible_name( victim, ch, FALSE ) );
-    strcat( buf2, "&w is surrounded by thousands of spinning blades.\n\r" );
-    buf2[ 4 ] = UPPER( buf2[ 4 ] );
-    send_to_char( AT_GREY, buf2, ch );
-    buf2[ 0 ] = '\0';
-  }
-
   return;
 }
 

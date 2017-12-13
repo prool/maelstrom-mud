@@ -1704,27 +1704,6 @@ void spell_holy_fires( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_vibrate( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_VIBRATING ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 8 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_VIBRATING;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_LBLUE, "You set up a complex set of vibrations around your body.\n\r", victim );
-  act( AT_LBLUE, "$n's body begins to vibrate.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_infravision( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

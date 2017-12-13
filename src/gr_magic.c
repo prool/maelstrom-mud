@@ -289,18 +289,3 @@ void gspell_flamesphere( int sn, int level, CHAR_DATA * ch, void * vo ) {
   damage( ch, victim, dam, sn );
   return;
 }
-
-void gspell_mass_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-
-  for ( vch = ch->in_room->people; vch; vch = vch->next_in_room ) {
-    if ( !is_same_group( ch, vch ) ) {
-      continue;
-    }
-
-    spell_vibrate( skill_lookup( "vibrate" ), level, vch, vch );
-    break;
-  }
-
-  return;
-}

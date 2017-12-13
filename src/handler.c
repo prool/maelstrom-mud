@@ -2253,10 +2253,6 @@ char * affect_bit_name( int vector ) {
     strcat( buf, " peace" );
   }
 
-  if ( vector & AFF_VIBRATING     ) {
-    strcat( buf, " vibrating" );
-  }
-
   if ( vector & AFF_STUN          ) {
     strcat( buf, " stunned" );
   }

@@ -188,10 +188,8 @@ void do_shieldify( CHAR_DATA * ch, char * argument ) {
   }
 
   SET_BIT( ch->affected_by, AFF_INFRARED );
-  SET_BIT( ch->affected_by, AFF_VIBRATING );
   SET_BIT( ch->affected_by, AFF_PASS_DOOR );
   SET_BIT( ch->affected_by, AFF_SCRY );
-  SET_BIT( ch->affected_by2, AFF_BLADE );
   send_to_char( C_DEFAULT, "You call forth many shields to surround you!\n\r", ch );
   return;
 }

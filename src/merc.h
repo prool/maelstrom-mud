@@ -682,7 +682,6 @@ struct  kill_data {
 #define AFF_FLAMING       BV11
 #define AFF_POISON        BV12
 #define AFF_PROTECT       BV13
-#define AFF_VIBRATING     BV14
 #define AFF_SNEAK         BV15
 #define AFF_HIDE          BV16
 #define AFF_SLEEP         BV17
@@ -701,7 +700,6 @@ struct  kill_data {
 #define CODER               2
 #define AFF_NOASTRAL        4
 #define AFF_TRUESIGHT       16
-#define AFF_BLADE           32
 #define AFF_PROTECTION_GOOD 128
 #define AFF_CONFUSED        1024
 #define AFF_FUMBLE          2048
@@ -2459,7 +2457,6 @@ DECLARE_SPELL_FUN( spell_spell_bind );
 DECLARE_SPELL_FUN( spell_summon );
 DECLARE_SPELL_FUN( spell_teleport );
 DECLARE_SPELL_FUN( spell_turn_undead );
-DECLARE_SPELL_FUN( spell_vibrate );
 DECLARE_SPELL_FUN( spell_word_of_recall );
 DECLARE_SPELL_FUN( spell_summon_swarm );
 DECLARE_SPELL_FUN( spell_summon_pack );
@@ -2511,7 +2508,6 @@ DECLARE_SPELL_FUN( spell_share_strength );
 DECLARE_SPELL_FUN( spell_thought_shield );
 DECLARE_SPELL_FUN( spell_ultrablast );
 DECLARE_SPELL_FUN( gspell_flamesphere );
-DECLARE_SPELL_FUN( gspell_mass_shield );
 DECLARE_SPELL_FUN( spell_dark_ritual );
 DECLARE_SPELL_FUN( spell_field_of_decay );
 DECLARE_SPELL_FUN( spell_stench_of_decay );

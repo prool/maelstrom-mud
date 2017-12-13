@@ -380,7 +380,6 @@ const struct flag_type act_flags[] = {
 const struct flag_type affect_flags[] = {
   { "blind",         AFF_BLIND,         TRUE  },
   { "invisible",     AFF_INVISIBLE,     TRUE  },
-  { "vibrating",     AFF_VIBRATING,     TRUE  },
   { "infrared",      AFF_INFRARED,      TRUE  },
   { "flaming",       AFF_FLAMING,       FALSE },
   { "poison",        AFF_POISON,        TRUE  },

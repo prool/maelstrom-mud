@@ -2243,10 +2243,6 @@ char * affect_bit_name2( int vector ) {
 
   buf[ 0 ] = '\0';
 
-  if ( vector & AFF_INERTIAL      ) {
-    strcat( buf, " inertial" );
-  }
-
   if ( vector & AFF_POLYMORPH     ) {
     strcat( buf, " polymorph" );
   }

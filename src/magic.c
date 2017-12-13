@@ -1189,62 +1189,6 @@ void spell_truesight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_enchant_weapon( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA    * obj = (OBJ_DATA *) vo;
-  AFFECT_DATA * paf;
-
-  if ( obj->item_type != ITEM_WEAPON || IS_OBJ_STAT( obj, ITEM_MAGIC ) ) {
-    send_to_char( AT_BLUE, "That item cannot be enchanted.\n\r", ch );
-    return;
-  }
-
-  if ( !affect_free ) {
-    paf = alloc_perm( sizeof( *paf ) );
-  } else {
-    paf         = affect_free;
-    affect_free = affect_free->next;
-  }
-
-  paf->type      = sn;
-  paf->duration  = -1;
-  paf->location  = APPLY_HITROLL;
-  paf->modifier  = 1 + ( level >= 18 ) + ( level >= 25 ) + ( level >= 45 ) + ( level >= 65 ) + ( level >= 90 );
-  paf->bitvector = 0;
-  paf->next      = obj->affected;
-  obj->affected  = paf;
-
-  if ( !affect_free ) {
-    paf = alloc_perm( sizeof( *paf ) );
-  } else {
-    paf         = affect_free;
-    affect_free = affect_free->next;
-  }
-
-  paf->type     = sn;
-  paf->duration = -1;
-  paf->location = APPLY_DAMROLL;
-  paf->modifier = 1 + ( level >= 18 ) + ( level >= 25 ) + ( level >= 45 ) + ( level >= 65 ) + ( level >= 90 );
-  ;
-  paf->bitvector = 0;
-  paf->next      = obj->affected;
-  obj->affected  = paf;
-
-  if ( IS_GOOD( ch ) ) {
-    SET_BIT( obj->extra_flags, ITEM_ANTI_EVIL );
-    act( AT_BLUE, "$p glows.", ch, obj, NULL, TO_CHAR );
-  } else if ( IS_EVIL( ch ) ) {
-    SET_BIT( obj->extra_flags, ITEM_ANTI_GOOD );
-    act( AT_RED, "$p glows", ch, obj, NULL, TO_CHAR );
-  } else {
-    SET_BIT( obj->extra_flags, ITEM_ANTI_EVIL );
-    SET_BIT( obj->extra_flags, ITEM_ANTI_GOOD );
-    act( AT_YELLOW, "$p glows.", ch, obj, NULL, TO_CHAR );
-  }
-
-  send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  return;
-}
-
 void spell_farsight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA       * victim;
   ROOM_INDEX_DATA * blah;
@@ -1410,36 +1354,6 @@ void spell_invis( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_lightning_bolt( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA      * victim      = (CHAR_DATA *) vo;
-  static const int dam_each [] = {
-    0,
-    0,  0,  0,  0,  0,  0,  0,  0,  25, 28,
-    31, 34, 37, 40, 40, 41, 42, 42, 43, 44,
-    44, 45, 46, 46, 47, 48, 48, 49, 50, 50,
-    51, 52, 52, 53, 54, 54, 55, 56, 56, 57,
-    58, 58, 59, 60, 60, 61, 62, 62, 63, 64,
-    70, 72, 74, 76, 78, 80, 82, 84, 86, 88,
-    90, 92, 94, 96, 98, 100, 102, 104, 106, 108,
-    110, 112, 114, 116, 118, 120, 122, 124, 126, 128,
-    130, 132, 134, 136, 138, 140, 142, 144, 146, 148,
-    150, 152, 154, 156, 158, 160, 162, 164, 166, 170
-  };
-  int              dam;
-
-  level = UMIN( level, sizeof( dam_each ) / sizeof( dam_each[ 0 ] ) - 1 );
-  level = UMAX( 0, level );
-  dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 2 );
-  dam   = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
 void spell_locate_object( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA * obj;
   OBJ_DATA * in_obj;
@@ -1479,50 +1393,6 @@ void spell_locate_object( int sn, int level, CHAR_DATA * ch, void * vo ) {
     send_to_char( AT_WHITE, "Nothing like that in hell, earth, or heaven.\n\r", ch );
   }
 
-  return;
-}
-
-void spell_magic_missile( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA      * victim      = (CHAR_DATA *) vo;
-  static const int dam_each [] = {
-    0,
-    3, 3, 4, 4, 5, 6, 6, 6, 6, 6,
-    7, 7, 7, 7, 7, 8, 8, 8, 8, 8,
-    9, 9, 9, 9, 9, 10, 10, 10, 10, 10,
-    11, 11, 11, 11, 11, 12, 12, 12, 12, 12,
-    13, 13, 13, 13, 13, 14, 14, 14, 14, 14,
-    15, 15, 15, 15, 15, 16, 16, 16, 16, 16,
-    18, 18, 18, 18, 18, 20, 20, 20, 20, 20,
-    21, 21, 21, 21, 21, 22, 22, 22, 22, 22,
-    24, 24, 24, 24, 24, 26, 26, 26, 26, 26,
-    28, 28, 28, 28, 28, 30, 31, 32, 33, 40
-  };
-  int              dam;
-
-  level = UMIN( level, sizeof( dam_each ) / sizeof( dam_each[ 0 ] ) - 1 );
-  level = UMAX( 0, level );
-  dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 2 );
-  dam   = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
-void spell_mana( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-
-  victim->mana = UMIN( victim->mana + 70, MAX_MANA( victim ) );
-  update_pos( victim );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "You feel a surge of energy.\n\r", victim );
   return;
 }
 
@@ -1763,26 +1633,6 @@ void spell_scry( int sn, int level, CHAR_DATA * ch, void * vo ) {
   affect_to_char( victim, &af );
 
   send_to_char( AT_BLUE, "Your vision improves.\n\r", victim );
-  return;
-}
-
-void spell_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 8 + level;
-  af.location  = APPLY_AC;
-  af.modifier  = -30;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-  send_to_char( AT_BLUE, "You are surrounded by a force shield.\n\r", victim );
-  act( AT_BLUE, "$n is surrounded by a force shield.", victim, NULL, NULL, TO_ROOM );
   return;
 }
 

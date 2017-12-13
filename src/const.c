@@ -436,14 +436,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "enchant weapon",
-    { L_APP,L_APP,L_APP },
-    spell_enchant_weapon,TAR_OBJ_INV,POS_STANDING,
-    NULL,100,24,
-    "","!Enchant Weapon!","",FALSE,SLOT(0)
-  },
-
-  {
     "fly",
     { L_APP,L_APP,L_APP },
     spell_fly,TAR_CHAR_DEFENSIVE,POS_STANDING,
@@ -492,35 +484,11 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "lightning bolt",
-    { L_APP,L_APP,L_APP },
-    spell_lightning_bolt,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&Blightning bolt&X","!Lightning Bolt!","",FALSE,SLOT(0)
-  },
-
-  {
     "locate object",
     { L_APP,L_APP,L_APP },
     spell_locate_object,TAR_IGNORE,POS_STANDING,
     NULL,20,18,
     "","!Locate Object!","",FALSE,SLOT(0)
-  },
-
-  {
-    "magic missile",
-    { L_APP,L_APP,L_APP },
-    spell_magic_missile,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&Pmag&pic mis&Psile","!Magic Missile!","",FALSE,SLOT(0)
-  },
-
-  {
-    "mana",
-    { L_APP,L_APP,L_APP },
-    spell_mana,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,0,0,
-    "","!Mana!","",FALSE,SLOT(0)
   },
 
   {
@@ -576,17 +544,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,35,20,
     "","Your vision returns to normal.",
     "$n's vision returns to normal.",TRUE,SLOT(0)
-  },
-
-  {
-    "shield",
-    { L_APP,L_APP,L_APP },
-    spell_shield,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,12,18,
-    "",
-    "Your force shield shimmers then fades away.",
-    "The shield protecting $n shimmers then fades away.",
-    TRUE,SLOT(28)
   },
 
   {

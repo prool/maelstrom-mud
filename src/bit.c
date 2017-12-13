@@ -395,10 +395,9 @@ const struct flag_type affect_flags[] = {
 };
 
 const struct flag_type affect2_flags [] = {
-  { "mental-block",      AFF_NOASTRAL,           TRUE   },
+  { "noastral",          AFF_NOASTRAL,           TRUE   },
   { "true-sight",        AFF_TRUESIGHT,          TRUE   },
   { "rage",              AFF_RAGE,               TRUE   },
-  { "inertial",          AFF_INERTIAL,           TRUE   },
   { "hallucinate",       AFF_HALLUCINATING,      FALSE  },
   {   "",                0,                      0      }
 };

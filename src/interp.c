@@ -302,7 +302,6 @@ struct cmd_type cmd_table [] = {
   { "hotreboot",       do_hotreboot,         POS_DEAD,     L_DIR, LOG_ALWAYS, TRUE    },
   { "ideas",           do_ideas,             POS_DEAD,     L_DIR, LOG_ALWAYS, TRUE    },
   { "immtalk",         do_immtalk,           POS_DEAD,     L_APP, LOG_NORMAL, TRUE    },
-  { "shieldify",       do_shieldify,         POS_STANDING, L_CON, LOG_NORMAL, TRUE    },
   { "doubleexp",       do_doubleexp,         POS_DEAD,     L_DIR, LOG_NORMAL, TRUE    },
   { "log",             do_log,               POS_DEAD,     L_CON, LOG_ALWAYS, TRUE    },
   { "memory",          do_memory,            POS_DEAD,     L_GOD, LOG_NORMAL, TRUE    },

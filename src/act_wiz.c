@@ -181,19 +181,6 @@ void do_doubleexp( CHAR_DATA * ch, char * argument ) {
   }
 }
 
-void do_shieldify( CHAR_DATA * ch, char * argument ) {
-  if ( get_trust( ch ) < L_CON ) {
-    send_to_char( C_DEFAULT, "Huh?\n\r", ch );
-    return;
-  }
-
-  SET_BIT( ch->affected_by, AFF_INFRARED );
-  SET_BIT( ch->affected_by, AFF_PASS_DOOR );
-  SET_BIT( ch->affected_by, AFF_SCRY );
-  send_to_char( C_DEFAULT, "You call forth many shields to surround you!\n\r", ch );
-  return;
-}
-
 void do_empower( CHAR_DATA * ch, char * argument ) {
   char        arg[ MAX_INPUT_LENGTH ];
   char        buf[ MAX_STRING_LENGTH ];

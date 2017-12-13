@@ -704,7 +704,6 @@ struct  kill_data {
 #define AFF_FUMBLE          2048
 #define AFF_HALLUCINATING   8192
 #define AFF_RAGE            65536
-#define AFF_INERTIAL        262144
 #define AFF_PLOADED         1073741824
 
 /* damage classes */
@@ -2063,7 +2062,6 @@ extern int            port;
  * Defined in act_*.c (mostly).
  */
 DECLARE_DO_FUN( do_doubleexp );
-DECLARE_DO_FUN( do_shieldify );
 DECLARE_DO_FUN( do_clanquest );
 DECLARE_DO_FUN( do_quest );
 DECLARE_DO_FUN( do_qecho );
@@ -2399,22 +2397,17 @@ DECLARE_SPELL_FUN( spell_create_water );
 DECLARE_SPELL_FUN( spell_cure_blindness );
 DECLARE_SPELL_FUN( spell_cure_poison );
 DECLARE_SPELL_FUN( spell_dispel_magic );
-DECLARE_SPELL_FUN( spell_enchant_weapon );
 DECLARE_SPELL_FUN( spell_fly );
 DECLARE_SPELL_FUN( spell_heal );
 DECLARE_SPELL_FUN( spell_incinerate );
 DECLARE_SPELL_FUN( spell_infravision );
 DECLARE_SPELL_FUN( spell_invis );
-DECLARE_SPELL_FUN( spell_lightning_bolt );
 DECLARE_SPELL_FUN( spell_locate_object );
-DECLARE_SPELL_FUN( spell_magic_missile );
-DECLARE_SPELL_FUN( spell_mana );
 DECLARE_SPELL_FUN( spell_pass_door );
 DECLARE_SPELL_FUN( spell_poison );
 DECLARE_SPELL_FUN( spell_portal );
 DECLARE_SPELL_FUN( spell_refresh );
 DECLARE_SPELL_FUN( spell_scry );
-DECLARE_SPELL_FUN( spell_shield );
 DECLARE_SPELL_FUN( spell_sleep );
 DECLARE_SPELL_FUN( spell_spell_bind );
 DECLARE_SPELL_FUN( spell_summon );

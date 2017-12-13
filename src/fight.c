@@ -434,10 +434,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       }
     }
 
-    if ( IS_AFFECTED2( victim, AFF_INERTIAL ) ) {
-      dam -= dam / 8;
-    }
-
     if ( IS_SET( victim->act, UNDEAD_TYPE( victim ) ) ) {
       dam -= dam / 8;
     }

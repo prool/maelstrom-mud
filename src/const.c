@@ -988,14 +988,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "mind thrust",
-    { L_APP,L_APP,L_APP },
-    spell_mind_thrust,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,8,12,
-    "&wmind &Wthrust&X","!Mind Thrust!","",FALSE,SLOT(0)
-  },
-
-  {
     "shadow form",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
@@ -1011,15 +1003,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,5,12,
     "","You no longer feel so protected.",
     "$n doesn't feel very protected.",FALSE,SLOT(56)
-  },
-
-  {
-    "ultrablast",
-    { L_APP,L_APP,L_APP },
-    spell_ultrablast,TAR_IGNORE,POS_FIGHTING,
-    NULL,75,24,
-    "&zultr&wabl&Wast&X","!Ultrablast!","",FALSE,
-    SLOT(0)
   },
 
   {

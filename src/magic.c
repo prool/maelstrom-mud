@@ -3035,13 +3035,6 @@ void spell_intellect_fortress( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_mind_thrust( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  int dam = dice( 1, 10 ) + level / 2;
-  dam = sc_dam( ch, dam );
-  damage( ch, (CHAR_DATA *) vo, dam, sn );
-  return;
-}
-
 void spell_thought_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -3062,36 +3055,6 @@ void spell_thought_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_ultrablast( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-  CHAR_DATA * vch_next;
-  int         dam;
-  int         hpch;
-
-  for ( vch = ch->in_room->people; vch; vch = vch_next ) {
-    vch_next = vch->next_in_room;
-
-    if ( vch->deleted ) {
-      continue;
-    }
-
-    if ( IS_NPC( ch ) ? !IS_NPC( vch ) : IS_NPC( vch ) ) {
-      hpch = UMAX( 10, ch->hit );
-      dam  = number_range( hpch / 8, hpch / 3 );
-      dam  = sc_dam( ch, dam );
-
-      if ( saves_spell( level, vch ) ) {
-        dam /= 2;
-      }
-
-      damage( ch, vch, dam, sn );
-    }
-  }
-
-  return;
-}
-
-/* XORPHOX summon mobs */
 void spell_summon_swarm( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * mob;
   CHAR_DATA * fch;

@@ -909,29 +909,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "throw","!Throw!","",FALSE,SLOT(0)
   },
 
-  /*
-   * Turn undead and mental block by Altrag
-   */
-  {
-    "turn undead",
-    { L_APP,L_APP,L_APP },
-    spell_turn_undead,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,100,12,
-    "","!Turn Undead!","",FALSE,SLOT(0)
-  },
-
-  {
-    "mental block",
-    { L_APP,L_APP,L_APP },
-    spell_mental_block,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,25,8,
-    "","Your mind feels more vulnerable.",
-    "$n's mind becomes more vulnerable.",FALSE,SLOT(57)
-  },
-
-  /*
-   * Patch by Altrag
-   */
   {
     "patch",
     { L_APP,L_APP,L_APP },

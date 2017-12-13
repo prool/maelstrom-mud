@@ -2891,58 +2891,6 @@ void spell_dispel_magic( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
 }
 
-/*
- * Turn undead and mental block by Altrag
- */
-
-void spell_turn_undead( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         chance;
-
-  if ( !IS_NPC( victim ) || !IS_SET( victim->act, ACT_UNDEAD ) ) {
-    send_to_char( C_DEFAULT, "Spell failed.\n\r", ch );
-    return;
-  }
-
-  chance  = ( level * ( 10 + ( IS_GOOD( ch ) ? 15 : ( IS_EVIL( ch ) ? 0 : 10 ) ) ) );
-  chance /= victim->level;
-
-  if ( number_percent() < chance && !saves_spell( level, victim ) ) {
-    act( AT_WHITE, "$n has turned $N!", ch, NULL, victim, TO_ROOM );
-    act( AT_WHITE, "You have turned $N!", ch, NULL, victim, TO_CHAR );
-    raw_kill( ch, victim );
-    return;
-  }
-
-  send_to_char( C_DEFAULT, "Spell failed.\n\r", ch );
-  return;
-}
-
-void spell_mental_block( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_range( level / 4, level / 2 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_NOASTRAL;
-
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "Your mind feels free of instrusion.\n\r", victim );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-}
-
-/* END */
 void spell_protection_good( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *)vo;
   AFFECT_DATA af;

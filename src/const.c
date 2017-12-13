@@ -950,15 +950,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "thought shield",
-    { L_APP,L_APP,L_APP },
-    spell_thought_shield,TAR_CHAR_SELF,POS_STANDING,
-    NULL,5,12,
-    "","You no longer feel so protected.",
-    "$n doesn't feel very protected.",FALSE,SLOT(56)
-  },
-
-  {
     "cancellation",
     { L_APP,L_APP,L_APP },
     spell_cancellation,TAR_CHAR_DEFENSIVE,POS_FIGHTING,

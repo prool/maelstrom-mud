@@ -2324,32 +2324,6 @@ void spell_eternal_intellect( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_golden_aura( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *)vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED2( victim, AFF_GOLDEN ) ) {
-    return;
-  }
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, sn ) ) {
-    send_to_char( AT_BLUE, "Nothing happens.\n\r", ch );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 8 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_GOLDEN;
-  affect_to_char2( victim, &af );
-  send_to_char( AT_YELLOW, "You are surrounded by a golden aura.\n\r", victim );
-  act( AT_YELLOW, "$n is surrounded by a golden aura.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_goodberry( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA * obj = (OBJ_DATA *) vo;
   OBJ_DATA * berry;

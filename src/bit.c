@@ -416,7 +416,6 @@ const struct flag_type affect2_flags [] = {
   { "rage",              AFF_RAGE,               TRUE   },
   { "adrenaline-rush",   AFF_RUSH,               TRUE   },
   { "inertial",          AFF_INERTIAL,           TRUE   },
-  { "golden-aura",       AFF_GOLDEN,             FALSE  },
   { "hallucinate",       AFF_HALLUCINATING,      FALSE  },
   {   "",                0,                      0      }
 };

@@ -714,7 +714,6 @@ struct  kill_data {
 #define AFF_RAGE            65536
 #define AFF_RUSH            131072
 #define AFF_INERTIAL        262144
-#define AFF_GOLDEN          524288
 #define AFF_PLOADED         1073741824
 
 /* damage classes */
@@ -2510,7 +2509,6 @@ DECLARE_SPELL_FUN( spell_fly );
 DECLARE_SPELL_FUN( spell_gate );
 DECLARE_SPELL_FUN( spell_giant_strength );
 DECLARE_SPELL_FUN( spell_eternal_intellect );
-DECLARE_SPELL_FUN( spell_golden_aura );
 DECLARE_SPELL_FUN( spell_goodberry );
 DECLARE_SPELL_FUN( spell_harm );
 DECLARE_SPELL_FUN( spell_heal );

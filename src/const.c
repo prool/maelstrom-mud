@@ -2003,15 +2003,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     TRUE,SLOT(116)
   },
   {
-    "golden aura",
-    { L_APP,L_APP,L_APP },
-    spell_golden_aura,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,75,12,
-    "",
-    "The golden aura around your body vanishes.",
-    "The golden aura around $n's body vanishes.",TRUE,SLOT(117)
-  },
-  {
     "shriek",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

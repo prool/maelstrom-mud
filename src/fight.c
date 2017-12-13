@@ -508,10 +508,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       }
     }
 
-    if ( IS_AFFECTED2( victim, AFF_GOLDEN ) ) {
-      dam /= 4;
-    }
-
     if ( IS_AFFECTED2( victim, AFF_DANCING ) ) {
       dam += dam / 2;
     }

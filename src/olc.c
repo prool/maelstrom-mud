@@ -1098,8 +1098,7 @@ void medit( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( ( value = flag_value( affect2_flags, arg ) ) != NO_FLAG
-       && value != AFF_GOLDEN ) {
+  if ( ( value = flag_value( affect2_flags, arg ) ) != NO_FLAG ) {
     TOGGLE_BIT( pMob->affected_by2, value );
 
     SET_BIT( pArea->area_flags, AREA_CHANGED );

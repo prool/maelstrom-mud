@@ -2377,10 +2377,6 @@ char * affect_bit_name2( int vector ) {
     strcat( buf, " phase_shift" );
   }
 
-  if ( vector & AFF_GOLDEN      ) {
-    strcat( buf, " golden_aura" );
-  }
-
   if ( vector & AFF_HALLUCINATING ) {
     strcat( buf, " hallucinate" );
   }

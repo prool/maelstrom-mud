@@ -2472,7 +2472,6 @@ DECLARE_SPELL_FUN( spell_aura_sight );
 DECLARE_SPELL_FUN( spell_combat_mind );
 DECLARE_SPELL_FUN( spell_control_flames );
 DECLARE_SPELL_FUN( spell_create_sound );
-DECLARE_SPELL_FUN( spell_detonate );
 
 char *  crypt( const char * key, const char * salt );
 

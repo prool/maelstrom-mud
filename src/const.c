@@ -925,14 +925,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "detonate",
-    { L_APP,L_APP,L_APP },
-    spell_detonate,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,35,24,
-    "&zdet&Rona&rtion","!Detonate!","",FALSE,SLOT(0)
-  },
-
-  {
     "shadow form",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,

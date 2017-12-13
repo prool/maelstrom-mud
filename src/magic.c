@@ -2337,20 +2337,6 @@ void spell_create_sound( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_detonate( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         dam;
-  dam = dice( level, 13 );
-  dam = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
 void spell_summon_swarm( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * mob;
   CHAR_DATA * fch;

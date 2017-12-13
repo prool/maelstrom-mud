@@ -2461,7 +2461,6 @@ DECLARE_SPELL_FUN( spell_holy_fires );
 DECLARE_SPELL_FUN( spell_truesight );
 DECLARE_SPELL_FUN( spell_entangle );
 DECLARE_SPELL_FUN( spell_confusion );
-DECLARE_SPELL_FUN( spell_mind_probe );
 DECLARE_SPELL_FUN( spell_fumble );
 DECLARE_SPELL_FUN( spell_summon_shadow );
 DECLARE_SPELL_FUN( spell_summon_beast );

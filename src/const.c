@@ -1101,14 +1101,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "flamesphere",
-    { L_APP,L_APP,L_APP },
-    gspell_flamesphere,TAR_GROUP_OFFENSIVE,POS_STANDING,
-    NULL,14,20,
-    "flamesphere","!Flamesphere!","",TRUE,SLOT(58)
-  },
-
-  {
     "bash door",
     { L_APP, L_APP, 15 },
     spell_null,TAR_IGNORE,POS_STANDING,

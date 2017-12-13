@@ -2498,7 +2498,6 @@ DECLARE_SPELL_FUN( spell_intellect_fortress );
 DECLARE_SPELL_FUN( spell_mind_thrust );
 DECLARE_SPELL_FUN( spell_thought_shield );
 DECLARE_SPELL_FUN( spell_ultrablast );
-DECLARE_SPELL_FUN( gspell_flamesphere );
 
 char *  crypt( const char * key, const char * salt );
 

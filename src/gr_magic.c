@@ -275,17 +275,3 @@ void group_cast( int sn, int level, CHAR_DATA * ch, char * argument ) {
 
   return;
 }
-
-void gspell_flamesphere( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         dam;
-
-  dam = dice( 20, level );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}

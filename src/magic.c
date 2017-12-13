@@ -1245,65 +1245,6 @@ void spell_enchant_weapon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_holysword( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA    * obj = (OBJ_DATA *) vo;
-  AFFECT_DATA * paf;
-
-  if ( obj->item_type != ITEM_WEAPON || IS_OBJ_STAT( obj, ITEM_MAGIC ) ) {
-    send_to_char( AT_BLUE, "That item cannot be consecrated.\n\r", ch );
-    return;
-  }
-
-  if ( !affect_free ) {
-    paf = alloc_perm( sizeof( *paf ) );
-  } else {
-    paf         = affect_free;
-    affect_free = affect_free->next;
-  }
-
-  paf->type      = sn;
-  paf->duration  = -1;
-  paf->location  = APPLY_HITROLL;
-  paf->modifier  = 6 + ( level >= 18 ) + ( level >= 25 ) + ( level >= 40 ) + ( level >= 60 ) + ( level >= 90 );
-  paf->bitvector = 0;
-  paf->next      = obj->affected;
-  obj->affected  = paf;
-
-  if ( !affect_free ) {
-    paf = alloc_perm( sizeof( *paf ) );
-  } else {
-    paf         = affect_free;
-    affect_free = affect_free->next;
-  }
-
-  paf->type     = sn;
-  paf->duration = -1;
-  paf->location = APPLY_DAMROLL;
-  paf->modifier = 6 + ( level >= 18 ) + ( level >= 25 ) + ( level >= 45 ) + ( level >= 65 ) + ( level >= 90 );
-  ;
-  paf->bitvector = 0;
-  paf->next      = obj->affected;
-  obj->affected  = paf;
-
-  if ( IS_GOOD( ch ) ) {
-    SET_BIT( obj->extra_flags, ITEM_ANTI_EVIL );
-    act( AT_BLUE, "$p glows.", ch, obj, NULL, TO_CHAR );
-  } else if ( IS_EVIL( ch ) ) {
-    SET_BIT( obj->extra_flags, ITEM_ANTI_GOOD );
-    act( AT_RED, "$p glows", ch, obj, NULL, TO_CHAR );
-  } else {
-    SET_BIT( obj->extra_flags, ITEM_ANTI_EVIL );
-    SET_BIT( obj->extra_flags, ITEM_ANTI_GOOD );
-    act( AT_YELLOW, "$p glows.", ch, obj, NULL, TO_CHAR );
-  }
-
-  SET_BIT( obj->anti_class_flags, ITEM_ANTI_CASTER );
-  SET_BIT( obj->anti_class_flags, ITEM_ANTI_ROGUE );
-  SET_BIT( obj->anti_class_flags, ITEM_ANTI_FIGHTER );
-  send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  return;
-}
-
 /*
  * Drain XP, MANA, HP.
  * Caster gains HP.
@@ -2873,59 +2814,6 @@ void spell_create_sound( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_death_field( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-  /*    CHAR_DATA *vch_next; */
-  int dam;
-  int hpch;
-
-  if ( !IS_EVIL( ch ) ) {
-    send_to_char( AT_RED, "You are not evil enough to do that!\n\r", ch );
-    return;
-  }
-
-  send_to_char( AT_DGREY, "A black haze emanates from you!\n\r", ch );
-  act( AT_DGREY, "A black haze emanates from $n!", ch, NULL, ch, TO_ROOM );
-
-  for ( vch = ch->in_room->people; vch; vch = vch->next_in_room ) {
-    /*vch = vch_next ) */
-    /*      vch_next = vch->next_in_room;*/
-    if ( vch->deleted ) {
-      continue;
-    }
-
-    if ( IS_NPC( ch ) ) {
-      continue;
-    }
-
-    if ( ch == vch ) {
-      continue;
-    }
-
-    if ( !IS_NPC( ch ) ? IS_NPC( vch ) : IS_NPC( vch ) ) {
-      hpch = URANGE( 10, ch->hit, 999 );
-
-      if ( !saves_spell( level, vch )
-           && (   level <= vch->level + 5
-                  && level >= vch->level - 5 ) ) {
-        send_to_char( AT_DGREY, "The haze envelops you!\n\r", vch );
-        act( AT_DGREY, "The haze envelops $N!",
-             ch, NULL, vch, TO_NOTVICT );
-        dam      = 4; /* Enough to compensate for sanct. and prot. */
-        vch->hit = 1;
-        damage( ch, vch, dam, sn );
-        update_pos( vch );
-      } else {
-        dam = number_range( hpch / 16 + 1, hpch / 8 );
-        dam = sc_dam( ch, dam );
-        damage( ch, vch, dam, sn );
-      }
-    }
-  }
-
-  return;
-}
-
 void spell_detonate( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   int         dam;
@@ -3990,7 +3878,6 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
   check_dispel_aff( victim, &found, level, "pass door", AFF_PASS_DOOR );
   check_dispel_aff( victim, &found, level, "protection evil", AFF_PROTECT );
   check_dispel_aff( victim, &found, level, "sleep", AFF_SLEEP );
-  check_dispel_aff2( victim, &found, level, "field of decay", AFF_FIELD );
   check_dispel_aff2( victim, &found, level, "protection good", AFF_PROTECTION_GOOD );
   check_dispel_aff2( victim, &found, level, "true sight", AFF_TRUESIGHT );
 
@@ -4290,27 +4177,6 @@ void spell_dark_ritual( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_field_of_decay( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED2( ch, AFF_FIELD ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 5 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_FIELD;
-  affect_to_char2( ch, &af );
-
-  send_to_char( AT_DGREY, "You summon the power of the dead and a black haze envelops you.\n\r", ch );
-  act( AT_DGREY, "A black haze emanates from $n's body and envelops $m.",
-       ch, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_stench_of_decay( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA      * victim      = (CHAR_DATA *) vo;
   static const int dam_each [] = {
@@ -4332,10 +4198,6 @@ void spell_stench_of_decay( int sn, int level, CHAR_DATA * ch, void * vo ) {
   level = UMAX( 0, level );
   dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 7 );
   dam   = sc_dam( ch, dam );
-
-  if ( IS_AFFECTED2( victim, AFF_FIELD ) ) {
-    dam /= 6;
-  }
 
   if ( saves_spell( level, victim ) ) {
     dam /= 2;

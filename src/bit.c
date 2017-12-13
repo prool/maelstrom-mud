@@ -401,7 +401,6 @@ const struct flag_type affect2_flags [] = {
   { "mental-block",      AFF_NOASTRAL,           TRUE   },
   { "true-sight",        AFF_TRUESIGHT,          TRUE   },
   { "protect-good",      AFF_PROTECTION_GOOD,    TRUE   },
-  { "field-decay",       AFF_FIELD,              TRUE   },
   { "rage",              AFF_RAGE,               TRUE   },
   { "inertial",          AFF_INERTIAL,           TRUE   },
   { "hallucinate",       AFF_HALLUCINATING,      FALSE  },

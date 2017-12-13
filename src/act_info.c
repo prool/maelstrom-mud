@@ -483,15 +483,6 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   buf2[ 0 ] = '\0';
 
-  if ( IS_AFFECTED2( victim, AFF_FIELD ) ) {
-    strcat( buf2, "    " );
-    strcat( buf2, visible_name( victim, ch, FALSE ) );
-    strcat( buf2, "&z's body is enveloped in a black haze.\n\r" );
-    buf2[ 4 ] = UPPER( buf2[ 4 ] );
-    send_to_char( AT_DGREY, buf2, ch );
-    buf2[ 0 ] = '\0';
-  }
-
   return;
 }
 

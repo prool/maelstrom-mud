@@ -933,14 +933,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "death field",
-    { L_APP,L_APP,L_APP },
-    spell_death_field,TAR_IGNORE,POS_FIGHTING,
-    NULL,200,18,
-    "&zfield of death&X","!Death Field!","",FALSE,SLOT(0)
-  },
-
-  {
     "detonate",
     { L_APP,L_APP,L_APP },
     spell_detonate,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -1238,14 +1230,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "holy sword",
-    { L_APP,L_APP,L_APP },
-    spell_holysword,TAR_OBJ_INV,POS_STANDING,
-    NULL,100,24,
-    "","!Holy Sword!","",FALSE,SLOT(0)
-  },
-
-  {
     "summon angel",
     { L_APP,L_APP,L_APP },
     spell_summon_angel,TAR_CHAR_SELF,POS_FIGHTING,
@@ -1447,14 +1431,7 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     &gsn_gravebind,0,0,
     "","!Gravebind!","",FALSE,SLOT(0)
   },
-  {
-    "field of decay",
-    { L_APP,L_APP,L_APP },
-    spell_field_of_decay,TAR_CHAR_SELF,POS_RESTING,
-    NULL,300,12,
-    "","The black haze enveloping your body dissipates.","",
-    TRUE,SLOT(79)
-  },
+
   {
     "stench of decay",
     { L_APP,L_APP,L_APP },

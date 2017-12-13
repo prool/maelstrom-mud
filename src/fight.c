@@ -267,16 +267,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
    * Hit.
    * Calc damage.
    */
-  if ( IS_AFFECTED2( victim, AFF_FIELD ) ) {
-    if ( number_percent() < 10 ) {
-      spell_death_field( skill_lookup( "death field" ), victim->level, victim, ch );
-    }
-  }
-
-  if ( !victim || victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
   if ( IS_NPC( ch ) ) {
     dam = number_range( ch->level / 3, ch->level * 3 / 2 );
 
@@ -457,11 +447,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
 
     if ( IS_SET( victim->act, UNDEAD_TYPE( victim ) ) ) {
       dam -= dam / 8;
-    }
-
-    if ( IS_AFFECTED2( victim, AFF_FIELD )
-         && !( dt == gsn_backstab && chance( number_range( 5, 10 ) ) ) ) {
-      dam -= dam / 4;
     }
 
     if ( IS_AFFECTED( victim, AFF_PROTECT )

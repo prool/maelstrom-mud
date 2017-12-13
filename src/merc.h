@@ -705,7 +705,6 @@ struct  kill_data {
 #define AFF_FUMBLE          2048
 #define AFF_HALLUCINATING   8192
 #define AFF_PHASED          16384
-#define AFF_FIELD           32768
 #define AFF_RAGE            65536
 #define AFF_INERTIAL        262144
 #define AFF_PLOADED         1073741824
@@ -2464,7 +2463,6 @@ DECLARE_SPELL_FUN( spell_summon_demon );
 DECLARE_SPELL_FUN( spell_cancellation );
 DECLARE_SPELL_FUN( spell_protection_good );
 DECLARE_SPELL_FUN( spell_holy_strength );
-DECLARE_SPELL_FUN( spell_holysword );
 DECLARE_SPELL_FUN( spell_summon_angel );
 DECLARE_SPELL_FUN( spell_holy_fires );
 DECLARE_SPELL_FUN( spell_truesight );
@@ -2487,7 +2485,6 @@ DECLARE_SPELL_FUN( spell_combat_mind );
 DECLARE_SPELL_FUN( spell_complete_healing );
 DECLARE_SPELL_FUN( spell_control_flames );
 DECLARE_SPELL_FUN( spell_create_sound );
-DECLARE_SPELL_FUN( spell_death_field );
 DECLARE_SPELL_FUN( spell_detonate );
 DECLARE_SPELL_FUN( spell_disintegrate );
 DECLARE_SPELL_FUN( spell_displacement );
@@ -2509,7 +2506,6 @@ DECLARE_SPELL_FUN( spell_thought_shield );
 DECLARE_SPELL_FUN( spell_ultrablast );
 DECLARE_SPELL_FUN( gspell_flamesphere );
 DECLARE_SPELL_FUN( spell_dark_ritual );
-DECLARE_SPELL_FUN( spell_field_of_decay );
 DECLARE_SPELL_FUN( spell_stench_of_decay );
 
 char *  crypt( const char * key, const char * salt );

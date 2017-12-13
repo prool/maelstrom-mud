@@ -1675,21 +1675,13 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "frenzy",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_frenzy,0,0,
-    "","You feel more sane.",
-    "$n looks more sane.",FALSE,SLOT(82)
-  },
-
-  {
     "track",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_track,0,0,
     "","!Track!","",FALSE,SLOT(0)
   },
+
   {
     "headbutt",
     { L_APP,L_APP,L_APP },

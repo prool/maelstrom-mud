@@ -688,11 +688,7 @@ void char_update( void ) {
     }
 
     if ( IS_AFFECTED2( ch, AFF_BERSERK ) && !ch->fighting ) {
-      if ( is_affected( ch, gsn_frenzy ) ) {
-        send_to_char( AT_WHITE, "You feel less frenzied.\n\r", ch );
-      } else {
-        send_to_char( AT_WHITE, "The rage leaves you.\n\r", ch );
-      }
+      send_to_char( AT_WHITE, "The rage leaves you.\n\r", ch );
 
       REMOVE_BIT( ch->affected_by2, AFF_BERSERK );
     }

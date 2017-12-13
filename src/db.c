@@ -119,7 +119,6 @@ int gsn_multiburst;
 int gsn_fastheal;
 int gsn_rage;
 int gsn_rush;
-int gsn_frenzy;
 int gsn_headbutt;
 int gsn_retreat;
 int gsn_escape;

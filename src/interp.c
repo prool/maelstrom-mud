@@ -242,7 +242,6 @@ struct cmd_type cmd_table [] = {
   { "stun",            do_stun,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "berserk",         do_berserk,           POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "multiburst",      do_multiburst,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "frenzy",          do_frenzy,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "account",         do_account,           POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "adrenaline rush", do_rush,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "afk",             do_afk,               POS_DEAD,     0,     LOG_NORMAL, FALSE   },

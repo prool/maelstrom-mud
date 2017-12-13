@@ -1332,12 +1332,6 @@ void stop_fighting( CHAR_DATA * ch, bool fBoth ) {
 
         act( C_DEFAULT, skill_table[ gsn_berserk ].room_msg_off, fch,
              NULL, NULL, TO_ROOM );
-      } else if ( is_affected( fch, gsn_frenzy ) ) {
-        affect_strip( fch, gsn_frenzy );
-        send_to_char( C_DEFAULT, skill_table[ gsn_frenzy ].msg_off, fch );
-        send_to_char( C_DEFAULT, "\n\r", fch );
-        act( C_DEFAULT, skill_table[ gsn_frenzy ].room_msg_off, fch,
-             NULL, NULL, TO_ROOM );
       }
 
       if ( IS_AFFECTED2( fch, AFF_BERSERK ) ) {
@@ -3523,45 +3517,6 @@ void do_rush( CHAR_DATA * ch, char * argument ) {
 
   update_skpell( ch, gsn_rush );
 
-  return;
-}
-
-void do_frenzy( CHAR_DATA * ch, char * argument ) {
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED2( ch, AFF_BERSERK ) ) {
-    return;
-  }
-
-  if ( !ch->fighting ) {
-    return;
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_frenzy ] < number_percent() ) {
-    send_to_char( C_DEFAULT, "You failed.\n\r", ch );
-    return;
-  }
-
-  af.type      = gsn_frenzy;
-  af.level     = ch->level;
-  af.duration  = ch->level / 10;
-  af.bitvector = AFF_BERSERK;
-
-  af.location = APPLY_DAMROLL;
-  af.modifier = IS_NPC( ch ) ? ch->level / 2 : ch->damroll * 2 / 3;
-  affect_to_char2( ch, &af );
-
-  af.location = APPLY_HITROLL;
-  af.modifier = IS_NPC( ch ) ? ch->level / 2 : ch->hitroll * 2 / 3;
-  affect_to_char2( ch, &af );
-
-  af.location = APPLY_AC;
-  af.modifier = ch->level * -2;
-  affect_to_char2( ch, &af );
-
-  send_to_char( AT_WHITE, "You go into a frenzy.\n\r", ch );
-  act( AT_WHITE, "$n suddenly goes into a frenzy", ch, NULL, NULL, TO_ROOM );
-  update_skpell( ch, gsn_frenzy );
   return;
 }
 

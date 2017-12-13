@@ -2440,7 +2440,6 @@ DECLARE_SPELL_FUN( spell_summon_swarm );
 DECLARE_SPELL_FUN( spell_summon_pack );
 DECLARE_SPELL_FUN( spell_summon_demon );
 DECLARE_SPELL_FUN( spell_summon_angel );
-DECLARE_SPELL_FUN( spell_holy_fires );
 DECLARE_SPELL_FUN( spell_truesight );
 DECLARE_SPELL_FUN( spell_entangle );
 DECLARE_SPELL_FUN( spell_confusion );

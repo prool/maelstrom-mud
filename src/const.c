@@ -907,14 +907,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "holy fires",
-    { L_APP,L_APP,L_APP },
-    spell_holy_fires,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,50,12,
-    "&Who&Rly fl&rames&X","!Holy Fires!","",FALSE,SLOT(0)
-  },
-
-  {
     "true sight",
     { L_APP,L_APP,L_APP },
     spell_truesight,TAR_CHAR_SELF,POS_STANDING,

@@ -2465,7 +2465,6 @@ DECLARE_SPELL_FUN( spell_fumble );
 DECLARE_SPELL_FUN( spell_summon_shadow );
 DECLARE_SPELL_FUN( spell_summon_beast );
 DECLARE_SPELL_FUN( spell_summon_trent );
-DECLARE_SPELL_FUN( spell_shatter );
 DECLARE_SPELL_FUN( spell_purify );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_hallucinate );

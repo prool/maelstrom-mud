@@ -4235,12 +4235,7 @@ void do_scribe( CHAR_DATA * ch, char * argument ) {
 
   ch->mana -= mana;
   dam       = ch->level * ( skill_table[ sn ].skill_level[ prime_class( ch ) ] / 9 );
-  chance    = ch->pcdata->learned[ gsn_scribe ]
-              - ( skill_table[ sn ].skill_level[ prime_class( ch ) ] / 6 );
-
-  if ( sn == skill_lookup( "shatter" ) ) {
-    chance = 0;
-  }
+  chance    = ch->pcdata->learned[ gsn_scribe ] - ( skill_table[ sn ].skill_level[ prime_class( ch ) ] / 6 );
 
   if ( number_percent() > chance ) {
     sprintf( buf, "The %s scroll explodes! causing %d damage!",

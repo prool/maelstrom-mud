@@ -1171,14 +1171,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "shatter",
-    { L_APP,L_APP,L_APP },
-    spell_shatter,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,150,32,
-    "","!shatter!","",FALSE,SLOT(0)
-  },
-
-  {
     "pray",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_SELF,POS_RESTING,

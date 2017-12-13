@@ -933,14 +933,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "disintegrate",
-    { L_APP,L_APP,L_APP },
-    spell_disintegrate,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,150,18,
-    "disintegration","!Disintegrate!","",FALSE,SLOT(0)
-  },
-
-  {
     "flesh armor",
     { L_APP,L_APP,L_APP },
     spell_flesh_armor,TAR_CHAR_SELF,POS_STANDING,

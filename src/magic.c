@@ -2803,56 +2803,6 @@ void spell_detonate( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_disintegrate( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  OBJ_DATA  * obj_lose;
-  OBJ_DATA  * obj_next;
-
-  if ( !IS_NPC( victim ) ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  if ( number_percent() < 2 * level && !saves_spell( level, victim ) ) {
-    for ( obj_lose = victim->carrying; obj_lose; obj_lose = obj_next ) {
-      obj_next = obj_lose->next_content;
-
-      if ( obj_lose->deleted ) {
-        continue;
-      }
-
-      if ( number_bits( 2 ) != 0 ) {
-        continue;
-      }
-
-      act( AT_WHITE, "$p disintegrates!", victim, obj_lose, NULL, TO_CHAR );
-      act( AT_WHITE, "$n's $p disintegrates!", victim, obj_lose, NULL, TO_ROOM );
-      extract_obj( obj_lose );
-    }
-  }
-
-  if ( !saves_spell( level, victim ) ) {
-    /*
-     * Disintegrate char, do not generate a corpse, do not
-     * give experience for kill.  Extract_char will take care
-     * of items carried/wielded by victim.  Needless to say,
-     * it would be bad to be a target of this spell!
-     * --- Thelonius (Monk)
-     */
-    act( AT_WHITE, "You have DISINTEGRATED $N!", ch, NULL, victim, TO_CHAR );
-    act( AT_WHITE, "You have been DISINTEGRATED by $n!", ch, NULL, victim, TO_VICT );
-    act( AT_WHITE, "$n's spell DISINTEGRATES $N!", ch, NULL, victim, TO_ROOM );
-
-    if ( IS_NPC( victim ) ) {
-      extract_char( victim, TRUE );
-    } else {
-      extract_char( victim, FALSE );
-    }
-  }
-
-  return;
-}
-
 void spell_flesh_armor( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

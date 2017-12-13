@@ -240,10 +240,8 @@ struct cmd_type cmd_table [] = {
   { "drain life",      do_drain_life,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "mental drain",    do_mental_drain,      POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "stun",            do_stun,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "berserk",         do_berserk,           POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "multiburst",      do_multiburst,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "account",         do_account,           POS_RESTING,  0,     LOG_NORMAL, TRUE    },
-  { "adrenaline rush", do_rush,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "afk",             do_afk,               POS_DEAD,     0,     LOG_NORMAL, FALSE   },
   { "afkmes",          do_afkmes,            POS_DEAD,     0,     LOG_NORMAL, FALSE   },
   { "bash door",       do_bash,              POS_STANDING, 0,     LOG_NORMAL, TRUE    },
@@ -524,18 +522,6 @@ void interpret( CHAR_DATA * ch, char * argument ) {
 
         REMOVE_BIT( ch->affected_by, AFF_HIDE );
       }
-    }
-  }
-
-  if ( IS_AFFECTED2( ch, AFF_BERSERK ) && trust < LEVEL_IMMORTAL ) {
-    if ( !found || ( str_cmp( cmd_table[ cmd ].name, "flee" ) &&
-                     str_cmp( cmd_table[ cmd ].name, "look" ) &&
-                     str_cmp( cmd_table[ cmd ].name, "get" ) &&
-                     str_cmp( cmd_table[ cmd ].name, "wield" ) &&
-                     str_cmp( cmd_table[ cmd ].name, "dual" ) &&
-                     str_cmp( cmd_table[ cmd ].name, "score" ) ) ) {
-      send_to_char( AT_BLOOD, "You cannot do that in such a rage!\n\r", ch );
-      return;
     }
   }
 

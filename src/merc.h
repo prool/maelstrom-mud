@@ -703,14 +703,12 @@ struct  kill_data {
 #define AFF_TRUESIGHT       16
 #define AFF_BLADE           32
 #define AFF_PROTECTION_GOOD 128
-#define AFF_BERSERK         256
 #define AFF_CONFUSED        1024
 #define AFF_FUMBLE          2048
 #define AFF_HALLUCINATING   8192
 #define AFF_PHASED          16384
 #define AFF_FIELD           32768
 #define AFF_RAGE            65536
-#define AFF_RUSH            131072
 #define AFF_INERTIAL        262144
 #define AFF_PLOADED         1073741824
 
@@ -1868,7 +1866,6 @@ extern int gsn_mental_drain;
 extern int gsn_turn_evil;
 extern int gsn_bash_door;
 extern int gsn_stun;
-extern int gsn_berserk;
 extern int gsn_backstab;
 extern int gsn_backstab_2;
 extern int gsn_palm;
@@ -1906,7 +1903,6 @@ extern int gsn_gravebind;
 extern int gsn_multiburst;
 extern int gsn_fastheal;
 extern int gsn_rage;
-extern int gsn_rush;
 extern int gsn_headbutt;
 extern int gsn_retreat;
 extern int gsn_escape;
@@ -2137,7 +2133,6 @@ DECLARE_DO_FUN( do_autosplit );
 DECLARE_DO_FUN( do_backstab );
 DECLARE_DO_FUN( do_bamf );
 DECLARE_DO_FUN( do_bash );
-DECLARE_DO_FUN( do_berserk );
 DECLARE_DO_FUN( do_bid );
 DECLARE_DO_FUN( do_blank );
 DECLARE_DO_FUN( do_bodybag );
@@ -2397,7 +2392,6 @@ DECLARE_DO_FUN( do_scribe );
 DECLARE_DO_FUN( do_multiburst );
 DECLARE_DO_FUN( do_gravebind );
 DECLARE_DO_FUN( do_rage );
-DECLARE_DO_FUN( do_rush );
 DECLARE_DO_FUN( do_palm );
 DECLARE_DO_FUN( do_forge );
 DECLARE_DO_FUN( do_permban );

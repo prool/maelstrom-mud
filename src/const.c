@@ -1461,15 +1461,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "berserk",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_berserk,0,0,
-    "","You feel more sane.",
-    "$n has regained $s sanity.",FALSE,SLOT(0)
-  },
-
-  {
     "web",
     { L_APP,L_APP,L_APP },
     spell_web,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -1663,15 +1654,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     &gsn_rage,0,24,
     "","You calm down as the rage leaves you.",
     "$n calms down as the rage leaves $m.",FALSE,SLOT(80)
-  },
-  {
-    "adrenaline rush",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_RESTING,
-    &gsn_rush,0,12,
-    "",
-    "You feel the rush of adrenaline wash away.",
-    "$n has calmed down.",FALSE,SLOT(81)
   },
 
   {

@@ -174,36 +174,14 @@ void multi_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt ) {
 
   one_hit( ch, victim, dt, FALSE );
 
-  if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-    one_hit( ch, victim, dt, FALSE );
-  }
-
   if ( ch->fighting != victim || dt == gsn_backstab ) {
     return;
   }
 
   one_hit( ch, victim, dt, TRUE );
 
-  if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-    one_hit( ch, victim, dt, TRUE );
-  }
-
   if ( ch->fighting != victim ) {
     return;
-  }
-
-  if ( IS_AFFECTED2( ch, AFF_BERSERK ) ) {
-    one_hit( ch, victim, dt, FALSE );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
-
-    one_hit( ch, victim, dt, TRUE );
-
-    if ( ch->fighting != victim ) {
-      return;
-    }
   }
 
   return;
@@ -1324,19 +1302,6 @@ void stop_fighting( CHAR_DATA * ch, bool fBoth ) {
       fch->fighting = NULL;
       fch->hunting  = NULL;
       fch->position = POS_STANDING;
-
-      if ( is_affected( fch, gsn_berserk ) ) {
-        affect_strip( fch, gsn_berserk );
-        send_to_char( C_DEFAULT, skill_table[ gsn_berserk ].msg_off, fch );
-        send_to_char( C_DEFAULT, "\n\r", fch );
-
-        act( C_DEFAULT, skill_table[ gsn_berserk ].room_msg_off, fch,
-             NULL, NULL, TO_ROOM );
-      }
-
-      if ( IS_AFFECTED2( fch, AFF_BERSERK ) ) {
-        REMOVE_BIT( fch->affected_by2, AFF_BERSERK );
-      }
 
       update_pos( fch );
     }
@@ -3107,41 +3072,6 @@ void do_stun( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_berserk( CHAR_DATA * ch, char * argument ) {
-  AFFECT_DATA af;
-
-  if ( !ch->fighting ) {
-    return;
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_berserk ] < number_percent() ) {
-    send_to_char( C_DEFAULT, "You failed.\n\r", ch );
-    return;
-  }
-
-  af.type      = gsn_berserk;
-  af.level     = ch->level;
-  af.duration  = ch->level / 10;
-  af.bitvector = AFF_BERSERK;
-
-  af.location = APPLY_DAMROLL;
-  af.modifier = IS_NPC( ch ) ? ch->level / 2 : ch->damroll * 2 / 3;
-  affect_to_char2( ch, &af );
-
-  af.location = APPLY_HITROLL;
-  af.modifier = IS_NPC( ch ) ? ch->level / 2 : ch->hitroll * 2 / 3;
-  affect_to_char2( ch, &af );
-
-  af.location = APPLY_AC;
-  af.modifier = ch->level * -2;
-  affect_to_char2( ch, &af );
-
-  send_to_char( AT_WHITE, "You suddenly go berserk.\n\r", ch );
-  act( AT_WHITE, "$n suddenly goes berserk!", ch, NULL, NULL, TO_ROOM );
-  update_skpell( ch, gsn_berserk );
-  return;
-}
-
 void do_multiburst( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim = ch->fighting;
   char        arg1[ MAX_INPUT_LENGTH ];
@@ -3482,44 +3412,6 @@ void do_accept( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_rush( CHAR_DATA * ch, char * argument ) {
-  AFFECT_DATA af;
-
-  if ( IS_NPC( ch ) ) {
-    return;
-  }
-
-  if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-    return;
-  }
-
-  if ( !can_use_skpell( ch, gsn_rush ) ) {
-    send_to_char( C_DEFAULT, "You can't pump yourself up enough.\n\r", ch );
-    return;
-  }
-
-  WAIT_STATE( ch, skill_table[ gsn_rush ].beats );
-
-  if ( ch->pcdata->learned[ gsn_rush ] < number_percent() ) {
-    send_to_char( C_DEFAULT, "You failed.\n\r", ch );
-    return;
-  }
-
-  send_to_char( AT_RED, "You pump yourself up and make the adrenaline flow.\n\r", ch );
-  act( AT_WHITE, "$n seems to be pumped up.", ch, NULL, NULL, TO_ROOM );
-  af.type      = gsn_rush;
-  af.level     = ch->level;
-  af.duration  = ch->level / 4;
-  af.location  = APPLY_DEX;
-  af.modifier  = -2;
-  af.bitvector = AFF_RUSH;
-  affect_to_char2( ch, &af );
-
-  update_skpell( ch, gsn_rush );
-
-  return;
-}
-
 void do_trip( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim;
 
@@ -3621,14 +3513,6 @@ void do_lure( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_WHITE, "You lure your opponent into a vulnerable position.\n\r", ch );
 
     one_hit( ch, victim, dt, FALSE );
-
-    if ( IS_AFFECTED2( ch, AFF_RUSH ) ) {
-      one_hit( ch, victim, dt, FALSE );
-    }
-
-    if ( IS_AFFECTED2( ch, AFF_BERSERK ) ) {
-      one_hit( ch, victim, dt, FALSE );
-    }
 
     /* put more reasons to attack here */
 

@@ -683,16 +683,6 @@ void char_update( void ) {
       }
     }
 
-    if ( is_affected( ch, gsn_berserk ) && !ch->fighting ) {
-      affect_strip( ch, gsn_berserk );
-    }
-
-    if ( IS_AFFECTED2( ch, AFF_BERSERK ) && !ch->fighting ) {
-      send_to_char( AT_WHITE, "The rage leaves you.\n\r", ch );
-
-      REMOVE_BIT( ch->affected_by2, AFF_BERSERK );
-    }
-
     if ( ch->position == POS_STUNNED ) {
       update_pos( ch );
     }

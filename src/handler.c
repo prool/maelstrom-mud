@@ -2293,20 +2293,12 @@ char * affect_bit_name2( int vector ) {
     strcat( buf, " protection_good" );
   }
 
-  if ( vector & AFF_BERSERK       ) {
-    strcat( buf, " berserk" );
-  }
-
   if ( vector & AFF_FIELD     ) {
     strcat( buf, " field_of_decay" );
   }
 
   if ( vector & AFF_RAGE      ) {
     strcat( buf, " rage" );
-  }
-
-  if ( vector & AFF_RUSH      ) {
-    strcat( buf, " adrenaline_rush" );
   }
 
   if ( vector & AFF_PHASED        ) {

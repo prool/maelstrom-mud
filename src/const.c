@@ -980,30 +980,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "awe",
-    { L_APP,L_APP,L_APP },
-    spell_awe,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
-    NULL,35,12,
-    "","!Awe!","",FALSE,SLOT(0)
-  },
-
-  {
-    "ballistic attack",
-    { L_APP,L_APP,L_APP },
-    spell_ballistic_attack,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,5,12,
-    "ballistic attack","!Ballistic Attack!","",FALSE,SLOT(0)
-  },
-
-  {
-    "cell adjustment",
-    { L_APP,L_APP,L_APP },
-    spell_cell_adjustment,TAR_CHAR_SELF,POS_STANDING,
-    NULL,8,12,
-    "","!Cell Adjustment!","",FALSE,SLOT(0)
-  },
-
-  {
     "combat mind",
     { L_APP,L_APP,L_APP },
     spell_combat_mind,TAR_CHAR_DEFENSIVE,POS_STANDING,

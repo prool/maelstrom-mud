@@ -3098,65 +3098,6 @@ void spell_aura_sight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   act( AT_BLUE, msg, ch, NULL, victim, TO_CHAR );
 }
 
-void spell_awe( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-
-  if ( victim->fighting == ch && !saves_spell( level, victim ) ) {
-    stop_fighting( victim, TRUE );
-    act( AT_BLUE, "$N is in AWE of you!", ch, NULL, victim, TO_CHAR );
-    act( AT_BLUE, "You are in AWE of $n!", ch, NULL, victim, TO_VICT );
-    act( AT_BLUE, "$N is in AWE of $n!", ch, NULL, victim, TO_NOTVICT );
-  }
-
-  return;
-}
-
-void spell_ballistic_attack( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA      * victim      = (CHAR_DATA *) vo;
-  static const int dam_each [] = {
-    0,
-    3, 4, 4, 5, 6, 6, 6, 7, 7, 7,
-    7, 7, 8, 8, 8, 9, 9, 9, 10, 10,
-    10, 11, 11, 11, 12, 12, 12, 13, 13, 13,
-    14, 14, 14, 15, 15, 15, 16, 16, 16, 17,
-    17, 17, 18, 18, 18, 19, 19, 19, 20, 20,
-    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
-    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
-    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
-    61, 62, 63, 64, 65, 66, 67, 68, 69, 70
-  };
-  int              dam;
-
-  level = UMIN( level, sizeof( dam_each ) / sizeof( dam_each[ 0 ] ) - 1 );
-  level = UMAX( 0, level );
-  dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 2 );
-  dam   = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  act( AT_BLUE, "You chuckle as a stone strikes $N.", ch, NULL, victim,
-       TO_CHAR );
-  damage( ch, victim, dam, sn );
-  return;
-}
-
-void spell_cell_adjustment( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         SkNum;
-
-  if ( is_affected( victim, gsn_poison ) ) {
-    affect_strip( victim, gsn_poison );
-    send_to_char( AT_BLUE, "A warm feeling runs through your body.\n\r", victim );
-    act( AT_BLUE, "$N looks better.", ch, NULL, victim, TO_NOTVICT );
-  }
-
-  send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  return;
-}
-
 void spell_bladebarrier( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

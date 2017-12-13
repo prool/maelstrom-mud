@@ -2500,9 +2500,6 @@ DECLARE_SPELL_FUN( spell_hallucinate );
  */
 DECLARE_SPELL_FUN( spell_agitation );
 DECLARE_SPELL_FUN( spell_aura_sight );
-DECLARE_SPELL_FUN( spell_awe );
-DECLARE_SPELL_FUN( spell_ballistic_attack );
-DECLARE_SPELL_FUN( spell_cell_adjustment );
 DECLARE_SPELL_FUN( spell_combat_mind );
 DECLARE_SPELL_FUN( spell_complete_healing );
 DECLARE_SPELL_FUN( spell_control_flames );

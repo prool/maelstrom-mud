@@ -3022,54 +3022,6 @@ void spell_domination( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_ectoplasmic_form( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_PASS_DOOR ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 4 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_PASS_DOOR;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_GREY, "You turn translucent.\n\r", victim );
-  act( AT_GREY, "$n turns translucent.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-void spell_ego_whip( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) || saves_spell( level, victim ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = -2;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_AC;
-  af.modifier = level / 2;
-  affect_to_char( victim, &af );
-
-  act( AT_BLUE, "You ridicule $N about $S childhood.", ch, NULL, victim, TO_CHAR );
-  send_to_char( AT_BLUE, "Your ego takes a beating.\n\r", victim );
-  act( AT_BLUE, "$N's ego is crushed by $n!", ch, NULL, victim, TO_NOTVICT );
-
-  return;
-}
-
 void spell_flesh_armor( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

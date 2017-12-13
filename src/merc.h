@@ -2490,8 +2490,6 @@ DECLARE_SPELL_FUN( spell_disintegrate );
 DECLARE_SPELL_FUN( spell_displacement );
 DECLARE_SPELL_FUN( spell_disrupt );
 DECLARE_SPELL_FUN( spell_domination );
-DECLARE_SPELL_FUN( spell_ectoplasmic_form );
-DECLARE_SPELL_FUN( spell_ego_whip );
 DECLARE_SPELL_FUN( spell_flesh_armor );
 DECLARE_SPELL_FUN( spell_inflict_pain );
 DECLARE_SPELL_FUN( spell_intellect_fortress );

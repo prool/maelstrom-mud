@@ -969,27 +969,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "ectoplasmic form",
-    { L_APP,L_APP,L_APP },
-    spell_ectoplasmic_form,TAR_CHAR_SELF,POS_STANDING,
-    NULL,20,12,
-    "",
-    "You feel solid again.",
-    "$n looks solid again.",
-    FALSE,SLOT(43)
-  },
-
-  {
-    "ego whip",
-    { L_APP,L_APP,L_APP },
-    spell_ego_whip,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,20,12,
-    "",
-    "You feel more confident.",
-    "$n looks more confident.",FALSE,SLOT(44)
-  },
-
-  {
     "flesh armor",
     { L_APP,L_APP,L_APP },
     spell_flesh_armor,TAR_CHAR_SELF,POS_STANDING,

@@ -1107,30 +1107,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "enhanced damage",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_enhanced_damage,0,0,
-    "","!Enhanced Damage!","",FALSE,SLOT(0)
-  },
-
-  {
-    "enhanced damage two",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_enhanced_two,0,0,
-    "","!Enhanced Damage Two!","",FALSE,SLOT(0)
-  },
-
-  {
-    "enhanced hit",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_enhanced_hit,0,0,
-    "","!Enhanced Hit!","",FALSE,SLOT(0)
-  },
-
-  {
     "hide",
     { L_APP, 5, L_APP },
     spell_null,TAR_IGNORE,POS_RESTING,
@@ -1399,25 +1375,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "",
     "You no longer absorb energy.",
     "$n no longer absorbs energy.",FALSE,SLOT(45)
-  },
-
-  {
-    "enhance armor",
-    { L_APP,L_APP,L_APP },
-    spell_enhance_armor,TAR_OBJ_INV,POS_STANDING,
-    NULL,100,24,
-    "","!Enhance Armor!","",FALSE,SLOT(0)
-  },
-
-  {
-    "enhanced strength",
-    { L_APP,L_APP,L_APP },
-    spell_enhanced_strength,TAR_CHAR_SELF,POS_STANDING,
-    NULL,20,12,
-    "",
-    "You no longer feel so HUGE.",
-    "$n doesn't look so huge.",
-    FALSE,SLOT(46)
   },
 
   {
@@ -2129,13 +2086,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "Your skin returns to normal.",
     "$n's skin returns to its normal texture.",TRUE,SLOT(112)
   },
-  {
-    "enhanced damage three",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_enhanced_three,0,0,
-    "","!Enhanced Damage Two!","",FALSE,SLOT(0)
-  },
 
   {
     "retreat",
@@ -2172,14 +2122,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,
     &gsn_blindfight,0,0,
-    "","","",FALSE,SLOT(0)
-  },
-
-  {
-    "enhanced dodge",
-    { L_APP, L_APP, 20 },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_dodge_two,0,0,
     "","","",FALSE,SLOT(0)
   },
 

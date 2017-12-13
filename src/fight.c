@@ -267,11 +267,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
     thac0 += class_table[ prime_class( ch ) ].skill_adept - (ch->pcdata->learned[ gsn_dual ] / 3);
   }
 
-  if ( ( !IS_NPC( ch ) ) && ( ch->pcdata->learned[ gsn_enhanced_hit ] > 0 ) ) {
-    thac0 -= ch->pcdata->learned[ gsn_enhanced_hit ] / 5;
-    update_skpell( ch, gsn_enhanced_hit );
-  }
-
   victim_ac = UMAX( -15, GET_AC( victim ) / 10 );
 
   if ( !can_see( ch, victim ) ) {
@@ -398,21 +393,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
 
   if ( wield && IS_SET( wield->extra_flags, ITEM_POISONED ) ) {
     dam += dam / 8;
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_damage ] > 0 ) {
-    dam += dam * ch->pcdata->learned[ gsn_enhanced_damage ] / 150;
-    update_skpell( ch, gsn_enhanced_damage );
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_two ] > 0 ) {
-    dam += dam / 4 * ch->pcdata->learned[ gsn_enhanced_two ] / 150;
-    update_skpell( ch, gsn_enhanced_two );
-  }
-
-  if ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_enhanced_three ] > 0 ) {
-    dam += dam / 4 * ch->pcdata->learned[ gsn_enhanced_three ] / 150;
-    update_skpell( ch, gsn_enhanced_three );
   }
 
   if ( !IS_AWAKE( victim ) ) {
@@ -1410,7 +1390,7 @@ bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim ) {
     chance = UMIN( 60, 2 * victim->level );
   } else {
     // always a miniscule chance of dodging, at least through sheer dumb luck
-    chance = UMAX(2, victim->pcdata->learned[ gsn_dodge ] / 2) + ( victim->pcdata->learned[ gsn_dodge_two ] / 2 );
+    chance = UMAX(2, victim->pcdata->learned[ gsn_dodge ] / 2);
   }
 
   if ( ch->wait != 0 ) {
@@ -1422,11 +1402,6 @@ bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim ) {
   }
 
   update_skpell( victim, gsn_dodge );
-
-  // enhanced dodge is a trained skill
-  if ( !IS_NPC(victim) && victim->pcdata->learned[ gsn_dodge_two ] > 0 ) {
-    update_skpell( victim, gsn_dodge_two );
-  }
 
   if ( IS_SET( ch->act, PLR_COMBAT ) ) {
     act( AT_GREEN, "$N dodges your attack.", ch, NULL, victim, TO_CHAR );

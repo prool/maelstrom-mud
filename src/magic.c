@@ -3042,35 +3042,6 @@ void spell_lightning_breath( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-/*
- * Code for Psionicist spells/skills by Thelonius
- */
-void spell_adrenaline_control( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level - 5;
-  af.location  = APPLY_DEX;
-  af.modifier  = 2;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_CON;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "You have given yourself an adrenaline rush!\n\r", ch );
-  act( AT_BLUE, "$n has given $mself an adrenaline rush!", ch, NULL, NULL,
-       TO_ROOM );
-
-  return;
-}
-
 void spell_agitation( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA      * victim      = (CHAR_DATA *) vo;
   static const int dam_each [] = {

@@ -964,16 +964,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "adrenaline control",
-    { L_APP,L_APP,L_APP },
-    spell_adrenaline_control,TAR_CHAR_SELF,POS_STANDING,
-    NULL,6,12,
-    "",
-    "The adrenaline rush wears off.",
-    "$n has calmed down.",FALSE,SLOT(36)
-  },
-
-  {
     "agitation",
     { L_APP,L_APP,L_APP },
     spell_agitation,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

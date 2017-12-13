@@ -2498,7 +2498,6 @@ DECLARE_SPELL_FUN( spell_hallucinate );
 /*
  * Psi spell_functions, in magic.c.
  */
-DECLARE_SPELL_FUN( spell_adrenaline_control );
 DECLARE_SPELL_FUN( spell_agitation );
 DECLARE_SPELL_FUN( spell_aura_sight );
 DECLARE_SPELL_FUN( spell_awe );

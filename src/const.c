@@ -499,14 +499,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "icestorm",
-    { L_APP,L_APP,L_APP },
-    spell_icestorm,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,25,8,
-    "&Cicy blast&X","!ICESTORM!","",FALSE,SLOT(0)
-  },
-
-  {
     "infravision",
     { L_APP,L_APP,L_APP },
     spell_infravision,TAR_CHAR_DEFENSIVE,POS_STANDING,

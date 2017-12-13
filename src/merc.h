@@ -2415,7 +2415,6 @@ DECLARE_SPELL_FUN( spell_giant_strength );
 DECLARE_SPELL_FUN( spell_eternal_intellect );
 DECLARE_SPELL_FUN( spell_goodberry );
 DECLARE_SPELL_FUN( spell_heal );
-DECLARE_SPELL_FUN( spell_icestorm );
 DECLARE_SPELL_FUN( spell_incinerate );
 DECLARE_SPELL_FUN( spell_infravision );
 DECLARE_SPELL_FUN( spell_invis );

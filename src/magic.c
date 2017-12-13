@@ -1404,22 +1404,6 @@ void spell_heal( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-
-void spell_icestorm( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         dam;
-
-  dam = dice( level, 10 );
-  dam = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
-  return;
-}
-
 void spell_infravision( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

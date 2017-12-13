@@ -160,7 +160,6 @@ const struct random_item_affects random_affect_table[ ] = {
   { "hide",             -1,   100,   "of hiding"         },
   { "sneak",            -1,   100,   "of sneaking"       },
   { "scry",             -1,   100,   "of sight"          },
-  { "protect",          -1,   100,   "of protection"     },
   { "fly",              -1,   100,   "of flight"         },
   { "infrared",         -1,   100,   "of infravision"    },
   { "pass-door",        -1,   100,   "of entry"          },

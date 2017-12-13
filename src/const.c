@@ -632,17 +632,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "protection evil",
-    { L_APP,L_APP,L_APP },
-    spell_protection,TAR_CHAR_SELF,POS_STANDING,
-    NULL,5,12,
-    "",
-    "You feel less protected.",
-    "$n looks less protected.",
-    TRUE,SLOT(26)
-  },
-
-  {
     "refresh",
     { L_APP,L_APP,L_APP },
     spell_refresh,TAR_CHAR_DEFENSIVE,POS_STANDING,
@@ -948,15 +937,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,100,12,
     "","Your divine strength fades.",
     "The divine strength surrounding $n fades.",FALSE,SLOT(59)
-  },
-
-  {
-    "protection good",
-    { L_APP,L_APP,L_APP },
-    spell_protection_good,TAR_CHAR_SELF,POS_STANDING,
-    NULL,5,12,
-    "","You feel less protected.",
-    "$n looks less protected.",TRUE,SLOT(62)
   },
 
   {

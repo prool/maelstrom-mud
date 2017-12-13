@@ -1826,30 +1826,6 @@ void spell_portal( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_protection( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_PROTECT ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 24;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_PROTECT;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "You feel protected.\n\r", victim );
-  return;
-}
-
 void spell_refresh( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
 
@@ -2823,9 +2799,7 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
   check_dispel_aff( victim, &found, level, "infravision", AFF_INFRARED );
   check_dispel_aff( victim, &found, level, "invis", AFF_INVISIBLE );
   check_dispel_aff( victim, &found, level, "pass door", AFF_PASS_DOOR );
-  check_dispel_aff( victim, &found, level, "protection evil", AFF_PROTECT );
   check_dispel_aff( victim, &found, level, "sleep", AFF_SLEEP );
-  check_dispel_aff2( victim, &found, level, "protection good", AFF_PROTECTION_GOOD );
   check_dispel_aff2( victim, &found, level, "true sight", AFF_TRUESIGHT );
 
   return found;
@@ -2889,30 +2863,6 @@ void spell_dispel_magic( int sn, int level, CHAR_DATA * ch, void * vo ) {
     send_to_char( AT_RED, "The spell failed.\n\r", ch );
   }
 
-}
-
-void spell_protection_good( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *)vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED2( ch, AFF_PROTECTION_GOOD ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 24;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_PROTECTION_GOOD;
-  affect_to_char2( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "You feel protected.\n\r", victim );
-  return;
 }
 
 void spell_holy_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {

@@ -466,9 +466,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
     case APPLY_COMBAT_MIND:
       psn = skill_lookup( "combat mind" );
       break;
-    case APPLY_PROTECT:
-      psn = skill_lookup( "protection evil" );
-      break;
     case APPLY_SNEAK:
       sn = gsn_sneak;
 
@@ -2167,8 +2164,6 @@ char * affect_loc_name( int location ) {
       return "'invisible'";
     case APPLY_INFRARED:
       return "'infrared'";
-    case APPLY_PROTECT:
-      return "'protection evil'";
     case APPLY_COMBAT_MIND:
       return "'combat mind'";
     case APPLY_SNEAK:
@@ -2275,10 +2270,6 @@ char * affect_bit_name2( int vector ) {
 
   if ( vector & AFF_TRUESIGHT     ) {
     strcat( buf, " truesight" );
-  }
-
-  if ( vector & AFF_PROTECTION_GOOD ) {
-    strcat( buf, " protection_good" );
   }
 
   if ( vector & AFF_RAGE      ) {

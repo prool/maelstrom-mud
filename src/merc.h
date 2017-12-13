@@ -700,7 +700,6 @@ struct  kill_data {
 #define CODER               2
 #define AFF_NOASTRAL        4
 #define AFF_TRUESIGHT       16
-#define AFF_PROTECTION_GOOD 128
 #define AFF_CONFUSED        1024
 #define AFF_FUMBLE          2048
 #define AFF_HALLUCINATING   8192
@@ -2436,7 +2435,6 @@ DECLARE_SPELL_FUN( spell_mass_invis );
 DECLARE_SPELL_FUN( spell_pass_door );
 DECLARE_SPELL_FUN( spell_poison );
 DECLARE_SPELL_FUN( spell_portal );
-DECLARE_SPELL_FUN( spell_protection );
 DECLARE_SPELL_FUN( spell_refresh );
 DECLARE_SPELL_FUN( spell_scry );
 DECLARE_SPELL_FUN( spell_shield );
@@ -2448,7 +2446,6 @@ DECLARE_SPELL_FUN( spell_word_of_recall );
 DECLARE_SPELL_FUN( spell_summon_swarm );
 DECLARE_SPELL_FUN( spell_summon_pack );
 DECLARE_SPELL_FUN( spell_summon_demon );
-DECLARE_SPELL_FUN( spell_protection_good );
 DECLARE_SPELL_FUN( spell_holy_strength );
 DECLARE_SPELL_FUN( spell_summon_angel );
 DECLARE_SPELL_FUN( spell_holy_fires );

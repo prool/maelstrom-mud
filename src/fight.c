@@ -448,11 +448,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       dam -= dam / 4;
     }
 
-    if ( IS_AFFECTED2( victim, AFF_PROTECTION_GOOD )
-         && IS_EVIL( ch ) ) {
-      dam -= dam / 4;
-    }
-
     if ( dam < 0 ) {
       dam = 0;
     }

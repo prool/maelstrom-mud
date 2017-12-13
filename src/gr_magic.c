@@ -298,7 +298,7 @@ void gspell_mass_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
       continue;
     }
 
-    switch ( number_range( 1, 6 ) ) {
+    switch ( number_range( 1, 5 ) ) {
       case 1:
         spell_fireshield( skill_lookup( "fireshield" ), level, vch, vch );
         break;
@@ -313,9 +313,6 @@ void gspell_mass_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
         break;
       case 5:
         spell_vibrate( skill_lookup( "vibrate" ), level, vch, vch );
-        break;
-      case 6:
-        spell_sanctuary( skill_lookup( "sanctuary" ), level, vch, vch );
         break;
     }
   }

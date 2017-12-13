@@ -187,7 +187,6 @@ void do_shieldify( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  SET_BIT( ch->affected_by, AFF_SANCTUARY );
   SET_BIT( ch->affected_by, AFF_INFRARED );
   SET_BIT( ch->affected_by, AFF_VIBRATING );
   SET_BIT( ch->affected_by, AFF_PASS_DOOR );

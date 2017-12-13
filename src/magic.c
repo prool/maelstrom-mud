@@ -3146,27 +3146,6 @@ void spell_remove_curse( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_sanctuary( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_SANCTUARY ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 8 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_SANCTUARY;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_WHITE, "You are surrounded by a white aura.\n\r", victim );
-  act( AT_WHITE, "$n is surrounded by a white aura.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_web( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -4286,27 +4265,6 @@ void spell_ballistic_attack( int sn, int level, CHAR_DATA * ch, void * vo ) {
   act( AT_BLUE, "You chuckle as a stone strikes $N.", ch, NULL, victim,
        TO_CHAR );
   damage( ch, victim, dam, sn );
-  return;
-}
-
-void spell_biofeedback( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_SANCTUARY ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 8 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_SANCTUARY;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_WHITE, "You are surrounded by a white aura.\n\r", victim );
-  act( AT_WHITE, "$n is surrounded by a white aura.", victim, NULL, NULL, TO_ROOM );
   return;
 }
 
@@ -5759,7 +5717,6 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
   check_dispel_aff( victim, &found, level, "invis", AFF_INVISIBLE );
   check_dispel_aff( victim, &found, level, "pass door", AFF_PASS_DOOR );
   check_dispel_aff( victim, &found, level, "protection evil", AFF_PROTECT );
-  check_dispel_aff( victim, &found, level, "sanctuary", AFF_SANCTUARY );
   check_dispel_aff( victim, &found, level, "shockshield", AFF_SHOCKSHIELD );
   check_dispel_aff( victim, &found, level, "sleep", AFF_SLEEP );
   check_dispel_aff2( victim, &found, level, "field of decay", AFF_FIELD );

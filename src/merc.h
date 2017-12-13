@@ -678,7 +678,6 @@ struct  kill_data {
  */
 #define AFF_BLIND         BV00
 #define AFF_INVISIBLE     BV01
-#define AFF_SANCTUARY     BV07
 #define AFF_FAERIE_FIRE   BV08
 #define AFF_INFRARED      BV09
 #define AFF_CURSE         BV10
@@ -724,12 +723,6 @@ struct  kill_data {
 #define AFF_UNHOLYSTRENGTH  1048576
 #define AFF_PLAGUE          2097152
 #define AFF_VACCINATE       4194304
-#define AFF_UNUSED4         8388608
-#define AFF_UNUSED5         16777216
-#define AFF_UNUSED6         33554432
-#define AFF_UNUSED7         67108864
-#define AFF_UNUSED8         134217728
-#define AFF_UNUSED9         268435456
 #define AFF_PLOADED         1073741824
 
 /* damage classes */
@@ -1077,7 +1070,6 @@ struct  kill_data {
 #define PERM_SPELL_BEGIN 100
 
 #define APPLY_INVISIBLE        ( PERM_SPELL_BEGIN + 0 )
-#define APPLY_SANCTUARY        ( PERM_SPELL_BEGIN + 5 )
 #define APPLY_INFRARED         ( PERM_SPELL_BEGIN + 6 )
 #define APPLY_PROTECT          ( PERM_SPELL_BEGIN + 7 )
 #define APPLY_SNEAK            ( PERM_SPELL_BEGIN + 8 )
@@ -2564,7 +2556,6 @@ DECLARE_SPELL_FUN( spell_portal );
 DECLARE_SPELL_FUN( spell_protection );
 DECLARE_SPELL_FUN( spell_refresh );
 DECLARE_SPELL_FUN( spell_remove_curse );
-DECLARE_SPELL_FUN( spell_sanctuary );
 DECLARE_SPELL_FUN( spell_scry );
 DECLARE_SPELL_FUN( spell_shocking_grasp );
 DECLARE_SPELL_FUN( spell_shockshield );
@@ -2634,7 +2625,6 @@ DECLARE_SPELL_FUN( spell_agitation );
 DECLARE_SPELL_FUN( spell_aura_sight );
 DECLARE_SPELL_FUN( spell_awe );
 DECLARE_SPELL_FUN( spell_ballistic_attack );
-DECLARE_SPELL_FUN( spell_biofeedback );
 DECLARE_SPELL_FUN( spell_cell_adjustment );
 DECLARE_SPELL_FUN( spell_chaosfield );
 DECLARE_SPELL_FUN( spell_combat_mind );

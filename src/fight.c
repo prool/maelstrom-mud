@@ -538,10 +538,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       }
     }
 
-    if ( IS_AFFECTED( victim, AFF_SANCTUARY ) ) {
-      dam /= 2;
-    }
-
     if ( IS_AFFECTED2( victim, AFF_GOLDEN ) ) {
       dam /= 4;
     }

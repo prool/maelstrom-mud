@@ -869,16 +869,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "sanctuary",
-    { L_APP,L_APP,L_APP },
-    spell_sanctuary,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,75,12,
-    "",
-    "The white aura around your body fades.",
-    "The white aura around $n's body vanishes.",TRUE,SLOT(27)
-  },
-
-  {
     "scry",
     { L_APP,L_APP,L_APP },
     spell_scry,TAR_CHAR_SELF,POS_STANDING,
@@ -1238,17 +1228,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_ballistic_attack,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     NULL,5,12,
     "ballistic attack","!Ballistic Attack!","",FALSE,SLOT(0)
-  },
-
-  {
-    "biofeedback",
-    { L_APP,L_APP,L_APP },
-    spell_biofeedback,TAR_CHAR_SELF,POS_STANDING,
-    NULL,75,12,
-    "",
-    "Your biofeedback is no longer effective.",
-    "$n's body shivers and relaxes.",
-    FALSE,SLOT(37)
   },
 
   {

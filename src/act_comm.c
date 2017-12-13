@@ -1954,7 +1954,6 @@ void stop_follower( CHAR_DATA * ch ) {
   if ( IS_AFFECTED( ch, AFF_CHARM ) ) {
     REMOVE_BIT( ch->affected_by, AFF_CHARM );
     affect_strip( ch, gsn_charm_person );
-    affect_strip( ch, gsn_domination );
   }
 
   if ( can_see( ch->master, ch ) ) {

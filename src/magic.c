@@ -2983,45 +2983,6 @@ void spell_displacement( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_domination( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( victim == ch ) {
-    send_to_char( C_DEFAULT, "Dominate yourself?  You're weird.\n\r", ch );
-    return;
-  }
-
-  if ( !IS_NPC( victim ) ) {
-    return;
-  }
-
-  if (   IS_AFFECTED( victim, AFF_CHARM )
-         || IS_AFFECTED( ch, AFF_CHARM )
-         || level < victim->level
-         || saves_spell( level, victim ) ) {
-    return;
-  }
-
-  if ( victim->master ) {
-    stop_follower( victim );
-  }
-
-  add_follower( victim, ch );
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 4 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_CHARM;
-  affect_to_char( victim, &af );
-
-  act( AT_BLUE, "Your will dominates $N!", ch, NULL, victim, TO_CHAR );
-  act( AT_BLUE, "Your will is dominated by $n!", ch, NULL, victim, TO_VICT );
-  return;
-}
-
 void spell_flesh_armor( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

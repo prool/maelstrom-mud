@@ -123,7 +123,6 @@ int gsn_escape;
 int gsn_antidote;
 int gsn_haggle;
 int gsn_throw;
-int gsn_domination;
 int gsn_shadow;
 int gsn_lure;
 int gsn_flip;

@@ -1867,7 +1867,6 @@ extern int gsn_turn_evil;
 extern int gsn_bash_door;
 extern int gsn_stun;
 extern int gsn_backstab;
-extern int gsn_backstab_2;
 extern int gsn_palm;
 extern int gsn_dodge;
 extern int gsn_dual;

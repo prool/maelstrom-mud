@@ -79,7 +79,7 @@ int gsn_turn_evil;
 int gsn_bash_door;
 int gsn_stun;
 int gsn_backstab;
-int gsn_backstab_2;
+int gsn_;
 int gsn_palm;
 int gsn_dodge;
 int gsn_dual;

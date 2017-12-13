@@ -832,14 +832,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "double backstab",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_STANDING,
-    &gsn_backstab_2,0,24,
-    "backstab","!Double Backstab!","",FALSE,SLOT(0)
-  },
-
-  {
     "palm",
     { L_APP, 10, L_APP },
     spell_null,TAR_IGNORE,POS_RESTING,

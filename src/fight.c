@@ -2236,18 +2236,9 @@ void do_backstab( CHAR_DATA * ch, char * argument ) {
   check_killer( ch, victim );
   WAIT_STATE( ch, skill_table[ gsn_backstab ].beats );
 
-  if ( !IS_AWAKE( victim )
-       || IS_NPC( ch )
-       || number_percent() < ch->pcdata->learned[ gsn_backstab ] ) {
+  if ( !IS_AWAKE( victim ) || IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_backstab ] ) {
     multi_hit( ch, victim, gsn_backstab );
     update_skpell( ch, gsn_backstab );
-
-    if ( ( obj = get_eq_char( ch, WEAR_WIELD_2 ) )
-         && ( !IS_NPC( ch ) && ch->pcdata->learned[ gsn_backstab_2 ] > 0 )
-         && ( obj->value[ 3 ] == 11 || obj->value[ 3 ] == 2 ) ) {
-      multi_hit( ch, victim, gsn_backstab );
-      update_skpell( ch, gsn_backstab_2 );
-    }
   } else {
     damage( ch, victim, 0, gsn_backstab );
   }

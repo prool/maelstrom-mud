@@ -428,10 +428,7 @@ bool spec_thief( CHAR_DATA * ch ) {
 
     victim = ch->fighting;
 
-    switch ( number_range( 0, 2 ) ) {
-      case 0:
-        do_circle( ch, "" );
-        return TRUE;
+    switch ( number_range( 1, 2 ) ) {
       case 1:
         do_gouge( ch, "" );
         return TRUE;

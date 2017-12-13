@@ -530,14 +530,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "refresh",
-    { L_APP,L_APP,L_APP },
-    spell_refresh,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,12,18,
-    "refresh","!Refresh!","",FALSE,SLOT(0)
-  },
-
-  {
     "scry",
     { L_APP,L_APP,L_APP },
     spell_scry,TAR_CHAR_SELF,POS_STANDING,
@@ -585,30 +577,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_word_of_recall,TAR_CHAR_SELF,POS_RESTING,
     NULL,5,12,
     "","!Word of Recall!","",FALSE,SLOT(0)
-  },
-
-  {
-    "summon swarm",
-    { L_APP,L_APP,L_APP },
-    spell_summon_swarm,TAR_CHAR_SELF,POS_FIGHTING,
-    NULL,50,12,
-    "","!Summon Insect!","",FALSE,SLOT(0)
-  },
-
-  {
-    "summon pack",
-    { L_APP,L_APP,L_APP },
-    spell_summon_pack,TAR_CHAR_SELF,POS_FIGHTING,
-    NULL,50,12,
-    "","!Summon Pack!","",FALSE,SLOT(0)
-  },
-
-  {
-    "summon demon",
-    { L_APP,L_APP,L_APP },
-    spell_summon_demon,TAR_CHAR_SELF,POS_FIGHTING,
-    NULL,50,12,
-    "","!Summon Demon!","",FALSE,SLOT(0)
   },
 
   {
@@ -794,14 +762,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "summon angel",
-    { L_APP,L_APP,L_APP },
-    spell_summon_angel,TAR_CHAR_SELF,POS_FIGHTING,
-    NULL,100,12,
-    "","!Summon Angel!","",FALSE,SLOT(0)
-  },
-
-  {
     "true sight",
     { L_APP,L_APP,L_APP },
     spell_truesight,TAR_CHAR_SELF,POS_STANDING,
@@ -867,38 +827,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,50,24,
     "","You feel more sure of hand.",
     "$n looks more confident.",TRUE,SLOT(73)
-  },
-
-  {
-    "circle",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_circle,0,12,
-    "sneak attack","!CIRCLE!","",FALSE,SLOT(0)
-  },
-
-  {
-    "summon shadow",
-    { L_APP,L_APP,L_APP },
-    spell_summon_shadow,TAR_CHAR_SELF,POS_FIGHTING,
-    NULL,100,12,
-    "","!Summon Shadow!","",FALSE,SLOT(0)
-  },
-
-  {
-    "summon beast",
-    { L_APP,L_APP,L_APP },
-    spell_summon_beast,TAR_CHAR_SELF,POS_FIGHTING,
-    NULL,100,12,
-    "","!Summon Beast!","",FALSE,SLOT(0)
-  },
-
-  {
-    "summon treant",
-    { L_APP,L_APP,L_APP },
-    spell_summon_trent,TAR_CHAR_SELF,POS_FIGHTING,
-    NULL,100,12,
-    "","!Summon Trent!","",FALSE,SLOT(0)
   },
 
   {

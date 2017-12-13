@@ -371,7 +371,6 @@ struct cmd_type cmd_table [] = {
   { "switch",          do_switch,            POS_DEAD,     L_DIR, LOG_ALWAYS, TRUE    },
   { "return",          do_return,            POS_DEAD,     L_DIR, LOG_NORMAL, TRUE    },
   { "gouge",           do_gouge,             POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "circle",          do_circle,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "transport",       do_transport,         POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "aedit",           do_aedit,             POS_DEAD,     L_IMP, LOG_BUILD,  TRUE    },
   { "cedit",           do_cedit,             POS_DEAD,     L_CON, LOG_BUILD,  TRUE    },

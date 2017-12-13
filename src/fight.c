@@ -2408,54 +2408,6 @@ void do_gouge( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_circle( CHAR_DATA * ch, char * argument ) {
-  OBJ_DATA  * obj;
-  CHAR_DATA * victim;
-  char        arg[ MAX_INPUT_LENGTH ];
-
-  if ( !IS_NPC( ch ) && !can_use_skpell( ch, gsn_circle ) ) {
-    send_to_char( C_DEFAULT, "You'd better leave the dirty tricks to rogues.\n\r", ch );
-    return;
-  }
-
-  if ( !ch->fighting ) {
-    send_to_char( C_DEFAULT, "You aren't fighting anyone.\n\r", ch );
-    return;
-  }
-
-  if ( !( obj = get_eq_char( ch, WEAR_WIELD ) ) || ( obj->value[ 3 ] != 11 && obj->value[ 3 ] != 2 ) ) {
-    send_to_char( C_DEFAULT, "You need to wield a piercing or stabbing weapon.\n\r", ch );
-    return;
-  }
-
-  if ( !check_blind( ch ) ) {
-    return;
-  }
-
-  one_argument( argument, arg );
-
-  victim = ch->fighting;
-
-  if ( arg[ 0 ] != '\0' ) {
-    if ( !( victim = get_char_room( ch, arg ) ) ) {
-      send_to_char( C_DEFAULT, "They aren't here.\n\r", ch );
-      return;
-    }
-  }
-
-  WAIT_STATE( ch, skill_table[ gsn_circle ].beats );
-
-  if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_circle ] ) {
-    update_skpell( ch, gsn_circle );
-    damage( ch, victim, number_range( 400, ch->level * 9 ), gsn_circle );
-    update_pos( victim );
-  } else {
-    damage( ch, victim, 0, gsn_circle );
-  }
-
-  return;
-}
-
 void do_kick( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim;
   char        arg[ MAX_INPUT_LENGTH ];

@@ -89,7 +89,6 @@ int gsn_steal;
 int gsn_disarm;
 int gsn_poison_weapon;
 int gsn_kick;
-int gsn_circle;
 int gsn_parry;
 int gsn_rescue;
 int gsn_patch;

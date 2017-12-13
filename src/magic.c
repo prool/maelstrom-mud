@@ -1860,23 +1860,6 @@ void spell_flame_blade( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_chaos_blade( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * obj = (OBJ_DATA *) vo;
-
-  if ( obj->item_type != ITEM_WEAPON
-       || IS_OBJ_STAT( obj, ITEM_MAGIC )
-       || IS_OBJ_STAT( obj, ITEM_CHAOS )
-       || ( obj->affected && !IS_OBJ_STAT( obj, ITEM_DWARVEN ) ) ) {
-    send_to_char( AT_YELLOW, "That item cannot be enchanted.\n\r", ch );
-    return;
-  }
-
-  SET_BIT( obj->extra_flags, ITEM_MAGIC );
-  SET_BIT( obj->extra_flags, ITEM_CHAOS );
-  send_to_char( AT_YELLOW, "Ok.\n\r", ch );
-  return;
-}
-
 void spell_frost_blade( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA * obj = (OBJ_DATA *) vo;
 
@@ -4003,27 +3986,6 @@ void spell_cell_adjustment( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  return;
-}
-
-void spell_chaosfield( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_CHAOS ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 6 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_CHAOS;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_YELLOW, "You call forth an instance of chaos from the order around you.\n\r", victim );
-  act( AT_YELLOW, "$n's body is veiled in an instance or pure chaos.", victim, NULL, NULL, TO_ROOM );
   return;
 }
 

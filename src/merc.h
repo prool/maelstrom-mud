@@ -693,7 +693,6 @@ struct  kill_data {
 #define AFF_SUMMONED      BV22
 #define AFF_MUTE          BV23
 #define AFF_PEACE         BV24
-#define AFF_CHAOS         BV28
 #define AFF_SCRY          BV29
 #define AFF_ANTI_FLEE     BV30
 #define AFF_DISJUNCTION   BV31
@@ -981,7 +980,6 @@ struct  kill_data {
 #define ITEM_FREE_FLAG_9  8388608
 #define ITEM_FREE_FLAG_10 16777216
 #define ITEM_FLAME        33554432
-#define ITEM_CHAOS        67108864
 #define ITEM_NO_LOCATE    ( cc )
 #define ITEM_NO_DAMAGE    ( dd )
 #define ITEM_PATCHED      ( ee )
@@ -1065,7 +1063,6 @@ struct  kill_data {
 #define APPLY_HIDE             ( PERM_SPELL_BEGIN + 9 )
 #define APPLY_FLYING           ( PERM_SPELL_BEGIN + 10 )
 #define APPLY_PASS_DOOR        ( PERM_SPELL_BEGIN + 11 )
-#define APPLY_CHAOS            ( PERM_SPELL_BEGIN + 16 )
 #define APPLY_SCRY             ( PERM_SPELL_BEGIN + 17 )
 #define APPLY_POISON           ( PERM_SPELL_BEGIN + 20 )
 #define APPLY_BLESS            ( PERM_SPELL_BEGIN + 21 )
@@ -2561,7 +2558,6 @@ DECLARE_SPELL_FUN( spell_holy_fires );
 DECLARE_SPELL_FUN( spell_truesight );
 DECLARE_SPELL_FUN( spell_bladebarrier );
 DECLARE_SPELL_FUN( spell_flame_blade );
-DECLARE_SPELL_FUN( spell_chaos_blade );
 DECLARE_SPELL_FUN( spell_frost_blade );
 DECLARE_SPELL_FUN( spell_web );
 DECLARE_SPELL_FUN( spell_entangle );
@@ -2593,7 +2589,6 @@ DECLARE_SPELL_FUN( spell_aura_sight );
 DECLARE_SPELL_FUN( spell_awe );
 DECLARE_SPELL_FUN( spell_ballistic_attack );
 DECLARE_SPELL_FUN( spell_cell_adjustment );
-DECLARE_SPELL_FUN( spell_chaosfield );
 DECLARE_SPELL_FUN( spell_combat_mind );
 DECLARE_SPELL_FUN( spell_complete_healing );
 DECLARE_SPELL_FUN( spell_control_flames );

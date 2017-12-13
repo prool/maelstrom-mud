@@ -1146,16 +1146,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "chaos field",
-    { L_APP,L_APP,L_APP },
-    spell_chaosfield,TAR_CHAR_SELF,POS_STANDING,
-    NULL,150,12,
-    "",
-    "The chaos flees from the order that surrounds you.",
-    "The chaos flees from the order around $n.",FALSE,SLOT(39)
-  },
-
-  {
     "combat mind",
     { L_APP,L_APP,L_APP },
     spell_combat_mind,TAR_CHAR_DEFENSIVE,POS_STANDING,
@@ -1610,14 +1600,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_flame_blade,TAR_OBJ_INV,POS_STANDING,
     NULL,100,24,
     "","!Flame Blade!","",FALSE,SLOT(0)
-  },
-
-  {
-    "chaos blade",
-    { L_APP,L_APP,L_APP },
-    spell_chaos_blade,TAR_OBJ_INV,POS_STANDING,
-    NULL,100,24,
-    "","!Chaos Blade!","",FALSE,SLOT(0)
   },
 
   {

@@ -41,7 +41,6 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim );
 bool is_bare_hand( CHAR_DATA * ch );
 bool is_wielding_poisoned( CHAR_DATA * ch );
 bool is_wielding_flaming( CHAR_DATA * ch );
-bool is_wielding_chaos( CHAR_DATA * ch );
 bool is_wielding_icy( CHAR_DATA * ch );
 void make_corpse( CHAR_DATA * ch );
 void one_hit( CHAR_DATA * ch, CHAR_DATA * victi, int dt, bool dual );
@@ -292,16 +291,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
    * Hit.
    * Calc damage.
    */
-  if ( IS_AFFECTED( victim, AFF_CHAOS ) ) {
-    if ( number_percent() < 50 ) {
-      spell_energy_drain( skill_lookup( "energy drain" ), 30, victim, ch );
-    }
-  }
-
-  if ( !victim || victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
   if ( IS_AFFECTED( victim, AFF_VIBRATING ) ) {
     if ( ( number_percent() < 50 )
          || ( number_percent() < 17 ) ) {
@@ -508,11 +497,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       }
     }
 
-    if ( IS_AFFECTED( victim, AFF_CHAOS )
-         && !( dt == gsn_backstab && chance( number_range( 5, 10 ) ) ) ) {
-      dam -= dam / 4;
-    }
-
     if ( IS_AFFECTED( victim, AFF_VIBRATING )
          && !( dt == gsn_backstab && chance( number_range( 5, 10 ) ) ) ) {
       dam -= dam / 4;
@@ -624,20 +608,6 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
        && is_wielding_icy( ch )
        && number_percent() < 20 ) {
     spell_icestorm( skill_lookup( "icestorm" ), 30, ch, victim );
-  }
-
-  if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
-  if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
-    return;
-  }
-
-  if ( dam > 0 && dt > TYPE_HIT
-       && is_wielding_chaos( ch )
-       && number_percent() < 20 ) {
-    spell_energy_drain( skill_lookup( "energy drain" ), 45, ch, victim );
   }
 
   if ( victim->position == POS_DEAD || ch->in_room != victim->in_room ) {
@@ -1253,18 +1223,6 @@ bool is_wielding_icy( CHAR_DATA * ch ) {
 
   if ( ( obj = get_eq_char( ch, WEAR_WIELD ) )
        && IS_SET( obj->extra_flags, ITEM_ICY ) ) {
-    return TRUE;
-  }
-
-  return FALSE;
-
-}
-
-bool is_wielding_chaos( CHAR_DATA * ch ) {
-  OBJ_DATA * obj;
-
-  if ( ( obj = get_eq_char( ch, WEAR_WIELD ) )
-       && IS_SET( obj->extra_flags, ITEM_CHAOS ) ) {
     return TRUE;
   }
 

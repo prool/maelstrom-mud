@@ -315,7 +315,6 @@ const struct flag_type extra_flags[] = {
   { "nolocate",     ITEM_NO_LOCATE,    TRUE  },
   { "nodamage",     ITEM_NO_DAMAGE,    TRUE  },
   { "flame",        ITEM_FLAME,        TRUE  },
-  { "chaos",        ITEM_CHAOS,        TRUE  },
   { "patched",      ITEM_PATCHED,      TRUE  },
   { "",             0,                 0     }
 };
@@ -387,7 +386,6 @@ const struct flag_type act_flags[] = {
 const struct flag_type affect_flags[] = {
   { "blind",         AFF_BLIND,         TRUE  },
   { "invisible",     AFF_INVISIBLE,     TRUE  },
-  { "chaos-field",   AFF_CHAOS,         TRUE  },
   { "vibrating",     AFF_VIBRATING,     TRUE  },
   { "infrared",      AFF_INFRARED,      TRUE  },
   { "flaming",       AFF_FLAMING,       FALSE },

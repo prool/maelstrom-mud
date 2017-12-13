@@ -190,7 +190,6 @@ void do_shieldify( CHAR_DATA * ch, char * argument ) {
   SET_BIT( ch->affected_by, AFF_INFRARED );
   SET_BIT( ch->affected_by, AFF_VIBRATING );
   SET_BIT( ch->affected_by, AFF_PASS_DOOR );
-  SET_BIT( ch->affected_by, AFF_CHAOS );
   SET_BIT( ch->affected_by, AFF_SCRY );
   SET_BIT( ch->affected_by2, AFF_BLADE );
   send_to_char( C_DEFAULT, "You call forth many shields to surround you!\n\r", ch );
@@ -4691,10 +4690,6 @@ void do_oset( CHAR_DATA * ch, char * argument ) {
 
     if ( !str_cmp( arg3, "flame" ) || !str_cmp( arg3, "f" ) ) {
       value = ITEM_FLAME;
-    }
-
-    if ( !str_cmp( arg3, "chaos" ) || !str_cmp( arg3, "c" ) ) {
-      value = ITEM_CHAOS;
     }
 
     if ( !str_cmp( arg3, "nolocate" ) || !str_cmp( arg3, "nl" ) ) {

@@ -99,10 +99,6 @@ char * format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort ) {
     strcat( buf, "&r(Burning)&w " );
   }
 
-  if ( IS_OBJ_STAT( obj, ITEM_CHAOS ) ) {
-    strcat( buf, "&Y(Chaotic)&w " );
-  }
-
   if ( IS_OBJ_STAT( obj, ITEM_ICY ) ) {
     strcat( buf, "&B(Frosty)&w " );
   }
@@ -505,15 +501,6 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     strcat( buf2, "&z's body is enveloped in a black haze.\n\r" );
     buf2[ 4 ] = UPPER( buf2[ 4 ] );
     send_to_char( AT_DGREY, buf2, ch );
-    buf2[ 0 ] = '\0';
-  }
-
-  if ( IS_AFFECTED( victim, AFF_CHAOS ) ) {
-    strcat( buf2, "    " );
-    strcat( buf2, visible_name( victim, ch, FALSE ) );
-    strcat( buf2, "&Y's body shimmers randomly with raw chaos.\n\r" );
-    buf2[ 4 ] = UPPER( buf2[ 4 ] );
-    send_to_char( AT_YELLOW, buf2, ch );
     buf2[ 0 ] = '\0';
   }
 

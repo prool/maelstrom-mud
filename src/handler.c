@@ -536,10 +536,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
     case APPLY_PASS_DOOR:
       psn = skill_lookup( "pass door" );
       break;
-    case APPLY_CHAOS:
-      psn = skill_lookup( "chaos field" );
-      strcpy( buf, "The chaos around $n fades away." );
-      break;
     case APPLY_SCRY:
       psn = skill_lookup( "scry" );
       break;
@@ -2236,8 +2232,6 @@ char * affect_loc_name( int location ) {
       return "'fly'";
     case APPLY_PASS_DOOR:
       return "'pass door'";
-    case APPLY_CHAOS:
-      return "'chaos field'";
     case APPLY_SCRY:
       return "'scry'";
     case APPLY_BLESS:
@@ -2267,10 +2261,6 @@ char * affect_bit_name( int vector ) {
 
   if ( vector & AFF_INVISIBLE     ) {
     strcat( buf, " invisible" );
-  }
-
-  if ( vector & AFF_CHAOS         ) {
-    strcat( buf, " chaos_field" );
   }
 
   if ( vector & AFF_INFRARED      ) {
@@ -2462,10 +2452,6 @@ char * extra_bit_name( int extra_flags ) {
 
   if ( extra_flags & ITEM_FLAME        ) {
     strcat( buf, " burning" );
-  }
-
-  if ( extra_flags & ITEM_CHAOS        ) {
-    strcat( buf, " chaotic" );
   }
 
   if ( extra_flags & ITEM_NO_DAMAGE    ) {

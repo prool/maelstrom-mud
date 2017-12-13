@@ -1055,15 +1055,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "share strength",
-    { L_APP,L_APP,L_APP },
-    spell_share_strength,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,8,12,
-    "","You no longer share strength with another.",
-    "$n stops sharing $m strength.",FALSE,SLOT(55)
-  },
-
-  {
     "thought shield",
     { L_APP,L_APP,L_APP },
     spell_thought_shield,TAR_CHAR_SELF,POS_STANDING,

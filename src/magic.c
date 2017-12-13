@@ -3183,42 +3183,6 @@ void spell_mind_thrust( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_share_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( victim == ch ) {
-    send_to_char( AT_BLUE, "You can't share strength with yourself.\n\r", ch );
-    return;
-  }
-
-  if ( is_affected( victim, sn ) ) {
-    act( AT_BLUE, "$N already shares someone's strength.", ch, NULL, victim,
-         TO_CHAR );
-    return;
-  }
-
-  if ( get_curr_str( ch ) <= 5 ) {
-    send_to_char( AT_BLUE, "You are too weak to share your strength.\n\r", ch );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_STR;
-  af.modifier  =  1 + ( level >= 20 ) + ( level >= 30 );
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.modifier = -1 - ( level >= 20 ) - ( level >= 30 );
-  affect_to_char( ch, &af );
-
-  act( AT_BLUE, "You share your strength with $N.", ch, NULL, victim, TO_CHAR );
-  act( AT_BLUE, "$n shares $s strength with you.", ch, NULL, victim, TO_VICT );
-  return;
-}
-
 void spell_thought_shield( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

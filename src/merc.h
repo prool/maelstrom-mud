@@ -2498,7 +2498,6 @@ DECLARE_SPELL_FUN( spell_intellect_fortress );
 DECLARE_SPELL_FUN( spell_lend_health );
 DECLARE_SPELL_FUN( spell_levitation );
 DECLARE_SPELL_FUN( spell_mind_thrust );
-DECLARE_SPELL_FUN( spell_share_strength );
 DECLARE_SPELL_FUN( spell_thought_shield );
 DECLARE_SPELL_FUN( spell_ultrablast );
 DECLARE_SPELL_FUN( gspell_flamesphere );

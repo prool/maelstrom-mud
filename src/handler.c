@@ -2434,10 +2434,6 @@ char * extra_bit_name( int extra_flags ) {
     strcat( buf, " poisoned" );
   }
 
-  if ( extra_flags & ITEM_DWARVEN  ) {
-    strcat( buf, " dwarven" );
-  }
-
   if ( extra_flags & ITEM_FLAME        ) {
     strcat( buf, " burning" );
   }

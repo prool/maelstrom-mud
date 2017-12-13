@@ -966,7 +966,6 @@ struct  kill_data {
 #define ITEM_NOREMOVE     4096
 #define ITEM_INVENTORY    8192
 #define ITEM_POISONED     16384
-#define ITEM_DWARVEN      32768
 #define ITEM_FLAME        33554432
 #define ITEM_NO_LOCATE    ( cc )
 #define ITEM_NO_DAMAGE    ( dd )

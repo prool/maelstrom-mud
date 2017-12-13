@@ -1789,9 +1789,7 @@ void spell_enchant_weapon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA    * obj = (OBJ_DATA *) vo;
   AFFECT_DATA * paf;
 
-  if ( obj->item_type != ITEM_WEAPON
-       || IS_OBJ_STAT( obj, ITEM_MAGIC )
-       || ( obj->affected && !IS_OBJ_STAT( obj, ITEM_DWARVEN ) ) ) {
+  if ( obj->item_type != ITEM_WEAPON || IS_OBJ_STAT( obj, ITEM_MAGIC ) ) {
     send_to_char( AT_BLUE, "That item cannot be enchanted.\n\r", ch );
     return;
   }
@@ -1846,10 +1844,7 @@ void spell_enchant_weapon( int sn, int level, CHAR_DATA * ch, void * vo ) {
 void spell_flame_blade( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA * obj = (OBJ_DATA *) vo;
 
-  if ( obj->item_type != ITEM_WEAPON
-       || IS_OBJ_STAT( obj, ITEM_MAGIC )
-       || IS_OBJ_STAT( obj, ITEM_FLAME )
-       || ( obj->affected && !IS_OBJ_STAT( obj, ITEM_DWARVEN ) ) ) {
+  if ( obj->item_type != ITEM_WEAPON || IS_OBJ_STAT( obj, ITEM_MAGIC ) || IS_OBJ_STAT( obj, ITEM_FLAME ) ) {
     send_to_char( AT_RED, "That item cannot be enchanted.\n\r", ch );
     return;
   }
@@ -1863,10 +1858,7 @@ void spell_flame_blade( int sn, int level, CHAR_DATA * ch, void * vo ) {
 void spell_frost_blade( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA * obj = (OBJ_DATA *) vo;
 
-  if ( obj->item_type != ITEM_WEAPON
-       || IS_OBJ_STAT( obj, ITEM_MAGIC )
-       || IS_OBJ_STAT( obj, ITEM_ICY )
-       || ( obj->affected && !IS_OBJ_STAT( obj, ITEM_DWARVEN ) ) ) {
+  if ( obj->item_type != ITEM_WEAPON || IS_OBJ_STAT( obj, ITEM_MAGIC ) || IS_OBJ_STAT( obj, ITEM_ICY ) ) {
     send_to_char( AT_LBLUE, "That item cannot be enchanted.\n\r", ch );
     return;
   }
@@ -1881,9 +1873,7 @@ void spell_holysword( int sn, int level, CHAR_DATA * ch, void * vo ) {
   OBJ_DATA    * obj = (OBJ_DATA *) vo;
   AFFECT_DATA * paf;
 
-  if ( obj->item_type != ITEM_WEAPON
-       || IS_OBJ_STAT( obj, ITEM_MAGIC )
-       || ( obj->affected && !IS_OBJ_STAT( obj, ITEM_DWARVEN ) ) ) {
+  if ( obj->item_type != ITEM_WEAPON || IS_OBJ_STAT( obj, ITEM_MAGIC ) ) {
     send_to_char( AT_BLUE, "That item cannot be consecrated.\n\r", ch );
     return;
   }

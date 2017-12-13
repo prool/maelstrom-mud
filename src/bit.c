@@ -308,7 +308,6 @@ const struct flag_type extra_flags[] = {
   { "noremove",     ITEM_NOREMOVE,     TRUE  },
   { "inventory",    ITEM_INVENTORY,    TRUE  },
   { "poisoned",     ITEM_POISONED,     TRUE  },
-  { "dwarven",      ITEM_DWARVEN,      TRUE  },
   { "nolocate",     ITEM_NO_LOCATE,    TRUE  },
   { "nodamage",     ITEM_NO_DAMAGE,    TRUE  },
   { "flame",        ITEM_FLAME,        TRUE  },

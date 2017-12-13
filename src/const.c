@@ -463,16 +463,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "eternal intellect",
-    { L_APP,L_APP,L_APP },
-    spell_eternal_intellect,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,20,12,
-    "",
-    "You mind surges with a superior prowess.",
-    "$n looks a bit duller.",TRUE,SLOT(16)
-  },
-
-  {
     "heal",
     { L_APP,L_APP,L_APP },
     spell_heal,TAR_CHAR_DEFENSIVE,POS_FIGHTING,

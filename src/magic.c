@@ -1336,30 +1336,6 @@ void spell_giant_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_eternal_intellect( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level / 2;
-  af.location  = APPLY_INT;
-  af.modifier  = 1 + ( level >= 18 ) + ( level >= 25 );
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "You feel an unsurpased intelligence.\n\r", victim );
-  return;
-}
-
 void spell_heal( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   int         heal;

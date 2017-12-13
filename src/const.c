@@ -530,15 +530,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "curse",
-    { L_APP,L_APP,L_APP },
-    spell_curse,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_curse,20,12,
-    "curse","The curse wears off.","$n becomes pure again.",
-    TRUE,SLOT(7)
-  },
-
-  {
     "dispel evil",
     { L_APP,L_APP,L_APP },
     spell_dispel_evil,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -839,14 +830,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_refresh,TAR_CHAR_DEFENSIVE,POS_STANDING,
     NULL,12,18,
     "refresh","!Refresh!","",FALSE,SLOT(0)
-  },
-
-  {
-    "remove curse",
-    { L_APP,L_APP,L_APP },
-    spell_remove_curse,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,5,12,
-    "","!Remove Curse!","",FALSE,SLOT(0)
   },
 
   {
@@ -1580,15 +1563,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "curse of nature",
-    { L_APP,L_APP,L_APP },
-    spell_curse_of_nature,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,100,12,
-    "","You feel in sync with nature once again.",
-    "$n feels in sync with nature once again.",TRUE,SLOT(60)
-  },
-
-  {
     "protection good",
     { L_APP,L_APP,L_APP },
     spell_protection_good,TAR_CHAR_SELF,POS_STANDING,
@@ -1926,15 +1900,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     &gsn_multiburst,0,8,
     "","!Multiburst!","",FALSE,SLOT(0)
-  },
-  /* Necromancer spells by Hannibal. */
-  {
-    "hex",
-    { L_APP,L_APP,L_APP },
-    spell_hex,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,75,12,
-    "","The hex placed upon your soul wears off.",
-    "The hex placed upon $n's soul vanishes.",TRUE,SLOT(78)
   },
   {
     "dark ritual",

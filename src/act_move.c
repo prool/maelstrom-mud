@@ -1107,8 +1107,7 @@ void do_recall( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_NO_RECALL )
-       || IS_AFFECTED( ch, AFF_CURSE ) ) {
+  if ( IS_SET( ch->in_room->room_flags, ROOM_NO_RECALL ) ) {
     act( C_DEFAULT, "$T has forsaken you.", ch, NULL, name, TO_CHAR );
     return;
   }

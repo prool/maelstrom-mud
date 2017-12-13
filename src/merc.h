@@ -679,7 +679,6 @@ struct  kill_data {
 #define AFF_BLIND         BV00
 #define AFF_INVISIBLE     BV01
 #define AFF_INFRARED      BV09
-#define AFF_CURSE         BV10
 #define AFF_FLAMING       BV11
 #define AFF_POISON        BV12
 #define AFF_PROTECT       BV13
@@ -867,7 +866,6 @@ struct  kill_data {
 
 // gate flags
 #define GATE_NORMAL_EXIT ( A )
-#define GATE_NOCURSE     ( B )
 #define GATE_GOWITH      ( C )
 #define GATE_BUGGY       ( D )
 #define GATE_RANDOM      ( E )
@@ -1947,7 +1945,6 @@ extern int gsn_alchemy;
 extern int gsn_scribe;
 extern int gsn_blindness;
 extern int gsn_charm_person;
-extern int gsn_curse;
 extern int gsn_invis;
 extern int gsn_mass_invis;
 extern int gsn_poison;
@@ -2514,7 +2511,6 @@ DECLARE_SPELL_FUN( spell_cure_critical );
 DECLARE_SPELL_FUN( spell_cure_light );
 DECLARE_SPELL_FUN( spell_cure_poison );
 DECLARE_SPELL_FUN( spell_cure_serious );
-DECLARE_SPELL_FUN( spell_curse );
 DECLARE_SPELL_FUN( spell_dispel_evil );
 DECLARE_SPELL_FUN( spell_dispel_magic );
 DECLARE_SPELL_FUN( spell_draw_strength );
@@ -2551,7 +2547,6 @@ DECLARE_SPELL_FUN( spell_poison );
 DECLARE_SPELL_FUN( spell_portal );
 DECLARE_SPELL_FUN( spell_protection );
 DECLARE_SPELL_FUN( spell_refresh );
-DECLARE_SPELL_FUN( spell_remove_curse );
 DECLARE_SPELL_FUN( spell_scry );
 DECLARE_SPELL_FUN( spell_shocking_grasp );
 DECLARE_SPELL_FUN( spell_shockshield );
@@ -2580,7 +2575,6 @@ DECLARE_SPELL_FUN( spell_summon_demon );
 DECLARE_SPELL_FUN( spell_cancellation );
 DECLARE_SPELL_FUN( spell_protection_good );
 DECLARE_SPELL_FUN( spell_holy_strength );
-DECLARE_SPELL_FUN( spell_curse_of_nature );
 DECLARE_SPELL_FUN( spell_holysword );
 DECLARE_SPELL_FUN( spell_summon_angel );
 DECLARE_SPELL_FUN( spell_holy_fires );
@@ -2654,7 +2648,6 @@ DECLARE_SPELL_FUN( spell_thought_shield );
 DECLARE_SPELL_FUN( spell_ultrablast );
 DECLARE_SPELL_FUN( gspell_flamesphere );
 DECLARE_SPELL_FUN( gspell_mass_shield );
-DECLARE_SPELL_FUN( spell_hex );
 DECLARE_SPELL_FUN( spell_dark_ritual );
 DECLARE_SPELL_FUN( spell_field_of_decay );
 DECLARE_SPELL_FUN( spell_stench_of_decay );

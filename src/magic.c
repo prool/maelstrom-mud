@@ -1581,35 +1581,6 @@ void spell_cure_serious( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_curse( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_CURSE ) || saves_spell( level, victim ) ) {
-    send_to_char( AT_RED, "You have failed.\n\r", ch );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 4 * level;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = -1;
-  af.bitvector = AFF_CURSE;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_SAVING_SPELL;
-  af.modifier = 1;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_RED, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_RED, "You feel unclean.\n\r", victim );
-  return;
-}
-
 void spell_truesight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -3036,57 +3007,6 @@ void spell_refresh( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-/* Expulsion of ITEM_NOREMOVE addition by Katrina */
-void spell_remove_curse( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA  * obj;
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         iWear, SkNum;
-  int         yesno = FALSE;
-
-  for ( iWear = 0; iWear < MAX_WEAR; iWear++ ) {
-    if ( !( obj = get_eq_char( victim, iWear ) ) ) {
-      continue;
-    }
-
-    if ( IS_SET( obj->extra_flags, ITEM_NODROP ) ) {
-      REMOVE_BIT( obj->extra_flags, ITEM_NODROP );
-      send_to_char( AT_BLUE, "You feel a burden relieved.\n\r", ch );
-      yesno = TRUE;
-    }
-
-    if ( IS_SET( obj->extra_flags, ITEM_NOREMOVE ) ) {
-      unequip_char( victim, obj );
-      obj_from_char( obj );
-      obj_to_room( obj, victim->in_room );
-      act( AT_BLUE, "You toss $p to the ground.", victim, obj, NULL, TO_CHAR );
-      act( AT_BLUE, "$n tosses $p to the ground.", victim, obj, NULL, TO_ROOM );
-      yesno = TRUE;
-    }
-  }
-
-  SkNum = skill_lookup( "incinerate" );
-
-  if ( is_affected( victim, SkNum ) ) {
-    affect_strip( victim, SkNum );
-    send_to_char( AT_BLUE, "Your body has been extinguished.\n\r", ch );
-    yesno = TRUE;
-  }
-
-  SkNum = skill_lookup( "curse" );
-
-  if ( is_affected( victim, SkNum ) ) {
-    affect_strip( victim, SkNum );
-    send_to_char( AT_BLUE, "You feel better.\n\r", victim );
-    yesno = TRUE;
-  }
-
-  if ( ch != victim && yesno ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  return;
-}
-
 void spell_web( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -4217,13 +4137,6 @@ void spell_cell_adjustment( int sn, int level, CHAR_DATA * ch, void * vo ) {
     affect_strip( victim, gsn_poison );
     send_to_char( AT_BLUE, "A warm feeling runs through your body.\n\r", victim );
     act( AT_BLUE, "$N looks better.", ch, NULL, victim, TO_NOTVICT );
-  }
-
-  SkNum = skill_lookup( "curse" );
-
-  if ( is_affected( victim, SkNum ) ) {
-    affect_strip( victim, SkNum );
-    send_to_char( AT_BLUE, "You feel better.\n\r", victim );
   }
 
   send_to_char( AT_BLUE, "Ok.\n\r", ch );
@@ -5648,7 +5561,6 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
 
   check_dispel_aff( victim, &found, level, "blindness", AFF_BLIND );
   check_dispel_aff( victim, &found, level, "charm person", AFF_CHARM );
-  check_dispel_aff( victim, &found, level, "curse", AFF_CURSE );
   check_dispel_aff( victim, &found, level, "fireshield", AFF_FIRESHIELD );
   check_dispel_aff( victim, &found, level, "flaming", AFF_FLAMING );
   check_dispel_aff( victim, &found, level, "fly", AFF_FLYING );
@@ -5888,39 +5800,6 @@ void spell_holy_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_curse_of_nature( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    send_to_char( AT_RED, "You have failed.\n\r", ch );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 6 + level;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = 0 - level * 2 / 3;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_DAMROLL;
-  af.modifier = 0 - level * 2 / 3;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_STR;
-  af.modifier = 0 - level / 30;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_GREEN, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_GREEN, "The wrath of nature wrecks you.\n\r", victim );
-  return;
-}
-
 void spell_healing_hands( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim  = (CHAR_DATA *)vo;
   int         divisor = 1;
@@ -5957,53 +5836,6 @@ void spell_healing_hands( int sn, int level, CHAR_DATA * ch, void * vo ) {
   act( AT_BLUE, "You heal $N.", ch, NULL, victim, TO_CHAR );
   act( AT_BLUE, "$n heals you.", ch, NULL, victim, TO_VICT );
   act( AT_BLUE, "$n heals $N.", ch, NULL, victim, TO_NOTVICT );
-  return;
-}
-
-void spell_hex( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_BLIND + AFF_CURSE )
-       && IS_AFFECTED2( victim, AFF_CONFUSED ) ) {
-    act( AT_DGREY, "$N is already hexed.", ch, NULL, victim, TO_CHAR );
-    return;
-  }
-
-  if ( saves_spell( level, victim ) ) {
-    act( AT_DGREY, "$N resists the hex.", ch, NULL, victim, TO_CHAR );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = ( 2 * level / 3 + 20 ) / 2;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = -10;
-  af.bitvector = AFF_BLIND;
-  affect_to_char( victim, &af );
-
-  af.location  = APPLY_HITROLL;
-  af.modifier  = -1;
-  af.bitvector = AFF_CURSE;
-  affect_to_char( victim, &af );
-
-  af.location  = APPLY_SAVING_SPELL;
-  af.modifier  = 1;
-  af.bitvector = AFF_CURSE;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_STR;
-  af.modifier = -1 - ( level >= 20 ) - ( level >= 40 ) - ( level >= 60 ) - ( level >= 80 );
-  affect_to_char( victim, &af );
-
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_CONFUSED;
-  affect_to_char2( victim, &af );
-
-  send_to_char( AT_DGREY, "You have hexed your opponent.\n\r", ch );
-  send_to_char( AT_DGREY, "A hex has been placed upon your soul.\n\r", victim );
   return;
 }
 

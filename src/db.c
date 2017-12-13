@@ -103,7 +103,6 @@ int gsn_alchemy;
 int gsn_scribe;
 int gsn_blindness;
 int gsn_charm_person;
-int gsn_curse;
 int gsn_incinerate;
 int gsn_invis;
 int gsn_mass_invis;

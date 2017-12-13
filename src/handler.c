@@ -2332,10 +2332,6 @@ char * affect_bit_name( int vector ) {
     strcat( buf, " infrared" );
   }
 
-  if ( vector & AFF_CURSE         ) {
-    strcat( buf, " curse" );
-  }
-
   if ( vector & AFF_FLAMING       ) {
     strcat( buf, " flaming" );
   }

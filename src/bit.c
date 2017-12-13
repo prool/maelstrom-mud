@@ -393,7 +393,6 @@ const struct flag_type affect_flags[] = {
   { "chaos-field",   AFF_CHAOS,         TRUE  },
   { "vibrating",     AFF_VIBRATING,     TRUE  },
   { "infrared",      AFF_INFRARED,      TRUE  },
-  { "curse",         AFF_CURSE,         TRUE  },
   { "flaming",       AFF_FLAMING,       FALSE },
   { "poison",        AFF_POISON,        TRUE  },
   { "protect",       AFF_PROTECT,       TRUE  },

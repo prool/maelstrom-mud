@@ -344,7 +344,6 @@ void save_objects( FILE * fp, AREA_DATA * pArea ) {
                      pObjIndex->value[ 3 ] );
             break;
 
-          case ITEM_PILL:
           case ITEM_POTION:
           case ITEM_SCROLL:
             fprintf( fp, "%d~ %s~ %s~ %s~\n",

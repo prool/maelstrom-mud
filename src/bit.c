@@ -287,7 +287,6 @@ const struct flag_type type_flags[] = {
   { "npc corpse",      ITEM_CORPSE_NPC,      TRUE  },
   { "pc corpse",       ITEM_CORPSE_PC,       FALSE },
   { "fountain",        ITEM_FOUNTAIN,        TRUE  },
-  { "pill",            ITEM_PILL,            TRUE  },
   { "contact",         ITEM_LENSE,           TRUE  },
   { "portal",          ITEM_PORTAL,          TRUE  },
   { "",                0,                    0     }

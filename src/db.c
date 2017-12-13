@@ -1327,7 +1327,6 @@ void load_objects( FILE * fp ) {
         pObjIndex->value[ 3 ] = atoi( value[ 3 ] );
         break;
 
-      case ITEM_PILL:
       case ITEM_POTION:
       case ITEM_SCROLL:
         pObjIndex->value[ 0 ] = atoi( value[ 0 ] );
@@ -2508,9 +2507,6 @@ void reset_room( ROOM_INDEX_DATA * pRoom ) {
             default:
               olevel = 0;
               break;
-            case ITEM_PILL:
-              olevel = number_range( 0, 10 );
-              break;
             case ITEM_POTION:
               olevel = number_range( 0, 10 );
               break;
@@ -2826,7 +2822,6 @@ OBJ_DATA * create_object( OBJ_INDEX_DATA * pObjIndex, int level ) {
       break;
 
     case ITEM_POTION:
-    case ITEM_PILL:
       obj->value[ 0 ] = obj->value[ 0 ];
       break;
 

@@ -998,7 +998,6 @@ void do_eat( CHAR_DATA * ch, char * argument ) {
 
   if ( !IS_IMMORTAL( ch ) ) {
     if ( obj->item_type != ITEM_FOOD
-         && obj->item_type != ITEM_PILL
          && obj->item_type != ITEM_CORPSE_NPC ) {
       send_to_char( AT_ORANGE, "That's not edible.\n\r", ch );
       return;
@@ -1049,19 +1048,6 @@ void do_eat( CHAR_DATA * ch, char * argument ) {
         af.modifier  = -2;
         af.bitvector = AFF_POISON;
         affect_join( ch, &af );
-      }
-
-      break;
-    case ITEM_PILL:
-
-      if ( ch->level >= obj->level ) {
-        obj_cast_spell( obj->value[ 1 ], obj->value[ 0 ], ch, ch, NULL );
-        obj_cast_spell( obj->value[ 2 ], obj->value[ 0 ], ch, ch, NULL );
-        obj_cast_spell( obj->value[ 3 ], obj->value[ 0 ], ch, ch, NULL );
-      } else {
-        act( AT_ORANGE, "$p is too high level for you.", ch, obj, NULL,
-             TO_CHAR );
-        return;
       }
 
       break;
@@ -4250,7 +4236,7 @@ void do_donate( CHAR_DATA * ch, char * argument ) {
 
   if ( obj->item_type == ITEM_SCROLL || obj->item_type == ITEM_STAFF
        || obj->item_type == ITEM_WAND   || obj->item_type == ITEM_POTION
-       || obj->item_type == ITEM_PILL   || obj->item_type == ITEM_LENSE ) {
+       || obj->item_type == ITEM_LENSE ) {
     if ( ( donation_room = get_room_index( ROOM_VNUM_LIMBO ) ) == NULL ) {
       bug( "Do_donate: invalid vnum for donation room.\n\r", 0 );
       send_to_char( AT_WHITE, "Donation failed.\n\r", ch );
@@ -4520,7 +4506,6 @@ void do_identify( CHAR_DATA * ch, char * argument ) {
   send_to_char( AT_CYAN, buf, ch );
 
   switch ( obj->item_type ) {
-    case ITEM_PILL:
     case ITEM_SCROLL:
     case ITEM_POTION:
       sprintf( buf, "Level %d spells of:", obj->value[ 0 ] );

@@ -2082,8 +2082,6 @@ char * item_type_name( OBJ_DATA * obj ) {
       return "pc corpse";
     case ITEM_FOUNTAIN:
       return "fountain";
-    case ITEM_PILL:
-      return "pill";
     case ITEM_LENSE:
       return "contacts";
     case ITEM_PORTAL:

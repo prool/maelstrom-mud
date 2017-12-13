@@ -2523,9 +2523,6 @@ bool redit_oreset( CHAR_DATA * ch, char * argument ) {
         default:
           olevel = 0;
           break;
-        case ITEM_PILL:
-          olevel = number_range( 0, 10 );
-          break;
         case ITEM_POTION:
           olevel = number_range( 0, 10 );
           break;
@@ -2685,7 +2682,6 @@ void show_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * obj ) {
 
     case ITEM_SCROLL:
     case ITEM_POTION:
-    case ITEM_PILL:
       sprintf( buf,
                "&z[&Wv0&z] &cLevel&w:  &z[&R%d&z]\n\r"
                "&z[&Wv1&z] &cSpell&w:  &z[&W%s&z]\n\r"
@@ -3003,7 +2999,6 @@ bool set_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num, char 
 
     case ITEM_SCROLL:
     case ITEM_POTION:
-    case ITEM_PILL:
 
       switch ( value_num ) {
         default:

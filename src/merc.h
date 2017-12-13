@@ -921,7 +921,6 @@ struct  kill_data {
 #define ITEM_CORPSE_NPC 23
 #define ITEM_CORPSE_PC  24
 #define ITEM_FOUNTAIN   25
-#define ITEM_PILL       26
 #define ITEM_LENSE      27
 #define ITEM_LIQUID     28
 #define ITEM_PORTAL     29

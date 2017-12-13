@@ -195,7 +195,6 @@ void show_list_to_char( OBJ_DATA * list, CHAR_DATA * ch, bool fShort, bool fShow
             send_to_char( AT_WHITE, buf, ch );
             break;
           case ITEM_FOOD:
-          case ITEM_PILL:
             sprintf( buf, "(%2d) ", prgnShow[ iShow ] );
             send_to_char( AT_ORANGE, buf, ch );
             break;
@@ -226,7 +225,6 @@ void show_list_to_char( OBJ_DATA * list, CHAR_DATA * ch, bool fShort, bool fShow
         send_to_char( C_DEFAULT, "\n\r", ch );
         break;
       case ITEM_FOOD:
-      case ITEM_PILL:
         send_to_char( AT_ORANGE, prgpstrShow[ iShow ], ch );
         send_to_char( C_DEFAULT, "\n\r", ch );
         break;

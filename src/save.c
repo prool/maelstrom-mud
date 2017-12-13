@@ -400,7 +400,6 @@ void fwrite_obj( CHAR_DATA * ch, OBJ_DATA * obj, FILE * fp, int iNest, bool stor
 
       break;
 
-    case ITEM_PILL:
     case ITEM_STAFF:
     case ITEM_LENSE:
     case ITEM_WAND:

@@ -3183,45 +3183,6 @@ void spell_mind_thrust( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_psychic_crush( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  int dam = dice( 3, 5 ) + level;
-  damage( ch, (CHAR_DATA *) vo, dam, sn );
-  return;
-}
-
-void spell_psychic_drain( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) || saves_spell( level, victim ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level / 2;
-  af.location  = APPLY_STR;
-  af.modifier  = -1 - ( level >= 10 ) - ( level >= 20 ) - ( level >= 30 );
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_GREEN, "You feel drained.\n\r", victim );
-  act( AT_BLUE, "$n appears drained of strength.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-void spell_psychic_healing( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         heal;
-
-  heal        = dice( 3, 6 ) + 2 * level / 3;
-  victim->hit = UMIN( victim->hit + heal, MAX_HIT( victim ) );
-  update_pos( victim );
-
-  send_to_char( AT_BLUE, "You feel better!\n\r", victim );
-  return;
-}
-
 void spell_share_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

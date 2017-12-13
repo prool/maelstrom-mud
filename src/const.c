@@ -1046,33 +1046,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "psychic crush",
-    { L_APP,L_APP,L_APP },
-    spell_psychic_crush,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,18,
-    "&wpsychic crush&X","!Psychic Crush!","",FALSE,SLOT(0)
-  },
-
-  {
-    "psychic drain",
-    { L_APP,L_APP,L_APP },
-    spell_psychic_drain,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,20,12,
-    "",
-    "You no longer feel drained.",
-    "$n looks stronger.",
-    FALSE,SLOT(53)
-  },
-
-  {
-    "psychic healing",
-    { L_APP,L_APP,L_APP },
-    spell_psychic_healing,TAR_CHAR_SELF,POS_STANDING,
-    NULL,20,12,
-    "","!Psychic Healing!","",FALSE,SLOT(0)
-  },
-
-  {
     "shadow form",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,

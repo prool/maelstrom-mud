@@ -1501,39 +1501,7 @@ void do_raise( CHAR_DATA * ch, char * argument ) {
 }
 
 void do_heighten( CHAR_DATA * ch, char * argument ) {
-  AFFECT_DATA af;
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_heighten ) ) {
-    send_to_char( C_DEFAULT, "Huh?\n\r", ch );
-    return;
-  }
-
-  if ( is_affected( ch, gsn_heighten ) ) {
-    return;
-  }
-
-  if ( IS_NPC( ch ) || number_percent() < ch->pcdata->learned[ gsn_heighten ] ) {
-    af.type      = gsn_heighten;
-    af.level     = ch->level;
-    af.duration  = ch->level;
-    af.modifier  = 0;
-    af.location  = APPLY_NONE;
-    af.bitvector = AFF_DETECT_INVIS;
-    affect_to_char( ch, &af );
-
-    af.bitvector = AFF_DETECT_HIDDEN;
-    affect_to_char( ch, &af );
-
-    af.bitvector = AFF_INFRARED;
-    affect_to_char( ch, &af );
-
-    send_to_char( AT_BLUE, "Your senses are heightened.\n\r", ch );
-    update_skpell( ch, gsn_heighten );
-  }
-
   return;
-
 }
 
 void do_shadow( CHAR_DATA * ch, char * argument ) {

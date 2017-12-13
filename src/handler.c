@@ -476,18 +476,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
       psn = skill_lookup( "invis" );
       strcpy( buf, "$n slowly fades into existence." );
       break;
-    case APPLY_DETECT_EVIL:
-      psn = skill_lookup( "detect evil" );
-      break;
-    case APPLY_DETECT_INVIS:
-      psn = skill_lookup( "detect invis" );
-      break;
-    case APPLY_DETECT_MAGIC:
-      psn = skill_lookup( "detect magic" );
-      break;
-    case APPLY_DETECT_HIDDEN:
-      psn = skill_lookup( "detect hidden" );
-      break;
     case APPLY_SANCTUARY:
       psn = skill_lookup( "sanctuary" );
       strcpy( buf, "The white aura around $n's body vanishes." );
@@ -510,33 +498,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
       paf->level = ch->level;
       break;
     case APPLY_HEIGHTEN_SENSES:
-      sn = gsn_heighten;
-
-      if ( fAdd ) {
-        affect_strip( ch, sn );
-        af.type      = sn;
-        af.level     = ch->level;
-        af.duration  = mod;
-        af.location  = APPLY_NONE;
-        af.modifier  = 0;
-        af.bitvector = AFF_DETECT_INVIS;
-        affect_to_char( ch, &af );
-        af.bitvector = AFF_DETECT_HIDDEN;
-        affect_to_char( ch, &af );
-        af.bitvector = AFF_INFRARED;
-        affect_to_char( ch, &af );
-        send_to_char( AT_BLUE, "Your senses are heightened.\n\r", ch );
-      } else if ( ( IS_AFFECTED( ch, AFF_DETECT_INVIS ) ) && ( IS_AFFECTED( ch, AFF_DETECT_HIDDEN ) )
-                  && ( IS_AFFECTED( ch, AFF_INFRARED ) ) ) {
-        affect_strip( ch, sn );
-        send_to_char( AT_BLUE, skill_table[ sn ].msg_off, ch );
-        send_to_char( AT_BLUE, "\n\r", ch );
-
-        if ( skill_table[ sn ].room_msg_off ) {
-          act( AT_BLUE, skill_table[ sn ].room_msg_off, ch, NULL, NULL, TO_ROOM );
-        }
-      }
-
       break;
     case APPLY_SNEAK:
       sn = gsn_sneak;
@@ -2106,11 +2067,11 @@ bool can_see( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return FALSE;
   }
 
-  if ( IS_AFFECTED( victim, AFF_INVISIBLE ) && !IS_AFFECTED( ch, AFF_DETECT_INVIS ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) && ( !is_class( ch, CLASS_ROGUE ) && ch->level < 30 ) ) {
+  if ( IS_AFFECTED( victim, AFF_INVISIBLE ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) && ( !is_class( ch, CLASS_ROGUE ) && ch->level < 30 ) ) {
     return FALSE;
   }
 
-  if ( IS_AFFECTED( victim, AFF_HIDE ) && !IS_AFFECTED( ch, AFF_DETECT_HIDDEN ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) && !victim->fighting && ch->race != RACE_DWARF ) {
+  if ( IS_AFFECTED( victim, AFF_HIDE ) && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) && !victim->fighting && ch->race != RACE_DWARF ) {
     return FALSE;
   }
 
@@ -2151,7 +2112,6 @@ bool can_see_obj( CHAR_DATA * ch, OBJ_DATA * obj ) {
   }
 
   if ( IS_SET( obj->extra_flags, ITEM_INVIS )
-       && !IS_AFFECTED( ch, AFF_DETECT_INVIS )
        && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) ) {
     return FALSE;
   }
@@ -2315,14 +2275,6 @@ char * affect_loc_name( int location ) {
     /* X */
     case APPLY_INVISIBLE:
       return "'invisible'";
-    case APPLY_DETECT_EVIL:
-      return "'detect evil'";
-    case APPLY_DETECT_INVIS:
-      return "'detect invis'";
-    case APPLY_DETECT_MAGIC:
-      return "'detect magic'";
-    case APPLY_DETECT_HIDDEN:
-      return "'detect hidden'";
     case APPLY_SANCTUARY:
       return "'sanctuary'";
     case APPLY_FAERIE_FIRE:
@@ -2382,22 +2334,6 @@ char * affect_bit_name( int vector ) {
 
   if ( vector & AFF_INVISIBLE     ) {
     strcat( buf, " invisible" );
-  }
-
-  if ( vector & AFF_DETECT_EVIL   ) {
-    strcat( buf, " detect_evil" );
-  }
-
-  if ( vector & AFF_DETECT_INVIS  ) {
-    strcat( buf, " detect_invis" );
-  }
-
-  if ( vector & AFF_DETECT_MAGIC  ) {
-    strcat( buf, " detect_magic" );
-  }
-
-  if ( vector & AFF_DETECT_HIDDEN ) {
-    strcat( buf, " detect_hidden" );
   }
 
   if ( vector & AFF_HASTE         ) {
@@ -2510,10 +2446,6 @@ char * affect_bit_name2( int vector ) {
 
   if ( vector & AFF_BLADE         ) {
     strcat( buf, " bladebarrier" );
-  }
-
-  if ( vector & AFF_DETECT_GOOD   ) {
-    strcat( buf, " detect_good" );
   }
 
   if ( vector & AFF_PROTECTION_GOOD ) {

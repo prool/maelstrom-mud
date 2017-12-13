@@ -79,13 +79,9 @@ char * format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort ) {
     strcat( buf, "(Invis) " );
   }
 
-  if ( IS_AFFECTED( ch, AFF_DETECT_EVIL ) && IS_OBJ_STAT( obj, ITEM_EVIL ) ) {
-    strcat( buf, "&r(Red Aura)&w " );
-  }
-
-  if ( IS_AFFECTED( ch, AFF_DETECT_MAGIC ) && IS_OBJ_STAT( obj, ITEM_MAGIC ) ) {
-    strcat( buf, "&Y(Magical)&w " );
-  }
+  // if ( IS_AFFECTED( ch, AFF_DETECT_MAGIC ) && IS_OBJ_STAT( obj, ITEM_MAGIC ) ) {
+  //   strcat( buf, "&Y(Magical)&w " );
+  // }
 
   if ( IS_OBJ_STAT( obj, ITEM_GLOW ) ) {
     strcat( buf, "&W(Glowing)&B " );
@@ -372,14 +368,6 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
   if ( IS_AFFECTED( victim, AFF_FAERIE_FIRE ) ) {
     strcat( buf, "(Pink Aura) " );
-  }
-
-  if ( IS_EVIL( victim ) && IS_AFFECTED( ch, AFF_DETECT_EVIL ) ) {
-    strcat( buf, "&r(Red Aura)&X " );
-  }
-
-  if ( IS_GOOD( victim ) && IS_AFFECTED( ch, AFF_DETECT_GOOD ) ) {
-    strcat( buf, "&B(Blue Aura)&X " );
   }
 
   if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_KILLER ) ) {

@@ -539,50 +539,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "detect evil",
-    { L_APP,L_APP,L_APP },
-    spell_detect_evil,TAR_CHAR_SELF,POS_STANDING,
-    NULL,5,12,
-    "","The red in your vision disappears.",
-    "$n's vision is restored to normal.",TRUE,SLOT(8)
-  },
-
-  {
-    "detect hidden",
-    { L_APP,L_APP,L_APP },
-    spell_detect_hidden,TAR_CHAR_SELF,POS_STANDING,
-    NULL,5,12,
-    "","You feel less aware of your suroundings.",
-    "$n feels less aware of $s surroundings.",TRUE,SLOT(9)
-  },
-
-  {
-    "detect invis",
-    { L_APP,L_APP,L_APP },
-    spell_detect_invis,TAR_CHAR_SELF,POS_STANDING,
-    NULL,5,12,
-    "","You no longer see invisible objects.",
-    "$n's vision returns to normal.",TRUE,SLOT(10)
-  },
-
-  {
-    "detect magic",
-    { L_APP,L_APP,L_APP },
-    spell_detect_magic,TAR_CHAR_SELF,POS_STANDING,
-    NULL,5,12,
-    "","The detect magic wears off.",
-    "$n's vision returns to normal.",TRUE,SLOT(11)
-  },
-
-  {
-    "detect poison",
-    { L_APP,L_APP,L_APP },
-    spell_detect_poison,TAR_OBJ_INV,POS_STANDING,
-    NULL,5,12,
-    "","!Detect Poison!","",TRUE,SLOT(12)
-  },
-
-  {
     "dispel evil",
     { L_APP,L_APP,L_APP },
     spell_dispel_evil,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -1722,15 +1678,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     NULL,100,12,
     "","You feel in sync with nature once again.",
     "$n feels in sync with nature once again.",TRUE,SLOT(60)
-  },
-
-  {
-    "detect good",
-    { L_APP,L_APP,L_APP },
-    spell_detect_good,TAR_CHAR_SELF,POS_STANDING,
-    NULL,5,12,
-    "","The white in your vision disappears.",
-    "$n's vision returns to normal.",TRUE,SLOT(61)
   },
 
   {

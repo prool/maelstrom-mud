@@ -678,10 +678,6 @@ struct  kill_data {
  */
 #define AFF_BLIND         BV00
 #define AFF_INVISIBLE     BV01
-#define AFF_DETECT_EVIL   BV02
-#define AFF_DETECT_INVIS  BV03
-#define AFF_DETECT_MAGIC  BV04
-#define AFF_DETECT_HIDDEN BV05
 #define AFF_HASTE         BV06
 #define AFF_SANCTUARY     BV07
 #define AFF_FAERIE_FIRE   BV08
@@ -714,7 +710,6 @@ struct  kill_data {
 #define AFF_NOASTRAL        4
 #define AFF_TRUESIGHT       16
 #define AFF_BLADE           32
-#define AFF_DETECT_GOOD     64
 #define AFF_PROTECTION_GOOD 128
 #define AFF_BERSERK         256
 #define AFF_CONFUSED        1024
@@ -1083,10 +1078,6 @@ struct  kill_data {
 #define PERM_SPELL_BEGIN 100
 
 #define APPLY_INVISIBLE        ( PERM_SPELL_BEGIN + 0 )
-#define APPLY_DETECT_EVIL      ( PERM_SPELL_BEGIN + 1 )
-#define APPLY_DETECT_INVIS     ( PERM_SPELL_BEGIN + 2 )
-#define APPLY_DETECT_MAGIC     ( PERM_SPELL_BEGIN + 3 )
-#define APPLY_DETECT_HIDDEN    ( PERM_SPELL_BEGIN + 4 )
 #define APPLY_SANCTUARY        ( PERM_SPELL_BEGIN + 5 )
 #define APPLY_INFRARED         ( PERM_SPELL_BEGIN + 6 )
 #define APPLY_PROTECT          ( PERM_SPELL_BEGIN + 7 )
@@ -2546,11 +2537,6 @@ DECLARE_SPELL_FUN( spell_cure_light );
 DECLARE_SPELL_FUN( spell_cure_poison );
 DECLARE_SPELL_FUN( spell_cure_serious );
 DECLARE_SPELL_FUN( spell_curse );
-DECLARE_SPELL_FUN( spell_detect_evil );
-DECLARE_SPELL_FUN( spell_detect_hidden );
-DECLARE_SPELL_FUN( spell_detect_invis );
-DECLARE_SPELL_FUN( spell_detect_magic );
-DECLARE_SPELL_FUN( spell_detect_poison );
 DECLARE_SPELL_FUN( spell_dispel_evil );
 DECLARE_SPELL_FUN( spell_dispel_magic );
 DECLARE_SPELL_FUN( spell_draw_strength );
@@ -2618,7 +2604,6 @@ DECLARE_SPELL_FUN( spell_summon_swarm );
 DECLARE_SPELL_FUN( spell_summon_pack );
 DECLARE_SPELL_FUN( spell_summon_demon );
 DECLARE_SPELL_FUN( spell_cancellation );
-DECLARE_SPELL_FUN( spell_detect_good );
 DECLARE_SPELL_FUN( spell_protection_good );
 DECLARE_SPELL_FUN( spell_holy_strength );
 DECLARE_SPELL_FUN( spell_curse_of_nature );

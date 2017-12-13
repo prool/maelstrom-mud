@@ -1610,78 +1610,6 @@ void spell_curse( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_detect_evil( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_DETECT_EVIL ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_DETECT_EVIL;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "Your eyes tingle.\n\r", victim );
-  return;
-}
-
-void spell_detect_hidden( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_DETECT_HIDDEN ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_DETECT_HIDDEN;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "Your awareness improves.\n\r", victim );
-  return;
-}
-
-void spell_detect_invis( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_DETECT_INVIS ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_DETECT_INVIS;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "Your eyes tingle.\n\r", victim );
-  return;
-}
-
 void spell_truesight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -1703,46 +1631,6 @@ void spell_truesight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   send_to_char( AT_BLUE, "Your eyes tingle.\n\r", victim );
-  return;
-}
-
-void spell_detect_magic( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_DETECT_MAGIC ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_DETECT_MAGIC;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "Your eyes tingle.\n\r", victim );
-  return;
-}
-
-void spell_detect_poison( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * obj = (OBJ_DATA *) vo;
-
-  if ( obj->item_type == ITEM_DRINK_CON || obj->item_type == ITEM_FOOD ) {
-    if ( obj->value[ 3 ] != 0 ) {
-      send_to_char( AT_GREEN, "You smell poisonous fumes.\n\r", ch );
-    } else {
-      send_to_char( AT_GREEN, "It looks very delicious.\n\r", ch );
-    }
-  } else {
-    send_to_char( AT_GREEN, "It looks very delicious.\n\r", ch );
-  }
-
   return;
 }
 
@@ -5936,10 +5824,6 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
   check_dispel_aff( victim, &found, level, "blindness", AFF_BLIND );
   check_dispel_aff( victim, &found, level, "charm person", AFF_CHARM );
   check_dispel_aff( victim, &found, level, "curse", AFF_CURSE );
-  check_dispel_aff( victim, &found, level, "detect evil", AFF_DETECT_EVIL );
-  check_dispel_aff( victim, &found, level, "detect hidden", AFF_DETECT_HIDDEN );
-  check_dispel_aff( victim, &found, level, "detect invis", AFF_DETECT_INVIS );
-  check_dispel_aff( victim, &found, level, "detect magic", AFF_DETECT_MAGIC );
   check_dispel_aff( victim, &found, level, "faerie fire", AFF_FAERIE_FIRE );
   check_dispel_aff( victim, &found, level, "fireshield", AFF_FIRESHIELD );
   check_dispel_aff( victim, &found, level, "flaming", AFF_FLAMING );
@@ -5953,7 +5837,6 @@ bool dispel_flag_only_spells( int level, CHAR_DATA * victim ) {
   check_dispel_aff( victim, &found, level, "sanctuary", AFF_SANCTUARY );
   check_dispel_aff( victim, &found, level, "shockshield", AFF_SHOCKSHIELD );
   check_dispel_aff( victim, &found, level, "sleep", AFF_SLEEP );
-  check_dispel_aff2( victim, &found, level, "detect good", AFF_DETECT_GOOD );
   check_dispel_aff2( victim, &found, level, "field of decay", AFF_FIELD );
   check_dispel_aff2( victim, &found, level, "protection good", AFF_PROTECTION_GOOD );
   check_dispel_aff2( victim, &found, level, "true sight", AFF_TRUESIGHT );
@@ -6148,30 +6031,6 @@ void spell_protection_good( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   send_to_char( AT_BLUE, "You feel protected.\n\r", victim );
-  return;
-}
-
-void spell_detect_good( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *)vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_DETECT_GOOD ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_DETECT_GOOD;
-  affect_to_char2( ch, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "Your eyes tingle.\n\r", victim );
   return;
 }
 

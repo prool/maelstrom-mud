@@ -1245,39 +1245,6 @@ void spell_enchant_weapon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-/*
- * Drain XP, MANA, HP.
- * Caster gains HP.
- */
-void spell_energy_drain( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         dam;
-
-  if ( saves_spell( level, victim ) ) {
-    return;
-  }
-
-  /* ch->alignment = UMAX(-1000, ch->alignment - 200); */
-  if ( victim->level <= 2 ) {
-    dam = ch->hit + 1;
-  } else {
-    victim->mana /= 2;
-    victim->move /= 2;
-    dam           = dice( 4, level );
-
-    if ( ( ch->hit + dam ) > ( MAX_HIT( ch ) + 200 ) ) {
-      ch->hit = ( MAX_HIT( ch ) + 200 );
-    } else {
-      ch->hit += dam;
-    }
-  }
-
-  dam = sc_dam( ch, dam );
-  damage( ch, victim, dam, sn );
-
-  return;
-}
-
 void spell_farsight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA       * victim;
   ROOM_INDEX_DATA * blah;

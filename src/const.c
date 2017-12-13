@@ -444,14 +444,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "energy drain",
-    { L_APP,L_APP,L_APP },
-    spell_energy_drain,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,35,12,
-    "&zene&wrgy d&Wrain&X","!Energy Drain!","",FALSE,SLOT(0)
-  },
-
-  {
     "flamestrike",
     { L_APP,L_APP,L_APP },
     spell_flamestrike,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
@@ -912,22 +904,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_bash_door,0,24,
     "bash","!Bash Door!","",FALSE,SLOT(0)
-  },
-
-  {
-    "mental drain",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_mental_drain,0,12,
-    "mental drain","!Mental Drain!","",FALSE,SLOT(0)
-  },
-
-  {
-    "drain life",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    &gsn_drain_life,0,12,
-    "&zlife &wdrain","!Drain Life!","",FALSE,SLOT(0)
   },
 
   {

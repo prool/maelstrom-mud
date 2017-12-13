@@ -236,8 +236,6 @@ struct cmd_type cmd_table [] = {
   { "rescue",          do_rescue,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "throw",           do_throw,             POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "trip",            do_trip,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "drain life",      do_drain_life,        POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "mental drain",    do_mental_drain,      POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "stun",            do_stun,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "account",         do_account,           POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "afk",             do_afk,               POS_DEAD,     0,     LOG_NORMAL, FALSE   },

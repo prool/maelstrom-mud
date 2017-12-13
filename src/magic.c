@@ -2100,32 +2100,6 @@ void spell_word_of_recall( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_aura_sight( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  char      * msg;
-  int         ap;
-
-  ap = victim->alignment;
-
-  if ( ap >  700 ) {
-    msg = "$N has an aura as white as the driven snow.";
-  } else if ( ap >  350 ) {
-    msg = "$N is of excellent moral character.";
-  } else if ( ap >  100 ) {
-    msg = "$N is often kind and thoughtful.";
-  } else if ( ap > -100 ) {
-    msg = "$N doesn't have a firm moral commitment.";
-  } else if ( ap > -350 ) {
-    msg = "$N lies to $S friends.";
-  } else if ( ap > -700 ) {
-    msg = "Don't bring $N home to meet your family.";
-  } else {
-    msg = "Uh, check please!";
-  }
-
-  act( AT_BLUE, msg, ch, NULL, victim, TO_CHAR );
-}
-
 void spell_combat_mind( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

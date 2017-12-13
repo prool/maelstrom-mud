@@ -849,14 +849,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "aura sight",
-    { L_APP,L_APP,L_APP },
-    spell_aura_sight,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,9,12,
-    "","!Aura Sight!","",FALSE,SLOT(0)
-  },
-
-  {
     "combat mind",
     { L_APP,L_APP,L_APP },
     spell_combat_mind,TAR_CHAR_DEFENSIVE,POS_STANDING,

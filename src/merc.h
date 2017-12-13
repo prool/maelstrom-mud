@@ -2451,7 +2451,6 @@ DECLARE_SPELL_FUN( spell_summon_trent );
 DECLARE_SPELL_FUN( spell_purify );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_hallucinate );
-DECLARE_SPELL_FUN( spell_aura_sight );
 DECLARE_SPELL_FUN( spell_combat_mind );
 
 char *  crypt( const char * key, const char * salt );

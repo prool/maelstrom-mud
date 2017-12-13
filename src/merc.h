@@ -2379,7 +2379,6 @@ DECLARE_SPELL_FUN( spell_null );
 DECLARE_SPELL_FUN( spell_animate );
 DECLARE_SPELL_FUN( spell_armor );
 DECLARE_SPELL_FUN( spell_astral );
-DECLARE_SPELL_FUN( spell_aura );
 DECLARE_SPELL_FUN( spell_blindness );
 DECLARE_SPELL_FUN( spell_change_sex );
 DECLARE_SPELL_FUN( spell_charm_person );

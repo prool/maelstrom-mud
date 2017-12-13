@@ -951,27 +951,6 @@ void spell_astral( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_aura( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( IS_AFFECTED( victim, AFF_PEACE ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = number_fuzzy( level / 8 );
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_PEACE;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_BLUE, "You feel a wave of peace flow lightly over your body.\n\r", victim );
-  act( AT_BLUE, "$n looks very peaceful.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_blindness( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

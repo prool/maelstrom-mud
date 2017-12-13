@@ -502,16 +502,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "aura of peace",
-    { L_APP,L_APP,L_APP },
-    spell_aura,TAR_CHAR_SELF,POS_STANDING,
-    NULL,100,12,
-    "",
-    "The peace aura around your body fades.",
-    "The peace aura around $n fades.",FALSE,SLOT(24)
-  },
-
-  {
     "poison",
     { L_APP,L_APP,L_APP },
     spell_poison,TAR_CHAR_OFFENSIVE,POS_STANDING,

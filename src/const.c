@@ -1187,14 +1187,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "molecular unbinding",
-    { L_APP,L_APP,L_APP },
-    spell_molecular_unbind,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,100,32,
-    "","!shatter!","",FALSE,SLOT(0)
-  },
-
-  {
     "pray",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_CHAR_SELF,POS_RESTING,

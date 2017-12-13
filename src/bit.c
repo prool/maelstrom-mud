@@ -439,7 +439,6 @@ const struct flag_type apply_flags[] = {
   { "infrared",           APPLY_INFRARED,                TRUE  },
   { "pass-door",          APPLY_PASS_DOOR,               TRUE  },
   { "poison",             APPLY_POISON,                  TRUE  },
-  { "giant-str",          APPLY_GIANT_STRENGTH,          TRUE  },
   { "combat-mind",        APPLY_COMBAT_MIND,             TRUE  },
   { "",                   0,                             0     }
 };

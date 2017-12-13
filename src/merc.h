@@ -1019,7 +1019,6 @@ struct  kill_data {
 #define APPLY_PASS_DOOR        ( PERM_SPELL_BEGIN + 11 )
 #define APPLY_SCRY             ( PERM_SPELL_BEGIN + 17 )
 #define APPLY_POISON           ( PERM_SPELL_BEGIN + 20 )
-#define APPLY_GIANT_STRENGTH   ( PERM_SPELL_BEGIN + 22 )
 #define APPLY_COMBAT_MIND      ( PERM_SPELL_BEGIN + 23 )
 
 /*
@@ -2404,7 +2403,6 @@ DECLARE_SPELL_FUN( spell_dispel_magic );
 DECLARE_SPELL_FUN( spell_enchant_weapon );
 DECLARE_SPELL_FUN( spell_flamestrike );
 DECLARE_SPELL_FUN( spell_fly );
-DECLARE_SPELL_FUN( spell_giant_strength );
 DECLARE_SPELL_FUN( spell_eternal_intellect );
 DECLARE_SPELL_FUN( spell_heal );
 DECLARE_SPELL_FUN( spell_incinerate );

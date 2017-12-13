@@ -516,11 +516,6 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
     case APPLY_SCRY:
       psn = skill_lookup( "scry" );
       break;
-    case APPLY_GIANT_STRENGTH:
-      psn = skill_lookup( "giant strength" );
-      strcpy( buf, "$n no longer looks so mighty." );
-      break;
-      /* END */
   }
 
   if ( psn != -1 ) {
@@ -2170,8 +2165,6 @@ char * affect_loc_name( int location ) {
       return "'pass door'";
     case APPLY_SCRY:
       return "'scry'";
-    case APPLY_GIANT_STRENGTH:
-      return "'giant strength'";
   }
 
   bug( "Affect_location_name: unknown location %d.", location );

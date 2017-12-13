@@ -1000,38 +1000,6 @@ void spell_aid( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-/*Decklarean*/
-void spell_draw_strength( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( victim->position == POS_FIGHTING || is_affected( victim, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = 20 + level;
-  af.location  = APPLY_MANA;
-  af.modifier  = number_fuzzy( level * 4 );
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_HIT;
-  af.modifier = -af.modifier;
-  affect_to_char( victim, &af );
-
-  /* They still have hitpoints over there max hit points
-     get ride of them */
-  if ( MAX_HIT( victim ) < victim->hit ) {
-    victim->hit = MAX_HIT( victim );
-  }
-
-  send_to_char( AT_BLUE, "You draw from your physical strength and increase your energy reserve.\n\r", ch );
-  act( AT_BLUE, "$n's body weakens.", ch, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_blindness( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -1248,140 +1216,6 @@ void spell_truesight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   send_to_char( AT_BLUE, "Your eyes tingle.\n\r", victim );
   return;
 }
-
-void spell_earthquake( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-
-  send_to_char( AT_ORANGE, "The earth trembles beneath your feet!\n\r", ch );
-  act( AT_ORANGE, "$n makes the earth tremble and shiver.", ch, NULL, NULL, TO_ROOM );
-
-  for ( vch = char_list; vch; vch = vch->next ) {
-    if ( vch->deleted || !vch->in_room ) {
-      continue;
-    }
-
-    if ( vch->in_room == ch->in_room ) {
-      if ( vch != ch && ( IS_NPC( ch ) ? !IS_NPC( vch )
-                          :  IS_NPC( vch ) ) ) {
-        damage( ch, vch, level + dice( 2, 8 ), sn );
-      }
-
-      continue;
-    }
-
-    if ( vch->in_room->area == ch->in_room->area ) {
-      send_to_char( AT_ORANGE, "The earth trembles and shivers.\n\r", vch );
-    }
-  }
-
-  return;
-}
-
-void spell_chain_lightning( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-
-  send_to_char( AT_BLUE, "Bolts of electricity arc from your hands!\n\r", ch );
-  act( AT_BLUE, "Electrical energy bursts from $n's hands.", ch, NULL, NULL, TO_ROOM );
-
-  for ( vch = char_list; vch; vch = vch->next ) {
-    if ( vch->deleted || !vch->in_room ) {
-      continue;
-    }
-
-    if ( vch->in_room == ch->in_room ) {
-      if ( vch != ch && ( IS_NPC( ch ) ? !IS_NPC( vch )
-                          :  IS_NPC( vch ) ) ) {
-        damage( ch, vch, level + dice( level, 6 ), sn );
-      }
-
-      continue;
-    }
-
-    if ( vch->in_room->area == ch->in_room->area ) {
-      send_to_char( AT_BLUE, "The air fills with static.\n\r", vch );
-    }
-  }
-
-  return;
-}
-
-/* RT version of chain
-   void spell_chain_lightning(int sn, int level, CHAR_DATA *ch, void *vo)
-   {
-   CHAR_DATA *victim = (CHAR_DATA *) vo;
-   CHAR_DATA *tmp_vict,*last_vict,*next_vict;
-   bool found;
-   int dam;
-
- * first strike *
-
-   act(AT_BLUE, "A lightning bolt leaps from $n's hand and arcs to $N.",
-   ch,NULL,victim,TO_ROOM);
-   act(AT_BLUE, "A lightning bolt leaps from your hand and arcs to $N.",
-   ch,NULL,victim,TO_CHAR);
-   act(AT_BLUE, "A lightning bolt leaps from $n's hand and hits you!",
-   ch,NULL,victim,TO_VICT);
-
-   dam = level + dice(level,6);
-   if (saves_spell(level,victim))
-   dam /= 3;
-   damage(ch,victim,dam,sn);*,DAM_LIGHTNING);*
-   last_vict = victim;
-   level -= 4;		* decrement damage *
-
- * new targets *
-   while (level > 0)
-   {
-   found = FALSE;
-   for (tmp_vict = ch->in_room->people;
-   tmp_vict != NULL;
-   tmp_vict = next_vict)
-   {
-   if(tmp_vect->deleted) continue;
-   next_vict = tmp_vict->next_in_room;
-   if (*!is_safe_spell(ch,tmp_vict,TRUE) &&* tmp_vict != last_vict)
-   {
-   found = TRUE;
-   last_vict = tmp_vict;
-   act(AT_BLUE, "The bolt arcs to $n!",tmp_vict,NULL,NULL,TO_ROOM);
-   act(AT_BLUE, "The bolt hits you!",tmp_vict,NULL,NULL,TO_CHAR);
-   dam = level + dice(level,6);
-   if (saves_spell(level,tmp_vict))
-   dam /= 3;
-   damage(ch,tmp_vict,dam,sn);*,DAM_LIGHTNING);*
-   level -= 4;  * decrement damage *
-   }
-   }   * end target searching loop *
-
-   if (!found) * no target found, hit the caster *
-   {
-   if (ch == NULL)
-   return;
-
-   if (last_vict == ch) * no double hits *
-   {
-   act(AT_BLUE,
-   "The bolt seems to have fizzled out.",ch,NULL,NULL,TO_ROOM);
-   act(AT_BLUE, "The bolt grounds out through your body.",
-   ch,NULL,NULL,TO_CHAR);
-   return;
-   }
-
-   last_vict = ch;
-   act(AT_BLUE, "The bolt arcs to $n...whoops!",ch,NULL,NULL,TO_ROOM);
-   send_to_char(AT_BLUE, "You are struck by your own lightning!\n\r",ch);
-   dam = level + dice(level,6);
-   if (saves_spell(level,ch))
-   dam /= 3;
-   damage(ch,ch,dam,sn);*,DAM_LIGHTNING);*
-   level -= 4;  * decrement damage *
-   if (ch == NULL)
-   return;
-   }
- * now go back and find more targets *
-   }
-   }
- */
 
 void spell_meteor_swarm( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * vch;
@@ -1626,36 +1460,6 @@ void spell_farsight( int sn, int level, CHAR_DATA * ch, void * vo ) {
     char_to_room( ch, blah );
   }
 
-  return;
-}
-
-void spell_fireball( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA      * victim      = (CHAR_DATA *) vo;
-  static const int dam_each [] = {
-    0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  30, 35, 40, 45, 50, 55,
-    60, 65, 70, 75, 80, 82, 84, 86, 88, 90,
-    92, 94, 96, 98, 100, 102, 104, 106, 108, 110,
-    112, 114, 116, 118, 120, 122, 124, 126, 128, 130,
-    132, 134, 136, 138, 140, 142, 144, 146, 148, 150,
-    152, 154, 156, 158, 160, 162, 164, 166, 168, 170,
-    172, 174, 176, 178, 180, 182, 184, 186, 188, 190,
-    192, 194, 196, 198, 200, 202, 204, 206, 208, 210,
-    215, 220, 225, 230, 235, 240, 245, 250, 255, 260
-  };
-  int              dam;
-
-  level = UMIN( level, sizeof( dam_each ) / sizeof( dam_each[ 0 ] ) - 1 );
-  level = UMAX( 0, level );
-  dam   = number_range( dam_each[ level ] / 2, dam_each[ level ] * 7 );
-  dam   = sc_dam( ch, dam );
-
-  if ( saves_spell( level, victim ) ) {
-    dam /= 2;
-  }
-
-  damage( ch, victim, dam, sn );
   return;
 }
 
@@ -3013,49 +2817,6 @@ void spell_spell_bind( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_stone_skin( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( ch, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_AC;
-  af.modifier  = -45;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_GREY, "Your skin turns to stone.\n\r", victim );
-  act( AT_GREY, "$n's skin turns to stone.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
-/*Decklarean*/
-void spell_bark_skin( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( ch, sn ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level;
-  af.location  = APPLY_AC;
-  af.modifier  = -10 - level / 4;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  send_to_char( AT_GREY, "Your skin turns to bark.\n\r", victim );
-  act( AT_GREY, "$n's skin turns to bark.", victim, NULL, NULL, TO_ROOM );
-  return;
-}
-
 void spell_summon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim;
 
@@ -3147,51 +2908,6 @@ void spell_teleport( int sn, int level, CHAR_DATA * ch, void * vo ) {
     act( AT_BLUE, "The air starts to sparkle, then $n appears from nowhere.", pet, NULL, NULL, TO_ROOM );
   }
 
-  return;
-}
-
-void spell_ventriloquate( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-  char        buf1[ MAX_STRING_LENGTH ];
-  char        buf2[ MAX_STRING_LENGTH ];
-  char        speaker[ MAX_INPUT_LENGTH  ];
-
-  target_name = one_argument( target_name, speaker );
-
-  sprintf( buf1, "%s says '%s'.\n\r", speaker, target_name );
-  sprintf( buf2, "Someone makes %s say '%s'.\n\r", speaker, target_name );
-  buf1[ 0 ] = UPPER( buf1[ 0 ] );
-
-  for ( vch = ch->in_room->people; vch; vch = vch->next_in_room ) {
-    if ( !is_name( NULL, speaker, vch->name ) ) {
-      send_to_char( AT_CYAN, saves_spell( level, vch ) ? buf2 : buf1, vch );
-    }
-  }
-
-  return;
-}
-
-void spell_weaken( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) || saves_spell( level, victim ) ) {
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level / 2;
-  af.location  = APPLY_STR;
-  af.modifier  = -2;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_GREEN, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_GREEN, "You feel weaker.\n\r", victim );
   return;
 }
 
@@ -5481,28 +5197,6 @@ void spell_war_cry( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_chant( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-
-  send_to_char( AT_BLUE, "You begin your loud chant of destruction!\n\r", ch );
-  act( AT_BLUE, "$n's chant wreaks havoc everywhere!", ch, NULL, NULL, TO_ROOM );
-
-  for ( victim = ch->in_room->people; victim; victim = victim->next_in_room ) {
-    if ( victim->deleted ) {
-      continue;
-    }
-
-    if ( victim != ch && ( IS_NPC( ch ) ? !IS_NPC( victim )
-                           :  IS_NPC( victim ) ) ) {
-      damage( ch, victim, 1.5 * level + dice( level, 6 ), sn );
-    }
-  }
-
-  return;
-
-}
-
-/*Decklarean*/
 void spell_blur( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -5523,31 +5217,6 @@ void spell_blur( int sn, int level, CHAR_DATA * ch, void * vo ) {
                 victim );
   act( AT_GREY, "$N form becomes blurred, shifting and wavering before you.",
        ch, NULL, victim, TO_NOTVICT );
-  return;
-}
-
-/*Decklarean*/
-void spell_firewall( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * vch;
-
-  if (    IS_SET( ch->in_room->room_flags, ROOM_SAFE )
-          || IS_SET( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) {
-    send_to_char( AT_BLUE, "The spell fails to ignite.", ch );
-  }
-
-  send_to_char( AT_RED, "A wall of fire explodes out in all direction from you!\n\r", ch );
-  act( AT_RED, "A wall of fire explodes out from $n!", ch, NULL, NULL, TO_ROOM );
-
-  for ( vch = ch->in_room->people; vch; vch = vch->next_in_room ) {
-    if ( vch->deleted ) {
-      continue;
-    }
-
-    if ( vch != ch ) {
-      damage( ch, vch, level + dice( level, 20 ), sn );
-    }
-  }
-
   return;
 }
 

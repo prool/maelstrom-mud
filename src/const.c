@@ -436,14 +436,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "earthquake",
-    { L_APP,L_APP,L_APP },
-    spell_earthquake,TAR_IGNORE,POS_FIGHTING,
-    NULL,15,12,
-    "&Oearthquake&X","!Earthquake!","",FALSE,SLOT(0)
-  },
-
-  {
     "enchant weapon",
     { L_APP,L_APP,L_APP },
     spell_enchant_weapon,TAR_OBJ_INV,POS_STANDING,
@@ -457,14 +449,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_energy_drain,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
     NULL,35,12,
     "&zene&wrgy d&Wrain&X","!Energy Drain!","",FALSE,SLOT(0)
-  },
-
-  {
-    "fireball",
-    { L_APP,L_APP,L_APP },
-    spell_fireball,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "&Rfireball&X","!Fireball!","",FALSE,SLOT(0)
   },
 
   {
@@ -747,17 +731,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "stone skin",
-    { L_APP,L_APP,L_APP },
-    spell_stone_skin,TAR_CHAR_SELF,POS_STANDING,
-    NULL,12,18,
-    "",
-    "Your skin feels soft again.",
-    "$n's skin regains its normal texture.",
-    TRUE,SLOT(31)
-  },
-
-  {
     "summon",
     { L_APP,L_APP,L_APP },
     spell_summon,TAR_IGNORE,POS_STANDING,
@@ -771,25 +744,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_teleport,TAR_CHAR_SELF,POS_FIGHTING,
     NULL,35,12,
     "","!Teleport!","",FALSE,SLOT(0)
-  },
-
-  {
-    "ventriloquate",
-    { L_APP,L_APP,L_APP },
-    spell_ventriloquate,TAR_IGNORE,POS_STANDING,
-    NULL,5,12,
-    "","!Ventriloquate!","",FALSE,SLOT(0)
-  },
-
-  {
-    "weaken",
-    { L_APP,L_APP,L_APP },
-    spell_weaken,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,20,12,
-    "spell",
-    "You feel stronger.",
-    "$n looks stronger.",
-    TRUE,SLOT(32)
   },
 
   {
@@ -1561,14 +1515,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "chain lightning",
-    { L_APP,L_APP,L_APP },
-    spell_chain_lightning,TAR_IGNORE,POS_FIGHTING,
-    NULL,50,22,
-    "&Belectrical blast&X","!CHAIN LIGHTNING!","",FALSE,SLOT(0)
-  },
-
-  {
     "meteor swarm",
     { L_APP,L_APP,L_APP },
     spell_meteor_swarm,TAR_IGNORE,POS_FIGHTING,
@@ -1890,14 +1836,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "chant",
-    { L_APP,L_APP,L_APP },
-    spell_chant,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,50,12,
-    "","!Chant!","",FALSE,SLOT(0)
-  },
-
-  {
     "aid",
     { L_APP,L_APP,L_APP },
     spell_aid,TAR_CHAR_DEFENSIVE,POS_STANDING,
@@ -1909,17 +1847,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "bark skin",
-    { L_APP,L_APP,L_APP },
-    spell_bark_skin,TAR_CHAR_SELF,POS_STANDING,
-    NULL,8,18,
-    "",
-    "Your skin returns to normal.",
-    "$n's skin returns to normal.",
-    TRUE,SLOT(200)
-  },
-
-  {
     "blur",
     { L_APP,L_APP,L_APP },
     spell_blur,TAR_CHAR_SELF,POS_STANDING,
@@ -1927,23 +1854,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "",
     "You are no longer blured.",
     "$n's blured form focused suddenly.",FALSE,SLOT(201)
-  },
-
-  {
-    "firewall",
-    { L_APP,L_APP,L_APP },
-    spell_firewall,TAR_IGNORE,POS_FIGHTING,
-    NULL,55,22,
-    "&Rroaring flames&X","!FIRWALL!","",FALSE,SLOT(0)
-  },
-
-  {
-    "draw strength",
-    { L_APP,L_APP,L_APP },
-    spell_draw_strength,TAR_CHAR_SELF,POS_STANDING,
-    NULL,80,40,
-    "","Strength returns to your body.",
-    "$n's doesn't look so weak anymore.",FALSE,SLOT(202)
   },
 
   {

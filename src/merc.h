@@ -2462,12 +2462,6 @@ DECLARE_SPELL_FUN( spell_teleport );
 DECLARE_SPELL_FUN( spell_turn_undead );
 DECLARE_SPELL_FUN( spell_vibrate );
 DECLARE_SPELL_FUN( spell_word_of_recall );
-DECLARE_SPELL_FUN( spell_acid_breath );
-DECLARE_SPELL_FUN( spell_fire_breath );
-DECLARE_SPELL_FUN( spell_frost_breath );
-DECLARE_SPELL_FUN( spell_gas_breath );
-DECLARE_SPELL_FUN( spell_lightning_breath );
-
 DECLARE_SPELL_FUN( spell_summon_swarm );
 DECLARE_SPELL_FUN( spell_summon_pack );
 DECLARE_SPELL_FUN( spell_summon_demon );

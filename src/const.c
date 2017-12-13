@@ -754,48 +754,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","!Word of Recall!","",FALSE,SLOT(0)
   },
 
-  /*
-   * Dragon breath
-   */
-  {
-    "acid breath",
-    { L_APP,L_APP,L_APP },
-    spell_acid_breath,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,50,12,
-    "&gblast of &Gacid&X","!Acid Breath!","",FALSE,SLOT(0)
-  },
-
-  {
-    "fire breath",
-    { L_APP,L_APP,L_APP },
-    spell_fire_breath,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,50,12,
-    "&Rblast of &rflame&X","!Fire Breath!","",FALSE,SLOT(0)
-  },
-
-  {
-    "frost breath",
-    { L_APP,L_APP,L_APP },
-    spell_frost_breath,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,50,12,
-    "&Cblast of &bfrost","!Frost Breath!","",FALSE,SLOT(0)
-  },
-
-  {
-    "gas breath",
-    { L_APP,L_APP,L_APP },
-    spell_gas_breath,TAR_IGNORE,POS_FIGHTING,
-    NULL,50,12,
-    "&zblast of &wgas","!Gas Breath!","",FALSE,SLOT(0)
-  },
-
-  {
-    "lightning breath",
-    { L_APP,L_APP,L_APP },
-    spell_lightning_breath,TAR_CHAR_OFFENSIVE,POS_FIGHTING,
-    NULL,50,12,
-    "&cblast of &Blightning","!Lightning Breath!","",FALSE,SLOT(0)
-  },
   {
     "summon swarm",
     { L_APP,L_APP,L_APP },
@@ -820,9 +778,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "","!Summon Demon!","",FALSE,SLOT(0)
   },
 
-  /*
-   * Fighter and Rogue skills.
-   */
   {
     "backstab",
     { L_APP,L_APP,L_APP },

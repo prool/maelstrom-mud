@@ -439,19 +439,35 @@ void boot_db( void ) {
    * Load up the notes file.
    */
   {
+    log_string( "fixing exits...", CHANNEL_NONE, -1 );
     fix_exits();
+
+    log_string( "loading down banlist...", CHANNEL_NONE, -1 );
     load_banlist();
+
+    log_string( "loading clans...", CHANNEL_NONE, -1 );
     load_clans();
+
+    log_string( "loading socials...", CHANNEL_NONE, -1 );
     load_socials();
+
+    log_string( "loading newbie helps...", CHANNEL_NONE, -1 );
     load_newbie();
+
+    log_string( "loading player list...", CHANNEL_NONE, -1 );
     load_player_list();
+
+    log_string( "loading notes...", CHANNEL_NONE, -1 );
     load_notes();
+
+    log_string( "loading down time...", CHANNEL_NONE, -1 );
     load_down_time();
 
     fpArea = NULL;
     strcpy( strArea, "$" );
     fBootDb = FALSE;
 
+    log_string( "populating areas...", CHANNEL_NONE, -1 );
     area_update();
   }
   MOBtrigger = TRUE;
@@ -1975,35 +1991,42 @@ void load_clans( void ) {
 void social_sort( SOCIAL_DATA * pSocial ) {
   SOCIAL_DATA * fSocial;
 
+  // initialize list with first node and return (nothing left to do)
   if ( !social_first ) {
     social_first = pSocial;
     social_last  = pSocial;
+
     return;
   }
 
-  if ( strncmp( pSocial->name, social_first->name, 256 ) > 0 ) {
-    pSocial->next = social_first->next;
+  // if the new node's name comes alphabetically before the old one, then
+  // place it at the beginning of the list and return (cause we done)
+  if ( strcmp( pSocial->name, social_first->name ) < 0 ) {
+    pSocial->next = social_first;
     social_first  = pSocial;
+
     return;
   }
 
+  // traverse the list and find the appropriate place to insert the new node
   for ( fSocial = social_first; fSocial; fSocial = fSocial->next ) {
-    if ( ( strncmp( pSocial->name, fSocial->name, 256 ) < 0 ) ) {
-      if ( fSocial != social_last ) {
-        pSocial->next = fSocial->next;
-        fSocial->next = pSocial;
-        return;
-      }
+    // if the new node's name comes alphabetically before the next one, then
+    // slot it in between the current node and the next one
+    if ( fSocial->next && strcmp( pSocial->name, fSocial->next->name ) < 0 ) {
+      pSocial->next = fSocial->next;
+      fSocial->next = pSocial;
+
+      return;
     }
   }
 
+  // end of the line, tack the node on the end of the list
   social_last->next = pSocial;
   social_last       = pSocial;
   pSocial->next     = NULL;
+
   return;
 }
-
-/* Decklarean */
 
 void load_socials( void ) {
   SOCIAL_DATA * pSocial;
@@ -2020,7 +2043,7 @@ void load_socials( void ) {
 
   while ( iter ) {
     pSocial       = new_social_index();
-    pSocial->name = (char *)json_object_iter_key( iter );
+    pSocial->name = str_dup(json_object_iter_key( iter ));
 
     json_unpack( json_object_iter_value( iter ),
                  "{s:{s:s, s:s}, s:{s:s, s:s, s:s}, s:{s:s, s:s}}",
@@ -4339,9 +4362,7 @@ void clan_sort( CLAN_DATA * pClan ) {
   }
 
   for ( fClan = clan_first; fClan; fClan = fClan->next ) {
-    if ( pClan->vnum == fClan->vnum ||
-         ( pClan->vnum > fClan->vnum &&
-           ( !fClan->next || pClan->vnum < fClan->next->vnum ) ) ) {
+    if ( pClan->vnum == fClan->vnum || ( pClan->vnum > fClan->vnum && ( !fClan->next || pClan->vnum < fClan->next->vnum ) ) ) {
       pClan->next = fClan->next;
       fClan->next = pClan;
       return;

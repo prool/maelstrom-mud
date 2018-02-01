@@ -3922,7 +3922,6 @@ void do_patch( CHAR_DATA * ch, char * argument ) {
 
 void do_scribe( CHAR_DATA * ch, char * argument ) {
   char        buf[ MAX_STRING_LENGTH ];
-  AFFECT_DATA af;
   int         sn;
   OBJ_DATA  * paper;
   OBJ_DATA  * quill;

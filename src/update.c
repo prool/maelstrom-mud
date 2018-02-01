@@ -629,9 +629,7 @@ void char_update( void ) {
   CHAR_DATA * ch_save;
   CHAR_DATA * ch_quit;
   CHAR_DATA * ch_next; /* XOR */
-  CHAR_DATA * victim;
   time_t      save_time;
-  AFFECT_DATA af;
 
   ch_save   = NULL;
   ch_quit   = NULL;

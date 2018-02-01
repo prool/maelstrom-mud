@@ -983,7 +983,6 @@ void do_drink( CHAR_DATA * ch, char * argument ) {
 void do_eat( CHAR_DATA * ch, char * argument ) {
   OBJ_DATA * obj;
   char       arg[ MAX_INPUT_LENGTH ];
-  int        amnt;
   one_argument( argument, arg );
 
   if ( arg[ 0 ] == '\0' ) {

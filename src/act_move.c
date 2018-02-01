@@ -1919,7 +1919,6 @@ void check_nofloor( CHAR_DATA * ch ) {
 }
 
 void do_retreat( CHAR_DATA * ch, char * argument ) {
-  OBJ_DATA        * smokebomb;
   ROOM_INDEX_DATA * in_room;
   EXIT_DATA       * pexit;
   int               dir;

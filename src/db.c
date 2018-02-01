@@ -113,7 +113,6 @@ int gsn_escape;
 int gsn_antidote;
 int gsn_haggle;
 int gsn_throw;
-int ;
 int gsn_lure;
 int gsn_flip;
 int gsn_hallucinate;
@@ -2309,7 +2308,7 @@ void area_update( void ) {
       pArea->age = number_range( 0, 3 );
       school  = get_room_index( ROOM_VNUM_LIMBO );
 
-      if ( school && school->area == pArea ) ) {
+      if ( school && school->area == pArea ) {
         pArea->age = 15 - 3;
       }
     }

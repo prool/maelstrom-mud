@@ -26,8 +26,21 @@
 #include <time.h>
 #include "merc.h"
 
-const int movement_loss[ SECT_MAX ] = {
-  1, 2, 2, 3, 4, 5, 4, 1, 6, 10, 6
+const int movement_loss[ MAX_SECT ] = {
+  1,  // SECT_INSIDE
+  2,  // SECT_CITY
+  2,  // SECT_FIELD
+  3,  // SECT_FOREST
+  4,  // SECT_HILLS
+  5,  // SECT_MOUNTAIN
+  4,  // SECT_WATER_SWIM
+  1,  // SECT_WATER_NOSWIM
+  6,  // SECT_UNDERWATER
+  10, // SECT_AIR
+  6,  // SECT_DESERT
+  6,  // SECT_BADLAND
+  8,  // SECT_SWAMP
+  3   // SECT_JUNGLE
 };
 
 /*
@@ -147,8 +160,8 @@ void move_char( CHAR_DATA * ch, int door, bool Fall ) {
       }
     }
 
-    move = movement_loss[ UMIN( SECT_MAX - 1, in_room->sector_type ) ]
-           + movement_loss[ UMIN( SECT_MAX - 1, to_room->sector_type ) ]
+    move = movement_loss[ UMIN( MAX_SECT - 1, in_room->sector_type ) ]
+           + movement_loss[ UMIN( MAX_SECT - 1, to_room->sector_type ) ]
     ;
 
     if ( ( ch->move < move ) && ( !Fall ) ) {
@@ -1066,16 +1079,6 @@ void do_recall( CHAR_DATA * ch, char * argument ) {
   int               place;
   char              name[ MAX_STRING_LENGTH ];
   CLAN_DATA       * pClan;
-
-  if ( !strcmp( ch->name, "Jekka" ) ) {
-    location = get_room_index( 2301 );
-    act( C_DEFAULT, "$n disappears.", ch, NULL, NULL, TO_ROOM );
-    char_from_room( ch );
-    char_to_room( ch, location );
-    act( C_DEFAULT, "$n appears in the room.", ch, NULL, NULL, TO_ROOM );
-    do_look( ch, "auto" );
-    return;
-  }
 
   if ( !( pClan = get_clan_index( ch->clan ) ) ) {
     ch->clan = 0;
@@ -2012,7 +2015,7 @@ void do_escape( CHAR_DATA * ch, char * argument ) {
   }
 
   for ( smokebomb = ch->carrying; smokebomb; smokebomb = smokebomb->next ) {
-    if ( smokebomb->pIndexData->vnum == OBJ_VNUM_SMOKEBOMB ) {
+    if ( smokebomb->item_type == ITEM_SMOKE_BOMB ) {
       break;
     }
   }

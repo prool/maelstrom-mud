@@ -21,9 +21,6 @@ void do_forge( CHAR_DATA * ch, char * argument ) {
   char       buf[ MAX_INPUT_LENGTH ];
   OBJ_DATA * obj, * hammer;
   int        wear, lvl;
-  long       group1   = ITEM_ANTI_HUMAN + ITEM_ANTI_ELF;
-  long       group2   = ITEM_ANTI_DWARF + ITEM_ANTI_HALFLING + ITEM_ANTI_GNOME;
-  long       antirace = 0;
   wear = 0;
 
   if ( ch->race != RACE_DWARF ) {
@@ -39,7 +36,7 @@ void do_forge( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_WHITE, "        belt bracer anklet weapon\n\r", ch );
     send_to_char( AT_WHITE, "  race= any valid race. HELP FORGE RACES\n\r", ch );
     send_to_char( AT_WHITE, "        to see race groupings.\n\r", ch );
-    sprintf( buf, "  lvl = minimum 30, maximum %d.\n\r", ch->level );
+    sprintf( buf, "  lvl = minimum 1, maximum %d.\n\r", ch->level );
     send_to_char( AT_WHITE, buf, ch );
     send_to_char( AT_WHITE, "  BASE cost to make item is: 100 gold * lvl\n\r", ch );
     return;
@@ -121,29 +118,10 @@ void do_forge( CHAR_DATA * ch, char * argument ) {
     wear = ITEM_WIELD;
   }
 
-  if ( !str_prefix( arg2, "elf" ) || !str_prefix( arg2, "human" ) ) {
-    antirace = group2;
-  }
-
-  if ( !str_prefix( arg2, "dwarf" ) || !str_prefix( arg2, "halfling" ) || !str_prefix( arg2, "gnome" ) ) {
-    antirace = group1;
-  }
-
   if ( is_number( argument ) ) {
     lvl = atoi( argument );
   } else {
     lvl = 0;
-  }
-
-  if ( wear && antirace && ( lvl < 30 || lvl > ch->level ) ) {
-    sprintf( buf, "Illegal level.  Valid levels are 30 to %d.\n\r", ch->level );
-    send_to_char( AT_GREY, buf, ch );
-    return;
-  }
-
-  if ( wear && antirace == 0 ) {
-    send_to_char( AT_GREY, "Illegal race.  Help RACE for valid race list.\n\r", ch );
-    return;
   }
 
   if ( wear ) {
@@ -161,7 +139,6 @@ void do_forge( CHAR_DATA * ch, char * argument ) {
     obj->cost.gold       = lvl * 100;
     obj->weight          = lvl * 0.15;
     obj->level           = lvl;
-    obj->anti_race_flags = antirace;
 
     if ( obj->level >= L_CHAMP1 ) {
       obj->extra_flags += ITEM_NO_DAMAGE;

@@ -92,7 +92,6 @@ int gsn_parry;
 int gsn_rescue;
 int gsn_patch;
 int gsn_gouge;
-int gsn_alchemy;
 int gsn_scribe;
 int gsn_blindness;
 int gsn_charm_person;
@@ -1242,8 +1241,6 @@ void load_objects( FILE * fp ) {
 
     pObjIndex->item_type        = fread_number( fp );
     pObjIndex->extra_flags      = fread_number( fp );
-    pObjIndex->anti_class_flags = fread_number( fp );
-    pObjIndex->anti_race_flags  = fread_number( fp );
     pObjIndex->wear_flags       = fread_number( fp );
     pObjIndex->level            = fread_number( fp );
     value[ 0 ]                  = fread_string( fp );
@@ -2750,8 +2747,6 @@ OBJ_DATA * create_object( OBJ_INDEX_DATA * pObjIndex, int level ) {
   obj->description      = str_dup( pObjIndex->description ); /* OLC */
   obj->item_type        = pObjIndex->item_type;
   obj->extra_flags      = pObjIndex->extra_flags;
-  obj->anti_race_flags  = pObjIndex->anti_race_flags;
-  obj->anti_class_flags = pObjIndex->anti_class_flags;
   obj->wear_flags       = pObjIndex->wear_flags;
   obj->value[ 0 ]       = pObjIndex->value[ 0 ];
   obj->value[ 1 ]       = pObjIndex->value[ 1 ];
@@ -2848,22 +2843,18 @@ void clone_object( OBJ_DATA * parent, OBJ_DATA * clone ) {
   clone->short_descr = str_dup( parent->short_descr );
   clone->description = str_dup( parent->description );
 
-  if ( parent->pIndexData->vnum != OBJ_VNUM_LETTER ) {
-    if ( parent->extra_descr ) {
-      EXTRA_DESCR_DATA * ed;
+  if ( parent->extra_descr ) {
+    EXTRA_DESCR_DATA * ed;
 
-      for ( ed = parent->extra_descr; ed; ed = ed->next ) {
-        clone->extra_descr->keyword     = str_dup( parent->extra_descr->keyword );
-        clone->extra_descr->description = str_dup( parent->extra_descr->description );
-        clone->extra_descr              = clone->extra_descr->next;
-      }
+    for ( ed = parent->extra_descr; ed; ed = ed->next ) {
+      clone->extra_descr->keyword     = str_dup( parent->extra_descr->keyword );
+      clone->extra_descr->description = str_dup( parent->extra_descr->description );
+      clone->extra_descr              = clone->extra_descr->next;
     }
   }
 
   clone->item_type        = parent->item_type;
   clone->extra_flags      = parent->extra_flags;
-  clone->anti_race_flags  = parent->anti_race_flags;
-  clone->anti_class_flags = parent->anti_class_flags;
   clone->wear_flags       = parent->wear_flags;
   clone->weight           = parent->weight;
   clone->cost.gold        = parent->cost.gold;
@@ -3170,6 +3161,7 @@ int fread_number( FILE * fp ) {
   char c;
   int  number;
   bool sign;
+  char buf[ MAX_STRING_LENGTH ];
 
   do {
     c = getc( fp );
@@ -3192,8 +3184,8 @@ int fread_number( FILE * fp ) {
   }
 
   if ( !isdigit( c ) ) {
-    bug( "Fread_number: bad format.", 0 );
-    bug( "   If bad object, check for missing '~' in value[] fields.", 0 );
+    sprintf(buf, "Fread_number: bad format (%c).\n\r   If bad object, check for missing '~' in value[] fields.", c);
+    bug( buf, 0 );
     return 0;
   }
 

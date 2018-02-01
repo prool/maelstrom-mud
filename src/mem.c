@@ -526,8 +526,6 @@ OBJ_INDEX_DATA * new_obj_index( void ) {
   pObj->vnum             =   0;
   pObj->item_type        =   ITEM_TRASH;
   pObj->extra_flags      =   0;
-  pObj->anti_race_flags  = 0;
-  pObj->anti_class_flags = 0;
   pObj->wear_flags       =   0;
   pObj->count            =   0;
   pObj->weight           =   0;

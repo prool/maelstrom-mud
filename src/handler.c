@@ -369,8 +369,7 @@ void affect_modify( CHAR_DATA * ch, AFFECT_DATA * paf, bool fAdd ) {
 
   switch ( paf->location ) {
     default:
-      sprintf( buf1, "Affect_modify: unknown location %d on %s.",
-               paf->location, ch->name );
+      sprintf( buf1, "Affect_modify: unknown location %d on %s.", paf->location, ch->name );
       bug( buf1, 0 );
       return;
 
@@ -1154,17 +1153,6 @@ void equip_char( CHAR_DATA * ch, OBJ_DATA * obj, int iWear ) {
     sprintf( buf, "Equip_char: %s already equipped at %d.",
              ch->name, iWear );
     bug( buf, 0 );
-    return;
-  }
-
-  if ( gets_zapped( ch, obj ) ) {
-    /*
-     * Thanks to Morgenes for the bug fix here!
-     */
-    act( AT_BLUE, "You are zapped by $p and drop it.", ch, obj, NULL, TO_CHAR );
-    act( AT_BLUE, "$n is zapped by $p and drops it.", ch, obj, NULL, TO_ROOM );
-    obj_from_char( obj );
-    obj_to_room( obj, ch->in_room );
     return;
   }
 
@@ -2298,18 +2286,6 @@ char * extra_bit_name( int extra_flags ) {
     strcat( buf, " nodrop" );
   }
 
-  if ( extra_flags & ITEM_ANTI_GOOD    ) {
-    strcat( buf, " anti-good" );
-  }
-
-  if ( extra_flags & ITEM_ANTI_EVIL    ) {
-    strcat( buf, " anti-evil" );
-  }
-
-  if ( extra_flags & ITEM_ANTI_NEUTRAL ) {
-    strcat( buf, " anti-neutral" );
-  }
-
   if ( extra_flags & ITEM_NOREMOVE     ) {
     strcat( buf, " noremove" );
   }
@@ -2324,53 +2300,6 @@ char * extra_bit_name( int extra_flags ) {
 
   if ( extra_flags & ITEM_NO_DAMAGE    ) {
     strcat( buf, " indestructable" );
-  }
-
-  return ( buf[ 0 ] != '\0' ) ? buf + 1 : "none";
-}
-
-/* FOR NEW FLAGS */
-char * anticlass_bit_name( int anticlass ) {
-  static char buf[ 512 ];
-  buf[ 0 ] = '\0';
-
-  if ( anticlass & ITEM_ANTI_CASTER  ) {
-    strcat( buf, " anti-caster" );
-  }
-
-  if ( anticlass & ITEM_ANTI_ROGUE   ) {
-    strcat( buf, " anti-rogue" );
-  }
-
-  if ( anticlass & ITEM_ANTI_FIGHTER ) {
-    strcat( buf, " anti-fighter" );
-  }
-
-  return ( buf[ 0 ] != '\0' ) ? buf + 1 : "none";
-}
-
-char * antirace_bit_name( int antirace ) {
-  static char buf[ 512 ];
-  buf[ 0 ] = '\0';
-
-  if ( antirace & ITEM_ANTI_HUMAN     ) {
-    strcat( buf, " anti-human" );
-  }
-
-  if ( antirace & ITEM_ANTI_ELF       ) {
-    strcat( buf, " anti-elf" );
-  }
-
-  if ( antirace & ITEM_ANTI_DWARF     ) {
-    strcat( buf, " anti-dwarf" );
-  }
-
-  if ( antirace & ITEM_ANTI_GNOME     ) {
-    strcat( buf, " anti-gnome" );
-  }
-
-  if ( antirace & ITEM_ANTI_HALFLING  ) {
-    strcat( buf, " anti-halfling" );
   }
 
   return ( buf[ 0 ] != '\0' ) ? buf + 1 : "none";
@@ -2430,10 +2359,6 @@ char * act_bit_name( int act ) {
 
     if ( act & ACT_QUESTMASTER ) {
       strcat( buf, " questmaster" );
-    }
-
-    if ( act & ACT_POSTMAN ) {
-      strcat( buf, " postman" );
     }
 
     if ( act & ACT_NOPUSH ) {
@@ -3147,26 +3072,6 @@ char * class_numbers( CHAR_DATA * ch, bool pSave ) {
   }
 
   return buf + 1;
-}
-
-bool gets_zapped( CHAR_DATA * ch, OBJ_DATA * obj ) {
-  if ( !IS_NPC( ch ) ) {
-    if ( ( IS_OBJ_STAT( obj, ITEM_ANTI_EVIL ) && IS_EVIL( ch ) )
-         || ( IS_OBJ_STAT( obj, ITEM_ANTI_GOOD ) && IS_GOOD( ch ) )
-         || ( IS_OBJ_STAT( obj, ITEM_ANTI_NEUTRAL ) && IS_NEUTRAL( ch ) )
-         || ( IS_ANTI_CLASS( obj, ITEM_ANTI_CASTER ) && is_class( ch, CLASS_CASTER ) )
-         || ( IS_ANTI_CLASS( obj, ITEM_ANTI_ROGUE ) && is_class( ch, CLASS_ROGUE ) )
-         || ( IS_ANTI_CLASS( obj, ITEM_ANTI_FIGHTER ) && is_class( ch, CLASS_FIGHTER ) )
-         || ( IS_ANTI_RACE( obj, ITEM_ANTI_HUMAN ) && ch->race == RACE_HUMAN )
-         || ( IS_ANTI_RACE( obj, ITEM_ANTI_ELF ) && ch->race == RACE_ELF )
-         || ( IS_ANTI_RACE( obj, ITEM_ANTI_DWARF ) && ch->race == RACE_DWARF )
-         || ( IS_ANTI_RACE( obj, ITEM_ANTI_GNOME ) && ch->race == RACE_GNOME )
-         || ( IS_ANTI_RACE( obj, ITEM_ANTI_HALFLING ) && ch->race == RACE_HALFLING ) ) {
-      return TRUE;
-    }
-  }
-
-  return FALSE;
 }
 
 char * visible_name( CHAR_DATA * ch, CHAR_DATA * looker, bool show_hooded ) {

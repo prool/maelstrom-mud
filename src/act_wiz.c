@@ -1477,17 +1477,6 @@ void do_ostat( CHAR_DATA * ch, char * argument ) {
   sprintf( buf, "Wear bits: %d.  Extra bits: %s.\n\r",
            obj->wear_flags, extra_bit_name( obj->extra_flags ) );
   send_to_char( AT_RED, buf, ch );
-  /* FOR NEW FLAGS */
-  sprintf( buf, "AntiClass bits: %s.\n\r",
-           anticlass_bit_name( obj->anti_class_flags ) );
-  send_to_char( AT_RED, buf, ch );
-  /*    sprintf( buf, "AntiClass bits: %s.\n\r",
-      flag_string( anti_class_flags, obj->anti_class_flags ) );
-      send_to_char(AT_BLUE, buf, ch );*/
-
-  sprintf( buf, "AntiRace bits: %s.\n\r",
-           antirace_bit_name( obj->anti_race_flags ) );
-  send_to_char( AT_RED, buf, ch );
 
   sprintf( buf, "Number: %d/%d.  Weight: %d/%d.\n\r",
            1,           get_obj_number( obj ),
@@ -4510,7 +4499,6 @@ void do_oset( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_WHITE, "\n\r",            ch );
     send_to_char( AT_WHITE, "&pField being one of:\n\r",     ch );
     send_to_char( AT_WHITE, "  value0 value1 value2 value3\n\r",   ch );
-    send_to_char( AT_WHITE, "  anticlass antirace\n\r",      ch );
     send_to_char( AT_WHITE, "  extra wear level weight cost timer\n\r",  ch );
     send_to_char( AT_WHITE, "  ac_type ac_vnum ac_v1 ac_v2\n\r", ch );
     send_to_char( AT_WHITE, "  apply delapply\n\r", ch );
@@ -4641,18 +4629,6 @@ void do_oset( CHAR_DATA * ch, char * argument ) {
       value = ITEM_NODROP;
     }
 
-    if ( !str_cmp( arg3, "antigood" ) || !str_cmp( arg3, "ag" ) ) {
-      value = ITEM_ANTI_GOOD;
-    }
-
-    if ( !str_cmp( arg3, "antievil" ) || !str_cmp( arg3, "ae" ) ) {
-      value = ITEM_ANTI_EVIL;
-    }
-
-    if ( !str_cmp( arg3, "antineutral" ) || !str_cmp( arg3, "an" ) ) {
-      value = ITEM_ANTI_NEUTRAL;
-    }
-
     if ( !str_cmp( arg3, "noremove" ) || !str_cmp( arg3, "nr" ) ) {
       value = ITEM_NOREMOVE;
     }
@@ -4685,83 +4661,6 @@ void do_oset( CHAR_DATA * ch, char * argument ) {
         obj->extra_flags = 0;
       } else {
         obj->extra_flags ^= value;
-      }
-
-      send_to_char( AT_WHITE, "Ok.\n\r", ch );
-      return;
-    } else {
-      send_to_char( AT_WHITE, "Invalid bit.\n\r", ch );
-      return;
-    }
-  }
-
-  /* FOR NEW FLAGS */
-  if ( !str_cmp( arg2, "anticlass" ) ) {
-    if ( !str_cmp( arg3, "caster" ) || !str_cmp( arg3, "cas" ) ) {
-      value = ITEM_ANTI_CASTER;
-    }
-
-    if ( !str_cmp( arg3, "rogue" ) || !str_cmp( arg3, "rog" ) ) {
-      value = ITEM_ANTI_ROGUE;
-    }
-
-    if ( !str_cmp( arg3, "fighter" ) || !str_cmp( arg3, "fig" ) ) {
-      value = ITEM_ANTI_FIGHTER;
-    }
-
-    if ( value == 0 || !str_cmp( arg3, "none" ) ) {
-      obj->anti_class_flags = 0;
-      send_to_char( AT_WHITE, "Ok.\n\r", ch );
-      return;
-    }
-
-    if ( 0xFFFFFFFF & value ) {
-      if ( value == 0 ) {
-        obj->anti_class_flags = 0;
-      } else {
-        obj->anti_class_flags ^= value;
-      }
-
-      send_to_char( AT_WHITE, "Ok.\n\r", ch );
-      return;
-    } else {
-      send_to_char( AT_WHITE, "Invalid bit.\n\r", ch );
-      return;
-    }
-  }
-
-  if ( !str_cmp( arg2, "antirace" ) ) {
-    if ( !str_cmp( arg3, "human" ) || !str_cmp( arg3, "hum" ) ) {
-      value = ITEM_ANTI_HUMAN;
-    }
-
-    if ( !str_cmp( arg3, "elf" ) ) {
-      value = ITEM_ANTI_ELF;
-    }
-
-    if ( !str_cmp( arg3, "dwarf" ) || !str_cmp( arg3, "dwa" ) ) {
-      value = ITEM_ANTI_DWARF;
-    }
-
-    if ( !str_cmp( arg3, "gnome" ) || !str_cmp( arg3, "gno" ) ) {
-      value = ITEM_ANTI_GNOME;
-    }
-
-    if ( !str_cmp( arg3, "halfling" ) || !str_cmp( arg3, "hlf" ) ) {
-      value = ITEM_ANTI_HALFLING;
-    }
-
-    if ( value == 0 || !str_cmp( arg3, "none" ) ) {
-      obj->anti_race_flags = 0;
-      send_to_char( AT_WHITE, "Ok.\n\r", ch );
-      return;
-    }
-
-    if ( 0xFFFFFFFF & value ) {
-      if ( value == 0 ) {
-        obj->anti_race_flags = 0;
-      } else {
-        obj->anti_race_flags ^= value;
       }
 
       send_to_char( AT_WHITE, "Ok.\n\r", ch );

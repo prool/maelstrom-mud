@@ -999,24 +999,6 @@ void oedit( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  /* FOR NEW FLAGS */
-
-  if ( ( value = flag_value( anti_class_flags, arg ) ) != NO_FLAG ) {
-    TOGGLE_BIT( pObj->anti_class_flags, value );
-
-    SET_BIT( pArea->area_flags, AREA_CHANGED );
-    send_to_char( C_DEFAULT, "Anti class flag toggled.\n\r", ch );
-    return;
-  }
-
-  if ( ( value = flag_value( anti_race_flags, arg ) ) != NO_FLAG ) {
-    TOGGLE_BIT( pObj->anti_race_flags, value );
-
-    SET_BIT( pArea->area_flags, AREA_CHANGED );
-    send_to_char( C_DEFAULT, "Anti race flag toggled.\n\r", ch );
-    return;
-  }
-
   /* Default to Standard Interpreter. */
   interpret( ch, arg );
   return;

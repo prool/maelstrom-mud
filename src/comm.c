@@ -2522,13 +2522,14 @@ char * set_str_color( int AType, const char * txt ) {
   return (char *)txt;
 }
 
-/* OLC, new pager for editing long descriptions. */ /*
-                             ========================================================================= */ /* - The heart of the
-                                                                     pager.  Thanks to N'Atas-Ha, ThePrincedom for porting */ /* this SillyMud code for MERC 2.0 and
-                                                                                                  laying down the groundwork.  */ /* - Thanks to Blackstar, hopper.cs.uiowa.edu 4000 for which the
-                                                                                                                     improvements*/ /* to the pager was modeled from.  - Kahn */ /* - Safer, allows very large pagelen
-                                                                                                                                                    now, and allows to page while switched */ /* Zavod of jcowan.reslife.okstate.edu 4000.  */ /*
-                                                                                                                                                                                                   ========================================================================= */
+/* OLC, new pager for editing long descriptions. */
+/* ========================================================================= */
+/* - The heart of the pager.  Thanks to N'Atas-Ha, ThePrincedom for porting */
+/* this SillyMud code for MERC 2.0 and laying down the groundwork.  */
+/* - Thanks to Blackstar, hopper.cs.uiowa.edu 4000 for which the improvements*/
+/* to the pager was modeled from.  - Kahn */
+/* - Safer, allows very large pagelen now, and allows to page while switched */
+/* Zavod of jcowan.reslife.okstate.edu 4000.  */
 
 void show_string( DESCRIPTOR_DATA * d, char * input ) {
   char * start, * end;

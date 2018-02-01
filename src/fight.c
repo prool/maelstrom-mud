@@ -878,7 +878,7 @@ void item_damage( CHAR_DATA * ch, int dam ) {
           char           * name;
           char             buf[ MAX_STRING_LENGTH ];
 
-          pObjIndex = get_obj_index( 4 );
+          pObjIndex = get_obj_index( OBJ_VNUM_TRASH );
           pObj      = create_object( pObjIndex, obj_lose->level );
           name      = obj_lose->short_descr;
           sprintf( buf, pObj->description, name );
@@ -1630,20 +1630,6 @@ void group_gain( CHAR_DATA * ch, CHAR_DATA * victim ) {
 
       if ( obj->wear_loc == WEAR_NONE ) {
         continue;
-      }
-
-      if ( !IS_NPC( ch ) ) {
-        if ( ( IS_OBJ_STAT( obj, ITEM_ANTI_EVIL )
-               && IS_EVIL( ch ) )
-             || ( IS_OBJ_STAT( obj, ITEM_ANTI_GOOD )
-                  && IS_GOOD( ch ) )
-             || ( IS_OBJ_STAT( obj, ITEM_ANTI_NEUTRAL )
-                  && IS_NEUTRAL( ch ) ) ) {
-          act( AT_BLUE, "You are zapped by $p.", ch, obj, NULL, TO_CHAR );
-          act( AT_BLUE, "$n is zapped by $p.", ch, obj, NULL, TO_ROOM );
-          obj_from_char( obj );
-          obj_to_room( obj, ch->in_room );
-        }
       }
     }
   }

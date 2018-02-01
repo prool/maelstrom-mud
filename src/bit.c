@@ -48,8 +48,6 @@ const struct flag_stat_type flag_stat_table[] = {
   { sector_flags,     TRUE   },
   { type_flags,       TRUE   },
   { extra_flags,      FALSE  },
-  { anti_race_flags,  FALSE  },
-  { anti_class_flags, FALSE  },
   { wear_flags,       FALSE  },
   { act_flags,        FALSE  },
   { affect_flags,     FALSE  },
@@ -298,9 +296,6 @@ const struct flag_type extra_flags[] = {
   { "invis",        ITEM_INVIS,        TRUE  },
   { "magic",        ITEM_MAGIC,        TRUE  },
   { "nodrop",       ITEM_NODROP,       TRUE  },
-  { "anti-good",    ITEM_ANTI_GOOD,    TRUE  },
-  { "anti-evil",    ITEM_ANTI_EVIL,    TRUE  },
-  { "anti-neutral", ITEM_ANTI_NEUTRAL, TRUE  },
   { "noremove",     ITEM_NOREMOVE,     TRUE  },
   { "inventory",    ITEM_INVENTORY,    TRUE  },
   { "poisoned",     ITEM_POISONED,     TRUE  },
@@ -308,22 +303,6 @@ const struct flag_type extra_flags[] = {
   { "nodamage",     ITEM_NO_DAMAGE,    TRUE  },
   { "patched",      ITEM_PATCHED,      TRUE  },
   { "",             0,                 0     }
-};
-
-const struct flag_type anti_class_flags[] = {
-  { "anti-caster",  ITEM_ANTI_CASTER,  TRUE  },
-  { "anti-rogue",   ITEM_ANTI_ROGUE,   TRUE  },
-  { "anti-fighter", ITEM_ANTI_FIGHTER, TRUE  },
-  { "",             0,                 0     }
-};
-
-const struct flag_type anti_race_flags[] = {
-  { "anti-human",    ITEM_ANTI_HUMAN,    TRUE  },
-  { "anti-elf",      ITEM_ANTI_ELF,      TRUE  },
-  { "anti-dwarf",    ITEM_ANTI_DWARF,    TRUE  },
-  { "anti-gnome",    ITEM_ANTI_GNOME,    TRUE  },
-  { "anti-halfling", ITEM_ANTI_HALFLING, TRUE  },
-  { "",              0,                  0     }
 };
 
 const struct flag_type wear_flags[] = {
@@ -365,7 +344,6 @@ const struct flag_type act_flags[] = {
   { "undead",     ACT_UNDEAD,         TRUE  },
   { "track",      ACT_TRACK,          TRUE  },
   { "quest",      ACT_QUESTMASTER,    TRUE  },
-  { "postman",    ACT_POSTMAN,        TRUE  },
   { "nopush",     ACT_NOPUSH,         TRUE  },
   { "nodrag",     ACT_NODRAG,         TRUE  },
   { "noshadow",   ACT_NOSHADOW,       TRUE  },
@@ -421,7 +399,7 @@ const struct flag_type apply_flags[] = {
   { "height",             APPLY_HEIGHT,                  TRUE  },
   { "weight",             APPLY_WEIGHT,                  TRUE  },
   { "mana",               APPLY_MANA,                    TRUE  },
-  {   "anti-disarm",      APPLY_ANTI_DIS,                TRUE  },
+  { "anti-disarm",        APPLY_ANTI_DIS,                TRUE  },
   { "hp",                 APPLY_HIT,                     TRUE  },
   { "move",               APPLY_MOVE,                    TRUE  },
   { "gold",               APPLY_GOLD,                    TRUE  },

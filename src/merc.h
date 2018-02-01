@@ -665,7 +665,6 @@ struct  kill_data {
 #define ACT_UNDEAD      BV13 // Can be turned
 #define ACT_TRACK       BV14 // Track players
 #define ACT_QUESTMASTER BV15 // Autoquest giver
-#define ACT_POSTMAN     BV16 // Hello Mr. Postman!
 #define ACT_NODRAG      BV17 // No drag mob
 #define ACT_NOPUSH      BV18 // No push mob
 #define ACT_NOSHADOW    BV19 // No shadow mob
@@ -855,6 +854,7 @@ struct  kill_data {
  */
 #define OBJ_VNUM_MONEY_ONE     2
 #define OBJ_VNUM_MONEY_SOME    3
+#define OBJ_VNUM_TRASH         3
 #define OBJ_VNUM_BLOOD         9
 #define OBJ_VNUM_CORPSE_NPC    10
 #define OBJ_VNUM_CORPSE_PC     11
@@ -867,33 +867,15 @@ struct  kill_data {
 #define OBJ_VNUM_BERRY         19
 #define OBJ_VNUM_MUSHROOM      20
 #define OBJ_VNUM_LIGHT_BALL    21
-#define OBJ_VNUM_PARCHMENT     25050
-#define OBJ_VNUM_QUILL         25051
 #define OBJ_VNUM_FLASK         25052
 #define OBJ_VNUM_CAULDRON      25053
 #define OBJ_VNUM_MFIRE         25054
-#define OBJ_VNUM_MINK          25055
-#define OBJ_VNUM_RWPARCHMENT   1339
-#define OBJ_VNUM_RWQUILL       1341
 #define OBJ_VNUM_RWFLASK       1343
 #define OBJ_VNUM_RWCAULDRON    1344
 #define OBJ_VNUM_RWFIRE        1345
-#define OBJ_VNUM_RWINK         1346
-#define OBJ_VNUM_PAPER         25062
-#define OBJ_VNUM_LETTER        25063
-#define OBJ_VNUM_SMOKEBOMB     25064
 #define OBJ_VNUM_TO_FORGE_A    25065 // armor
 #define OBJ_VNUM_TO_FORGE_W    25066 // weapon
 #define OBJ_VNUM_SMITHY_HAMMER 713
-#define OBJ_VNUM_SCHOOL_MACE   3001
-#define OBJ_VNUM_SCHOOL_DAGGER 138
-#define OBJ_VNUM_SCHOOL_SWORD  3003
-#define OBJ_VNUM_SCHOOL_VEST   136
-#define OBJ_VNUM_SCHOOL_SHIELD 3005
-#define OBJ_VNUM_SCHOOL_BANNER 144
-#define OBJ_VNUM_SCHOOL_CLUB   3007
-#define OBJ_VNUM_BLACK_POWDER  8903
-#define OBJ_VNUM_FLAMEBLADE    8920
 
 /*
  * Item types.
@@ -922,6 +904,9 @@ struct  kill_data {
 #define ITEM_LENSE      27
 #define ITEM_LIQUID     28
 #define ITEM_PORTAL     29
+#define ITEM_PAPER      30
+#define ITEM_QUILL      31
+#define ITEM_SMOKE_BOMB 32
 
 /*
  * Extra flags.
@@ -932,25 +917,12 @@ struct  kill_data {
 #define ITEM_INVIS        32
 #define ITEM_MAGIC        64
 #define ITEM_NODROP       128
-#define ITEM_ANTI_GOOD    512
-#define ITEM_ANTI_EVIL    1024
-#define ITEM_ANTI_NEUTRAL 2048
 #define ITEM_NOREMOVE     4096
 #define ITEM_INVENTORY    8192
 #define ITEM_POISONED     16384
 #define ITEM_NO_LOCATE    ( cc )
 #define ITEM_NO_DAMAGE    ( dd )
 #define ITEM_PATCHED      ( ee )
-
-#define ITEM_ANTI_CASTER  1
-#define ITEM_ANTI_ROGUE   4
-#define ITEM_ANTI_FIGHTER 8
-
-#define ITEM_ANTI_HUMAN    1
-#define ITEM_ANTI_ELF      2
-#define ITEM_ANTI_DWARF    4
-#define ITEM_ANTI_GNOME    8
-#define ITEM_ANTI_HALFLING 16
 
 /*
  * Wear flags.
@@ -1109,6 +1081,8 @@ struct  kill_data {
  * Sector types.
  * Used in #ROOMS.
  */
+#define MAX_SECT          14
+
 #define SECT_INSIDE       0
 #define SECT_CITY         1
 #define SECT_FIELD        2
@@ -1121,7 +1095,8 @@ struct  kill_data {
 #define SECT_AIR          9
 #define SECT_DESERT       10
 #define SECT_BADLAND      11
-#define SECT_MAX          12
+#define SECT_SWAMP        12
+#define SECT_JUNGLE       13
 
 /*
  * Equpiment wear locations.
@@ -1608,8 +1583,6 @@ struct  obj_index_data {
   int                vnum;
   int                item_type;
   int                extra_flags;
-  int                anti_race_flags;
-  int                anti_class_flags;
   int                wear_flags;
   int                count;
   int                weight;
@@ -1644,8 +1617,6 @@ struct  obj_data {
   char             * description;
   int                item_type;
   int                extra_flags;
-  int                anti_race_flags;
-  int                anti_class_flags;
   int                wear_flags;
   int                wear_loc;
   int                weight;
@@ -1867,7 +1838,6 @@ extern int gsn_parry;
 extern int gsn_rescue;
 extern int gsn_patch;
 extern int gsn_gouge;
-extern int gsn_alchemy;
 extern int gsn_scribe;
 extern int gsn_blindness;
 extern int gsn_charm_person;
@@ -1959,8 +1929,6 @@ int mmlvl_mana( CHAR_DATA * ch, int sn );
  */
 #define CAN_WEAR( obj, part )   ( IS_SET( ( obj )->wear_flags,  ( part ) ) )
 #define IS_OBJ_STAT( obj, stat )( IS_SET( ( obj )->extra_flags, ( stat ) ) )
-#define IS_ANTI_CLASS( obj, stat )( IS_SET( ( obj )->anti_class_flags, ( stat ) ) )
-#define IS_ANTI_RACE( obj, stat ) ( IS_SET( ( obj )->anti_race_flags, ( stat ) ) )
 
 /*
  * Arena macro.
@@ -2353,7 +2321,6 @@ DECLARE_DO_FUN( do_push );
 DECLARE_DO_FUN( do_drag );
 DECLARE_DO_FUN( do_authorize );
 DECLARE_DO_FUN( do_gouge );
-DECLARE_DO_FUN( do_alchemy );
 DECLARE_DO_FUN( do_scribe );
 DECLARE_DO_FUN( do_rage );
 DECLARE_DO_FUN( do_palm );
@@ -2406,7 +2373,6 @@ DECLARE_SPELL_FUN( spell_teleport );
 DECLARE_SPELL_FUN( spell_word_of_recall );
 DECLARE_SPELL_FUN( spell_truesight );
 DECLARE_SPELL_FUN( spell_confusion );
-DECLARE_SPELL_FUN( spell_purify );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_hallucinate );
 DECLARE_SPELL_FUN( spell_combat_mind );
@@ -2638,8 +2604,6 @@ char * affect_loc_name( int location );
 char * affect_bit_name( int vector );
 char * affect_bit_name2( int vector );
 char * extra_bit_name( int extra_flags );
-char * anticlass_bit_name( int anti_class_flags );
-char * antirace_bit_name( int anti_race_flags );
 char * act_bit_name( int act );
 char * imm_bit_name( int );
 CHAR_DATA * get_char( CHAR_DATA * ch );
@@ -2657,7 +2621,6 @@ int number_classes( CHAR_DATA * ch );
 char * class_long( CHAR_DATA * ch );
 char * class_numbers( CHAR_DATA * ch, bool pSave );
 char * class_short( CHAR_DATA * ch );
-bool gets_zapped( CHAR_DATA * ch, OBJ_DATA * obj );
 void raffect_to_room( ROOM_INDEX_DATA * room, CHAR_DATA * ch, ROOM_AFFECT_DATA * raf );
 void raffect_remove( ROOM_INDEX_DATA * room, CHAR_DATA * ch, ROOM_AFFECT_DATA * raf );
 void raffect_remall( CHAR_DATA * ch );
@@ -2973,8 +2936,6 @@ extern const struct flag_type room_flags[];
 extern const struct flag_type sector_flags[];
 extern const struct flag_type type_flags[];
 extern const struct flag_type extra_flags[];
-extern const struct flag_type anti_race_flags[];
-extern const struct flag_type anti_class_flags[];
 extern const struct flag_type wear_flags[];
 extern const struct flag_type act_flags[];
 extern const struct flag_type affect_flags[];

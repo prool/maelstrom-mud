@@ -1990,69 +1990,6 @@ int sc_dam( CHAR_DATA * ch, int dam ) {
   return dam;
 }
 
-void spell_purify( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA  * obj;
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  int         yesno  = FALSE;
-
-  for ( obj = ch->carrying; obj; obj = obj->next_content ) {
-
-    if ( IS_ANTI_CLASS( obj, ITEM_ANTI_CASTER ) ) {
-      REMOVE_BIT( obj->anti_class_flags, ITEM_ANTI_CASTER );
-      act( AT_WHITE, "$p glows white.", victim, obj, NULL, TO_CHAR );
-      yesno = TRUE;
-    }
-
-    if ( IS_ANTI_CLASS( obj, ITEM_ANTI_ROGUE ) ) {
-      REMOVE_BIT( obj->anti_class_flags, ITEM_ANTI_ROGUE );
-      act( AT_WHITE, "$p glows white.", victim, obj, NULL, TO_CHAR );
-      yesno = TRUE;
-    }
-
-    if ( IS_ANTI_CLASS( obj, ITEM_ANTI_FIGHTER ) ) {
-      REMOVE_BIT( obj->anti_class_flags, ITEM_ANTI_FIGHTER );
-      act( AT_WHITE, "$p glows white.", victim, obj, NULL, TO_CHAR );
-      yesno = TRUE;
-    }
-
-    if ( IS_ANTI_RACE( obj, ITEM_ANTI_HUMAN ) ) {
-      REMOVE_BIT( obj->anti_race_flags, ITEM_ANTI_HUMAN );
-      act( AT_WHITE, "$p glows white.", victim, obj, NULL, TO_CHAR );
-      yesno = TRUE;
-    }
-
-    if ( IS_ANTI_RACE( obj, ITEM_ANTI_ELF ) ) {
-      REMOVE_BIT( obj->anti_race_flags, ITEM_ANTI_ELF );
-      act( AT_WHITE, "$p glows white.", victim, obj, NULL, TO_CHAR );
-      yesno = TRUE;
-    }
-
-    if ( IS_ANTI_RACE( obj, ITEM_ANTI_DWARF ) ) {
-      REMOVE_BIT( obj->anti_race_flags, ITEM_ANTI_DWARF );
-      act( AT_WHITE, "$p glows white.", victim, obj, NULL, TO_CHAR );
-      yesno = TRUE;
-    }
-
-    if ( IS_ANTI_RACE( obj, ITEM_ANTI_GNOME ) ) {
-      REMOVE_BIT( obj->anti_race_flags, ITEM_ANTI_GNOME );
-      act( AT_WHITE, "$p glows white.", victim, obj, NULL, TO_CHAR );
-      yesno = TRUE;
-    }
-
-    if ( IS_ANTI_RACE( obj, ITEM_ANTI_HALFLING ) ) {
-      REMOVE_BIT( obj->anti_race_flags, ITEM_ANTI_HALFLING );
-      act( AT_WHITE, "$p glows white.", victim, obj, NULL, TO_CHAR );
-      yesno = TRUE;
-    }
-  }
-
-  if ( ch != victim && yesno ) {
-    send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  }
-
-  return;
-}
-
 void spell_silence( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;

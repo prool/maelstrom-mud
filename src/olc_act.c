@@ -65,11 +65,6 @@ const struct olc_help_type help_table[] = {
   { "exit",     exit_flags,      "Exit types."                  },
   { "type",     type_flags,      "Types of objects."            },
   { "extra",    extra_flags,     "Object attributes."           },
-  /* FOR NEW FLAGS */
-  { "race",     anti_race_flags, "Anti race flags."             },
-
-  {   "class",  anti_class_flags, "Anti class flags."            },
-
   { "wear",     wear_flags,      "Where to wear object."        },
   { "spec",     spec_table,      "Available special programs."  },
   { "sex",      sex_flags,       "Sexes."                       },
@@ -3246,14 +3241,6 @@ bool oedit_show( CHAR_DATA * ch, char * argument ) {
 
   sprintf( buf, "&cExtra flags&w:&z [&W%s&z]\n\r",
            flag_string( extra_flags, pObj->extra_flags ) );
-  send_to_char( C_DEFAULT, buf, ch );
-
-  sprintf( buf, "&cAnti-Class&w:&z  [&W%s&z]\n\r",
-           flag_string( anti_class_flags, pObj->anti_class_flags ) );
-  send_to_char( C_DEFAULT, buf, ch );
-
-  sprintf( buf, "&cAnti-Race&w:&z   [&W%s&z]\n\r",
-           flag_string( anti_race_flags, pObj->anti_race_flags ) );
   send_to_char( C_DEFAULT, buf, ch );
 
   sprintf( buf, "&cLevel&w:&z       [&R%d&z]\n\r", pObj->level );

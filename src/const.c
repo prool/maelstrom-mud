@@ -742,16 +742,8 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "alchemy",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_STANDING,
-    &gsn_alchemy,0,50,
-    "","!ALCHEMY!","",FALSE,SLOT(0)
-  },
-
-  {
     "scribe",
-    { L_APP,L_APP,L_APP },
+    { 1, L_APP, L_APP },
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_scribe,0,50,
     "","!SCRIBE!","",FALSE,SLOT(0)
@@ -878,12 +870,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "&Wfailure","!Staves!","",FALSE,SLOT(0)
   },
 
-  {
-    "purify",
-    { L_APP,L_APP,L_APP },
-    spell_purify,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,70,12,"","!purify!",FALSE,SLOT(0)
-  },
   {
     "lure",
     { L_APP, 25, L_APP },

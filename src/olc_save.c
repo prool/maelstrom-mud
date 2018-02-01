@@ -330,8 +330,6 @@ void save_objects( FILE * fp, AREA_DATA * pArea ) {
         fprintf( fp, "~\n" );
         fprintf( fp, "%d ", pObjIndex->item_type );
         fprintf( fp, "%d ", pObjIndex->extra_flags );
-        fprintf( fp, "%d ", pObjIndex->anti_class_flags );
-        fprintf( fp, "%d ", pObjIndex->anti_race_flags );
         fprintf( fp, "%d ", pObjIndex->wear_flags );
         fprintf( fp, "%d\n", pObjIndex->level );
 
@@ -830,8 +828,6 @@ void save_helps() {
     perror( HELP_FILE );
     return;
   }
-
-  fprintf( fp, "#HELPS\n\n" );
 
   for ( pHelp = help_first; pHelp; pHelp = pHelp->next ) {
     fprintf( fp, "%d %s~\n%s~\n",

@@ -3182,14 +3182,6 @@ void do_invoke( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( gets_zapped( ch, obj ) ) {
-    act( AT_BLUE, "You are zapped by $p and drop it.", ch, obj, NULL, TO_CHAR );
-    act( AT_BLUE, "$n is zapped by $p and drops it.",  ch, obj, NULL, TO_ROOM );
-    obj_from_char( obj );
-    obj_to_room( obj, ch->in_room );
-    return;
-  }
-
   switch ( obj->ac_type ) {
     default:
       break;
@@ -3928,168 +3920,18 @@ void do_patch( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_alchemy( CHAR_DATA * ch, char * argument ) {
-  char        buf[ MAX_STRING_LENGTH ];
-  AFFECT_DATA af;
-  int         sn;
-  OBJ_DATA  * pobj;
-  char        arg1[ MAX_INPUT_LENGTH ];
-  OBJ_DATA  * cobj;
-  OBJ_DATA  * fobj;
-  int         mana;
-  int         dam;
-  int         chance;
-
-  if ( IS_NPC( ch ) ) {
-    return;
-  }
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_alchemy ) ) {
-    send_to_char( AT_WHITE, "What do you think you are, a cleric?\n\r", ch );
-    return;
-  }
-
-  one_argument( argument, arg1 );
-
-  if ( arg1[ 0 ] == '\0' ) {
-    send_to_char( AT_WHITE, "What spell do you wish to alchemy?\n\r",    ch );
-    return;
-  }
-
-  if ( ch->fighting ) {
-    send_to_char( AT_WHITE, "While you're fighting?  Nice try.\n\r", ch );
-    return;
-  }
-
-  for ( pobj = ch->carrying; pobj; pobj = pobj->next_content ) {
-    if ( ( ( pobj->pIndexData->vnum == OBJ_VNUM_FLASK ) ||
-           ( pobj->pIndexData->vnum == OBJ_VNUM_RWFLASK ) )
-         && pobj->value[ 1 ] == skill_lookup( "reserved" ) ) {
-      break;
-    }
-  }
-
-  if ( !pobj ) {
-    send_to_char( AT_WHITE, "You do not have the empty flask.\n\r", ch );
-    return;
-  }
-
-  for ( cobj = ch->carrying; cobj; cobj = cobj->next_content ) {
-    if ( ( cobj->pIndexData->vnum == OBJ_VNUM_CAULDRON ) ||
-         ( cobj->pIndexData->vnum == OBJ_VNUM_RWCAULDRON ) ) {
-      break;
-    }
-  }
-
-  if ( !cobj ) {
-    send_to_char( AT_WHITE, "You do not have the cauldron.\n\r", ch );
-    return;
-  }
-
-  for ( fobj = ch->carrying; fobj; fobj = fobj->next_content ) {
-    if ( ( fobj->pIndexData->vnum == OBJ_VNUM_MFIRE ) ||
-         ( fobj->pIndexData->vnum == OBJ_VNUM_RWFIRE ) ) {
-      break;
-    }
-  }
-
-  if ( !fobj ) {
-    send_to_char( AT_WHITE, "You do not have the magical fire.\n\r", ch );
-    return;
-  }
-
-  /* K, now we have all the stuff... check to see if the cleric can cast
-     the spell he wants.
-   */
-
-  if ( ( sn = skill_lookup( arg1 ) ) < 0
-       || !can_use_skpell( ch, sn )
-       || sn == skill_lookup( "true sight" ) ) {
-    send_to_char( AT_BLUE, "You can't do that.\n\r", ch );
-    return;
-  }
-
-  mana  = MANA_COST( ch, sn );
-  mana *= 2;
-
-  if ( ch->mana < mana ) {
-    send_to_char( AT_WHITE, "You lack the mana to bind the elixer.\n\r", ch );
-    return;
-  }
-
-  ch->mana -= mana;
-  dam       = ch->level * ( skill_table[ sn ].skill_level[ prime_class( ch ) ] / 9 );
-  chance    = ch->pcdata->learned[ gsn_alchemy ]
-              - ( skill_table[ sn ].skill_level[ prime_class( ch ) ] / 6 );
-
-  if ( sn == skill_lookup( "aura of peace" ) ) {
-    chance = 0;
-  }
-
-  if ( number_percent() > chance ) {
-    sprintf( buf, "The %s potion explodes! causing %d damage!",
-             skill_table[ sn ].name, dam );
-    send_to_char( AT_RED, buf, ch );
-    act( AT_RED, "$n's elixer explodes!", ch, NULL, NULL, TO_ROOM );
-    extract_obj( pobj );
-    extract_obj( cobj );
-    extract_obj( fobj );
-    send_to_char( AT_RED, "All your alchemy equipment is ruined!\n\r", ch );
-    damage( ch, ch, dam, gsn_incinerate );
-    af.type      = gsn_incinerate;
-    af.level     = skill_table[ sn ].skill_level[ prime_class( ch ) ];
-    af.duration  = 5;
-    af.location  = APPLY_NONE;
-    af.modifier  = 0;
-    af.bitvector = AFF_FLAMING;
-    affect_join( ch, &af );
-    return;
-  }
-
-  pobj->value[ 1 ] = sn;
-  pobj->value[ 0 ] = ch->level / 2 - 1;
-  pobj->timer      = 60;
-  pobj->level      = ch->level / 2 - 1;
-  pobj->cost.gold  = ch->level * skill_table[ sn ].skill_level[ prime_class( ch ) ];
-  sprintf( buf, "%s potion", skill_table[ sn ].name );
-  free_string( pobj->short_descr );
-  pobj->short_descr = str_dup( buf );
-  sprintf( buf, "A potion of %s has been left here.", skill_table[ sn ].name );
-  free_string( pobj->description );
-  pobj->description = str_dup( buf );
-
-  if ( !is_name( NULL, pobj->name, skill_table[ sn ].name ) ) {
-    sprintf( buf, "%s %s", pobj->name, skill_table[ sn ].name );
-    free_string( pobj->name );
-    pobj->name = str_dup( buf );
-  }
-
-  act( AT_RED, "You deftly mix a $p.", ch, pobj, NULL, TO_CHAR );
-  act( AT_RED, "$n mixes a $p.", ch, pobj, NULL, TO_ROOM );
-  update_skpell( ch, gsn_alchemy );
-  return;
-}
-
 void do_scribe( CHAR_DATA * ch, char * argument ) {
   char        buf[ MAX_STRING_LENGTH ];
   AFFECT_DATA af;
   int         sn;
-  OBJ_DATA  * pobj;
+  OBJ_DATA  * paper;
+  OBJ_DATA  * quill;
   char        arg1[ MAX_INPUT_LENGTH ];
-  OBJ_DATA  * cobj;
-  OBJ_DATA  * fobj;
   int         mana;
   int         dam;
   int         chance;
 
   if ( IS_NPC( ch ) ) {
-    return;
-  }
-
-  if ( !IS_NPC( ch )
-       && !can_use_skpell( ch, gsn_scribe ) ) {
-    send_to_char( AT_WHITE, "What do you think you are, a mage?\n\r", ch );
     return;
   }
 
@@ -4101,54 +3943,33 @@ void do_scribe( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( ch->fighting ) {
-    send_to_char( AT_WHITE, "While you're fighting?  Nice try.\n\r", ch );
+    send_to_char( AT_WHITE, "While you're fighting? Nice try.\n\r", ch );
     return;
   }
 
-  for ( pobj = ch->carrying; pobj; pobj = pobj->next_content ) {
-    if ( ( ( pobj->pIndexData->vnum == OBJ_VNUM_PARCHMENT ) ||
-           ( pobj->pIndexData->vnum == OBJ_VNUM_RWPARCHMENT ) )
-         && pobj->value[ 1 ] == skill_lookup( "reserved" ) ) {
+  for ( paper = ch->carrying; paper; paper = paper->next_content ) {
+    if ( paper->item_type == ITEM_PAPER ) {
       break;
     }
   }
 
-  if ( !pobj ) {
-    send_to_char( AT_WHITE, "You do not have the blank parchment.\n\r", ch );
+  if ( !paper ) {
+    send_to_char( AT_WHITE, "You do not have a blank parchment.\n\r", ch );
     return;
   }
 
-  for ( cobj = ch->carrying; cobj; cobj = cobj->next_content ) {
-    if ( ( cobj->pIndexData->vnum == OBJ_VNUM_QUILL ) ||
-         ( cobj->pIndexData->vnum == OBJ_VNUM_RWQUILL ) ) {
+  for ( quill = ch->carrying; quill; quill = quill->next_content ) {
+    if ( quill->item_type == ITEM_QUILL ) {
       break;
     }
   }
 
-  if ( !cobj ) {
-    send_to_char( AT_WHITE, "You do not have the quill.\n\r", ch );
+  if ( !quill ) {
+    send_to_char( AT_WHITE, "You do not have a writing instrument.\n\r", ch );
     return;
   }
 
-  for ( fobj = ch->carrying; fobj; fobj = fobj->next_content ) {
-    if ( ( fobj->pIndexData->vnum == OBJ_VNUM_MINK ) ||
-         ( fobj->pIndexData->vnum == OBJ_VNUM_RWINK ) ) {
-      break;
-    }
-  }
-
-  if ( !fobj ) {
-    send_to_char( AT_WHITE, "You do not have the magical ink.\n\r", ch );
-    return;
-  }
-
-  /* K, now we have all the stuff... check to see if the mage can cast
-     the spell he wants.
-   */
-
-  if ( ( sn = skill_lookup( arg1 ) ) < 0
-       || !can_use_skpell( ch, sn )
-       || sn == skill_lookup( "true sight" ) ) {
+  if ( ( sn = skill_lookup( arg1 ) ) < 0 || !can_use_skpell( ch, sn ) ) {
     send_to_char( AT_BLUE, "You can't do that.\n\r", ch );
     return;
   }
@@ -4166,48 +3987,37 @@ void do_scribe( CHAR_DATA * ch, char * argument ) {
   chance    = ch->pcdata->learned[ gsn_scribe ] - ( skill_table[ sn ].skill_level[ prime_class( ch ) ] / 6 );
 
   if ( number_percent() > chance ) {
-    sprintf( buf, "The %s scroll explodes! causing %d damage!",
-             skill_table[ sn ].name, dam );
-    send_to_char( AT_RED, buf, ch );
-    act( AT_RED, "$n's scroll explodes!", ch, NULL, NULL, TO_ROOM );
-    extract_obj( pobj );
-    extract_obj( cobj );
-    extract_obj( fobj );
-    send_to_char( AT_RED, "All your scribery equipment is ruined!\n\r", ch );
-    damage( ch, ch, dam, gsn_incinerate );
-    af.type      = gsn_incinerate;
-    af.level     = skill_table[ sn ].skill_level[ prime_class( ch ) ];
-    af.duration  = 5;
-    af.location  = APPLY_NONE;
-    af.modifier  = 0;
-    af.bitvector = AFF_FLAMING;
-    affect_join( ch, &af );
-    return;
+    // looks like a scroll, smells like a scroll, it must be a useless scroll
+    paper->value[ 1 ] = skill_lookup( "reserved" );
+  } else {
+    paper->value[ 1 ] = sn;
   }
 
-  pobj->value[ 1 ] = sn;
-  pobj->value[ 0 ] = ch->level / 2 - 1;
-  pobj->timer      = 60;
-  pobj->level      = ch->level / 2 - 1;
-  pobj->cost.gold  = ch->level * skill_table[ sn ].skill_level[ prime_class( ch ) ];
+  paper->value[ 0 ] = ch->level;
+  paper->item_type  = ITEM_SCROLL;
+  paper->timer      = 60;
+  paper->level      = ch->level;
+  paper->cost.gold  = ch->level * skill_table[ sn ].skill_level[ prime_class( ch ) ];
+
   sprintf( buf, "scroll of %s", skill_table[ sn ].name );
-  free_string( pobj->short_descr );
-  pobj->short_descr = str_dup( buf );
-  sprintf( buf, "A scroll of %s has been left here.", skill_table[ sn ].name );
-  free_string( pobj->description );
-  pobj->description = str_dup( buf );
+  free_string( paper->short_descr );
+  paper->short_descr = str_dup( buf );
 
-  if ( !is_name( NULL, pobj->name, skill_table[ sn ].name ) ) {
+  sprintf( buf, "A scroll of %s has been left here.", skill_table[ sn ].name );
+  free_string( paper->description );
+  paper->description = str_dup( buf );
+
+  if ( !is_name( NULL, paper->name, skill_table[ sn ].name ) ) {
     sprintf( buf, "scroll %s", skill_table[ sn ].name );
-    free_string( pobj->name );
-    pobj->name = str_dup( buf );
+    free_string( paper->name );
+    paper->name = str_dup( buf );
   }
 
-  act( AT_RED, "You neatly scribe a $p.", ch, pobj, NULL, TO_CHAR );
-  act( AT_RED, "$n scribes a $p.", ch, pobj, NULL, TO_ROOM );
-  send_to_char( AT_RED, "You toss aside the empty ink container.\n\r", ch );
-  extract_obj( fobj );
+  act( AT_RED, "You neatly scribe a $p.", ch, paper, NULL, TO_CHAR );
+  act( AT_RED, "$n scribes a $p.", ch, paper, NULL, TO_ROOM );
+
   update_skpell( ch, gsn_scribe );
+
   return;
 }
 
@@ -4451,7 +4261,7 @@ void do_antidote( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !flask ) {
-    send_to_char( AT_GREY, "You need a flask to put your antidote in.\n\r", ch );
+    send_to_char( AT_GREY, "You need a drink container to put your antidote in.\n\r", ch );
     return;
   }
 
@@ -4490,12 +4300,10 @@ void do_identify( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  sprintf( buf, "Object '%s' is type %s, extra flags %s %s %s.\n\r",
+  sprintf( buf, "Object '%s' is type %s, extra flags %s.\n\r",
            obj->name,
            item_type_name( obj ),
-           obj->extra_flags ? extra_bit_name( obj->extra_flags ) : "",
-           obj->anti_race_flags ? antirace_bit_name( obj->anti_race_flags ) : "",
-           obj->anti_class_flags ? anticlass_bit_name( obj->anti_class_flags ) : "" );
+           obj->extra_flags ? extra_bit_name( obj->extra_flags ) : "");
   send_to_char( AT_CYAN, buf, ch );
 
   sprintf( buf, "Weight : %d, level : %d.\n\r", obj->weight, obj->level );

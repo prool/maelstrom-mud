@@ -362,8 +362,6 @@ void fwrite_obj( CHAR_DATA * ch, OBJ_DATA * obj, FILE * fp, int iNest, bool stor
   fprintf( fp, "Description  %s~\n", obj->description );
   fprintf( fp, "Vnum         %d\n", obj->pIndexData->vnum );
   fprintf( fp, "ExtraFlags   %d\n", obj->extra_flags );
-  fprintf( fp, "AntiClassF   %d\n", obj->anti_class_flags );
-  fprintf( fp, "AntiRaceF    %d\n", obj->anti_race_flags );
   fprintf( fp, "WearFlags    %d\n", obj->wear_flags );
   fprintf( fp, "WearLoc      %d\n", obj->wear_loc );
   fprintf( fp, "ItemType     %d\n", obj->item_type );
@@ -1023,9 +1021,6 @@ void fread_obj( CHAR_DATA * ch, FILE * fp, bool storage ) {
         break;
 
       case 'A':
-
-        KEY( "AntiClassF", obj->anti_class_flags, fread_number( fp ) );
-        KEY( "AntiRaceF", obj->anti_race_flags, fread_number( fp ) );
 
         if ( !str_cmp( word, "Activates" ) ) {
           obj->ac_type        = fread_number( fp );

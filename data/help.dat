@@ -1,3 +1,5 @@
+#HELPS
+
 -1 OLC EDIT~
 &BSyntax: &WEDIT AREA [create/reset] [vnum]     - Area Creation and Repoping.
 &BSyntax: &WEDIT ROOM ( [create] [vnum] )       - Room Creation and Editing.
@@ -2185,7 +2187,7 @@ This spell cures blindness in one so unfortunate.
 ~
 0 'CURE LIGHT' 'CURE SERIOUS' 'CURE CRITICAL' 'HEAL'
 
-'PSYCHIC HEALING' 'COMPLETE HEALING'~
+'PSYCHIC HEALING' 'COMPLETE HEALING'~
 Syntax: cast 'cure light'       <character>
 Syntax: cast 'cure serious'     <character>
 Syntax: cast 'cure critical'    <character>
@@ -2459,7 +2461,7 @@ although it isn't efficient to do so.
 ~
 51 'GENERAL PURPOSE' 'GENERAL PURPOSE AMMO' 'HIGH EXPLOSIVE'
 
-   'HIGH EXPLOSIVE AMMO'~
+   'HIGH EXPLOSIVE AMMO'~
 Syntax: cast 'general purpose' <target>
 Syntax: cast 'high explosive'  <target>
 
@@ -2623,7 +2625,7 @@ DISINTEGRATE their victims, killing them instantly.
 ~
 0 'THOUGHT SHIELD' 'MENTAL BARRIER' 'DISPLACEMENT' 'FLESH ARMOR'
 
-  'INTELLECT FORTRESS' 'INERTIAL BARRIER'~
+  'INTELLECT FORTRESS' 'INERTIAL BARRIER'~
 Syntax: cast 'thought shield'
 Syntax: cast 'mental barrier'
 Syntax: cast 'displacement'

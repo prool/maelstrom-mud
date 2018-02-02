@@ -1876,10 +1876,10 @@ void do_ofind( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_WHITE, "        ofind *<type> <sub-type>\n\r", ch );
     send_to_char( AT_WHITE, "&pType being:\n\r", ch );
     send_to_char( AT_WHITE, "  light scroll wand staff weapon\n\r", ch );
-    send_to_char( AT_WHITE, "  treasure armor potion noteboard\n\r", ch );
-    send_to_char( AT_WHITE, "  furniture trash container\n\r", ch );
+    send_to_char( AT_WHITE, "  treasure armor potion boat\n\r", ch );
+    send_to_char( AT_WHITE, "  furniture trash container money\n\r", ch );
     send_to_char( AT_WHITE, "  drink-container blood key food\n\r", ch );
-    send_to_char( AT_WHITE, "  money boat fountain\n\r", ch );
+    send_to_char( AT_WHITE, "  fountain paper quill smoke-bomb\n\r", ch );
     send_to_char( AT_WHITE, "&pSub-Types being:\n\r", ch );
     send_to_char( AT_WHITE, "  armor: a valid wear-loc\n\r", ch );
     send_to_char( AT_WHITE, "  weapon: a valid weapon-type\n\r", ch );

@@ -852,6 +852,7 @@ struct  kill_data {
  * Well known object virtual numbers.
  * Defined in #OBJECTS.
  */
+#define OBJ_VNUM_DUMMY         1
 #define OBJ_VNUM_MONEY_ONE     2
 #define OBJ_VNUM_MONEY_SOME    3
 #define OBJ_VNUM_TRASH         3
@@ -864,15 +865,6 @@ struct  kill_data {
 #define OBJ_VNUM_SLICED_LEG    15
 #define OBJ_VNUM_FINAL_TURD    16
 #define OBJ_VNUM_PORTAL        17
-#define OBJ_VNUM_BERRY         19
-#define OBJ_VNUM_MUSHROOM      20
-#define OBJ_VNUM_LIGHT_BALL    21
-#define OBJ_VNUM_FLASK         25052
-#define OBJ_VNUM_CAULDRON      25053
-#define OBJ_VNUM_MFIRE         25054
-#define OBJ_VNUM_RWFLASK       1343
-#define OBJ_VNUM_RWCAULDRON    1344
-#define OBJ_VNUM_RWFIRE        1345
 #define OBJ_VNUM_TO_FORGE_A    25065 // armor
 #define OBJ_VNUM_TO_FORGE_W    25066 // weapon
 #define OBJ_VNUM_SMITHY_HAMMER 713
@@ -2782,12 +2774,6 @@ struct flag_type {
   int    bit;
   bool   settable;
 };
-
-/*
- * Object defined in limbo.are
- * Used in save.c to load objects that don't exist.
- */
-#define OBJ_VNUM_DUMMY 1
 
 /*
  * Area flags.

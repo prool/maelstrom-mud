@@ -796,7 +796,7 @@ void obj_cast_spell( int sn, int level, CHAR_DATA * ch, CHAR_DATA * victim, OBJ_
         REMOVE_BIT( ch->affected_by, AFF_PEACE );
       }
 
-      if ( ( ( ch->level - 9 > victim->level ) || ( ch->level + 9 < victim->level ) ) && ( !IS_NPC( victim ) ) && ( !IS_SET( victim->act2, PLR_WAR ) ) ) {
+      if ( ( ( ch->level - 9 > victim->level ) || ( ch->level + 9 < victim->level ) ) && ( !IS_NPC( victim ) ) ) {
         send_to_char( AT_WHITE, "That is not in the pkill range... valid range is +/- 8 levels.\n\r", ch );
         return;
       }
@@ -912,8 +912,6 @@ void spell_astral( int sn, int level, CHAR_DATA * ch, void * vo ) {
        || IS_SET( ch->in_room->room_flags, ROOM_NO_ASTRAL_OUT )
        || IS_SET( victim->in_room->area->area_flags, AREA_PROTOTYPE )
        || IS_SET( victim->act, ACT_NOASTRAL )
-       || IS_ARENA( ch )
-       || victim->in_room->area == arena.area
        || IS_AFFECTED( victim, AFF_NOASTRAL ) ) {
     send_to_char( AT_BLUE, "You failed.\n\r", ch );
     return;
@@ -1559,8 +1557,6 @@ void spell_summon( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   if ( !( victim = get_char_world( ch, target_name ) )
        || victim == ch
-       || ch->in_room->area == arena.area
-       || IS_ARENA( victim )
        || !victim->in_room
        || IS_SET( victim->in_room->room_flags, ROOM_SAFE )
        || IS_SET( victim->in_room->room_flags, ROOM_PRIVATE )
@@ -1586,65 +1582,6 @@ void spell_summon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   update_pos( ch );
   STUN_CHAR( ch, 3, STUN_COMMAND );
   do_look( victim, "auto" );
-  return;
-}
-
-void spell_teleport( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA       * victim = (CHAR_DATA *) vo;
-  CHAR_DATA       * pet;
-  ROOM_INDEX_DATA * pRoomIndex;
-
-  if ( !victim->in_room
-       || IS_SET( victim->in_room->room_flags, ROOM_NO_RECALL )
-       || IS_SET( victim->in_room->room_flags, ROOM_NO_ASTRAL_OUT )
-       || IS_SET( victim->in_room->area->area_flags, AREA_PROTOTYPE )
-       || ( !IS_NPC( ch ) && victim->fighting )
-       || ( victim != ch
-            && ( saves_spell( level, victim )
-                 || saves_spell( level, victim ) ) ) ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  for (;; ) {
-    pRoomIndex = get_room_index( number_range( 0, 32767 ) );
-
-    if ( pRoomIndex ) {
-      if (   !IS_SET( pRoomIndex->room_flags, ROOM_PRIVATE )
-             && !IS_SET( pRoomIndex->room_flags, ROOM_SOLITARY )
-             && !IS_SET( pRoomIndex->room_flags, ROOM_NO_ASTRAL_IN )
-             && !IS_SET( pRoomIndex->room_flags, ROOM_NO_RECALL )
-             && !IS_SET( pRoomIndex->area->area_flags, AREA_PROTOTYPE ) ) {
-        break;
-      }
-    }
-  }
-
-  for ( pet = victim->in_room->people; pet; pet = pet->next_in_room ) {
-    if ( IS_NPC( pet ) ) {
-      if ( IS_SET( pet->act, ACT_PET ) && ( pet->master == victim ) ) {
-        break;
-      }
-    }
-  }
-
-  act( AT_BLUE, "$n glimmers briefly, then is gone.", victim, NULL, NULL, TO_ROOM );
-
-  if ( pet ) {
-    act( AT_BLUE, "$n glimmers briefly, then is gone.", pet, NULL, NULL, TO_ROOM );
-    char_from_room( pet );
-  }
-
-  char_from_room( victim );
-  char_to_room( victim, pRoomIndex );
-  act( AT_BLUE, "The air starts to sparkle, then $n appears from nowhere.", victim, NULL, NULL, TO_ROOM );
-  do_look( victim, "auto" );
-
-  if ( pet ) {
-    char_to_room( pet, pRoomIndex );
-    act( AT_BLUE, "The air starts to sparkle, then $n appears from nowhere.", pet, NULL, NULL, TO_ROOM );
-  }
-
   return;
 }
 

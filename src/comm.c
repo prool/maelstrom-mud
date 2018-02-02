@@ -663,11 +663,6 @@ void close_socket( DESCRIPTOR_DATA * dclose ) {
 
       wiznet( "Netdeath has claimed $N.", ch, NULL, WIZ_LINKS, 0, 0 );
 
-      if ( ch->in_room->vnum == ROOM_VNUM_SMITHY ) {
-        char_from_room( ch );
-        char_to_room( ch, get_room_index( 768 ) );
-      }
-
       if (    !IS_SET( ch->act, PLR_WIZINVIS )
               && !IS_SET( ch->act, PLR_CLOAKED ) ) {
         info( "The link between %s and the storm has been torn.",

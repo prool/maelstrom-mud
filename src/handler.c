@@ -1413,7 +1413,6 @@ void extract_char( CHAR_DATA * ch, bool fPull ) {
   OBJ_DATA  * obj;
   OBJ_DATA  * obj_next;
   extern bool delete_char;
-  bool        is_arena = IS_ARENA( ch );
 
   if ( !ch->in_room ) {
     bug( "Extract_char: NULL.", 0 );
@@ -1434,7 +1433,7 @@ void extract_char( CHAR_DATA * ch, bool fPull ) {
 
   stop_fighting( ch, TRUE );
 
-  if ( fPull || !is_arena ) {
+  if ( fPull ) {
     for ( obj = ch->carrying; obj; obj = obj_next ) {
       obj_next = obj->next_content;
 
@@ -1446,28 +1445,18 @@ void extract_char( CHAR_DATA * ch, bool fPull ) {
     }
   }
 
-  if ( is_arena ) {
-    arena.fch   = NULL;
-    arena.sch   = NULL;
-    arena.award = 0;
-  }
-
   char_from_room( ch );
 
   if ( !fPull ) {
     ROOM_INDEX_DATA * location;
 
-    if ( is_arena && ( location = get_room_index( ROOM_VNUM_LIMBO ) ) ) {
-      char_to_room( ch, location );
-    } else if ( !( location = get_room_index( ROOM_VNUM_LIMBO ) ) ) {
+    if ( !( location = get_room_index( ROOM_VNUM_LIMBO ) ) ) {
       bug( "Purgatory A does not exist!", 0 );
       char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
     } else {
       char buf[ MAX_INPUT_LENGTH ];
       char_to_room( ch, location );
-      sprintf( buf, "You awaken in the morgue%s",
-               ch->level <= 20 ? ", your battered corpse next to you.\n\r"
-               : ".\n\r" );
+      sprintf( buf, "You awaken in the morgue%s", ch->level <= 20 ? ", your battered corpse next to you.\n\r" : ".\n\r" );
       send_to_char( AT_BLUE, "You awaken in the morgue.\n\r", ch );
     }
 

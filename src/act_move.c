@@ -1088,10 +1088,8 @@ void do_recall( CHAR_DATA * ch, char * argument ) {
   sprintf( name, "%s", pClan->diety );
   act( C_DEFAULT, "$n prays for transportation!", ch, NULL, NULL, TO_ROOM );
 
-  if ( ( ch->clan != 0 ) && ( ch->combat_timer < 1 ) && !IS_ARENA( ch ) ) {
+  if ( ( ch->clan != 0 ) && ( ch->combat_timer < 1 ) ) {
     place = pClan->recall;
-  } else {
-    place = ch->in_room->area->recall;
   }
 
   place = ROOM_VNUM_LIMBO;
@@ -1116,25 +1114,17 @@ void do_recall( CHAR_DATA * ch, char * argument ) {
     if ( number_bits( 1 ) == 0 ) {
       WAIT_STATE( ch, 4 );
 
-      if ( !IS_ARENA( ch ) ) {
-        lose = ( ch->desc ) ? 50 : 100;
-        gain_exp( ch, 0 - lose );
-        sprintf( buf, "You failed!  You lose %d exps.\n\r", lose );
-      } else {
-        strcpy( buf, "You failed!" );
-      }
+      lose = ( ch->desc ) ? 50 : 100;
+      gain_exp( ch, 0 - lose );
+      sprintf( buf, "You failed!  You lose %d exps.\n\r", lose );
 
       send_to_char( C_DEFAULT, buf, ch );
       return;
     }
 
-    if ( !IS_ARENA( ch ) ) {
-      lose = ( ch->desc ) ? 100 : 200;
-      gain_exp( ch, 0 - lose );
-      sprintf( buf, "You recall from combat!  You lose %d exps.\n\r", lose );
-    } else {
-      strcpy( buf, "You recall from combat!" );
-    }
+    lose = ( ch->desc ) ? 100 : 200;
+    gain_exp( ch, 0 - lose );
+    sprintf( buf, "You recall from combat!  You lose %d exps.\n\r", lose );
 
     send_to_char( C_DEFAULT, buf, ch );
     stop_fighting( ch, TRUE );
@@ -1153,11 +1143,6 @@ void do_recall( CHAR_DATA * ch, char * argument ) {
   }
 
   act( C_DEFAULT, "$n disappears.", ch, NULL, NULL, TO_ROOM );
-
-  if ( victim != NULL && IS_ARENA( ch ) ) {
-    act( AT_RED, "$n has escaped!  Hunt $m down!", ch, NULL, victim,
-         TO_VICT );
-  }
 
   char_from_room( ch );
   char_to_room( ch, location );

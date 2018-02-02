@@ -47,7 +47,6 @@ typedef unsigned char bool;
  */
 typedef struct  affect_data       AFFECT_DATA;
 typedef struct  area_data         AREA_DATA;
-typedef struct  arena_data        ARENA_DATA;
 typedef struct  new_clan_data     CLAN_DATA;
 typedef struct  ban_data          BAN_DATA;
 typedef struct  gskill_data       GSPELL_DATA;
@@ -77,7 +76,6 @@ typedef struct  trap_data         TRAP_DATA;
 typedef struct  playerlist_data   PLAYERLIST_DATA;
 typedef struct  skill_type        SKILL_TYPE;
 typedef struct  newbie_data       NEWBIE_DATA;
-typedef struct  war_data          WAR_DATA;
 typedef struct  money_data        MONEY_DATA;
 
 #define S_PER_G 10
@@ -148,34 +146,6 @@ struct money_data {
   int gold;
   int silver;
   int copper;
-};
-
-struct arena_data {
-  AREA_DATA * area;  // arena area
-  CHAR_DATA * cch;   // challenger char
-  CHAR_DATA * och;   // optional challengee char
-  CHAR_DATA * fch;   // first char in arena
-  CHAR_DATA * sch;   // second char in arena
-  int         award; // money in the pot
-  int         count; // update ticker
-};
-
-struct war_data {
-  AREA_DATA * area;    // battlefield
-  CHAR_DATA * fch;
-  CHAR_DATA * sch;
-  bool        iswar;
-  int         wartype;
-  int         max_level;
-  int         min_level;
-  int         inwar;
-  int         team_red;
-  int         team_blue;
-  int         clan_chlng;
-  int         clan_accpt;
-  int         timeleft;
-  int         count;
-  int         ticker;
 };
 
 struct wiznet_type {
@@ -622,22 +592,7 @@ struct  kill_data {
  * Defined in #MOBILES.
  */
 #define MOB_VNUM_CITYGUARD       127
-#define MOB_VNUM_DEMON1          4
-#define MOB_VNUM_DEMON2          4
 #define MOB_VNUM_SUPERMOB        7
-#define MOB_VNUM_ULT             3160
-#define MOB_VNUM_AIR_ELEMENTAL   8914
-#define MOB_VNUM_EARTH_ELEMENTAL 8915
-#define MOB_VNUM_WATER_ELEMENTAL 8916
-#define MOB_VNUM_FIRE_ELEMENTAL  8917
-#define MOB_VNUM_DUST_ELEMENTAL  8918
-#define MOB_VNUM_DEMON           80
-#define MOB_VNUM_INSECTS         81
-#define MOB_VNUM_WOLFS           82
-#define MOB_VNUM_ANGEL           83
-#define MOB_VNUM_SHADOW          84
-#define MOB_VNUM_BEAST           85
-#define MOB_VNUM_TRENT           86
 
 /* CLANS */
 #define CLAN_PKILL         BV00
@@ -1000,10 +955,6 @@ struct  kill_data {
 #define ROOM_VNUM_HELL        8
 #define ROOM_VNUM_ARTIFACTOR  25097
 #define ROOM_VNUM_SMITHY      713
-#define ROOM_ARENA_VNUM       7350
-#define ROOM_ARENA_ENTER_F    7368
-#define ROOM_ARENA_ENTER_S    7369
-#define ROOM_ARENA_HALL_SHAME 7370
 
 /*
  * Room flags.
@@ -1191,9 +1142,6 @@ struct  kill_data {
 #define PLR_COMBAT     BV29
 #define PLR_OUTCAST    BV30
 #define PLR_PKILLER    BV31
-#define PLR_WAR        BV00
-#define TEAM_RED       BV01
-#define TEAM_BLUE      BV02
 #define PLR_REMORT     BV03
 
 #define STUN_TOTAL     0 // Commands and combat halted. Normal stun
@@ -1227,13 +1175,11 @@ struct  kill_data {
 #define CHANNEL_GUARDIAN  16384
 #define CHANNEL_CODER     65536
 #define CHANNEL_INFO      131072
-#define CHANNEL_CHALLENGE 262144
 
 #define CHANNEL_CLASS_MASTER  1048576
 #define CHANNEL_CLAN_MASTER   2097152
 
 #define CHANNEL_IMC   4194304
-#define CHANNEL_ARENA 16777216
 
 /*
  * Prototype for a mob.
@@ -1373,13 +1319,8 @@ struct  char_data {
   int               summon_timer;
   int               stunned[ STUN_MAX ];
   int               wiznet;
-  int               warpts;
-  int               warkills;
-  int               wardeaths;
   int               pkills;
   int               pkilled;
-  int               arenawon;
-  int               arenalost;
   int               incarnations;
   int               raisepts;
 
@@ -1921,13 +1862,6 @@ int mmlvl_mana( CHAR_DATA * ch, int sn );
 #define IS_OBJ_STAT( obj, stat )( IS_SET( ( obj )->extra_flags, ( stat ) ) )
 
 /*
- * Arena macro.
- */
-#define IS_ARENA( ch ) ( !IS_NPC( ( ch ) ) && ( ch )->in_room && \
-                         ( ch )->in_room->area == arena.area &&  \
-                         ( ( ch ) == arena.fch || ( ch ) == arena.sch ) )
-
-/*
  * Structure for a command in the command lookup table.
  */
 struct  cmd_type {
@@ -1999,8 +1933,6 @@ extern KILL_DATA      kill_table  [];
 extern char           log_buf   [];
 extern TIME_INFO_DATA time_info;
 extern WEATHER_DATA   weather_info;
-extern ARENA_DATA     arena;
-extern WAR_DATA       war;
 extern char         * down_time;
 extern char         * warning1;
 extern char         * warning2;
@@ -2039,7 +1971,6 @@ DECLARE_DO_FUN( do_mptransfer );
 DECLARE_DO_FUN( do_opstat );
 DECLARE_DO_FUN( do_rpstat );
 DECLARE_DO_FUN( do_addlag );
-DECLARE_DO_FUN( do_accept );
 DECLARE_DO_FUN( do_account );
 DECLARE_DO_FUN( do_advance );
 DECLARE_DO_FUN( do_affectedby );
@@ -2071,7 +2002,6 @@ DECLARE_DO_FUN( do_brief );
 DECLARE_DO_FUN( do_bug );
 DECLARE_DO_FUN( do_bugs );
 DECLARE_DO_FUN( do_buy );
-DECLARE_DO_FUN( do_challenge );
 DECLARE_DO_FUN( do_champlist );
 DECLARE_DO_FUN( do_cast );
 DECLARE_DO_FUN( do_changes );
@@ -2319,8 +2249,6 @@ DECLARE_DO_FUN( do_tempban );
 DECLARE_DO_FUN( do_newban );
 DECLARE_DO_FUN( do_banlist );
 DECLARE_DO_FUN( do_scan );
-DECLARE_DO_FUN( do_war );
-DECLARE_DO_FUN( do_declare );
 DECLARE_DO_FUN( do_remor );
 DECLARE_DO_FUN( do_remort );
 DECLARE_DO_FUN( do_raise );
@@ -2355,7 +2283,6 @@ DECLARE_SPELL_FUN( spell_scry );
 DECLARE_SPELL_FUN( spell_sleep );
 DECLARE_SPELL_FUN( spell_spell_bind );
 DECLARE_SPELL_FUN( spell_summon );
-DECLARE_SPELL_FUN( spell_teleport );
 DECLARE_SPELL_FUN( spell_word_of_recall );
 DECLARE_SPELL_FUN( spell_truesight );
 DECLARE_SPELL_FUN( spell_confusion );
@@ -2499,7 +2426,6 @@ char * a_an( const char * str );
 char * capitalize( const char * str );
 void append_file( CHAR_DATA * ch, char * file, char * str );
 void info( const char * str, int param1, int param2 );
-void challenge( const char * str, int param1, int param2 );
 void bug( const char * str, int param );
 void logch( char * l_str, int l_type, int lvl );
 void log_string( char * str, int l_type, int level );
@@ -2507,7 +2433,6 @@ void tail_chain( void );
 void clone_mobile( CHAR_DATA * parent, CHAR_DATA * clone );
 void clone_object( OBJ_DATA * parent, OBJ_DATA * clone );
 void parse_ban( char * argument, BAN_DATA * banned );
-void arena_chann( const char * str, int param1, int param2 );
 
 /* devops.c */
 void report_issue( const char * title, const char * description, const char * label );

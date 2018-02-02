@@ -43,7 +43,6 @@ bool is_wielding_poisoned( CHAR_DATA * ch );
 void make_corpse( CHAR_DATA * ch );
 void one_hit( CHAR_DATA * ch, CHAR_DATA * victi, int dt, bool dual );
 void raw_kill( CHAR_DATA * ch, CHAR_DATA * victim );
-void war_kill( CHAR_DATA * ch );
 void set_fighting( CHAR_DATA * ch, CHAR_DATA * victim );
 void disarm( CHAR_DATA * ch, CHAR_DATA * victim );
 void trip( CHAR_DATA * ch, CHAR_DATA * victim );
@@ -321,7 +320,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
  */
 void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
   DESCRIPTOR_DATA * d;
-  bool              warkilled = FALSE;
 
   if ( victim->position == POS_DEAD ) {
     return;
@@ -556,189 +554,65 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
    * Payoff for killing things.
    */
   if ( victim->position == POS_DEAD ) {
-    if ( !IS_ARENA( ch ) && !IS_SET( victim->act2, PLR_WAR ) ) {
-      group_gain( ch, victim );
+    group_gain( ch, victim );
 
-      if ( ( !IS_NPC( ch ) ) && ( !IS_NPC( victim ) ) ) {
-        CLAN_DATA * pClan;
-        CLAN_DATA * Cland;
+    if ( ( !IS_NPC( ch ) ) && ( !IS_NPC( victim ) ) ) {
+      CLAN_DATA * pClan;
+      CLAN_DATA * Cland;
 
-        if ( ch->clan != victim->clan ) {
-          if ( ( pClan = get_clan_index( ch->clan ) ) != NULL ) {
-            pClan->pkills++;
-          }
-
-          if ( ( Cland = get_clan_index( victim->clan ) ) != NULL ) {
-            Cland->pdeaths++;
-          }
-        }
-
-        /*            REMOVE_BIT(victim->act, PLR_THIEF);*/
-      }
-
-      if ( ( !IS_NPC( ch ) ) && ( IS_NPC( victim ) ) ) {
-        CLAN_DATA * pClan;
-
+      if ( ch->clan != victim->clan ) {
         if ( ( pClan = get_clan_index( ch->clan ) ) != NULL ) {
-          pClan->mkills++;
+          pClan->pkills++;
+        }
+
+        if ( ( Cland = get_clan_index( victim->clan ) ) != NULL ) {
+          Cland->pdeaths++;
         }
       }
 
-      if ( ( IS_NPC( ch ) ) && ( !IS_NPC( victim ) ) ) {
-        CLAN_DATA * pClan;
+      /*            REMOVE_BIT(victim->act, PLR_THIEF);*/
+    }
 
-        if ( ( pClan = get_clan_index( victim->clan ) ) != NULL ) {
-          pClan->mdeaths++;
-        }
+    if ( ( !IS_NPC( ch ) ) && ( IS_NPC( victim ) ) ) {
+      CLAN_DATA * pClan;
+
+      if ( ( pClan = get_clan_index( ch->clan ) ) != NULL ) {
+        pClan->mkills++;
+      }
+    }
+
+    if ( ( IS_NPC( ch ) ) && ( !IS_NPC( victim ) ) ) {
+      CLAN_DATA * pClan;
+
+      if ( ( pClan = get_clan_index( victim->clan ) ) != NULL ) {
+        pClan->mdeaths++;
+      }
+    }
+
+    if ( !IS_NPC( victim ) ) {
+      if ( !IS_NPC( ch ) && ch != victim ) {
+        ch->pkills++;
+        victim->pkilled++;
       }
 
-      if ( !IS_NPC( victim ) ) {
-        if ( !IS_NPC( ch ) && ch != victim ) {
-          ch->pkills++;
-          victim->pkilled++;
-        }
-
-        /*
-         * Dying penalty:
-         * 1/2 way back to previous level.
-         */
-        if ( victim->level < LEVEL_HERO
-             || ( victim->level >= LEVEL_HERO && IS_NPC( ch ) ) ) {
-          /*		death_xp_loss( victim ); */
-          sprintf( log_buf, "%s killed by %s at %d.", victim->name,
-                   ch->name, victim->in_room->vnum );
-        }
-
-        log_string( log_buf, CHANNEL_LOG, -1 );
-        wiznet( log_buf, NULL, NULL, WIZ_DEATHS, 0, 0 );
-        info( "%s gets slaughtered by %s!", (int)victim->name, (int)( IS_NPC( ch ) ? ch->short_descr : ch->name ) );
-        save_clans();
-      }
-    } else if ( war.iswar == TRUE && IS_SET( victim->act2, PLR_WAR ) ) {
-      char buf[ MAX_STRING_LENGTH ];
-      warkilled = TRUE;
-      sprintf( buf, "&C%s &chas become a casualty of war.", victim->name );
-      info( buf, 0, 0 );
-      ch->warpts = ch->warpts + 1;
-      send_to_char( C_DEFAULT, "You have been awarded 1 war point for your kill.\n\r", ch );
-      ch->warkills      = ch->warkills + 1;
-      victim->wardeaths = victim->wardeaths + 1;
-
-      if ( IS_SET( victim->act2, TEAM_RED ) ) {
-        war.team_red--;
+      /*
+        * Dying penalty:
+        * 1/2 way back to previous level.
+        */
+      if ( victim->level < LEVEL_HERO
+            || ( victim->level >= LEVEL_HERO && IS_NPC( ch ) ) ) {
+        /*		death_xp_loss( victim ); */
+        sprintf( log_buf, "%s killed by %s at %d.", victim->name,
+                  ch->name, victim->in_room->vnum );
       }
 
-      if ( IS_SET( victim->act2, TEAM_BLUE ) ) {
-        war.team_blue--;
-      }
-
-      war.inwar--;
-
-      if ( !IS_NPC( victim ) ) {
-        war_kill( victim );
-      }
-
-      if ( war.wartype == 1 && war.inwar == 1 ) {
-        sprintf( buf, "&C%s &Rhas survived iron man war!", ch->name );
-        info( buf, 0, 0 );
-        ch->warpts = ch->warpts + 100;
-        send_to_char( C_DEFAULT, "You have been awarded 100 war points for your victory.\n\r", ch );
-        war.wartype   = 0;
-        war.max_level = 0;
-        war.max_level = 0;
-        war.inwar     = 0;
-        war.count     = 0;
-        war.timeleft  = 0;
-        war.iswar     = FALSE;
-        REMOVE_BIT( ch->act2, PLR_WAR );
-        char_from_room( ch );
-        char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
-      } else if ( war.team_red == 0 && war.wartype != 1 ) {
-        sprintf( buf, "&CThe &BBLUE TEAM &chas won the war!" );
-        info( buf, 0, 0 );
-        ch->warpts = ch->warpts + 20;
-        send_to_char( C_DEFAULT, "You have been awarded 20 war points for the winning kill.\n\r", ch );
-        war.wartype   = 0;
-        war.max_level = 0;
-        war.max_level = 0;
-        war.inwar     = 0;
-        war.count     = 0;
-        war.timeleft  = 0;
-        war.iswar     = FALSE;
-        REMOVE_BIT( ch->act2, PLR_WAR );
-        REMOVE_BIT( ch->act2, TEAM_BLUE );
-        char_from_room( ch );
-        char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
-
-        for ( d = descriptor_list; d != NULL; d = d->next ) {
-          if ( !IS_NPC( d->character ) ) {
-            if ( IS_SET( d->character->act2, PLR_WAR ) ) {
-              REMOVE_BIT( d->character->act2, PLR_WAR );
-            }
-
-            if ( IS_SET( d->character->act2, TEAM_RED ) ) {
-              REMOVE_BIT( d->character->act2, TEAM_RED );
-            }
-
-            if ( IS_SET( d->character->act2, TEAM_BLUE ) ) {
-              ch->warpts = ch->warpts + 10;
-              send_to_char( C_DEFAULT, "You have been awarded 10 war points for your victory.\n\r", ch );
-              REMOVE_BIT( d->character->act2, TEAM_BLUE );
-            }
-          }
-        }
-      } else if ( war.team_blue == 0 && war.wartype != 1 ) {
-        sprintf( buf, "&CThe &RRED TEAM &chas won the war!" );
-        info( buf, 0, 0 );
-        ch->warpts = ch->warpts + 20;
-        send_to_char( C_DEFAULT, "You have been awarded 20 war points for the winning kill.\n\r", ch );
-        war.wartype   = 0;
-        war.max_level = 0;
-        war.max_level = 0;
-        war.inwar     = 0;
-        war.count     = 0;
-        war.timeleft  = 0;
-        war.iswar     = FALSE;
-        REMOVE_BIT( ch->act2, PLR_WAR );
-
-        if ( IS_SET( ch->act2, TEAM_RED ) ) {
-          REMOVE_BIT( ch->act2, TEAM_RED );
-        }
-
-        char_from_room( ch );
-        char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
-
-        for ( d = descriptor_list; d != NULL; d = d->next ) {
-          if ( !IS_NPC( d->character ) ) {
-            if ( IS_SET( d->character->act2, PLR_WAR ) ) {
-              REMOVE_BIT( d->character->act2, PLR_WAR );
-            }
-
-            if ( IS_SET( d->character->act2, TEAM_RED ) ) {
-              ch->warpts = ch->warpts + 10;
-              send_to_char( C_DEFAULT, "You have been awarded 10 war points for your victory.\n\r", ch );
-              REMOVE_BIT( d->character->act2, TEAM_RED );
-            }
-
-            if ( IS_SET( d->character->act2, TEAM_BLUE ) ) {
-              REMOVE_BIT( d->character->act2, TEAM_BLUE );
-            }
-          }
-        }
-      }
-    } else if ( !IS_SET( victim->act2, PLR_WAR ) ) {
-      sprintf( log_buf, "&C%s &chas defeated &C%s &cin the arena!",
-               ch->name, victim->name );
-      wiznet( log_buf, NULL, NULL, WIZ_DEATHS, 0, 0 );
       log_string( log_buf, CHANNEL_LOG, -1 );
-      challenge( log_buf, 0, 0 );
-      ch->arenawon++;
-      victim->arenalost++;
+      wiznet( log_buf, NULL, NULL, WIZ_DEATHS, 0, 0 );
+      info( "%s gets slaughtered by %s!", (int)victim->name, (int)( IS_NPC( ch ) ? ch->short_descr : ch->name ) );
+      save_clans();
     }
 
-    if ( warkilled == FALSE ) {
-      raw_kill( ch, victim );
-    }
+    raw_kill( ch, victim );
 
     /* Ok, now we want to remove the deleted flag from the
      * PC victim.
@@ -940,8 +814,7 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
      }
    */
 
-  if ( abs( ch->level - victim->level ) > 5 && ( !IS_NPC( ch ) )
-       && ( !IS_SET( victim->act2, PLR_WAR ) ) ) {
+  if ( abs( ch->level - victim->level ) > 5 && ( !IS_NPC( ch ) ) ) {
     send_to_char( AT_WHITE, "That is not in the pkill range... valid range is +/- 5 levels.\n\r", ch );
     return TRUE;
   }
@@ -968,16 +841,14 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
 
   pClan = get_clan_index( ch->clan );
 
-  if ( ( ch->clan == 0 ) && ( !IS_SET( pClan->settings, CLAN_PKILL ) )
-       && ( !IS_SET( victim->act2, PLR_WAR ) ) ) {
+  if ( ( ch->clan == 0 ) && ( !IS_SET( pClan->settings, CLAN_PKILL ) ) ) {
     send_to_char( AT_WHITE, "You must be clanned to murder.\n\r", ch );
     return TRUE;
   }
 
   pClan = get_clan_index( victim->clan );
 
-  if ( ( victim->clan == 0 ) && ( !IS_SET( pClan->settings, CLAN_PKILL ) )
-       && ( !IS_SET( victim->act2, PLR_WAR ) ) ) {
+  if ( ( victim->clan == 0 ) && ( !IS_SET( pClan->settings, CLAN_PKILL ) ) ) {
     send_to_char( AT_WHITE, "You can only murder clanned players.\n\r", ch );
     return TRUE;
   }
@@ -990,22 +861,19 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
   }
 
   /* can murder self for testing =) */
-  if ( ch->clan == victim->clan && ch != victim && ch->clan != 0
-       && ( !IS_SET( victim->act2, PLR_WAR ) ) ) {
+  if ( ch->clan == victim->clan && ch != victim && ch->clan != 0 ) {
     send_to_char( AT_WHITE, "You cannot murder your own clan member.\n\r", ch );
     return TRUE;
   }
 
-  if ( !IS_SET( pClan->settings, CLAN_PKILL )
-       && ( !IS_SET( victim->act2, PLR_WAR ) ) ) {
+  if ( !IS_SET( pClan->settings, CLAN_PKILL ) ) {
     send_to_char( AT_WHITE, "Peaceful clan members cannot murder.\n\r", ch );
     return TRUE;
   }
 
   pClan = get_clan_index( victim->clan );
 
-  if ( !IS_SET( pClan->settings, CLAN_PKILL )
-       && ( !IS_SET( victim->act2, PLR_WAR ) ) ) {
+  if ( !IS_SET( pClan->settings, CLAN_PKILL ) ) {
     send_to_char( AT_WHITE, "You may not murder peaceful clan members.\n\r", ch );
     return TRUE;
   }
@@ -1023,10 +891,6 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
 void check_killer( CHAR_DATA * ch, CHAR_DATA * victim ) {
   CLAN_DATA * pClan;
   char        buf[ MAX_STRING_LENGTH ];
-
-  if ( IS_ARENA( victim ) ) {
-    return;
-  }
 
   /*
    * NPC's are fair game.
@@ -1261,28 +1125,6 @@ void make_corpse( CHAR_DATA * ch ) {
   OBJ_DATA * random;
   int        level = ch->level;
 
-  /* No corpses in the arena. -- Altrag */
-  if ( IS_ARENA( ch ) ) {
-    CHAR_DATA * gch = ( ch == arena.fch ? arena.sch : arena.fch );
-    int         award;
-
-    /* Arena master takes 1/5.. *wink* */
-    award = ( arena.award * 4 ) / 5;
-    sprintf( log_buf, "&C%s &chas been awarded &W%d &ccoins for %s victory.",
-             gch->name, award, ( gch->sex == SEX_NEUTRAL ? "its" :
-                                 ( gch->sex == SEX_MALE ? "his" : "her" ) ) );
-    /* wiznet(log_buf, NULL, NULL, WIZ_DEATHS, 0, 0); */
-    log_string( log_buf, CHANNEL_LOG, -1 );
-    challenge( log_buf, 0, 0 );
-    gch->money.gold += award;
-    sprintf( log_buf, "You have been awarded %d gold coins for your victory."
-                      "\n\r", award );
-    send_to_char( AT_YELLOW, log_buf, gch );
-    char_from_room( gch );
-    char_to_room( gch, get_room_index( ROOM_VNUM_LIMBO ) );
-    return;
-  }
-
   if ( !IS_NPC( ch ) && ch->level <= 20 ) {
     char_from_room( ch );
     char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
@@ -1387,10 +1229,6 @@ void death_cry( CHAR_DATA * ch ) {
   int               door;
   OBJ_DATA        * obj;
 
-  if ( IS_ARENA( ch ) ) {
-    return;
-  }
-
   vnum = 0;
 
   switch ( number_bits( 4 ) ) {
@@ -1476,7 +1314,6 @@ void death_cry( CHAR_DATA * ch ) {
 void raw_kill( CHAR_DATA * ch, CHAR_DATA * victim ) {
   AFFECT_DATA * paf;
   AFFECT_DATA * paf_next;
-  bool          is_arena = IS_ARENA( ch );
 
   stop_fighting( victim, TRUE );
 
@@ -1509,58 +1346,17 @@ void raw_kill( CHAR_DATA * ch, CHAR_DATA * victim ) {
 
   extract_char( victim, FALSE );
 
-  if ( !is_arena ) {
-    victim->armor        = 100;
-    victim->hitroll      = 0;
-    victim->damroll      = 0;
-    victim->saving_throw = 0;
-    victim->carry_weight = 0;
-    victim->carry_number = 0;
-  }
+  victim->armor        = 100;
+  victim->hitroll      = 0;
+  victim->damroll      = 0;
+  victim->saving_throw = 0;
+  victim->carry_weight = 0;
+  victim->carry_number = 0;
 
   victim->position = POS_RESTING;
   victim->hit      = UMAX( 1, victim->hit );
   victim->mana     = UMAX( 1, victim->mana );
   victim->move     = UMAX( 1, victim->move );
-  save_char_obj( victim );
-  return;
-}
-
-void war_kill( CHAR_DATA * victim ) {
-  AFFECT_DATA * paf;
-  AFFECT_DATA * paf_next;
-
-  stop_fighting( victim, TRUE );
-  rprog_death_trigger( victim->in_room, victim );
-  char_from_room( victim );
-  char_to_room( victim, get_room_index( ROOM_VNUM_LIMBO ) );
-
-  for ( paf = victim->affected; paf; paf = paf_next ) {
-    paf_next = paf->next;
-    affect_remove( victim, paf );
-  }
-
-  for ( paf = victim->affected2; paf; paf = paf_next ) {
-    paf_next = paf->next;
-    affect_remove2( victim, paf );
-  }
-
-  REMOVE_BIT( victim->act2, PLR_WAR );
-
-  if ( IS_SET( victim->act2, TEAM_RED ) ) {
-    REMOVE_BIT( victim->act2, TEAM_RED );
-  }
-
-  if ( IS_SET( victim->act2, TEAM_BLUE ) ) {
-    REMOVE_BIT( victim->act2, TEAM_BLUE );
-  }
-
-  victim->affected_by  = 0;
-  victim->affected_by2 = 0;
-  victim->position     = POS_RESTING;
-  victim->hit          = UMAX( 1, victim->hit );
-  victim->mana         = UMAX( 1, victim->mana );
-  victim->move         = UMAX( 1, victim->move );
   save_char_obj( victim );
   return;
 }
@@ -1992,10 +1788,8 @@ void do_kill( CHAR_DATA * ch, char * argument ) {
     REMOVE_BIT( ch->affected_by, AFF_PEACE );
   }
 
-  if ( !IS_NPC( victim ) && !IS_ARENA( victim ) ) {
-    if (   !IS_SET( victim->act, PLR_KILLER )
-           && !IS_SET( victim->act, PLR_THIEF )
-           && !IS_SET( victim->act2, PLR_WAR ) ) {
+  if ( !IS_NPC( victim ) ) {
+    if (   !IS_SET( victim->act, PLR_KILLER ) && !IS_SET( victim->act, PLR_THIEF ) ) {
       send_to_char( AT_WHITE, "You must MURDER a player.\n\r", ch );
       return;
     }
@@ -2024,9 +1818,7 @@ void do_kill( CHAR_DATA * ch, char * argument ) {
 
   WAIT_STATE( ch, PULSE_VIOLENCE );
 
-  if ( ( !IS_SET( victim->act2, PLR_WAR ) ) ) {
-    check_killer( ch, victim );
-  }
+  check_killer( ch, victim );
 
   multi_hit( ch, victim, TYPE_UNDEFINED );
   return;
@@ -2078,15 +1870,12 @@ void do_murder( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_SET( ch->act, PLR_PKILLER ) && !IS_ARENA( ch ) &&
-       !IS_NPC( victim ) ) { /* chars can murder mobs */
-    send_to_char( C_DEFAULT,
-                  "You must be a Pkiller to kill another mortal!\n\r", ch );
+  if ( !IS_SET( ch->act, PLR_PKILLER ) && !IS_NPC( victim ) ) {
+    send_to_char( C_DEFAULT, "You must be a Pkiller to kill another mortal!\n\r", ch );
     return;
   }
 
-  if ( !IS_SET( victim->act, PLR_PKILLER ) && !IS_ARENA( victim )
-       && !IS_NPC( victim ) ) { /* chars can murder mobs */
+  if ( !IS_SET( victim->act, PLR_PKILLER ) && !IS_NPC( victim ) ) {
     send_to_char( C_DEFAULT, "You can only pkill other Pkillers.\n\r", ch );
     return;
   }
@@ -2191,12 +1980,8 @@ void do_flee( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( IS_SET( ch->in_room->room_flags, ROOM_NO_FLEE ) ) {
-    if ( !IS_ARENA( ch ) ) {
-      send_to_char( C_DEFAULT, "You failed!  You lose 10 exps.\n\r", ch );
-      gain_exp( ch, -10 );
-    } else {
-      send_to_char( C_DEFAULT, "You failed!\n\r", ch );
-    }
+    send_to_char( C_DEFAULT, "You failed!  You lose 10 exps.\n\r", ch );
+    gain_exp( ch, -10 );
 
     return;
   }
@@ -2228,20 +2013,11 @@ void do_flee( CHAR_DATA * ch, char * argument ) {
     ch->in_room = was_in;
     act( C_DEFAULT, "$n has fled!", ch, NULL, NULL, TO_ROOM );
 
-    if ( IS_ARENA( ch ) ) {
-      act( AT_RED, "$n has escaped!  After $m!", ch, NULL, victim,
-           TO_VICT );
-    }
-
     ch->in_room = now_in;
 
     if ( !IS_NPC( ch ) ) {
-      if ( !IS_ARENA( ch ) ) {
-        send_to_char( C_DEFAULT, "You flee from combat!  You lose 25 exps.\n\r", ch );
-        gain_exp( ch, -25 );
-      } else {
-        send_to_char( C_DEFAULT, "You flee from combat!\n\r", ch );
-      }
+      send_to_char( C_DEFAULT, "You flee from combat!  You lose 25 exps.\n\r", ch );
+      gain_exp( ch, -25 );
     }
 
     if ( ch->fighting && IS_NPC( ch->fighting ) ) {
@@ -2254,12 +2030,8 @@ void do_flee( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_ARENA( ch ) ) {
-    send_to_char( C_DEFAULT, "You failed!  You lose 10 exps.\n\r", ch );
-    gain_exp( ch, -10 );
-  } else {
-    send_to_char( C_DEFAULT, "You failed!\n\r", ch );
-  }
+  send_to_char( C_DEFAULT, "You failed!  You lose 10 exps.\n\r", ch );
+  gain_exp( ch, -10 );
 
   return;
 }
@@ -2896,179 +2668,6 @@ void do_rage( CHAR_DATA * ch, char * argument ) {
   af.modifier = ch->level;
   affect_to_char2( ch, &af );
 
-  return;
-}
-
-void do_challenge( CHAR_DATA * ch, char * argument ) {
-  int        award;
-  char       arg1[ MAX_INPUT_LENGTH ];
-  char       arg2[ MAX_INPUT_LENGTH ];
-  int        rvnum = ch->in_room->vnum;
-  MONEY_DATA amount;
-
-  if ( IS_NPC( ch ) ) {
-    send_to_char( C_DEFAULT, "NPC's can't fight in the arena.\n\r", ch );
-    return;
-  }
-
-  if ( rvnum == ROOM_VNUM_HELL ) {
-    send_to_char( C_DEFAULT, "Nice try, but get out the real way.\n\r", ch );
-    return;
-  }
-
-  if ( arena.fch && arena.sch ) {
-    send_to_char( C_DEFAULT, "There are already two people fighting in the"
-                             " arena.\n\r", ch );
-    return;
-  }
-
-  if ( arena.cch ) {
-    sprintf( arg1, "%s is offering a challenge.  Type accept to accept it.\n\r",
-             arena.cch->name );
-    send_to_char( C_DEFAULT, arg1, ch );
-    return;
-  }
-
-  argument = one_argument( argument, arg1 );
-  argument = one_argument( argument, arg2 );
-
-  if ( ( is_number( arg1 ) && ( award = atoi( arg1 ) ) < 1 )
-       || ( !is_number( arg1 ) && !is_number( arg2 ) )
-       || ( is_number( arg2 ) && ( award = atoi( arg2 ) ) < 1 ) ) {
-    send_to_char( C_DEFAULT, "Syntax: challenge [player] <award>\n\r", ch );
-    send_to_char( C_DEFAULT, " Player is the optional name of a specific person to challenge.\n\r", ch );
-    send_to_char( C_DEFAULT, " Award is at least 1 gold coins.\n\r", ch );
-    return;
-  } else if ( ( award = atoi( arg2 ) ) ) {
-    DESCRIPTOR_DATA * d;
-    bool              found = FALSE;
-
-    for ( d = descriptor_list; d; d = d->next ) {
-      if ( d->connected == CON_PLAYING
-           && is_name( NULL, arg1, d->character->name )
-           && d->character && ch ) {
-        found     = TRUE;
-        arena.och = d->character;
-        break;
-      }
-    }
-
-    if ( !found ) {
-      send_to_char( C_DEFAULT, "They aren't here.\n\r", ch );
-      return;
-    }
-  } else {
-    award = atoi( arg1 );
-  }
-
-  /* Convert and compare copper values: */
-  if ( award * 100 > ( ch->money.gold * C_PER_G + ch->money.silver * S_PER_G +
-                       ch->money.copper ) ) {
-    /*  if ( award > ( ch->money.gold + (ch->money.silver/SILVER_PER_GOLD) +
-       (ch->money.copper/COPPER_PER_GOLD) ) )  */
-    send_to_char( C_DEFAULT, "You can't afford that.\n\r", ch );
-    arena.och = NULL;
-    return;
-  }
-
-  if ( !get_room_index( ROOM_ARENA_ENTER_F ) ||
-       !get_room_index( ROOM_ARENA_ENTER_S ) ) {
-    send_to_char( C_DEFAULT, "An error has occured.  Please inform an Immortal.\n\r", ch );
-    return;
-  }
-
-  arena.cch     = ch;
-  arena.count   = 0;
-  arena.award   = award;
-  amount.silver = amount.copper = 0;
-  amount.gold   = award;
-  spend_money( &ch->money, &amount );
-
-  if ( arena.och ) {
-    sprintf( log_buf, "&C%s &cchallenges &C%s &cto a fight in the arena for &W%d &cgold coins.",
-             ch->name, arena.och->name, award );
-  } else {
-    sprintf( log_buf, "&C%s &coffers a challenge in the arena for &W%d &cgold coins.",
-             ch->name, award );
-  }
-
-  /*  wiznet(log_buf, NULL, NULL, WIZ_DEATHS, 0, 0); */
-  log_string( log_buf, CHANNEL_LOG, -1 );
-  challenge( log_buf, 0, 0 );
-  send_to_char( C_DEFAULT, "Your challenge has been offered.\n\r", ch );
-  return;
-}
-
-void do_accept( CHAR_DATA * ch, char * argument ) {
-  CHAR_DATA * cch, * och;
-  int         rvnum = ch->in_room->vnum;
-  MONEY_DATA  amount;
-
-  if ( IS_NPC( ch ) ) {
-    send_to_char( C_DEFAULT, "NPC's may not fight in the arena.\n\r", ch );
-    return;
-  }
-
-  if ( !( cch = arena.cch ) ) {
-    send_to_char( C_DEFAULT, "There is no challenge being offered.\n\r", ch );
-    return;
-  }
-
-  if ( rvnum == ROOM_VNUM_HELL ) {
-    send_to_char( C_DEFAULT, "Nice try, but get out the real way.\n\r", ch );
-    return;
-  }
-
-  if ( ch->fighting ) {
-    send_to_char( C_DEFAULT, "You are already fighting.\n\r", ch );
-    return;
-  }
-
-  if ( ch == cch ) {
-    send_to_char( C_DEFAULT, "You can't accept your own challenge!\n\r", ch );
-    return;
-  }
-
-  if ( ( och = arena.och ) && och != ch ) {
-    send_to_char( C_DEFAULT, "You are not the one being challenged.\n\r", ch );
-    return;
-  }
-
-  if ( ( ch->money.gold * C_PER_G + ch->money.silver * S_PER_G +
-         ch->money.copper ) < arena.award * 100 ) {
-    /*  if ( (ch->money.gold + (ch->money.silver/SILVER_PER_GOLD) +
-       (ch->money.copper/COPPER_PER_GOLD) ) < arena.award )  */
-    send_to_char( C_DEFAULT, "You cannot afford that.\n\r", ch );
-    return;
-  }
-
-  amount.silver = amount.copper = 0;
-  amount.gold   = arena.award;
-  spend_money( &ch->money, &amount );
-  arena.award *= 2;
-  arena.fch    = cch;
-  arena.sch    = ch;
-  arena.cch    = NULL;
-  arena.och    = NULL;
-  send_to_char( C_DEFAULT, "Your challenge has been accepted.\n\r", cch );
-  stop_fighting( cch, FALSE );
-  act( AT_LBLUE, "A pentagram forms around $n and he slowly dissipates.",
-       cch, NULL, NULL, TO_ROOM );
-  char_from_room( cch );
-  char_to_room( cch, get_room_index( ROOM_ARENA_ENTER_F ) );
-  do_look( cch, "auto" );
-  act( AT_LBLUE, "A pentagram forms around $n and he slowly dissipates.",
-       ch, NULL, NULL, TO_ROOM );
-  char_from_room( ch );
-  char_to_room( ch, get_room_index( ROOM_ARENA_ENTER_S ) );
-  do_look( ch, "auto" );
-  sprintf( log_buf, "&C%s &chas accepted &C%s&c's challenge.",
-           ch->name, cch->name );
-  /*  wiznet(log_buf, NULL, NULL, WIZ_DEATHS, 0, 0); */
-  log_string( log_buf, CHANNEL_LOG, -1 );
-  challenge( log_buf, 0, 0 );
-  send_to_char( AT_RED, "Be prepared.\n\r", ch );
-  send_to_char( AT_RED, "Be prepared.\n\r", cch );
   return;
 }
 

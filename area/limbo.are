@@ -5,7 +5,7 @@ Builders    Altrag  Decklarean Thalador Diku~
 VNUMs       1 99
 Security    1
 Recall      1
-Flags       17
+Flags       16
 Color       6
 Sounds      The sounds of mortals crying out makes it all worth while.~
 End
@@ -518,16 +518,6 @@ realize that this is his hell, not yours.
 0 1208098828 0
 Rd     0
 S
-#5
-Wedding Chapel~
-You are in a cozy little wedding chapel.  Looking around, you see very
-comfortable benches for the guests, and a podium at the front of the chapel
-where the wedding takes place.
-You see that the only exit is down, towards Bethaven.
-~
-0 8781836 0
-Rd     0
-S
 #8
 &rHell~
 &RHere you find yourself in a plane of eternal fire.  Flames lick and
@@ -556,133 +546,11 @@ documenting the entire code into pseudocode and flow charts.
 0 4 0
 Rd     0
 S
-#12
-Nearing the Mountain Top~
-~
-0 4 0
-Rd     0
-S
-#20
-none~
-~
-0 4 0
-Rd     0
-S
-#22
-The Honeymoon Suite~
-This is the Honeymoon Suite where your wildest fantasies can come true.
-Have fun you newlyweds!
-~
-0 12 0
-Rd     0
-S
-#26
-~
-~
-0 4 0
-Rd     0
-S
 #27
 Ristowe's Room~
 &zYou see nothing here.
 ~
 0 12 0
-Rd     0
-S
-#30
-Limbo~
-~
-0 8388620 0
-Rd     0
-S
-#31
-Limbo~
-~
-0 132108 0
-Rd     0
-S
-#32
-Limbo~
-~
-0 435212 0
-Rd     0
-S
-#33
-Nowhere~
-You are nowhere...therefore you see nothing!
-~
-0 131084 0
-Rd     0
-S
-#41
-~
-~
-0 4 0
-Rd     0
-S
-#45
-&cMithrandir's Haven~
-&CMithrandir the new God dwells here.  Books are scattered on the floor,
-&Csignifiying the amount of learning Mith is doing to become a good god.
-&Cyou see strange paintings on the wall, and a glowing sword hangs from
-&Chooks on the wall.  You also see some curious inscriptions by the sword...
-~
-0 4 0
-Rd     0
-S
-#57
-~
-~
-0 0 0
-Rd     0
-D2
-~
-~
-0 0 57
-S
-#60
-&RSin's &WYacht~
-&RA little red rubber boat bobs cheerfully in the water!  There is only
-room for a few people.  It has tasty snacks and a big bottle of chilled
-champaigne!  Hang on tight!  The waves are very big today!
-&w
-~
-0 16908292 0
-Rd     0
-S
-#65
-Forbidden Path~
-The pristine tunnel known as the forbidden path bends to the east.  From
-the East a blast of warm air hits you like a hammer.  Further on the path
-darkens into a tunnel.
-~
-0 536870917 0
-Rd     0
-S
-#66
-~
-~
-0 4 0
-Rd     0
-S
-#67
-~
-~
-0 4 0
-Rd     0
-S
-#69
-Frag's Hovel~
-You are in a small, miserable, dwelling (for those of you nincompoops who
-don't know what a HOVEL is).  It's dark, dank, and cold.  At one end of the
-room you see a sorry excuse of a rusty, squeaky bunkbed.  Obviously, neither
-of the beds are made.  A dirty, ragtorn teddy bear sleeps heavily on the
-lower bunk.  You see, to your dismay, TWO clock radios, both of which are
-ringing, which shows that this room was made for TWO people to sleep in,
-although it's barely 10 X 12 feet.  Papers, books, and laundry are thrown
-everywhere, with two computers astrally linked to the world of Envy.
-~
-0 12 1
 Rd     0
 S
 #70

@@ -1000,46 +1000,6 @@ void do_look( CHAR_DATA * ch, char * argument ) {
     sprintf( buf, "Value: %s  Price: %s\n\r", money_string( &auc_obj->cost ), money_string( &auc_cost ) );
     send_to_char( AT_WHITE, buf, ch );
     return;
-  } else if ( !str_prefix( arg1, "arena" ) && !IS_ARENA( ch ) ) {
-    if ( !arena.cch && !( arena.fch || arena.sch ) ) {
-      send_to_char( C_DEFAULT, "There is no challenge being offered.\n\r",
-                    ch );
-      return;
-    }
-
-    if ( arena.cch ) {
-      sprintf( buf, "Challenger: %s, a level %d %s.\n\r", arena.cch->name, arena.cch->level, class_long( arena.cch ) );
-      sprintf( buf + strlen( buf ), "CHALLENGING\n\r" );
-
-      if ( arena.och ) {
-        sprintf( buf + strlen( buf ), "Challenged: %s, a level %d %s.\n\r", arena.och->name, arena.och->level, class_long( arena.och ) );
-      } else {
-        sprintf( buf + strlen( buf ), "Challenged: ANYONE\n\r" );
-      }
-
-      sprintf( buf + strlen( buf ), "Award is %d coins.\n\r", arena.award );
-    } else {
-      int fp, sp;
-
-      fp = ( arena.fch->hit * 100 ) / MAX_HIT( arena.fch );
-      sp = ( arena.sch->hit * 100 ) / MAX_HIT( arena.sch );
-      sprintf( buf, "Challenger: %s, a level %d %s.\n\r", arena.fch->name, arena.fch->level, class_long( arena.fch ) );
-      sprintf( buf + strlen( buf ), "FIGHTING\n\r" );
-      sprintf( buf + strlen( buf ), "Challenged: %s, a level %d %s.\n\r", arena.sch->name, arena.sch->level, class_long( arena.sch ) );
-      sprintf( buf + strlen( buf ), "Award is %d coins.\n\r", arena.award );
-      send_to_char( AT_WHITE, buf, ch );
-
-      if ( fp > sp ) {
-        sprintf( buf, "%s appears to be winning at the moment.\n\r", arena.fch->name );
-      } else if ( sp > fp ) {
-        sprintf( buf, "%s appears to be winning at the moment.\n\r", arena.sch->name );
-      } else {
-        strcpy( buf, "They appear to be evenly matched at the moment.\n\r" );
-      }
-    }
-
-    send_to_char( AT_WHITE, buf, ch );
-    return;
   } else {
     send_to_char( AT_GREY, "You do not see that here.\n\r", ch );
     return;
@@ -2947,12 +2907,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_LBLUE, !IS_SET( ch->deaf, CHANNEL_INFO )
                   ? " +INFO" : " -info", ch );
 
-    send_to_char( AT_PURPLE, !IS_SET( ch->deaf, CHANNEL_CHALLENGE )
-                  ? " +CHALLENGE" : " -challenge", ch );
-
-    send_to_char( AT_RED, !IS_SET( ch->deaf, CHANNEL_ARENA )
-                  ? " +ARENA" : " -arena", ch );
-
     /*
      * Log Channel Display.
      * Added by Altrag.
@@ -3045,8 +2999,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
       bit = CHANNEL_GUARDIAN;
     } else if ( !str_cmp( arg + 1, "info" ) ) {
       bit = CHANNEL_INFO;
-    } else if ( !str_cmp( arg + 1, "challenge" ) ) {
-      bit = CHANNEL_CHALLENGE;
     } else if ( !str_cmp( arg + 1, "clan" ) ) {
       bit = CHANNEL_CLAN;
     }
@@ -3054,8 +3006,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
       bit = CHANNEL_CLASS_MASTER;
     } else if ( !str_cmp( arg + 1, "clanmaster" ) ) {
       bit = CHANNEL_CLAN_MASTER;
-    } else if ( !str_cmp( arg + 1, "arena" ) ) {
-      bit = CHANNEL_ARENA;
     } else if ( !str_cmp( arg + 1, "all" ) ) {
       bit = ~0;
     } else {

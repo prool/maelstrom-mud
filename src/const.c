@@ -530,14 +530,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "teleport",
-    { L_APP,L_APP,L_APP },
-    spell_teleport,TAR_CHAR_SELF,POS_FIGHTING,
-    NULL,35,12,
-    "","!Teleport!","",FALSE,SLOT(0)
-  },
-
-  {
     "word of recall",
     { 25, L_APP, L_APP },
     spell_word_of_recall,TAR_CHAR_SELF,POS_RESTING,

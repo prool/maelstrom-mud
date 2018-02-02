@@ -55,7 +55,7 @@ PC_DATA          * pcdata_free;
 
 char              bug_buf[ MAX_INPUT_LENGTH * 2 ];
 CHAR_DATA       * char_list;
-PLAYERLIST_DATA * playerlist; /*Decklarean */
+PLAYERLIST_DATA * playerlist;
 char            * help_greeting;
 char              log_buf[ MAX_INPUT_LENGTH * 2 ];
 KILL_DATA         kill_table[ MAX_LEVEL          ];
@@ -63,8 +63,6 @@ NOTE_DATA       * note_list;
 OBJ_DATA        * object_list;
 TIME_INFO_DATA    time_info;
 WEATHER_DATA      weather_info;
-ARENA_DATA        arena;
-WAR_DATA          war;
 char            * down_time;
 char            * warning1;
 char            * warning2;
@@ -948,12 +946,6 @@ void new_load_area( FILE * fp ) {
         if ( !str_cmp( word, "VNUMs" ) ) {
           pArea->lvnum = fread_number( fp );
           pArea->uvnum = fread_number( fp );
-
-          /* Set up the arena. */
-          if ( pArea->lvnum <= ROOM_ARENA_VNUM &&
-               pArea->uvnum >= ROOM_ARENA_VNUM ) {
-            arena.area = pArea;
-          }
         }
 
         break;
@@ -4002,42 +3994,6 @@ void info( const char * str, int param1, int param2 ) {
 
     if ( d->connected == CON_PLAYING && !IS_SET( ch->deaf, CHANNEL_INFO ) ) {
       send_to_char( AT_BLUE, buf, d->character );
-      send_to_char( C_DEFAULT, "\n\r", d->character );
-    }
-  }
-}
-
-void arena_chann( const char * str, int param1, int param2 ) {
-  char              buf[ MAX_STRING_LENGTH ];
-  DESCRIPTOR_DATA * d;
-
-  strcpy( buf, "[&cARENA&W]&w: " );
-  sprintf( buf + 15, str, param1, param2 );
-
-  for ( d = descriptor_list; d; d = d->next ) {
-    CHAR_DATA * ch = ( d->original ? d->original : d->character );
-
-    if ( d->connected == CON_PLAYING && !IS_SET( ch->deaf, CHANNEL_ARENA ) ) {
-      send_to_char( AT_WHITE, buf, d->character );
-      send_to_char( C_DEFAULT, "\n\r", d->character );
-    }
-  }
-
-  return;
-}
-
-void challenge( const char * str, int param1, int param2 ) {
-  char              buf[ MAX_STRING_LENGTH ];
-  DESCRIPTOR_DATA * d;
-
-  strcpy( buf, "[&cCHALLENGE&W]&w: " );
-  sprintf( buf + 19, str, param1, param2 );
-
-  for ( d = descriptor_list; d; d = d->next ) {
-    CHAR_DATA * ch = ( d->original ? d->original : d->character );
-
-    if ( d->connected == CON_PLAYING && !IS_SET( ch->deaf, CHANNEL_CHALLENGE ) ) {
-      send_to_char( AT_WHITE, buf, d->character );
       send_to_char( C_DEFAULT, "\n\r", d->character );
     }
   }

@@ -237,13 +237,8 @@ void fwrite_char( CHAR_DATA * ch, FILE * fp ) {
     fprintf( fp, "Slyvict     %s~\n", ch->pcdata->slayvict );
     fprintf( fp, "Afkmes      %s~\n", ch->pcdata->afkchar );
     /* EotS stats tracking */
-    fprintf( fp, "Warpts      %d\n", ch->warpts );
-    fprintf( fp, "Warkills    %d\n", ch->warkills );
-    fprintf( fp, "Wardeaths   %d\n", ch->wardeaths );
     fprintf( fp, "Pkills      %d\n", ch->pkills );
     fprintf( fp, "pkilled     %d\n", ch->pkilled );
-    fprintf( fp, "Arenawon    %d\n", ch->arenawon );
-    fprintf( fp, "Arenalost   %d\n", ch->arenalost );
     fprintf( fp, "Incarnations %d\n", ch->incarnations );
     fprintf( fp, "Raisepts    %d\n", ch->raisepts );
 
@@ -609,8 +604,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp ) {
         KEY( "Afkmes", ch->pcdata->afkchar, fread_string( fp ) );
         KEY( "Align", ch->alignment, fread_number( fp ) );
         KEY( "Antidisarm", ch->antidisarm, fread_number( fp ) );
-        KEY( "Arenalost", ch->arenalost, fread_number( fp ) );
-        KEY( "Arenawon", ch->arenawon, fread_number( fp ) );
         KEY( "Armr", ch->armor, fread_number( fp ) );
 
         if ( !str_cmp( word, "Aff" ) ) {
@@ -956,9 +949,6 @@ void fread_char( CHAR_DATA * ch, FILE * fp ) {
         break;
 
       case 'W':
-        KEY( "Wardeaths", ch->wardeaths, fread_number( fp ) );
-        KEY( "Warkills", ch->warkills, fread_number( fp ) );
-        KEY( "Warpts", ch->warpts, fread_number( fp ) );
         KEY( "Wiznet", ch->wiznet, fread_number( fp ) );
         KEY( "Wimp", ch->wimpy, fread_number( fp ) );
         KEY( "Wizbt", ch->wizbit, fread_number( fp ) );
@@ -1627,11 +1617,6 @@ void fwrite_finger( CHAR_DATA * ch, FILE * fp ) {
   fprintf( fp, "&CPlan: &W%s\n", ch->pcdata->plan );
   fprintf( fp, "&CPkills: &W%-15d", ch->pkills );
   fprintf( fp, "&CPkilled: &W%d\n", ch->pkilled );
-  fprintf( fp, "&CArena Wins: &W%-11d", ch->arenawon );
-  fprintf( fp, "&CArena Losses: &W%d\n", ch->arenalost );
-  fprintf( fp, "&CWar Kills: &W%-12d", ch->warkills );
-  fprintf( fp, "&CWar Deaths: &W%-11d", ch->wardeaths );
-  fprintf( fp, "&CWar Points: &W%d\n", ch->warpts );
   fprintf( fp, "&CLast On: &W%s~\n", (char * ) ctime( &ch->logon ) );
   return;
 }

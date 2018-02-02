@@ -56,13 +56,11 @@ void aggr_update( void );
 void comb_update( void );
 void auc_update( void );
 void rdam_update( void );
-void arena_update( void );
 void strew_corpse( OBJ_DATA * obj, AREA_DATA * inarea );
 void orprog_update( void );
 void trap_update( void );
 void rtime_update( void );
 void quest_update( void );
-void war_update( void );
 
 /*
  * Advancement stuff.
@@ -1659,7 +1657,6 @@ void update_handler( void ) {
     /*	vamdam_update   ( );
        wind_update     ( ); */
     quest_update();
-    war_update();
     char_update();
     obj_update();
     list_update();
@@ -1677,10 +1674,6 @@ void update_handler( void ) {
   /* Auction timer update -- Altrag */
   if ( auc_count >= 0 && ++auc_count % ( 8 * PULSE_PER_SECOND ) == 0 ) {
     auc_update();
-  }
-
-  if ( arena.cch && ++arena.count % ( 5 * PULSE_PER_SECOND ) == 0 ) {
-    arena_update();
   }
 
   //    time_update( );
@@ -1702,47 +1695,6 @@ void comb_update() {
       ch->combat_timer = 0;
     }
   }
-}
-
-void arena_update() {
-  if ( !arena.cch ) {
-    return;
-  }
-
-  switch ( arena.count / ( 5 * PULSE_PER_SECOND ) ) {
-    case 1:
-    case 2:
-    case 3:
-
-      if ( arena.och ) {
-        char buf[ MAX_INPUT_LENGTH ];
-        sprintf( buf, "&C%s &coffering &C%s &ca challenge for &W%d &ccoins.",
-                 arena.cch->name, arena.och->name, arena.award );
-        challenge( buf, 0, 0 );
-      } else {
-        challenge( "&C%s &coffering challenge for &W%d &ccoins.",
-                   (int)( arena.cch->name ), arena.award );
-      }
-
-      return;
-  }
-
-  if ( arena.och ) {
-    challenge( "&C%s &cwimps out and refuses &C%s&c's challenge.",
-               (int)( arena.och->name ), (int)( arena.cch->name ) );
-  } else {
-    challenge( "&C%s&c's challenge not accepted.  Opening arena for new challenger.",
-               (int)( arena.cch->name ), 0 );
-  }
-
-  send_to_char( C_DEFAULT, "Your challenge was not accepted.  Refunding "
-                           "award money.\n\r", arena.cch );
-  /* Arena master takes 1/5.. *wink */
-  arena.cch->money.gold += ( ( arena.award * 4 ) / 5 );
-  arena.cch              = NULL;
-  arena.och              = NULL;
-  arena.award            = 0;
-  return;
 }
 
 /* Auctioneer timer update -- Altrag */

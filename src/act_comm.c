@@ -529,7 +529,6 @@ void do_note( CHAR_DATA * ch, char * argument ) {
   if ( !str_cmp( arg, "post" ) || !str_prefix( arg, "send" ) ) {
     FILE     * fp;
     char     * strtime;
-    OBJ_DATA * board;
 
     if ( !ch->pnote ) {
       send_to_char( AT_DGREEN, "You have no note in progress.\n\r", ch );

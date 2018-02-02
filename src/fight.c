@@ -319,8 +319,6 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
  * Inflict damage from a hit.
  */
 void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
-  DESCRIPTOR_DATA * d;
-
   if ( victim->position == POS_DEAD ) {
     return;
   }
@@ -341,13 +339,9 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
     if ( dt != 91 && ch->level <= LEVEL_HERO
          && dt != 40 ) {
       if ( IS_NPC( ch ) && ch->desc && ch->desc->original ) {
-        sprintf( buf,
-                 "Damage: %d from %s by %s: > 3500 points with %d dt!",
-                 dam, ch->name, ch->desc->original->name, dt );
+        sprintf( buf, "Damage: %d from %s by %s: > 3500 points with %d dt!", dam, ch->name, ch->desc->original->name, dt );
       } else {
-        sprintf( buf,
-                 "Damage: %d from %s: > 3500 points with %d dt!",
-                 dam, ch->name, dt );
+        sprintf( buf, "Damage: %d from %s: > 3500 points with %d dt!", dam, ch->name, dt );
       }
 
       bug( buf, 0 );

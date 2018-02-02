@@ -220,7 +220,6 @@ struct cmd_type cmd_table [] = {
   { "wear",            do_wear,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "zap",             do_zap,               POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "stare",           do_stare,             POS_RESTING,  0,     LOG_NORMAL, TRUE    },
-  { "antidote",        do_antidote,          POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "scribe",          do_scribe,            POS_RESTING,  0,     LOG_ALWAYS, TRUE    },
   { "backstab",        do_backstab,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },
   { "bs",              do_backstab,          POS_STANDING, 0,     LOG_NORMAL, TRUE    },

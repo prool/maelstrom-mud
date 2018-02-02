@@ -832,13 +832,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "antidote",
-    { L_APP,L_APP,L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_antidote,0,0,
-    "","","",FALSE,SLOT(0)
-  },
-  {
     "haggle",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,

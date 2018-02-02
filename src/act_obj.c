@@ -4242,44 +4242,6 @@ void do_remake( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_antidote( CHAR_DATA * ch, char * argument ) {
-  OBJ_DATA * flask;
-
-  if ( IS_NPC( ch )
-       || !can_use_skpell( ch, gsn_antidote ) ) {
-    send_to_char( C_DEFAULT, "Huh?\n\r", ch );
-    return;
-  }
-
-  for ( flask = ch->carrying; flask; flask = flask->next_content ) {
-    if ( ( ( flask->pIndexData->vnum == OBJ_VNUM_FLASK ) ||
-           ( flask->pIndexData->vnum == OBJ_VNUM_RWFLASK ) )
-         && flask->value[ 1 ] == skill_lookup( "reserved" ) ) {
-      break;
-    }
-  }
-
-  if ( !flask ) {
-    send_to_char( AT_GREY, "You need a drink container to put your antidote in.\n\r", ch );
-    return;
-  }
-
-  flask->value[ 1 ] = skill_lookup( "cure poison" );
-  flask->value[ 0 ] = ch->level;
-  flask->cost.gold  = 1000;
-  free_string( flask->name );
-  flask->name = str_dup( "antidote" );
-  free_string( flask->short_descr );
-  flask->short_descr = str_dup( "A flask of antidote" );
-  free_string( flask->description );
-  flask->description = str_dup( "A small flask filled with a greenish liquid sets upon the floor." );
-  send_to_char( AT_GREY, "You poor the antidote in the empty flask.\n\r", ch );
-  act( AT_GREY, "$n poors some liquid into an empty flask.\n\r",
-       ch, NULL, NULL, TO_ROOM );
-  update_skpell( ch, gsn_antidote );
-  return;
-}
-
 void do_identify( CHAR_DATA * ch, char * argument ) {
   OBJ_DATA    * obj;
   AFFECT_DATA * paf;

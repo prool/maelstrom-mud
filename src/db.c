@@ -109,7 +109,6 @@ int gsn_rage;
 int gsn_headbutt;
 int gsn_retreat;
 int gsn_escape;
-int gsn_antidote;
 int gsn_haggle;
 int gsn_throw;
 int gsn_lure;

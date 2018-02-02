@@ -912,30 +912,6 @@ void spell_blindness( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_change_sex( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  af.type     = sn;
-  af.level    = level;
-  af.duration = 10 * level;
-  af.location = APPLY_SEX;
-
-  do {
-    af.modifier = number_range( 0, 2 ) - victim->sex;
-  } while ( af.modifier == 0 );
-
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  if ( ch != victim ) {
-    send_to_char( AT_WHITE, "Ok.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "You feel different.\n\r", victim );
-  return;
-}
-
 void spell_charm_person( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -975,54 +951,6 @@ void spell_charm_person( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   send_to_char( AT_BLUE, "Ok.\n\r", ch );
   act( AT_BLUE, "Isn't $n just so nice?", ch, NULL, victim, TO_VICT );
-  return;
-}
-
-void spell_control_weather( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  if ( !str_cmp( target_name, "better" ) ) {
-    weather_info.change += dice( level / 3, 4 );
-  } else if ( !str_cmp( target_name, "worse" ) ) {
-    weather_info.change -= dice( level / 3, 4 );
-  } else {
-    send_to_char( AT_BLUE, "Do you want it to get better or worse?\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  return;
-}
-
-void spell_create_water( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * obj = (OBJ_DATA *) vo;
-  int        water;
-
-  if ( obj->item_type != ITEM_DRINK_CON ) {
-    send_to_char( AT_BLUE, "It is unable to hold water.\n\r", ch );
-    return;
-  }
-
-  if ( obj->value[ 2 ] != LIQ_WATER && obj->value[ 1 ] != 0 ) {
-    send_to_char( AT_BLUE, "It contains some other liquid.\n\r", ch );
-    return;
-  }
-
-  water = UMIN( level * ( weather_info.sky >= SKY_RAINING ? 4 : 2 ),
-                obj->value[ 0 ] - obj->value[ 1 ] );
-
-  if ( water > 0 ) {
-    obj->value[ 2 ]  = LIQ_WATER;
-    obj->value[ 1 ] += water;
-
-    if ( !is_name( NULL, "water", obj->name ) ) {
-      char buf[ MAX_STRING_LENGTH ];
-
-      sprintf( buf, "%s water", obj->name );
-      free_string( obj->name );
-      obj->name = str_dup( buf );
-    }
-
-    act( AT_BLUE, "$p is filled.", ch, obj, NULL, TO_CHAR );
-  }
-
   return;
 }
 
@@ -1080,35 +1008,6 @@ void spell_truesight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   send_to_char( AT_BLUE, "Your eyes tingle.\n\r", victim );
-  return;
-}
-
-void spell_farsight( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA       * victim;
-  ROOM_INDEX_DATA * blah;
-
-  if ( !( victim = get_char_world( ch, target_name ) )
-       || IS_SET( victim->in_room->room_flags, ROOM_SAFE )
-       || IS_SET( victim->in_room->room_flags, ROOM_PRIVATE )
-       || IS_SET( victim->in_room->room_flags, ROOM_SOLITARY ) ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  blah = ch->in_room;
-
-  if ( ch != victim ) {
-    char_from_room( ch );
-    char_to_room( ch, victim->in_room );
-  }
-
-  do_look( ch, "auto" );
-
-  if ( ch != victim ) {
-    char_from_room( ch );
-    char_to_room( ch, blah );
-  }
-
   return;
 }
 
@@ -1338,42 +1237,6 @@ void spell_poison( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_polymorph( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  char        buf[ MAX_STRING_LENGTH ];
-  AFFECT_DATA af;
-
-  if ( !( victim = get_char_world( ch, target_name ) )
-       || victim == ch
-       || saves_spell( level, victim )
-       || IS_AFFECTED( ch, AFF_POLYMORPH ) ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level / 5;
-  af.location  = APPLY_NONE;
-  af.modifier  = 0;
-  af.bitvector = AFF_POLYMORPH;
-  affect_to_char2( ch, &af );
-
-  if ( !IS_NPC( victim ) ) {
-    sprintf( buf, "%s %s", victim->name, victim->pcdata->title );
-    free_string( ch->long_descr );
-    ch->long_descr = str_dup( buf );
-  } else {
-    sprintf( buf, "%s", victim->long_descr );
-    free_string( ch->long_descr );
-    ch->long_descr = str_dup( buf );
-  }
-
-  act( AT_BLUE, "$n's form wavers and then resolidifies.", ch, NULL, NULL, TO_ROOM );
-  send_to_char( AT_BLUE, "You have succesfully polymorphed.\n\r", ch );
-  return;
-}
-
 void spell_confusion( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -1521,48 +1384,8 @@ void spell_summon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-/*
- * This is for muds that want scrolls of recall.
- */
 void spell_word_of_recall( int sn, int level, CHAR_DATA * ch, void * vo ) {
   do_recall( (CHAR_DATA *) vo, "" );
-  return;
-}
-
-void spell_combat_mind( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  AFFECT_DATA af;
-
-  if ( is_affected( victim, sn ) ) {
-    if ( victim == ch ) {
-      send_to_char( AT_BLUE, "You already understand battle tactics.\n\r",
-                    victim );
-    } else {
-      act( AT_BLUE, "$N already understands battle tactics.",
-           ch, NULL, victim, TO_CHAR );
-    }
-
-    return;
-  }
-
-  af.type      = sn;
-  af.level     = level;
-  af.duration  = level + 3;
-  af.location  = APPLY_HITROLL;
-  af.modifier  = level / 5;
-  af.bitvector = 0;
-  affect_to_char( victim, &af );
-
-  af.location = APPLY_AC;
-  af.modifier = -level / 2 - 10;
-  affect_to_char( victim, &af );
-
-  if ( victim != ch ) {
-    send_to_char( AT_BLUE, "OK.\n\r", ch );
-  }
-
-  send_to_char( AT_BLUE, "You gain a keen understanding of battle tactics.\n\r",
-                victim );
   return;
 }
 

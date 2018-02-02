@@ -350,17 +350,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "change sex",
-    { L_APP,L_APP,L_APP },
-    spell_change_sex,TAR_CHAR_DEFENSIVE,POS_FIGHTING,
-    NULL,15,12,
-    "",
-    "Your body feels familiar again.",
-    "$n looks more like $mself again.",
-    TRUE,SLOT(4)
-  },
-
-  {
     "charm person",
     { L_APP,L_APP,L_APP },
     spell_charm_person,TAR_CHAR_OFFENSIVE,POS_STANDING,
@@ -369,22 +358,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "You feel more self-confident.",
     "$n regains $s free will.",
     TRUE,SLOT(5)
-  },
-
-  {
-    "control weather",
-    { L_APP,L_APP,L_APP },
-    spell_control_weather,TAR_IGNORE,POS_STANDING,
-    NULL,25,12,
-    "","!Control Weather!","",FALSE,SLOT(0)
-  },
-
-  {
-    "create water",
-    { L_APP,L_APP,L_APP },
-    spell_create_water,TAR_OBJ_INV,POS_STANDING,
-    NULL,5,12,
-    "","!Create Water!","",FALSE,SLOT(0)
   },
 
   {
@@ -649,15 +622,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     spell_null,TAR_IGNORE,POS_STANDING,
     &gsn_steal,0,24,
     "","!Steal!","",FALSE,SLOT(0)
-  },
-
-  {
-    "combat mind",
-    { L_APP,L_APP,L_APP },
-    spell_combat_mind,TAR_CHAR_DEFENSIVE,POS_STANDING,
-    NULL,15,12,
-    "","Your battle sense has faded.",
-    "$n's sense of battle has diminished.",FALSE,SLOT(40)
   },
 
   {

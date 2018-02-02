@@ -649,7 +649,6 @@ struct  kill_data {
 #define AFF_ANTI_FLEE     BV30
 #define AFF_DISJUNCTION   BV31
 
-#define AFF_POLYMORPH       1
 #define CODER               2
 #define AFF_TRUESIGHT       16
 #define AFF_CONFUSED        1024
@@ -933,7 +932,6 @@ struct  kill_data {
 #define APPLY_PASS_DOOR        ( PERM_SPELL_BEGIN + 11 )
 #define APPLY_SCRY             ( PERM_SPELL_BEGIN + 17 )
 #define APPLY_POISON           ( PERM_SPELL_BEGIN + 20 )
-#define APPLY_COMBAT_MIND      ( PERM_SPELL_BEGIN + 23 )
 
 /*
  * Values for containers (value[1]).
@@ -1782,7 +1780,6 @@ extern int gsn_headbutt;
 extern int gsn_retreat;
 extern int gsn_escape;
 extern int gsn_haggle;
-extern int gsn_incinerate;
 extern int gsn_lure;
 extern int gsn_flip;
 extern int gsn_hallucinate;
@@ -2259,10 +2256,8 @@ DECLARE_SPELL_FUN( spell_null );
 DECLARE_SPELL_FUN( spell_animate );
 DECLARE_SPELL_FUN( spell_armor );
 DECLARE_SPELL_FUN( spell_blindness );
-DECLARE_SPELL_FUN( spell_change_sex );
+DECLARE_SPELL_FUN( spell_ );
 DECLARE_SPELL_FUN( spell_charm_person );
-DECLARE_SPELL_FUN( spell_control_weather );
-DECLARE_SPELL_FUN( spell_create_water );
 DECLARE_SPELL_FUN( spell_cure_blindness );
 DECLARE_SPELL_FUN( spell_cure_poison );
 DECLARE_SPELL_FUN( spell_dispel_magic );
@@ -2283,7 +2278,6 @@ DECLARE_SPELL_FUN( spell_truesight );
 DECLARE_SPELL_FUN( spell_confusion );
 DECLARE_SPELL_FUN( spell_silence );
 DECLARE_SPELL_FUN( spell_hallucinate );
-DECLARE_SPELL_FUN( spell_combat_mind );
 
 char *  crypt( const char * key, const char * salt );
 

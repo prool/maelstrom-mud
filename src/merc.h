@@ -623,7 +623,6 @@ struct  kill_data {
 #define ACT_NODRAG      BV17 // No drag mob
 #define ACT_NOPUSH      BV18 // No push mob
 #define ACT_NOSHADOW    BV19 // No shadow mob
-#define ACT_NOASTRAL    BV20 // No astral mob
 #define ACT_NEWBIE      BV21 // Newbie Helper
 
 /*
@@ -652,7 +651,6 @@ struct  kill_data {
 
 #define AFF_POLYMORPH       1
 #define CODER               2
-#define AFF_NOASTRAL        4
 #define AFF_TRUESIGHT       16
 #define AFF_CONFUSED        1024
 #define AFF_HALLUCINATING   8192
@@ -973,8 +971,6 @@ struct  kill_data {
 #define ROOM_CONE_OF_SILENCE 16384
 #define ROOM_NO_MAGIC        32768
 #define ROOM_NO_PKILL        65536
-#define ROOM_NO_ASTRAL_IN    131072
-#define ROOM_NO_ASTRAL_OUT   262144
 #define ROOM_TELEPORT_AREA   524288
 #define ROOM_TELEPORT_WORLD  1048576
 #define ROOM_NO_OFFENSIVE    2097152
@@ -2262,7 +2258,6 @@ DECLARE_DO_FUN( do_flip );
 DECLARE_SPELL_FUN( spell_null );
 DECLARE_SPELL_FUN( spell_animate );
 DECLARE_SPELL_FUN( spell_armor );
-DECLARE_SPELL_FUN( spell_astral );
 DECLARE_SPELL_FUN( spell_blindness );
 DECLARE_SPELL_FUN( spell_change_sex );
 DECLARE_SPELL_FUN( spell_charm_person );

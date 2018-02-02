@@ -2228,10 +2228,6 @@ char * affect_bit_name2( int vector ) {
     strcat( buf, " polymorph" );
   }
 
-  if ( vector & AFF_NOASTRAL      ) {
-    strcat( buf, " noastral" );
-  }
-
   if ( vector & AFF_TRUESIGHT     ) {
     strcat( buf, " truesight" );
   }
@@ -2364,10 +2360,6 @@ char * act_bit_name( int act ) {
 
     if ( act & ACT_NOSHADOW ) {
       strcat( buf, " noshadow" );
-    }
-
-    if ( act & ACT_NOASTRAL ) {
-      strcat( buf, " noastral" );
     }
 
     if ( act & ACT_NEWBIE ) {

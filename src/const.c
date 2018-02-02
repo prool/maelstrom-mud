@@ -339,14 +339,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "astral walk",
-    { L_APP,L_APP,L_APP },
-    spell_astral,TAR_IGNORE,POS_STANDING,
-    NULL,50,12,
-    "","!Astral Walk!","",FALSE,SLOT(0)
-  },
-
-  {
     "blindness",
     { L_APP,L_APP,L_APP },
     spell_blindness,TAR_CHAR_OFFENSIVE,POS_FIGHTING,

@@ -309,9 +309,7 @@ void do_acspell( CHAR_DATA * ch, OBJ_DATA * pObj, char * argument ) {
   char        arg1[ MAX_INPUT_LENGTH ];
   char        arg2[ MAX_INPUT_LENGTH ];
   int         sn;
-  int         spec;
 
-  spec        = skill_lookup( "astral walk" );
   target_name = one_argument( argument, arg1 );
   one_argument( target_name, arg2 );
 
@@ -323,11 +321,6 @@ void do_acspell( CHAR_DATA * ch, OBJ_DATA * pObj, char * argument ) {
 
   if ( ( sn = skill_lookup( arg1 ) ) < 0 ) {
     send_to_char( AT_BLUE, "You can't do that.\n\r", ch );
-    return;
-  }
-
-  if ( ( sn == spec )  && ( is_name( ch, arg2, ch->name ) ) ) {
-    send_to_char( AT_BLUE, "You are already in the same room as yourself.\n\r", ch );
     return;
   }
 
@@ -488,10 +481,6 @@ void do_cast( CHAR_DATA * ch, char * argument ) {
   int         mana;
   int         sn;
   bool        IS_DIVINE;
-  /*    int        spec; */
-  /*    char       buf [ MAX_STRING_LENGTH ];*/
-
-  /*    spec = skill_lookup( "astral walk" ); */
 
   sn = skill_lookup( arg1 );
 
@@ -900,55 +889,6 @@ void spell_armor( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_astral( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim;
-  CHAR_DATA * pet;
-
-  if ( !( victim = get_char_world( ch, target_name ) )
-       || IS_SET( victim->in_room->room_flags, ROOM_SAFE )
-       || IS_SET( victim->in_room->room_flags, ROOM_PRIVATE )
-       || IS_SET( victim->in_room->room_flags, ROOM_SOLITARY )
-       || IS_SET( victim->in_room->room_flags, ROOM_NO_ASTRAL_IN )
-       || IS_SET( ch->in_room->room_flags, ROOM_NO_ASTRAL_OUT )
-       || IS_SET( victim->in_room->area->area_flags, AREA_PROTOTYPE )
-       || IS_SET( victim->act, ACT_NOASTRAL )
-       || IS_AFFECTED( victim, AFF_NOASTRAL ) ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  for ( pet = ch->in_room->people; pet; pet = pet->next_in_room ) {
-    if ( IS_NPC( pet ) ) {
-      if ( IS_SET( pet->act, ACT_PET ) && ( pet->master == ch ) ) {
-        break;
-      }
-    }
-  }
-
-  act( AT_BLUE, "$n vanishes in a flash of blinding light.", ch, NULL, NULL, TO_ROOM );
-
-  if ( ch != victim ) {
-    if ( pet ) {
-      act( AT_BLUE, "$n vanishes in a flash of blinding light.", pet, NULL, NULL, TO_ROOM );
-      char_from_room( pet );
-    }
-
-    char_from_room( ch );
-    char_to_room( ch, victim->in_room );
-  }
-
-  act( AT_BLUE, "$n appears in a flash of blinding light.", ch, NULL,
-       NULL, TO_ROOM );
-  do_look( ch, "auto" );
-
-  if ( pet ) {
-    char_to_room( pet, victim->in_room );
-    act( AT_BLUE, "$n appears in a flash of blinding light.", pet, NULL, NULL, TO_ROOM );
-  }
-
-  return;
-}
-
 void spell_blindness( int sn, int level, CHAR_DATA * ch, void * vo ) {
   CHAR_DATA * victim = (CHAR_DATA *) vo;
   AFFECT_DATA af;
@@ -1150,9 +1090,7 @@ void spell_farsight( int sn, int level, CHAR_DATA * ch, void * vo ) {
   if ( !( victim = get_char_world( ch, target_name ) )
        || IS_SET( victim->in_room->room_flags, ROOM_SAFE )
        || IS_SET( victim->in_room->room_flags, ROOM_PRIVATE )
-       || IS_SET( victim->in_room->room_flags, ROOM_SOLITARY )
-       || IS_SET( victim->in_room->room_flags, ROOM_NO_ASTRAL_IN )
-       || IS_SET( ch->in_room->room_flags, ROOM_NO_ASTRAL_OUT ) ) {
+       || IS_SET( victim->in_room->room_flags, ROOM_SOLITARY ) ) {
     send_to_char( AT_BLUE, "You failed.\n\r", ch );
     return;
   }
@@ -1562,12 +1500,10 @@ void spell_summon( int sn, int level, CHAR_DATA * ch, void * vo ) {
        || IS_SET( victim->in_room->room_flags, ROOM_PRIVATE )
        || IS_SET( victim->in_room->room_flags, ROOM_SOLITARY )
        || IS_SET( victim->in_room->room_flags, ROOM_NO_RECALL )
-       || IS_SET( victim->in_room->room_flags, ROOM_NO_ASTRAL_OUT )
        || victim->level >= level + 3
        || victim->fighting
        || ( IS_NPC( victim ) && saves_spell( level, victim ) )
-       || IS_SET( victim->in_room->area->area_flags, AREA_PROTOTYPE )
-       || IS_AFFECTED( victim, AFF_NOASTRAL ) ) {
+       || IS_SET( victim->in_room->area->area_flags, AREA_PROTOTYPE ) ) {
     send_to_char( AT_BLUE, "You failed.\n\r", ch );
     return;
   }

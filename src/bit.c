@@ -229,8 +229,6 @@ const struct flag_type room_flags[] = {
   { "pet_shop",        ROOM_PET_SHOP,             TRUE  },
   { "no_recall",       ROOM_NO_RECALL,            TRUE  },
   { "cone_of_silence", ROOM_CONE_OF_SILENCE,      TRUE  },
-  { "no_in",           ROOM_NO_ASTRAL_IN,         TRUE  },
-  { "no_out",          ROOM_NO_ASTRAL_OUT,        TRUE  },
   { "tele_area",       ROOM_TELEPORT_AREA,        TRUE  },
   { "tele_world",      ROOM_TELEPORT_WORLD,       TRUE  },
   { "no_magic",        ROOM_NO_MAGIC,             TRUE  },
@@ -349,7 +347,6 @@ const struct flag_type act_flags[] = {
   { "nopush",     ACT_NOPUSH,         TRUE  },
   { "nodrag",     ACT_NODRAG,         TRUE  },
   { "noshadow",   ACT_NOSHADOW,       TRUE  },
-  { "noastral",   ACT_NOASTRAL,       TRUE  },
   { "newbie",     ACT_NEWBIE,         TRUE  },
   { "",           0,                  0     }
 };
@@ -375,7 +372,6 @@ const struct flag_type affect_flags[] = {
 };
 
 const struct flag_type affect2_flags [] = {
-  { "noastral",          AFF_NOASTRAL,           TRUE   },
   { "true-sight",        AFF_TRUESIGHT,          TRUE   },
   { "rage",              AFF_RAGE,               TRUE   },
   { "hallucinate",       AFF_HALLUCINATING,      FALSE  },

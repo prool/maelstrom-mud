@@ -32,7 +32,6 @@ extern void trip( CHAR_DATA * ch, CHAR_DATA * victim );
 /*
  * The following special functions are available for mobiles.
  */
-DECLARE_SPEC_FUN( spec_executioner );
 DECLARE_SPEC_FUN( spec_fido );
 DECLARE_SPEC_FUN( spec_guard );
 DECLARE_SPEC_FUN( spec_janitor );
@@ -48,7 +47,6 @@ const struct  spec_type spec_table  [] = {
   /*
    * Special function commands.
    */
-  { "spec_executioner",      spec_executioner        },
   { "spec_fido",             spec_fido               },
   { "spec_guard",            spec_guard              },
   { "spec_janitor",          spec_janitor            },
@@ -92,65 +90,6 @@ SPEC_FUN * spec_lookup( const char * name ) { /* OLC */
   }
 
   return 0;
-}
-
-bool spec_executioner( CHAR_DATA * ch ) {
-  CHAR_DATA * guard;
-  CHAR_DATA * victim;
-  char      * crime;
-  char        buf[ MAX_STRING_LENGTH ];
-
-  if ( !IS_AWAKE( ch ) || ch->fighting ) {
-    return FALSE;
-  }
-
-  crime = "";
-
-  for ( victim = ch->in_room->people; victim; victim = victim->next_in_room ) {
-    if ( victim->deleted ) {
-      continue;
-    }
-
-    if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_KILLER ) ) {
-      crime = "KILLER";
-      break;
-    }
-
-    if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_THIEF ) ) {
-      crime = "THIEF";
-      break;
-    }
-  }
-
-  if ( !victim ) {
-    return FALSE;
-  }
-
-  sprintf( buf, "%s is a %s!  JUSTICE WILL PREVAIL! I SENTENCE %s TO DEATH!!!",
-           victim->name, crime, victim->name );
-  do_yell( ch, buf );
-  /*    if ( crime != "THIEF" )
-      { */
-  multi_hit( ch, victim, TYPE_UNDEFINED );
-
-  guard = create_mobile( get_mob_index( MOB_VNUM_CITYGUARD ) );
-  char_to_room( guard, ch->in_room );
-  guard->fighting     = ch->fighting;
-  guard->position     = POS_FIGHTING;
-  guard->summon_timer = 15;
-
-  guard = create_mobile( get_mob_index( MOB_VNUM_CITYGUARD ) );
-  char_to_room( guard, ch->in_room );
-  guard->fighting     = ch->fighting;
-  guard->position     = POS_FIGHTING;
-  guard->summon_timer = 15;
-
-  /*         char_to_room( create_mobile( get_mob_index( MOB_VNUM_CITYGUARD) ),
-         ch->in_room );
-         char_to_room( create_mobile( get_mob_index( MOB_VNUM_CITYGUARD ) ),
-         ch->in_room ); */
-  /*  }*/
-  return TRUE;
 }
 
 bool spec_fido( CHAR_DATA * ch ) {

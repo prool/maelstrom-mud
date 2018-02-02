@@ -84,7 +84,7 @@ void magic_mob( CHAR_DATA * ch, OBJ_DATA * obj, int vnum ) {
     return;
   }
 
-  ZombIndex = get_mob_index( 3 );
+  ZombIndex = get_mob_index( MOB_VNUM_ZOMBIE );
   victim    = create_mobile( pMobIndex );
   zombie    = create_mobile( ZombIndex );
   name      = victim->short_descr;

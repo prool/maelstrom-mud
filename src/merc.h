@@ -591,7 +591,7 @@ struct  kill_data {
  * Well known mob virtual numbers.
  * Defined in #MOBILES.
  */
-#define MOB_VNUM_CITYGUARD       127
+#define MOB_VNUM_ZOMBIE          3
 #define MOB_VNUM_SUPERMOB        7
 
 /* CLANS */

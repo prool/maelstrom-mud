@@ -263,34 +263,6 @@ void save_clans() {
   return;
 }
 
-void save_social() {
-  SOCIAL_DATA * pSocial;
-  json_t      * obj = json_object();
-
-  for ( pSocial = social_first; pSocial; pSocial = pSocial->next ) {
-    json_object_set( obj, pSocial->name, json_pack(
-                       "{s:{s:s, s:s}, s:{s:s, s:s, s:s}, s:{s:s, s:s}}",
-                       "no_arg",
-                       "char", pSocial->char_no_arg,
-                       "others", pSocial->others_no_arg,
-                       "found",
-                       "char", pSocial->char_found,
-                       "others", pSocial->others_found,
-                       "vict", pSocial->vict_found,
-                       "auto",
-                       "char", pSocial->char_auto,
-                       "others", pSocial->others_auto
-                       ) );
-  }
-
-  if ( json_dump_file( obj, SOCIAL_FILE, JSON_SORT_KEYS | JSON_INDENT( 2 ) ) == -1 ) {
-    bug( "Save_social: fopen", 0 );
-    perror( SOCIAL_FILE );
-  }
-
-  return;
-}
-
 void save_newbie() {
   NEWBIE_DATA * pNewbie;
   json_t      * obj = json_object();

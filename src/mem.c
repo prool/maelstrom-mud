@@ -258,41 +258,6 @@ ROOM_INDEX_DATA * new_room_index( void ) {
   return pRoom;
 }
 
-void free_social_index( SOCIAL_DATA * pSocial ) {
-  free_string( pSocial->name );
-  free_string( pSocial->char_no_arg );
-  free_string( pSocial->others_no_arg );
-  free_string( pSocial->char_found );
-  free_string( pSocial->others_found );
-  free_string( pSocial->vict_found );
-  free_string( pSocial->char_auto );
-  free_string( pSocial->others_auto );
-  top_social--;
-
-  free_mem( pSocial, sizeof( *pSocial ) );
-
-  return;
-}
-
-SOCIAL_DATA * new_social_index( void ) {
-  SOCIAL_DATA * pSocial;
-
-  pSocial =  alloc_perm( sizeof( *pSocial ) );
-
-  pSocial->next          =       NULL;
-  pSocial->name          =       &str_empty[ 0 ];
-  pSocial->char_no_arg   =       &str_empty[ 0 ];
-  pSocial->others_no_arg =       &str_empty[ 0 ];
-  pSocial->char_found    =       &str_empty[ 0 ];
-  pSocial->others_found  =       &str_empty[ 0 ];
-  pSocial->vict_found    =       &str_empty[ 0 ];
-  pSocial->char_auto     =       &str_empty[ 0 ];
-  pSocial->others_auto   =       &str_empty[ 0 ];
-  top_social++;
-
-  return pSocial;
-}
-
 NEWBIE_DATA * new_newbie_index( void ) {
   NEWBIE_DATA * pNewbie;
 

@@ -41,9 +41,6 @@ NEWBIE_DATA * newbie_last;
 HELP_DATA * help_first;
 HELP_DATA * help_last;
 
-SOCIAL_DATA * social_first;
-SOCIAL_DATA * social_last;
-
 SHOP_DATA * shop_first;
 SHOP_DATA * shop_last;
 
@@ -1972,85 +1969,6 @@ void load_clans( void ) {
     pClan->issecond = pClan->second[ 0 ] != '\0';
 
     clan_sort( pClan );
-
-    iter = json_object_iter_next( obj, iter );
-  }
-
-  return;
-}
-
-void social_sort( SOCIAL_DATA * pSocial ) {
-  SOCIAL_DATA * fSocial;
-
-  // initialize list with first node and return (nothing left to do)
-  if ( !social_first ) {
-    social_first = pSocial;
-    social_last  = pSocial;
-
-    return;
-  }
-
-  // if the new node's name comes alphabetically before the old one, then
-  // place it at the beginning of the list and return (cause we done)
-  if ( strcmp( pSocial->name, social_first->name ) < 0 ) {
-    pSocial->next = social_first;
-    social_first  = pSocial;
-
-    return;
-  }
-
-  // traverse the list and find the appropriate place to insert the new node
-  for ( fSocial = social_first; fSocial; fSocial = fSocial->next ) {
-    // if the new node's name comes alphabetically before the next one, then
-    // slot it in between the current node and the next one
-    if ( fSocial->next && strcmp( pSocial->name, fSocial->next->name ) < 0 ) {
-      pSocial->next = fSocial->next;
-      fSocial->next = pSocial;
-
-      return;
-    }
-  }
-
-  // end of the line, tack the node on the end of the list
-  social_last->next = pSocial;
-  social_last       = pSocial;
-  pSocial->next     = NULL;
-
-  return;
-}
-
-void load_socials( void ) {
-  SOCIAL_DATA * pSocial;
-  json_t      * obj;
-  json_error_t  error;
-
-  obj = json_load_file( SOCIAL_FILE, 0, &error );
-
-  if ( !obj ) {
-    return;
-  }
-
-  void * iter = json_object_iter( obj );
-
-  while ( iter ) {
-    pSocial       = new_social_index();
-    pSocial->name = str_dup(json_object_iter_key( iter ));
-
-    json_unpack( json_object_iter_value( iter ),
-                 "{s:{s:s, s:s}, s:{s:s, s:s, s:s}, s:{s:s, s:s}}",
-                 "no_arg",
-                 "char", &pSocial->char_no_arg,
-                 "others", &pSocial->others_no_arg,
-                 "found",
-                 "char", &pSocial->char_found,
-                 "others", &pSocial->others_found,
-                 "vict", &pSocial->vict_found,
-                 "auto",
-                 "char", &pSocial->char_auto,
-                 "others", &pSocial->others_auto
-                 );
-
-    social_sort( pSocial );
 
     iter = json_object_iter_next( obj, iter );
   }

@@ -2751,34 +2751,6 @@ void do_password( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_socials( CHAR_DATA * ch, char * argument ) {
-  char buf[ MAX_STRING_LENGTH ];
-  char buf1[ MAX_STRING_LENGTH ];
-  /*    int  iSocial;*/
-  int           col;
-  SOCIAL_DATA * pSocial;
-
-  buf1[ 0 ] = '\0';
-  col       = 0;
-  /*    for ( iSocial = 0; social_table[iSocial].name[0] != '\0';iSocial++)*/
-
-  for ( pSocial = social_first; pSocial; pSocial = pSocial->next ) {
-    sprintf( buf, "%-12s", pSocial->name );
-    strcat( buf1, buf );
-
-    if ( ++col % 6 == 0 ) {
-      strcat( buf1, "\n\r" );
-    }
-  }
-
-  if ( col % 6 != 0 ) {
-    strcat( buf1, "\n\r" );
-  }
-
-  send_to_char( C_DEFAULT, buf1, ch );
-  return;
-}
-
 void do_newbie( CHAR_DATA * ch, char * argument ) {
   char          buf[ MAX_STRING_LENGTH ];
   char          buf1[ MAX_STRING_LENGTH ];

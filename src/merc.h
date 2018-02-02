@@ -2813,8 +2813,6 @@ MPROG_DATA * new_mprog_data( void );
 void free_mprog_data( MPROG_DATA * pMProg );
 TRAP_DATA * new_trap_data( void );
 void free_trap_data( TRAP_DATA * pTrap );
-SOCIAL_DATA * new_social_index( void );
-void free_social_index( SOCIAL_DATA * pSocial );
 NEWBIE_DATA * new_newbie_index( void );
 
 /* olc.c */
@@ -2868,10 +2866,15 @@ extern OBJ_DATA * new_obj_data( void );
 extern RESET_DATA * new_reset_data( void );
 extern void check_nofloor( CHAR_DATA * ch );
 extern void save_clans();
-extern void save_social();
 extern void save_helps();
 extern void wind_update( AREA_DATA * pArea );
 extern void send_to_area( AREA_DATA * pArea, char * txt );
 extern void free_alias( ALIAS_DATA * pAl );
 extern void save_player_list();
 extern void save_newbie();
+
+/* social.c */
+void load_socials(void );
+void save_social( void );
+void free_social_index( SOCIAL_DATA * pSocial );
+SOCIAL_DATA * new_social_index( void );

@@ -380,27 +380,11 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "continual light",
-    { L_APP,L_APP,L_APP },
-    spell_continual_light,TAR_IGNORE,POS_STANDING,
-    NULL,7,12,
-    "","!Continual Light!","",FALSE,SLOT(0)
-  },
-
-  {
     "control weather",
     { L_APP,L_APP,L_APP },
     spell_control_weather,TAR_IGNORE,POS_STANDING,
     NULL,25,12,
     "","!Control Weather!","",FALSE,SLOT(0)
-  },
-
-  {
-    "create food",
-    { L_APP,L_APP,L_APP },
-    spell_create_food,TAR_IGNORE,POS_STANDING,
-    NULL,5,12,
-    "","!Create Food!","",FALSE,SLOT(0)
   },
 
   {
@@ -509,14 +493,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
     "&Gp&go&Gi&gs&Go&gn",
     "You feel less sick.",
     "$n looks better.",TRUE,SLOT(25)
-  },
-
-  {
-    "portal",
-    { L_APP,L_APP,L_APP },
-    spell_portal,TAR_IGNORE,POS_STANDING,
-    NULL,100,12,
-    "","","",FALSE,SLOT(0)
   },
 
   {

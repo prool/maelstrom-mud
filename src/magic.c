@@ -1040,17 +1040,6 @@ void spell_charm_person( int sn, int level, CHAR_DATA * ch, void * vo ) {
   return;
 }
 
-void spell_continual_light( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * light;
-
-  light = create_object( get_obj_index( OBJ_VNUM_LIGHT_BALL ), 0 );
-  obj_to_room( light, ch->in_room );
-
-  act( AT_BLUE, "You twiddle your thumbs and $p appears.", ch, light, NULL, TO_CHAR );
-  act( AT_BLUE, "$n twiddles $s thumbs and $p appears.", ch, light, NULL, TO_ROOM );
-  return;
-}
-
 void spell_control_weather( int sn, int level, CHAR_DATA * ch, void * vo ) {
   if ( !str_cmp( target_name, "better" ) ) {
     weather_info.change += dice( level / 3, 4 );
@@ -1061,18 +1050,6 @@ void spell_control_weather( int sn, int level, CHAR_DATA * ch, void * vo ) {
   }
 
   send_to_char( AT_BLUE, "Ok.\n\r", ch );
-  return;
-}
-
-void spell_create_food( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  OBJ_DATA * mushroom;
-
-  mushroom             = create_object( get_obj_index( OBJ_VNUM_MUSHROOM ), 0 );
-  mushroom->value[ 0 ] = 5 + level;
-  obj_to_room( mushroom, ch->in_room );
-
-  act( AT_ORANGE, "$p suddenly appears.", ch, mushroom, NULL, TO_CHAR );
-  act( AT_ORANGE, "$p suddenly appears.", ch, mushroom, NULL, TO_ROOM );
   return;
 }
 
@@ -1458,43 +1435,6 @@ void spell_polymorph( int sn, int level, CHAR_DATA * ch, void * vo ) {
 
   act( AT_BLUE, "$n's form wavers and then resolidifies.", ch, NULL, NULL, TO_ROOM );
   send_to_char( AT_BLUE, "You have succesfully polymorphed.\n\r", ch );
-  return;
-}
-
-void spell_portal( int sn, int level, CHAR_DATA * ch, void * vo ) {
-  CHAR_DATA * victim = (CHAR_DATA *) vo;
-  OBJ_DATA  * gate1;
-  OBJ_DATA  * gate2;
-  int         duration;
-
-  if ( !( victim = get_char_world( ch, target_name ) )
-       || victim == ch
-       || !victim->in_room
-       || IS_SET( victim->in_room->room_flags, ROOM_SAFE )
-       || IS_SET( victim->in_room->room_flags, ROOM_PRIVATE )
-       || IS_SET( victim->in_room->room_flags, ROOM_SOLITARY )
-       || IS_SET( victim->in_room->room_flags, ROOM_NO_ASTRAL_IN )
-       || IS_SET( ch->in_room->room_flags, ROOM_NO_ASTRAL_OUT )
-       || IS_ARENA( ch )
-       || victim->in_room->area == arena.area
-       || IS_SET( victim->in_room->area->area_flags, AREA_PROTOTYPE ) ) {
-    send_to_char( AT_BLUE, "You failed.\n\r", ch );
-    return;
-  }
-
-  duration          = level / 10;
-  gate1             = create_object( get_obj_index( OBJ_VNUM_PORTAL ), 0 );
-  gate2             = create_object( get_obj_index( OBJ_VNUM_PORTAL ), 0 );
-  gate1->timer      = duration;
-  gate2->timer      = duration;
-  gate2->value[ 0 ] = ch->in_room->vnum;
-  gate1->value[ 0 ] = victim->in_room->vnum;
-  act( AT_BLUE, "A huge shimmering gate rises from the ground.", ch, NULL, NULL, TO_CHAR );
-  act( AT_BLUE, "$n utters a few incantations and a gate rises from the ground.", ch, NULL, NULL, TO_ROOM );
-  obj_to_room( gate1, ch->in_room );
-  act( AT_BLUE, "A huge shimmering gate rises from the ground.", victim, NULL, NULL, TO_CHAR );
-  act( AT_BLUE, "A huge shimmering gate rises from the ground.", victim, NULL, NULL, TO_ROOM );
-  obj_to_room( gate2, victim->in_room );
   return;
 }
 

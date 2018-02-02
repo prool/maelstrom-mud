@@ -2711,20 +2711,6 @@ void show_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * obj ) {
       send_to_char( C_DEFAULT, buf, ch );
       break;
 
-    case ITEM_NOTEBOARD:
-      sprintf( buf,
-               "&z[&Wv0&z] &cDecoder item&w:        &z[&R%d&z] [&W%s&z]\n\r"
-               "&z[&Wv1&z] &cMinimum read level&w:  &z[&R%d&z]\n\r"
-               "&z[&Wv2&z] &cMinimum write level&w: &z[&R%d&z]\n\r",
-               obj->value[ 0 ],
-               get_obj_index( obj->value[ 0 ] )
-               ? get_obj_index( obj->value[ 0 ] )->short_descr
-               : "none",
-               obj->value[ 1 ],
-               obj->value[ 2 ] );
-      send_to_char( C_DEFAULT, buf, ch );
-      break;
-
     case ITEM_CONTAINER:
       sprintf( buf,
                "&z[&Wv0&z] &cWeight&w: &z[&R%d &Wkg&z]\n\r"
@@ -3054,40 +3040,6 @@ bool set_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num, char 
         case 1:
           send_to_char(C_DEFAULT, "HOODED SET.\n\r\n\r", ch );
           pObj->value[ 1 ] = !(pObj->value[ 1 ]);
-          break;
-      }
-
-      break;
-
-    case ITEM_NOTEBOARD:
-
-      switch ( value_num ) {
-        default:
-          do_help( ch, "ITEM_NOTEBOARD" );
-          return FALSE;
-        case 0:
-          send_to_char( C_DEFAULT, "DECODER VNUM SET.\n\r\n\r", ch );
-          pObj->value[ 0 ] = atoi( argument );
-          break;
-        case 1:
-
-          if ( atoi( argument ) > get_trust( ch ) ) {
-            send_to_char( C_DEFAULT, "Limited by your trust.\n\r", ch );
-            return FALSE;
-          }
-
-          send_to_char( C_DEFAULT, "MINIMUM READ LEVEL SET.\n\r\n\r", ch );
-          pObj->value[ 1 ] = atoi( argument );
-          break;
-        case 2:
-
-          if ( atoi( argument ) > get_trust( ch ) ) {
-            send_to_char( C_DEFAULT, "Limited by your trust.\n\r", ch );
-            return FALSE;
-          }
-
-          send_to_char( C_DEFAULT, "MINIMUM WRITE LEVEL SET.\n\r\n\r", ch );
-          pObj->value[ 2 ] = atoi( argument );
           break;
       }
 

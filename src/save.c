@@ -1119,8 +1119,7 @@ void fread_obj( CHAR_DATA * ch, FILE * fp, bool storage ) {
               SET_BIT( obj->extra_flags, ITEM_NO_LOCATE );
             }
 
-            if ( obj->item_type == ITEM_NOTEBOARD
-                 || obj->item_type == ITEM_PORTAL ) {
+            if ( obj->item_type == ITEM_PORTAL ) {
               extract_obj( obj );
             }
 

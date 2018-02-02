@@ -2806,7 +2806,6 @@ OBJ_DATA * create_object( OBJ_INDEX_DATA * pObjIndex, int level ) {
     case ITEM_CORPSE_PC:
     case ITEM_FOUNTAIN:
     case ITEM_LIQUID:
-    case ITEM_NOTEBOARD:
       break;
 
     case ITEM_SCROLL:

@@ -889,7 +889,6 @@ struct  kill_data {
 #define ITEM_TREASURE   8
 #define ITEM_ARMOR      9
 #define ITEM_POTION     10
-#define ITEM_NOTEBOARD  11
 #define ITEM_FURNITURE  12
 #define ITEM_TRASH      13
 #define ITEM_CONTAINER  15

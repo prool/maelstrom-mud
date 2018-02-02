@@ -272,7 +272,6 @@ const struct flag_type type_flags[] = {
   { "treasure",        ITEM_TREASURE,        TRUE  },
   { "armor",           ITEM_ARMOR,           TRUE  },
   { "potion",          ITEM_POTION,          TRUE  },
-  { "noteboard",       ITEM_NOTEBOARD,       TRUE  },
   { "furniture",       ITEM_FURNITURE,       TRUE  },
   { "trash",           ITEM_TRASH,           TRUE  },
   { "container",       ITEM_CONTAINER,       TRUE  },

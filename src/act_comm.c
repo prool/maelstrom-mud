@@ -49,7 +49,6 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
 void newbie_help( CHAR_DATA * ch, char * argument );
 void delete_playerlist( char * name );
 void note_delete( NOTE_DATA * pnote );
-bool check_note_room( CHAR_DATA * ch, NOTE_DATA * pnote );
 extern EXTRA_DESCR_DATA * new_extra_descr( void );
 
 void note_delete( NOTE_DATA * pnote ) {
@@ -125,50 +124,8 @@ void note_cleanup( void ) {
   return;
 }
 
-bool check_note_room( CHAR_DATA * ch, NOTE_DATA * pnote ) {
-  OBJ_DATA * pObj;
-
-  if ( !ch->in_room ) {
-    return ( pnote->on_board == 0 );
-  }
-
-  for ( pObj = ch->in_room->contents; pObj; pObj = pObj->next_content ) {
-    if ( pObj->item_type == ITEM_NOTEBOARD ) {
-      break;
-    }
-  }
-
-  if ( !pObj ) {
-    return ( pnote->on_board == 0 );
-  }
-
-  if ( pnote->on_board != pObj->pIndexData->vnum ) {
-    return FALSE;
-  }
-
-  if ( pObj->value[ 1 ] > get_trust( ch ) ) {
-    OBJ_DATA * decoder;
-
-    for ( decoder = ch->carrying; decoder; decoder = decoder->next_content ) {
-      if ( decoder->pIndexData->vnum == pObj->value[ 0 ] ) {
-        break;
-      }
-    }
-
-    if ( decoder == NULL ) {
-      return FALSE;
-    }
-  }
-
-  return TRUE;
-}
-
 bool is_note_to( CHAR_DATA * ch, NOTE_DATA * pnote ) {
   /*   CLAN_DATA  *pClan; */
-
-  if ( !check_note_room( ch, pnote ) ) {
-    return FALSE;
-  }
 
   if ( !str_cmp( ch->name, pnote->sender ) ) {
     return TRUE;
@@ -185,54 +142,6 @@ bool is_note_to( CHAR_DATA * ch, NOTE_DATA * pnote ) {
       }
    */
   if ( is_name( NULL, "all", pnote->to_list ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 1 && (   is_name( NULL, "DARKSERVANTS", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 2 && (   is_name( NULL, "ELYSIUM", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 3 && (   is_name( NULL, "LEGION", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 4 && (   is_name( NULL, "MYSTICALTWILIGHT", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 5 && (   is_name( NULL, "GRIMREAPERS", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 6 && (   is_name( NULL, "HEADHONCHOS", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 7 && (   is_name( NULL, "CLANOFONE", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 8 && (   is_name( NULL, "INCARNATE", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 9 && (   is_name( NULL, "MUDPOLICE", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 10 && (   is_name( NULL, "CURATORS", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 11 && (   is_name( NULL, "MERRYPIRATES", pnote->to_list ) ) ) {
-    return TRUE;
-  }
-
-  if ( ch->clan == 12 && (   is_name( NULL, "MAIDENS", pnote->to_list ) ) ) {
     return TRUE;
   }
 
@@ -640,37 +549,6 @@ void do_note( CHAR_DATA * ch, char * argument ) {
     }
 
     ch->pnote->on_board = 0;
-
-    if ( ch->in_room ) {
-      for ( board = ch->in_room->contents; board;
-            board = board->next_content ) {
-        if ( board->item_type == ITEM_NOTEBOARD ) {
-          break;
-        }
-      }
-
-      if ( board ) {
-        if ( board->value[ 2 ] > get_trust( ch ) ) {
-          OBJ_DATA * decoder;
-
-          for ( decoder = ch->carrying; decoder;
-                decoder = decoder->next_content ) {
-            if ( decoder->pIndexData->vnum == board->value[ 0 ] ) {
-              break;
-            }
-          }
-
-          if ( decoder == NULL ) {
-            send_to_char( AT_WHITE, "You may not post on this board.\n\r", ch );
-            return;
-          }
-        }
-      }
-
-      if ( board ) {
-        ch->pnote->on_board = board->pIndexData->vnum;
-      }
-    }
 
     if ( IS_NPC( ch ) && ch->pnote->on_board == 0 ) {
       return;

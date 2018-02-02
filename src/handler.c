@@ -2039,8 +2039,6 @@ char * item_type_name( OBJ_DATA * obj ) {
       return "armor";
     case ITEM_POTION:
       return "potion";
-    case ITEM_NOTEBOARD:
-      return "noteboard";
     case ITEM_FURNITURE:
       return "furniture";
     case ITEM_TRASH:

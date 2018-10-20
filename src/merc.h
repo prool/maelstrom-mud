@@ -2256,7 +2256,6 @@ DECLARE_SPELL_FUN( spell_null );
 DECLARE_SPELL_FUN( spell_animate );
 DECLARE_SPELL_FUN( spell_armor );
 DECLARE_SPELL_FUN( spell_blindness );
-DECLARE_SPELL_FUN( spell_ );
 DECLARE_SPELL_FUN( spell_charm_person );
 DECLARE_SPELL_FUN( spell_cure_blindness );
 DECLARE_SPELL_FUN( spell_cure_poison );

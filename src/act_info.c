@@ -2856,11 +2856,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
                     ch );
     }
 
-    send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_MUSIC )
-                  ? " +MUSIC"
-                  : " -music",
-                  ch );
-
     send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_QUESTION )
                   ? " +QUESTION"
                   : " -question",
@@ -2953,8 +2948,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
       bit = CHANNEL_HERO;
     } else if ( !str_cmp( arg + 1, "immtalk" ) ) {
       bit = CHANNEL_IMMTALK;
-    } else if ( !str_cmp( arg + 1, "music" ) ) {
-      bit = CHANNEL_MUSIC;
     } else if ( !str_cmp( arg + 1, "question" ) ) {
       bit = CHANNEL_QUESTION;
     } else if ( !str_cmp( arg + 1, "shout" ) ) {

@@ -1094,11 +1094,6 @@ void do_ooc( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-void do_music( CHAR_DATA * ch, char * argument ) {
-  talk_channel( ch, argument, CHANNEL_MUSIC, "music" );
-  return;
-}
-
 void do_question( CHAR_DATA * ch, char * argument ) {
   talk_channel( ch, argument, CHANNEL_QUESTION, "question" );
   return;

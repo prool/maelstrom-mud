@@ -167,7 +167,6 @@ struct cmd_type cmd_table [] = {
   { "chat",            do_chat,              POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
   { "emote",           do_emote,             POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "gtell",           do_gtell,             POS_DEAD,     0,     LOG_NORMAL, TRUE    },
-  { "music",           do_music,             POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
   { "note",            do_note,              POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },
   { "quest",           do_quest,             POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "question",        do_question,          POS_SLEEPING, 0,     LOG_NORMAL, TRUE    },

@@ -1152,7 +1152,6 @@ struct  kill_data {
 #define CHANNEL_CHAT     2
 #define CHANNEL_OOC      4
 #define CHANNEL_IMMTALK  8
-#define CHANNEL_MUSIC    16
 #define CHANNEL_QUESTION 32
 #define CHANNEL_SHOUT    64
 #define CHANNEL_YELL     128
@@ -2091,7 +2090,6 @@ DECLARE_DO_FUN( do_mstat );
 DECLARE_DO_FUN( do_mwhere );
 DECLARE_DO_FUN( do_murde );
 DECLARE_DO_FUN( do_murder );
-DECLARE_DO_FUN( do_music );
 DECLARE_DO_FUN( do_newbie );
 DECLARE_DO_FUN( do_newcorpse );
 DECLARE_DO_FUN( do_newlock );

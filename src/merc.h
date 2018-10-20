@@ -1152,8 +1152,6 @@ struct  kill_data {
 #define CHANNEL_CHAT     2
 #define CHANNEL_OOC      4
 #define CHANNEL_IMMTALK  8
-#define CHANNEL_QUESTION 32
-#define CHANNEL_SHOUT    64
 #define CHANNEL_YELL     128
 #define CHANNEL_CLAN     256
 #define CHANNEL_CLASS    512
@@ -1971,7 +1969,6 @@ DECLARE_DO_FUN( do_afk );
 DECLARE_DO_FUN( do_afkmes );
 DECLARE_DO_FUN( do_allow );
 DECLARE_DO_FUN( do_ansi );
-DECLARE_DO_FUN( do_answer );
 DECLARE_DO_FUN( do_areas );
 DECLARE_DO_FUN( do_astat );
 DECLARE_DO_FUN( do_astrip );
@@ -2129,7 +2126,6 @@ DECLARE_DO_FUN( do_punch );
 DECLARE_DO_FUN( do_purge );
 DECLARE_DO_FUN( do_put );
 DECLARE_DO_FUN( do_quaff );
-DECLARE_DO_FUN( do_question );
 DECLARE_DO_FUN( do_qui );
 DECLARE_DO_FUN( do_quit );
 DECLARE_DO_FUN( do_reboo );
@@ -2162,7 +2158,6 @@ DECLARE_DO_FUN( do_sell );
 DECLARE_DO_FUN( do_seize );
 DECLARE_DO_FUN( do_separate );
 DECLARE_DO_FUN( do_setlev );
-DECLARE_DO_FUN( do_shout );
 DECLARE_DO_FUN( do_shutdow );
 DECLARE_DO_FUN( do_shutdown );
 DECLARE_DO_FUN( do_silence );

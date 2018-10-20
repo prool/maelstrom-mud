@@ -2226,7 +2226,7 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
     act( AT_RED, "$n tried to steal from you.\n\r", ch, NULL, victim, TO_VICT );
     act( AT_RED, "$n tried to steal from $N.\n\r",  ch, NULL, victim, TO_NOTVICT );
     sprintf( buf, "%s is a bloody thief!", ch->name );
-    do_shout( victim, buf );
+    do_yell( victim, buf );
 
     if ( !IS_NPC( ch ) ) {
       if ( IS_NPC( victim ) ) {
@@ -2329,14 +2329,14 @@ CHAR_DATA * find_keeper( CHAR_DATA * ch ) {
   if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_KILLER ) ) {
     do_say( keeper, "Killers are not welcome!" );
     sprintf( buf, "%s the KILLER is over here!\n\r", ch->name );
-    do_shout( keeper, buf );
+    do_yell( keeper, buf );
     return NULL;
   }
 
   if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_THIEF ) ) {
     do_say( keeper, "Thieves are not welcome!" );
     sprintf( buf, "%s the THIEF is over here!\n\r", ch->name );
-    do_shout( keeper, buf );
+    do_yell( keeper, buf );
     return NULL;
   }
 

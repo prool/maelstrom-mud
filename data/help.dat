@@ -1430,23 +1430,14 @@ WIMPY with no argument sets your wimpy value to 20% of your maximum hit points.
 
 Some monsters are wimpy.
 ~
-0 AUCTION CHAT . MUSIC QUESTION ANSWER SHOUT YELL~
+0 AUCTION CHAT YELL~
 Syntax: auction  <message>
 Syntax: chat     <message>
-Syntax: music    <message>
-Syntax: question <message>
-Syntax: answer   <message>
-Syntax: shout    <message>
 Syntax: yell     <message>
 
 These commands send messages through communication channels to other players.
 
-SHOUT sends a message to all awake players in the world.  To curb excessive
-shouting, SHOUT imposes a three-second delay on the shouter.
-
-AUCTION, CHAT, MUSIC, and QUESTION and ANSWER also send messages to all
-interested players.  '.' is a synonym for CHAT.  The QUESTION and ANSWER
-commands both use the same 'question' channel.
+AUCTION and CHAT also send messages to all interested players.
 
 YELL sends a message to all awake players within your area.
 
@@ -2187,7 +2178,8 @@ This spell cures blindness in one so unfortunate.
 
 
 
-'PSYCHIC HEALING' 'COMPLETE HEALING'~
+
+'PSYCHIC HEALING' 'COMPLETE HEALING'~
 Syntax: cast 'cure light'       <character>
 Syntax: cast 'cure serious'     <character>
 Syntax: cast 'cure critical'    <character>
@@ -2463,7 +2455,8 @@ although it isn't efficient to do so.
 
 
 
-   'HIGH EXPLOSIVE AMMO'~
+
+   'HIGH EXPLOSIVE AMMO'~
 Syntax: cast 'general purpose' <target>
 Syntax: cast 'high explosive'  <target>
 
@@ -2629,7 +2622,8 @@ DISINTEGRATE their victims, killing them instantly.
 
 
 
-  'INTELLECT FORTRESS' 'INERTIAL BARRIER'~
+
+  'INTELLECT FORTRESS' 'INERTIAL BARRIER'~
 Syntax: cast 'thought shield'
 Syntax: cast 'mental barrier'
 Syntax: cast 'displacement'

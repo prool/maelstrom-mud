@@ -760,7 +760,7 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
     vch = d->character;
 
     if ( d->connected == CON_PLAYING && vch != ch && !IS_SET( och->deaf, channel ) && !IS_SET( och->in_room->room_flags, ROOM_SILENT ) ) {
-      if ( IS_QUESTOR( och ) && channel != CHANNEL_SHOUT && channel != CHANNEL_YELL ) {
+      if ( IS_QUESTOR( och ) && channel != CHANNEL_YELL ) {
         continue;
       }
 
@@ -796,7 +796,7 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
 
       position = vch->position;
 
-      if ( channel != CHANNEL_SHOUT && channel != CHANNEL_YELL ) {
+      if ( channel != CHANNEL_YELL ) {
         vch->position = POS_STANDING;
       }
 
@@ -1091,22 +1091,6 @@ void do_chat( CHAR_DATA * ch, char * argument ) {
 
 void do_ooc( CHAR_DATA * ch, char * argument ) {
   talk_channel( ch, argument, CHANNEL_OOC, "OOC" );
-  return;
-}
-
-void do_question( CHAR_DATA * ch, char * argument ) {
-  talk_channel( ch, argument, CHANNEL_QUESTION, "question" );
-  return;
-}
-
-void do_answer( CHAR_DATA * ch, char * argument ) {
-  talk_channel( ch, argument, CHANNEL_QUESTION, "answer" );
-  return;
-}
-
-void do_shout( CHAR_DATA * ch, char * argument ) {
-  talk_channel( ch, argument, CHANNEL_SHOUT, "shout" );
-  WAIT_STATE( ch, 12 );
   return;
 }
 

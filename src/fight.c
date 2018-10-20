@@ -1883,7 +1883,7 @@ void do_murder( CHAR_DATA * ch, char * argument ) {
 
   if ( !IS_NPC( victim ) ) {
     sprintf( buf, "Help!  I am being attacked by %s!", ch->name );
-    do_shout( victim, buf );
+    do_yell( victim, buf );
   }
 
   multi_hit( ch, victim, TYPE_UNDEFINED );

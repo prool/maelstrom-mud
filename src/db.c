@@ -103,7 +103,6 @@ int gsn_wands;
 int gsn_rage;
 int gsn_headbutt;
 int gsn_retreat;
-int gsn_escape;
 int gsn_haggle;
 int gsn_throw;
 int gsn_lure;
@@ -2717,7 +2716,6 @@ OBJ_DATA * create_object( OBJ_INDEX_DATA * pObjIndex, int level ) {
     case ITEM_LIQUID:
     case ITEM_PAPER:
     case ITEM_QUILL:
-    case ITEM_SMOKE_BOMB:
       break;
 
     case ITEM_SCROLL:

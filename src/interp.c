@@ -218,7 +218,6 @@ struct cmd_type cmd_table [] = {
   { "disarm",          do_disarm,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "flee",            do_flee,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "retreat",         do_retreat,           POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
-  { "escape",          do_escape,            POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "kick",            do_kick,              POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "punch",           do_punch,             POS_FIGHTING, 0,     LOG_NORMAL, TRUE    },
   { "murde",           do_murde,             POS_FIGHTING, 5,     LOG_NORMAL, TRUE    },

@@ -849,7 +849,6 @@ struct  kill_data {
 #define ITEM_PORTAL     29
 #define ITEM_PAPER      30
 #define ITEM_QUILL      31
-#define ITEM_SMOKE_BOMB 32
 
 /*
  * Extra flags.
@@ -1775,7 +1774,6 @@ extern int gsn_spellcraft;
 extern int gsn_rage;
 extern int gsn_headbutt;
 extern int gsn_retreat;
-extern int gsn_escape;
 extern int gsn_haggle;
 extern int gsn_lure;
 extern int gsn_flip;
@@ -2145,7 +2143,6 @@ DECLARE_DO_FUN( do_rest );
 DECLARE_DO_FUN( do_restrict );
 DECLARE_DO_FUN( do_restore );
 DECLARE_DO_FUN( do_retreat );
-DECLARE_DO_FUN( do_escape );
 DECLARE_DO_FUN( do_retrieve );
 DECLARE_DO_FUN( do_return );
 DECLARE_DO_FUN( do_rset );

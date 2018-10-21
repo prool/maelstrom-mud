@@ -286,7 +286,6 @@ const struct flag_type type_flags[] = {
   { "portal",          ITEM_PORTAL,          TRUE  },
   { "paper",           ITEM_PAPER,           TRUE  },
   { "quill",           ITEM_QUILL,           TRUE  },
-  { "smoke-bomb",      ITEM_SMOKE_BOMB,      TRUE  },
   { "",                0,                    0     }
 };
 

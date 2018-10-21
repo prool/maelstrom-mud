@@ -748,14 +748,6 @@ const struct  skill_type skill_table[ MAX_SKILL ] = {
   },
 
   {
-    "escape",
-    { L_APP, 25, L_APP },
-    spell_null,TAR_IGNORE,POS_FIGHTING,
-    &gsn_escape,0,0,
-    "","!Run Away:P!","",FALSE,SLOT(0)
-  },
-
-  {
     "haggle",
     { L_APP,L_APP,L_APP },
     spell_null,TAR_IGNORE,POS_FIGHTING,

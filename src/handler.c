@@ -2057,8 +2057,6 @@ char * item_type_name( OBJ_DATA * obj ) {
       return "paper";
     case ITEM_QUILL:
       return "quill";
-    case ITEM_SMOKE_BOMB:
-      return "smoke bomb";
   }
 
   for ( in_obj = obj; in_obj->in_obj; in_obj = in_obj->in_obj ) {

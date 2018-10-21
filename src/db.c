@@ -146,9 +146,6 @@ int top_room;
 int top_shop;
 int top_trap;
 int top_mob_prog;
-/*int			top_vnum_room;*/	/* OLC */
-/*int			top_vnum_mob; */	/* OLC */
-/*int			top_vnum_obj; */  /* OLC */
 int mprog_name_to_type( char * name );
 MPROG_DATA *    mprog_file_read( char * f, MPROG_DATA * mprg, MOB_INDEX_DATA * pMobIndex );
 void load_mobprogs( FILE * fp );
@@ -847,15 +844,6 @@ void load_area( FILE * fp ) {
   pArea->nplayer    = 0;
   pArea->def_color  = 6;  /* Angi - AT_CYAN */
 
-  /*    if ( !area_first )
-      area_first = pArea;
-      if (  area_last  )
-      {
-      area_last->next = pArea;
-      REMOVE_BIT(area_last->area_flags, AREA_LOADING);	* OLC *
-      }
-      area_last	= pArea;
-      pArea->next	= NULL;*/
   area_sort( pArea );
 
   top_area++;
@@ -2141,9 +2129,7 @@ void fix_exits( void ) {
   int               door;
 
   for ( iHash = 0; iHash < MAX_KEY_HASH; iHash++ ) {
-    for ( pRoomIndex  = room_index_hash[ iHash ];
-          pRoomIndex;
-          pRoomIndex  = pRoomIndex->next ) {
+    for ( pRoomIndex  = room_index_hash[ iHash ]; pRoomIndex; pRoomIndex  = pRoomIndex->next ) {
       bool fexit;
 
       fexit = FALSE;
@@ -2162,28 +2148,6 @@ void fix_exits( void ) {
 
       if ( !fexit ) {
         SET_BIT( pRoomIndex->room_flags, ROOM_NO_MOB );
-      }
-    }
-  }
-
-  for ( iHash = 0; iHash < MAX_KEY_HASH; iHash++ ) {
-    for ( pRoomIndex  = room_index_hash[ iHash ];
-          pRoomIndex;
-          pRoomIndex  = pRoomIndex->next ) {
-      for ( door = 0; door < MAX_DIR; door++ ) {
-        if ( ( pexit     = pRoomIndex->exit[ door ]       )
-             && ( to_room   = pexit->to_room               )
-             && ( pexit_rev = to_room->exit[ direction_table[ door ].reverse ] )
-             &&   pexit_rev->to_room != pRoomIndex ) {
-          /* commented out... too many
-             sprintf( buf, "Fix_exits: %d:%d -> %d:%d -> %d.",
-             pRoomIndex->vnum, door,
-             to_room->vnum,    direction_table[door].reverse,
-             ( !pexit_rev->to_room ) ? 0
-             :  pexit_rev->to_room->vnum );
-             bug( buf, 0 );
-           */
-        }
       }
     }
   }
@@ -4084,100 +4048,6 @@ char * wind_str( int str ) {
   return "";
 }
 
-void wind_update( AREA_DATA * pArea ) {
-  /*  extern const char * dir_wind[];
-     char buf[MAX_STRING_LENGTH];
-     int change = 0;
-     int cdir = 0;
-     int  nwd = pArea->winddir;
-     int nws = pArea->windstr;
-
-     if ( number_percent() <= 50 )
-     {
-     change = number_range(-50, 50);
-     if ( number_bits(2) == 0 )
-     {
-     if ( change + nws <= 70 )
-     {
-     nws += change;
-     }
-     else
-     {
-     if ( number_percent() < 5 )
-     {
-     if ( nws + change > 250 )
-     nws = 250;
-     else
-     nws += change;
-     }
-     }
-     }
-     else
-     {
-     if ( nws - change < 0 )
-     nws = 0;
-     else
-     nws -= change;
-     }
-     }
-
-     if ( number_percent() < 20 )
-     {
-     cdir = number_fuzzy(0);
-
-     if ( ( nwd == 0 ) && ( cdir == -1 ) )
-     nwd = 3;
-     else if ( ( nwd == 3 ) && ( cdir == 1 ) )
-     nwd = 0;
-     else
-     nwd += cdir;
-     }
-
-     if ( ( nws <= 0 ) && ( nws != pArea->windstr ) )
-     {
-     send_to_area( pArea, "The wind dies down.\n\r" );
-     pArea->winddir = nwd;
-     pArea->windstr = nws;
-     return;
-     }
-
-     if ( ( nwd != pArea->winddir ) && ( nws != pArea->windstr ) )
-     {
-     sprintf( buf, "The wind shifts directions and begins blowing %s from the %s.\n\r",
-     wind_str( nws ), direction_table[direction_table[nwd].reverse].name );
-     send_to_area( pArea, buf );
-     pArea->winddir = nwd;
-     pArea->windstr = nws;
-     return;
-     }
-
-     if ( ( nwd != pArea->winddir ) && ( nws == pArea->windstr ) )
-     {
-     sprintf( buf, "The wind begins blowing from the %s at the same strength as before.\n\r",
-     direction_table[direction_table[nwd].reverse].name );
-     send_to_area( pArea, buf );
-     pArea->winddir = nwd;
-     return;
-     }
-
-     if ( ( nwd == pArea->winddir )  && ( nws != pArea->windstr ) )
-     {
-     sprintf( buf, "The wind begins blowing %s, still from the %s.\n\r",
-      wind_str( nws ), direction_table[direction_table[nwd].reverse].name );
-     send_to_area( pArea, buf );
-     pArea->windstr = nws;
-     return;
-     }*/
-  return;
-}
-
-/*
-   void do_aload( CHAR_DATA *ch, char *argument )
-   {
-
-   return;
-   }
- */
 /*
  * This function is here to aid in debugging.
  * If the last expression in a function is another function call,

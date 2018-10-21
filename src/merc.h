@@ -2814,7 +2814,6 @@ extern RESET_DATA * new_reset_data( void );
 extern void check_nofloor( CHAR_DATA * ch );
 extern void save_clans();
 extern void save_helps();
-extern void wind_update( AREA_DATA * pArea );
 extern void send_to_area( AREA_DATA * pArea, char * txt );
 extern void free_alias( ALIAS_DATA * pAl );
 extern void save_player_list();

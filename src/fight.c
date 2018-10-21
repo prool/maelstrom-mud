@@ -799,15 +799,6 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return FALSE;
   }
 
-  /* SIGH
-     if ( !(IS_SET(ch->act, PLR_PKILLER)) || ( (IS_SET(ch->act, PLR_PKILLER)) &&
-     !(IS_SET(victim->act, PLR_PKILLER)) ) )
-     {
-     send_to_char(AT_WHITE, "You cannot pkill unless you are BOTH pkillers!\n\r", ch );
-     return TRUE;
-     }
-   */
-
   if ( abs( ch->level - victim->level ) > 5 && ( !IS_NPC( ch ) ) ) {
     send_to_char( AT_WHITE, "That is not in the pkill range... valid range is +/- 5 levels.\n\r", ch );
     return TRUE;
@@ -1197,9 +1188,6 @@ void make_corpse( CHAR_DATA * ch ) {
     obj_to_obj( random, corpse );
   }
 
-  /*    sprintf( buf, "NPC killed: %s -> %d", ch->name, ch->in_room->vnum );
-      log_string( buf, CHANNEL_NONE, -1 );
-      wiznet(buf,NULL,NULL,WIZ_MOBDEATHS,0,0);*/
   if ( ( IS_NPC( ch ) ) && ( !IS_SET( ch->act, UNDEAD_TYPE( ch ) ) ) ) {
     corpse->ac_vnum = ch->pIndexData->vnum;
   }
@@ -1496,50 +1484,6 @@ int xp_compute( CHAR_DATA * gch, CHAR_DATA * victim ) {
   }
 
   return xp;
-
-  /* OLD xp system
-     int xp;
-     int align;
-     int extra;
-     int level;
-     int number;
-
-     xp    = 150 - URANGE( -10, gch->level - victim->level, 10 ) * 30;
-     align = gch->alignment - victim->alignment;
-
-     if ( align >  500 )
-     {
-     gch->alignment  = UMIN( gch->alignment + ( align - 500 ) / 4,  1000 );
-     xp = 5 * xp / 4;
-     }
-     else if ( align < -500 )
-     {
-     gch->alignment  = UMAX( gch->alignment + ( align + 500 ) / 4, -1000 );
-     xp = 5 * xp / 4;
-     }
-     else
-     {
-     gch->alignment -= victim->alignment / 3;
-     xp = 3 * xp / 4;
-     }
-   */
-  /*
-   * Adjust for popularity of target:
-   *   -1/8 for each target over  'par' (down to - 50%)
-   *   +1/8 for each target under 'par' (  up to + 25%)
-   */
-  /*    level  = URANGE( 0, victim->level, 99 );
-      number = UMAX( 1, kill_table[level].number );
-      if(IS_NPC(victim))
-      extra  = victim->pIndexData->killed - kill_table[level].killed / number;
-      else
-      extra = 0;
-      xp    -= xp * URANGE( -2, extra, 4 ) / 8;
-
-      xp     = number_range( xp * 3 / 4, xp * 5 / 4 );
-      xp     = UMAX( 0, xp );
-      return xp;
-   */
 }
 
 void dam_message( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {

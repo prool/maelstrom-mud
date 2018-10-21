@@ -118,11 +118,6 @@ void gain_exp( CHAR_DATA * ch, int gain ) {
 
   ch->exp = UMAX( 1000, ch->exp + gain );
 
-  /*
-     while ( ( ch->level < LEVEL_HERO && ch->exp >= 1000 * ( ch->level + 1 ) )
-   || ( ch->level < L_CHAMP1 && ch->exp >= 400000 )
-   || ( ch->level < L_CHAMP2 && ch->exp >= 1000000 )
-   || ( ch->level < L_CHAMP3 && ch->exp >= 2000000 ) ) */
   while ( ch->exp >= xp_tolvl( ch ) ) {
     send_to_char( AT_BLUE, "You raise a level!!  ", ch );
     ch->level += 1;
@@ -1300,26 +1295,6 @@ void aggr_update( void ) {
       }
 
       multi_hit( mch, victim, TYPE_UNDEFINED );
-
-      /*        if ( IS_NPC( mch ) && mch->mpactnum > 0
-            && mch->in_room->area->nplayer > 0 )
-            {
-            MPROG_ACT_LIST * tmp_act, *tmp2_act;
-            for ( tmp_act = mch->mpact; tmp_act != NULL;
-            tmp_act = tmp_act->next )
-            {
-            mprog_wordlist_check( tmp_act->buf,mch, tmp_act->ch,
-            tmp_act->obj, tmp_act->vo, ACT_PROG );
-            free_string( tmp_act->buf );
-            }
-            for ( tmp_act = mch->mpact; tmp_act != NULL; tmp_act = tmp2_act )
-            {
-            tmp2_act = tmp_act->next;
-            free_mem( tmp_act, sizeof( MPROG_ACT_LIST ) );
-            }
-            mch->mpactnum = 0;
-            mch->mpact    = NULL;
-            }*/
     } /* mch loop */
 
   }   /* descriptor loop */
@@ -1637,8 +1612,6 @@ void update_handler( void ) {
     pulse_point = number_range( PULSE_TICK / 2, 3 * PULSE_TICK / 2 );
     weather_update();
     rtime_update();
-    /*	vamdam_update   ( );
-       wind_update     ( ); */
     quest_update();
     char_update();
     obj_update();
@@ -1781,91 +1754,6 @@ void rdam_update() {
 
   return;
 }
-
-/* This does the damage for vampiers when there out during the day
-   basicaly a rip off of rdam_update.  -Decklarean*/
-/*
-   void vamdam_update( )
-   {
-   DESCRIPTOR_DATA *d;
-   CHAR_DATA *ch;
-   for ( d = descriptor_list; d; d = d->next )
-   {
-   if ( d->connected != CON_PLAYING )
-   continue;
-
-   ch = d->original ? d->original : d->character;
-   if ( !( ch->in_room ) )
-   continue;
-
-   if ( ch->level < L_APP && is_class( ch, CLASS_VAMPIRE ) )
-   if ( !IS_SET( ch->in_room->room_flags, ROOM_INDOORS ) )
-   {
-   if ( time_info.hour > 5 && time_info.hour < 18 )
-   {
-   send_to_char( AT_RED,
-   "Intense pain washes through your body under the light of the sun.\n\r", ch );
-   act( AT_RED, "Smoke rises from $n under the glarying light of the sun.", ch,
-   NULL, NULL, TO_ROOM );
-
-   damage( ch, ch, (ch->level / 2) , TYPE_UNDEFINED );
-   ch->bp -= ch->bp / 6;
-   }
-   }
-   }
-
-   return;
-   }
- */
-
-/* Wind timer routines.. needs updates for weather stuff.. -- Altrag */
-/*
-   const char *dir_wind [] = {"north", "northeast", "east", "southeast",
-   "south", "southwest", "west", "northwest"};
-   const char *wind_str [] = {"almost no", "a little bit of", "a strong"};
-
-   void wind_update( void )
-   {
-   AREA_DATA *pArea;
-   DESCRIPTOR_DATA *d;
-
-   for ( pArea = area_first; pArea; pArea = pArea->next )
-   {
-   pArea->windstr += number_range( UMIN(pArea->windstr - 5, -15),
-   UMAX(pArea->windstr + 5, 15) );
-   if ( pArea->windstr < 0 )
-   {
-   pArea->windstr = -pArea->windstr;
-   pArea->winddir = number_fuzzy(pArea->winddir);
-   if (pArea->winddir < 0 )
-   pArea->winddir = 7;
-   if (pArea->winddir > 7 )
-   pArea->winddir = 0;
-   }
-   }
-
-   for ( d = descriptor_list; d; d = d->next )
-   {
-   if ( d->connected == CON_PLAYING
-   && IS_OUTSIDE( d->character )
-   && IS_AWAKE( d->character )
-   && !IS_SET(d->character->in_room->room_flags, ROOM_INDOORS ) )
-   {
-   char buf[MAX_STRING_LENGTH];
-
-   pArea = d->character->in_room->area;
-   if ( pArea->windstr > 0 )
-   sprintf(buf, "There is %s wind blowing from the %s.\n\r",
-   wind_str[pArea->windstr / 5], dir_wind[pArea->winddir]);
-   else
-   strcpy(buf, "There is no wind at all.\n\r");
-   send_to_char(C_DEFAULT, buf, d->character);
-   }
-   }
-   return;
-   }
- */
-/* END */
 
 void strew_corpse( OBJ_DATA * obj, AREA_DATA * inarea ) {
   OBJ_DATA        * currobj;

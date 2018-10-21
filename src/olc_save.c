@@ -61,40 +61,6 @@ char * fix_string( const char * str ) {
  */
 
 extern char * mprog_type_to_name( int type );
-/*
-   {
-   switch( type )
-   {
-   case IN_FILE_PROG:
-   return "in_file_prog";
-   case ACT_PROG:
-   return "act_prog";
-   case SPEECH_PROG:
-   return "speech_prog";
-   case RAND_PROG:
-   return "rand_prog";
-   case FIGHT_PROG:
-   return "fight_prog";
-   case HITPRCNT_PROG:
-   return "hitprcnt_prog";
-   case DEATH_PROG:
-   return "death_prog";
-   case ENTRY_PROG:
-   return "entry_prog";
-   case GREET_PROG:
-   return "greet_prog";
-   case ALL_GREET_PROG:
-   return "all_greet_prog";
-   case GIVE_PROG:
-   return "give_prog";
-   case BRIBE_PROG:
-   return "bribe_prog";
-   default:
-   return "error_prog";
-   }
-   return "error_prog";
-   }
- */
 
 /* TRI
  * This proc is the one that is originally called, it handles going from
@@ -752,34 +718,6 @@ void vsave_shops( FILE * fp, AREA_DATA * pArea ) {
    Written by:	Walker <nkrendel@evans.Denver.Colorado.EDU>
    Called by:	save_area(olc_save.c).
  ****************************************************************************/
-/*  new one just below this one -Deck */
-#if 0
-void save_helps( FILE * fp, AREA_DATA * pArea ) {
-  HELP_DATA * pHelp;
-  bool        found = FALSE;
-
-  for ( pHelp = help_first; pHelp; pHelp = pHelp->next ) {
-    if ( pHelp->area && pHelp->area == pArea ) {
-      if ( !found ) {
-        fprintf( fp, "#HELPS\n\n" );
-        found = TRUE;
-      }
-
-      fprintf( fp, "%d %s~\n%s~\n",
-               pHelp->level,
-               all_capitalize( pHelp->keyword ),
-               fix_string( pHelp->text ) );
-    }
-  }
-
-  if ( found ) {
-    fprintf( fp, "\n0 $~\n\n" );
-  }
-
-  return;
-}
-
-#endif
 /*
  *  This is the new save_helps it saves all the helps in help.dat
  *  -Decklarean

@@ -699,17 +699,6 @@ void affect_to_char( CHAR_DATA * ch, AFFECT_DATA * paf ) {
 
   paf_new = new_affect();
 
-  /* this stuff done in new_affect();
-     if ( !affect_free )
-     {
-     paf_new		= alloc_perm( sizeof( *paf_new ) );
-     }
-     else
-     {
-     paf_new		= affect_free;
-     affect_free	= affect_free->next;
-     } */
-
   *paf_new         = *paf;
   paf_new->deleted = FALSE;
   paf_new->next    = ch->affected;
@@ -723,16 +712,6 @@ void affect_to_char2( CHAR_DATA * ch, AFFECT_DATA * paf ) {
   AFFECT_DATA * paf_new;
 
   paf_new = new_affect();
-
-  /*    if ( !affect_free )
-      {
-      paf_new		= alloc_perm( sizeof( *paf_new ) );
-      }
-      else
-      {
-      paf_new		= affect_free;
-      affect_free	= affect_free->next;
-      } */
 
   *paf_new         = *paf;
   paf_new->deleted = FALSE;

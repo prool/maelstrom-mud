@@ -113,16 +113,6 @@ bool get_obj( CHAR_DATA * ch, OBJ_DATA * obj, OBJ_DATA * container, bool palming
     amount.gold   = obj->value[ 0 ];
     amount.silver = obj->value[ 1 ];
     amount.copper = obj->value[ 2 ];
-
-    /*	tot_coins = amount.gold + amount.silver + amount.copper;
-       if ( ( ch->carry_weight + tot_coins/100 ) > can_carry_w( ch ) )
-       {
-       act(AT_WHITE, "$d: you can't carry that much weight.",
-       ch, NULL, obj->name, TO_CHAR );
-       return 0;
-       }
-       ch->carry_weight += tot_coins/100;
-     */
     add_money( &ch->money, &amount );
     sprintf( buf, "You counted %s\n\r", money_string( &amount ) );
     send_to_char( AT_YELLOW, buf, ch );

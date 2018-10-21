@@ -243,25 +243,6 @@ int init_socket( int port ) {
     return -1;
   }
 
-  /*
-   #if defined( SO_DONTLINGER ) && !defined( SYSV )
-     {
-     struct	linger	ld;
-
-     ld.l_onoff  = 1;
-     ld.l_linger = 1000;
-
-     if ( setsockopt( fd, SOL_SOCKET, SO_DONTLINGER,
-     (char *) &ld, sizeof( ld ) ) < 0 )
-     {
-     perror( "Init_socket: SO_DONTLINGER" );
-     close( fd );
-     return -1;
-     }
-     }
-   #endif
-   */
-
   sa            = sa_zero;
   sa.sin_family = AF_INET;
   sa.sin_port   = htons( port );
@@ -931,25 +912,6 @@ bool process_output( DESCRIPTOR_DATA * d, bool fPrompt ) {
           sprintf( wound, "is bleeding to death. [%d]", percent );
         }
 
-        /*
-           strcpy( buf2, "&z[" );
-           if ( percent >= 66 )
-           strcat( buf2, "&G" );
-           else if( percent >= 33 )
-           strcat( buf2, "&Y" );
-           else
-           strcat( buf2, "&r" );
-           health[0] = '+';
-           for( iHealth = 1; iHealth < 20; iHealth++ )
-           if ( percent >= iHealth * 5 )
-           health[iHealth] = '+';
-           else
-           health[iHealth] = ' ';
-           health[iHealth] = '\0';
-           strcat( buf2, health );
-           strcat( buf2, "&z]" );
-           sprintf( wound, "%s", buf2 );
-         */
         sprintf( buf, "\n\r&R%s %s",
                  IS_NPC( victim ) ? victim->short_descr : victim->name, wound );
         buf[ 0 ] = UPPER( buf[ 0 ] );
@@ -966,9 +928,6 @@ bool process_output( DESCRIPTOR_DATA * d, bool fPrompt ) {
       }
 
       if ( IS_SET( ch->act, PLR_PROMPT ) ) {
-        /*	        if ( IS_SET( ch->act, PLR_ANSI ) )
-              bust_a_color_prompt( d );
-              else */
         bust_a_prompt( d );
       }
 

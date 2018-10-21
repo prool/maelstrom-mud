@@ -2694,12 +2694,7 @@ void show_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * obj ) {
 
     case ITEM_WEAPON:
       sprintf( buf,
-               /* v1 and v2 not used - Deck
-                  "&z[&Wv1&z] &cDamage minimum&w: &z[&R%d&z]\n\r"
-                  "&z[&Wv2&z] &cDamage maximum&w: &z[&R%d&z]\n\r"*/
                "&z[&Wv3&z] &cType&w:           &z[&W%s&z]\n\r",
-               /*obj->value[1], v1 and v2 not used - Deck
-                  obj->value[2],*/
                flag_string( weapon_flags, obj->value[ 3 ] ) );
       send_to_char( C_DEFAULT, buf, ch );
       break;
@@ -3011,14 +3006,6 @@ bool set_obj_values( CHAR_DATA * ch, OBJ_INDEX_DATA * pObj, int value_num, char 
         default:
           do_help( ch, "ITEM_WEAPON" );
           return FALSE;
-        /*  case 1:  not used -Deck
-           send_to_char(C_DEFAULT, "MINIMUM DAMAGE SET.\n\r\n\r", ch );
-           pObj->value[1] = atoi( argument );
-           break;
-           case 2:
-           send_to_char(C_DEFAULT, "MAXIMUM DAMAGE SET.\n\r\n\r", ch );
-           pObj->value[2] = atoi( argument );
-           break; */
         case 3:
           send_to_char( C_DEFAULT, "WEAPON TYPE SET.\n\r\n\r", ch );
           pObj->value[ 3 ] = flag_value( weapon_flags, argument );
@@ -4006,15 +3993,6 @@ bool cedit_create( CHAR_DATA * ch, char * argument ) {
 
   pClan       = new_clan_index();
   pClan->vnum = value;
-  /*    iHash			= value % MAX_KEY_HASH;
-      pClan->next			= clan_index_hdata;
-      clan_index_hash[iHash]	= pClan;*/
-  /*    if ( !clan_first )
-      clan_first = pClan;
-      if ( clan_last )
-      clan_last->next = pClan;
-      clan_last->next             = pClan;
-      clan_last                   = pClan;*/
   clan_sort( pClan );
   ch->desc->pEdit = (void *)pClan;
 
@@ -4523,10 +4501,6 @@ bool medit_create( CHAR_DATA * ch, char * argument ) {
   pMob->vnum = value;
   pMob->area = pArea;
 
-  /*    if ( value > top_vnum_mob )
-      top_vnum_mob = value;        */
-
-  /*    pMob->act			= ACT_IS_NPC; */
   iHash                   = value % MAX_KEY_HASH;
   pMob->next              = mob_index_hash[ iHash ];
   mob_index_hash[ iHash ] = pMob;

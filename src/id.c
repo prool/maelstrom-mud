@@ -99,15 +99,6 @@ bool start_auth( DESCRIPTOR_DATA * d ) {
 
   desc = socket( AF_INET, SOCK_STREAM, 0 );
 
-  /*  if ( desc < 0 && errno == EAGAIN )
-     {
-     bug( "Can't allocate fd for authorization check on %s.", (int)d->host
-     );
-     free_string(d->user);
-     d->user = str_dup("(no auth_fd)");
-     return FALSE;
-     }
-   */
   if ( fcntl( desc, F_SETFL, O_NDELAY ) == -1 ) {
     perror( "Nonblock" );
     close( desc );
@@ -121,26 +112,6 @@ bool start_auth( DESCRIPTOR_DATA * d ) {
   sock.sin_port   = htons( 113 );
   sock.sin_family = AF_INET;
 
-  /* cid's marker */
-  /*
-     if ( connect(desc, (struct sockaddr *)&sock, sizeof(sock)) == -1 &&
-     errno != EINPROGRESS )
-     {
-     bug( "Identd denied for %s.", (int)d->host );
-     close(desc);
-     free_string(d->user);
-     d->user = str_dup("(no verify)");
-     return FALSE;
-     }
-     if ( errno == ECONNREFUSED )
-     {
-     close(desc);
-     free_string(d->user);
-     d->user = str_dup("(no identd)");
-     return FALSE;
-     }
-   */
-  /* cid's marker */
   for ( auth = first_auth; auth; auth = auth->next ) {
     if ( auth->d == d ) {
       break;
@@ -216,17 +187,11 @@ void send_auth( struct auth_data * auth ) {
 
 char * my_onearg( char ** str, char cEnd ) {
   char * arg;
-  /*  char cEnd = ' ';*/
 
   while ( isspace( **str ) ) {
     ( *str )++;
   }
 
-  /*  if ( **str == ':' )
-     {
-     cEnd = **str;
-     (*str)++;
-     }*/
   arg = *str;
 
   while ( **str != '\0' ) {
@@ -247,19 +212,6 @@ char * my_onearg( char ** str, char cEnd ) {
   RLSTRIP( arg );
   return arg;
 }
-
-/*char one_char(char **str)
-   {
-   char letter;
-
-   while ( isspace(**str) )
-   (*str)++;
-   letter = **str;
-   (*str)++;
-   while ( isspace(**str) )
-   (*str)++;
-   return letter;
-   }*/
 
 void read_auth( struct auth_data * auth ) {
   int        len;
@@ -342,17 +294,6 @@ void auth_update( fd_set * in_set, fd_set * out_set, fd_set * exc_set ) {
   for ( auth = first_auth; auth; auth = a_next ) {
     a_next = auth->next;
 
-    /*    if ( FD_ISSET(auth->auth_fd, exc_set) )
-        {
-        FD_CLR(auth->auth_fd, in_set );
-        FD_CLR(auth->auth_fd, out_set);
-        close(auth->auth_fd);
-        free_string(auth->d->user);
-        auth->d->user = str_dup("(fd exception)");
-        UNLINK(auth, first_auth, last_auth, next, prev);
-        PUT_FREE(auth, auth_free);
-        continue;
-        }*/
     switch ( auth->auth_state ) {
       case AUTH_UNSENT:
 

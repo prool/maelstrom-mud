@@ -125,22 +125,10 @@ void note_cleanup( void ) {
 }
 
 bool is_note_to( CHAR_DATA * ch, NOTE_DATA * pnote ) {
-  /*   CLAN_DATA  *pClan; */
-
   if ( !str_cmp( ch->name, pnote->sender ) ) {
     return TRUE;
   }
 
-  /*    for ( pClan = clan_first->next; pClan; pClan = pClan->next )
-      {
-      if ( ( ch->clan == pClan->vnum ) &&
-      ( !str_cmp( pnote->to_list, strip_color( pClan->name ) ) ) )
-      {
-      return TRUE;  <search for clan name in arg1 >
-      break;
-      }
-      }
-   */
   if ( is_name( NULL, "all", pnote->to_list ) ) {
     return TRUE;
   }
@@ -158,11 +146,6 @@ bool is_note_to( CHAR_DATA * ch, NOTE_DATA * pnote ) {
        is_name( NULL, "council", pnote->to_list ) ) {
     return TRUE;
   }
-
-  /*    if ( IS_CODER( ch ) && ( is_name(NULL, "coder", pnote->to_list )
-  || is_name(NULL, "code", pnote->to_list )
-  || is_name(NULL, "coders", pnote->to_list ) ) )
-      return TRUE;*/
 
   if ( is_name( NULL, "IMP", pnote->to_list ) && ch->level == L_IMP ) {
     return TRUE;

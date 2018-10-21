@@ -2105,96 +2105,7 @@ void do_resets( CHAR_DATA * ch, char * argument ) {
 
       free_reset_data( pReset );
       send_to_char( C_DEFAULT, "Reset deleted.\n\r", ch );
-    }
-    /*      else if ( (!str_cmp( arg2, "mob" ) && is_number( arg3 ))
-    || (!str_cmp( arg2, "obj" ) && is_number( arg3 ))
-    || (!str_cmp( arg2, "ran" ) && is_number( arg3 )) ) */
-    /*
-     * Add a reset.
-     * ------------
-     */
-    /*      { */
-    /*
-     * Check for Mobile reset.
-     * -----------------------
-     */
-    /*	if ( !str_cmp( arg2, "mob" ) )
-       {
-       pReset = new_reset_data();
-       pReset->command = 'M';
-       pReset->arg1    = atoi( arg3 );
-       pReset->arg2    = is_number( arg4 ) ? atoi( arg4 ) : 1 ;*/ /* Max # */
-    /*	  pReset->arg3    = ch->in_room->vnum;
-        }
-        else if ( !str_cmp( arg2, "obj" ) ) */
-    /*
-     * Check for Object reset.
-     * -----------------------
-     */
-    /*	{
-       pReset = new_reset_data();
-       pReset->arg1    = atoi( arg3 ); */
-    /*
-     * Inside another object.
-     * ----------------------
-     */
-    /*	  if ( !str_prefix( arg4, "inside" ) )
-        {
-        pReset->command = 'P';
-        pReset->arg2    = 0;
-        pReset->arg3    = is_number( arg5 ) ? atoi( arg5 ) : 1;
-        }
-        else if ( !str_cmp( arg4, "room" ) ) */
-    /*
-     * Inside the room.
-     * ----------------
-     */
-    /*	  {
-        pReset = new_reset_data();
-        pReset->command = 'O';
-        pReset->arg2     = 0;
-        pReset->arg3     = ch->in_room->vnum;
-        }
-        else */
-    /*
-     * Into a Mobile's inventory.
-     * --------------------------
-     */
-    /*	  {
-        if ( flag_value( wear_loc_flags, arg4 ) == NO_FLAG )
-        {
-        send_to_char(C_DEFAULT, "Resets: '? wear-loc'\n\r", ch );
-        return;
-        }
-        pReset = new_reset_data();
-        pReset->arg3 = flag_value( wear_loc_flags, arg4 );
-        if ( pReset->arg2 == WEAR_NONE )
-        pReset->command = 'G';
-        else
-        pReset->command = 'E';
-        }
-        }
-        else if ( !str_cmp( arg2, "ran" ) ) */
-    /*
-     * Random Exit Resets.
-     * Added By Altrag.
-     */
-    /*	{
-       pReset = new_reset_data();
-       pReset->command = 'R';
-       pReset->arg1    = atoi( arg3 );
-       pReset->arg2    = ch->in_room->vnum;
-       }
-
-       add_reset( ch->in_room, pReset, atoi( arg1 ) );
-       send_to_char(C_DEFAULT, "Reset added.\n\r", ch );
-       } */
-    else {
-      /*	send_to_char(C_DEFAULT, "Syntax: RESET <number> OBJ <vnum> <wear_loc>\n\r", ch );
-         send_to_char(C_DEFAULT, "        RESET <number> OBJ <vnum> in <vnum>\n\r", ch );
-         send_to_char(C_DEFAULT, "        RESET <number> OBJ <vnum> room\n\r", ch );
-         send_to_char(C_DEFAULT, "        RESET <number> MOB <vnum> [<max #>]\n\r", ch );
-         send_to_char(C_DEFAULT, "        RESET <number> RAN <last-door>\n\r", ch ); */
+    } else {
       send_to_char( C_DEFAULT, "Syntax: &BRESET &W(displays resets in room)", ch );
       send_to_char( C_DEFAULT, "        &BRESET <number> DELETE\n\r", ch );
     }
@@ -2369,16 +2280,6 @@ void mreset( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  /* Call editor function */
-  /*  for(cmd = 0;*reset_table[cmd].name;cmd++)
-     {
-     if(!str_prefix(command, reset_table[cmd].name))
-     {
-     (*reset_table[cmd].olc_fun) (ch, argument);
-     return;
-     }
-     }*/
-
   /* Default to Standard Interpreter. */
   interpret( ch, arg );
   return;
@@ -2477,17 +2378,6 @@ void do_sedit( CHAR_DATA * ch, char * argument ) {
     }
 
     social_last = pSocial;
-    /*    pSocial->next = NULL;
-        top_social++;
-
-        free_string( pSocial->name		);
-        free_string( pSocial->char_no_arg	);
-        free_string( pSocial->others_no_arg	);
-        free_string( pSocial->char_found	);
-        free_string( pSocial->others_found	);
-        free_string( pSocial->vict_found	);
-        free_string( pSocial->char_auto	);
-        free_string( pSocial->others_auto	); */
 
     pSocial->name = str_dup( argument );
 

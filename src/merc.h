@@ -63,8 +63,6 @@ typedef struct  obj_data          OBJ_DATA;
 typedef struct  obj_index_data    OBJ_INDEX_DATA;
 typedef struct  pc_data           PC_DATA;
 typedef struct  reset_data        RESET_DATA;
-typedef struct  room_affect_data  ROOM_AFFECT_DATA;
-typedef struct  powered_data      POWERED_DATA;
 typedef struct  room_index_data   ROOM_INDEX_DATA;
 typedef struct  shop_data         SHOP_DATA;
 typedef struct  time_info_data    TIME_INFO_DATA;
@@ -1240,7 +1238,6 @@ struct  char_data {
   OBJ_DATA        * questobj;
   ROOM_INDEX_DATA * in_room;
   ROOM_INDEX_DATA * was_in_room;
-  POWERED_DATA    * powered;
   PC_DATA         * pcdata;
   MPROG_ACT_LIST  * mpact;
   GSPELL_DATA     * gspell;
@@ -1645,31 +1642,10 @@ struct  new_clan_data {
 };
 
 /*
- * ROOM AFFECT type
- */
-struct  room_affect_data {
-  ROOM_AFFECT_DATA * next;
-  ROOM_INDEX_DATA  * room;
-  CHAR_DATA        * powered_by;
-  OBJ_DATA         * material;
-  int                type;
-  int                location;
-};
-
-struct  powered_data {
-  POWERED_DATA     * next;
-  ROOM_INDEX_DATA  * room;
-  ROOM_AFFECT_DATA * raf;
-  int                type;
-  int                cost;
-};
-
-/*
  * Room type.
  */
 struct  room_index_data {
   ROOM_INDEX_DATA  * next;
-  ROOM_AFFECT_DATA * rAffect;
   CHAR_DATA        * people;
   OBJ_DATA         * contents;
   EXTRA_DESCR_DATA * extra_descr;
@@ -1962,7 +1938,6 @@ DECLARE_DO_FUN( do_addlag );
 DECLARE_DO_FUN( do_account );
 DECLARE_DO_FUN( do_advance );
 DECLARE_DO_FUN( do_affectedby );
-DECLARE_DO_FUN( do_raffect );
 DECLARE_DO_FUN( do_afk );
 DECLARE_DO_FUN( do_afkmes );
 DECLARE_DO_FUN( do_allow );
@@ -2510,12 +2485,6 @@ int number_classes( CHAR_DATA * ch );
 char * class_long( CHAR_DATA * ch );
 char * class_numbers( CHAR_DATA * ch, bool pSave );
 char * class_short( CHAR_DATA * ch );
-void raffect_to_room( ROOM_INDEX_DATA * room, CHAR_DATA * ch, ROOM_AFFECT_DATA * raf );
-void raffect_remove( ROOM_INDEX_DATA * room, CHAR_DATA * ch, ROOM_AFFECT_DATA * raf );
-void raffect_remall( CHAR_DATA * ch );
-bool is_raffected( ROOM_INDEX_DATA * room, int sn );
-void toggle_raffects( ROOM_INDEX_DATA * room );
-void loc_off_raf( CHAR_DATA * ch, int type, bool rOff );
 void interpret( CHAR_DATA * ch, char * argument );
 bool is_number( char * arg );
 int number_argument( char * argument, char * arg );

@@ -104,7 +104,6 @@ struct cmd_type cmd_table [] = {
   { "mpforce",         do_mpforce,           POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "mpteleport",      do_mpteleport,        POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "affected",        do_affectedby,        POS_DEAD,     0,     LOG_NORMAL, TRUE    },
-  { "raffected",       do_raffect,           POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "areas",           do_areas,             POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "commands",        do_commands,          POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "compare",         do_compare,           POS_RESTING,  0,     LOG_NORMAL, TRUE    },

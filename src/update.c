@@ -635,8 +635,6 @@ void char_update( void ) {
 
   for ( ch = char_list; ch; ch = ch->next ) {
     AFFECT_DATA      * paf;
-    ROOM_AFFECT_DATA * raf;
-    POWERED_DATA     * pd, * pd_next;
 
     if ( ch->deleted ) {
       continue;
@@ -768,21 +766,6 @@ void char_update( void ) {
         }
 
         affect_remove2( ch, paf );
-      }
-    }
-
-    for ( pd = ch->powered; pd; pd = pd_next ) {
-      if ( !pd ) {
-        break;
-      }
-
-      pd_next = pd->next;
-      raf     = pd->raf;
-
-      if ( ch->mana < pd->cost ) {
-        raffect_remove( raf->room, ch, raf );
-      } else {
-        ch->mana -= pd->cost;
       }
     }
 

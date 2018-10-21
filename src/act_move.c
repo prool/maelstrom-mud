@@ -44,7 +44,7 @@ const int movement_loss[ MAX_SECT ] = {
 };
 
 /*
- * Local functions.
+ * Local functions
  */
 int find_door( CHAR_DATA * ch, char * arg, bool pMsg );
 OBJ_DATA * has_key( CHAR_DATA * ch, int key );

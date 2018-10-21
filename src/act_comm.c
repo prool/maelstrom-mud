@@ -1434,8 +1434,6 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
     }
   }
 
-  raffect_remall( ch );
-
   send_to_char( AT_BLUE, "[ The clear sky of reality slowly crosses the horizon.\n\r", ch );
   send_to_char( AT_BLUE, "  With much effort you tear yourself free of the storm, but\n\r  ", ch );
   send_to_char( AT_BLUE, "deep within your heart you know that there is no escaping\n\r ", ch );

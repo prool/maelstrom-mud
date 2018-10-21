@@ -394,9 +394,7 @@ void save_rooms( FILE * fp, AREA_DATA * pArea ) {
         fprintf( fp, "%s~\n", pRoomIndex->name );
         fprintf( fp, "%s~\n", fix_string( pRoomIndex->description ) );
         fprintf( fp, "0 " );
-        toggle_raffects( pRoomIndex );
         fprintf( fp, "%d ", pRoomIndex->room_flags );
-        toggle_raffects( pRoomIndex );
         fprintf( fp, "%d\n", pRoomIndex->sector_type );
         fprintf( fp, "Rd     %d\n", pRoomIndex->rd );
 

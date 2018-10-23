@@ -11,7 +11,7 @@ BIN_DIR        = bin
 
 # envy config
 C_FLAGS        = -c -O -Wall -g3 -DNOCRYPT
-L_FLAGS        = -g
+L_FLAGS        = -g -lwsclient
 OBJ_NAMES      = act_comm.o act_info.o act_move.o act_obj.o act_wiz.o comm.o const.o \
                  db.o fight.o handler.o magic.o save.o special.o update.o remort.o   \
                  bit.o mem.o olc.o olc_act.o olc_save.o string.o mob_commands.o      \

@@ -217,6 +217,9 @@ int game_main( int argc, char ** argv ) {
     hotreboot_recover();
   }
 
+  // connect to Gossip
+  gossip_connect();
+
   game_loop_unix( control );
   close( control );
 

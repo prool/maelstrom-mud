@@ -1739,6 +1739,7 @@ extern int gsn_gouge;
 extern int gsn_scribe;
 extern int gsn_blindness;
 extern int gsn_charm_person;
+extern int gsn_incinerate;
 extern int gsn_invis;
 extern int gsn_poison;
 extern int gsn_sleep;

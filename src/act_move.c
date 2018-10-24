@@ -1702,7 +1702,7 @@ void do_drag( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( ( victim->level >= LEVEL_IMMORTAL ) ||  IS_NPC( victim ) && ( ( victim->pIndexData->pShop ) || IS_SET( ch->in_room->room_flags, ROOM_SMITHY ) || IS_SET( ch->in_room->room_flags, ROOM_BANK ) || IS_SET( victim->act, ACT_NODRAG ) ) ) ) {
+  if ( ( victim->level >= LEVEL_IMMORTAL ) || ( IS_NPC( victim ) && ( ( victim->pIndexData->pShop ) || IS_SET( ch->in_room->room_flags, ROOM_SMITHY ) || IS_SET( ch->in_room->room_flags, ROOM_BANK ) || IS_SET( victim->act, ACT_NODRAG ) ) ) ) {
     act( AT_BLUE, "$N ignores you.", ch, NULL, victim, TO_CHAR );
     return;
   }

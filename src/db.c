@@ -2122,9 +2122,7 @@ void load_down_time( void ) {
  */
 void fix_exits( void ) {
   EXIT_DATA       * pexit;
-  EXIT_DATA       * pexit_rev;
   ROOM_INDEX_DATA * pRoomIndex;
-  ROOM_INDEX_DATA * to_room;
   int               iHash;
   int               door;
 

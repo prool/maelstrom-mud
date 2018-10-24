@@ -299,10 +299,8 @@ void do_auction( CHAR_DATA * ch, char * argument ) {
       }
 
       REMOVE_BIT( ch->deaf, CHANNEL_AUCTION );
-      act( AT_DGREEN, "$p disappears from your inventory.", ch, auc_obj, NULL,
-           TO_CHAR );
-      act( AT_DGREEN, "$p disappears from the inventory of $n.", ch, auc_obj,
-           NULL, TO_ROOM );
+      act( AT_DGREEN, "$p disappears from your inventory.", ch, auc_obj, NULL, TO_CHAR );
+      act( AT_DGREEN, "$p disappears from the inventory of $n.", ch, auc_obj, NULL, TO_ROOM );
       obj_from_char( auc_obj );
       auc_held = ch;
       auc_bid  = NULL;
@@ -315,8 +313,8 @@ void do_auction( CHAR_DATA * ch, char * argument ) {
       sprintf( log_buf, "%s a level %d object for %s", auc_obj->short_descr, auc_obj->level, money_string( &auc_cost ) );
 
       auc_channel( log_buf );
-      sprintf( log_buf, "%s auctioning %s.", auc_held->name, auc_obj->name );
-      log_string( log_buf, CHANNEL_GOD, -1 );
+      sprintf( log_buf, "$N is auctioning %s.", auc_obj->name );
+      wiznet( log_buf, auc_held, NULL, WIZ_GENERAL, 0, 0 );
       return;
     } else {
       send_to_char( AT_WHITE, "You are not carrying that item.\n\r", ch );
@@ -793,8 +791,7 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( ch->level != L_IMP ) {
-    sprintf( log_buf, "%s has quit in room vnum %d.", ch->name, ch->in_room->vnum );
-    log_string( log_buf, -1, -1 );
+    sprintf( log_buf, "$N has quit in room vnum %d.", ch->in_room->vnum );
     wiznet( log_buf, ch, NULL, WIZ_LOGINS, 0, get_trust( ch ) );
   }
 
@@ -893,8 +890,7 @@ void do_delete( CHAR_DATA * ch, char * argument ) {
   send_to_char( C_DEFAULT, "You are no more.\n\r", ch );
   act( AT_BLOOD, "$n is no more.", ch, NULL, NULL, TO_ROOM );
   info( "%s is no more.", (int)( ch->name ), 0 );
-  sprintf( log_buf, "%s has DELETED in room vnum %d.", ch->name, ch->in_room->vnum );
-  log_string( log_buf, -1, -1 );
+  sprintf( log_buf, "$N has DELETED in room vnum %d.", ch->in_room->vnum );
   wiznet( log_buf, ch, NULL, WIZ_LOGINS, 0, 0 );
 
   if ( auc_held && ch == auc_held && auc_obj ) {

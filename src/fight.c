@@ -600,7 +600,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
                   ch->name, victim->in_room->vnum );
       }
 
-      log_string( log_buf, CHANNEL_LOG, -1 );
+      log_string( log_buf );
       wiznet( log_buf, NULL, NULL, WIZ_DEATHS, 0, 0 );
       info( "%s gets slaughtered by %s!", (int)victim->name, (int)( IS_NPC( ch ) ? ch->short_descr : ch->name ) );
       save_clans();
@@ -1393,8 +1393,6 @@ void group_gain( CHAR_DATA * ch, CHAR_DATA * victim ) {
     }
 
     xp = xp_compute( gch, victim ) / members;
-    /*    sprintf( buf, "%s -> gains %dxp", gch->name, xp);
-        log_string( buf, CHANNEL_NONE, -1 );*/
     sprintf( buf, "You receive %d experience points.\n\r", xp );
     send_to_char( AT_WHITE, buf, gch );
     gain_exp( gch, xp );
@@ -2319,7 +2317,7 @@ void do_slay( CHAR_DATA * ch, char * argument ) {
   act( AT_RED, buf, ch, NULL, victim, TO_NOTVICT );
 
   sprintf( log_buf, "%s slays %s at %d.\n\r", ch->name, victim->name, victim->in_room->vnum );
-  log_string( log_buf, CHANNEL_LOG, ch->level - 1 );
+  log_string( log_buf );
 
   if ( !IS_NPC( victim ) ) {
     wiznet( log_buf, ch, NULL, WIZ_DEATHS, 0, 0 );

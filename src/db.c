@@ -323,7 +323,7 @@ void boot_db( void ) {
         perror( HELP_FILE );
         exit( 1 );
       } else {
-        log_string( "loading helps...", CHANNEL_NONE, -1 );
+        log_string( "loading helps..." );
         load_helps( fpHelps );
         fclose( fpHelps );
       }
@@ -409,7 +409,7 @@ void boot_db( void ) {
       {
         char buf[ MAX_STRING_LENGTH ];
         sprintf( buf, "loading %s...", strArea );
-        log_string( buf, CHANNEL_NONE, -1 );
+        log_string( buf );
       }
 
       if ( fpArea != stdin ) {
@@ -429,35 +429,35 @@ void boot_db( void ) {
    * Load up the notes file.
    */
   {
-    log_string( "fixing exits...", CHANNEL_NONE, -1 );
+    log_string( "fixing exits..." );
     fix_exits();
 
-    log_string( "loading down banlist...", CHANNEL_NONE, -1 );
+    log_string( "loading down banlist..." );
     load_banlist();
 
-    log_string( "loading clans...", CHANNEL_NONE, -1 );
+    log_string( "loading clans..." );
     load_clans();
 
-    log_string( "loading socials...", CHANNEL_NONE, -1 );
+    log_string( "loading socials..." );
     load_socials();
 
-    log_string( "loading newbie helps...", CHANNEL_NONE, -1 );
+    log_string( "loading newbie helps..." );
     load_newbie();
 
-    log_string( "loading player list...", CHANNEL_NONE, -1 );
+    log_string( "loading player list..." );
     load_player_list();
 
-    log_string( "loading notes...", CHANNEL_NONE, -1 );
+    log_string( "loading notes..." );
     load_notes();
 
-    log_string( "loading down time...", CHANNEL_NONE, -1 );
+    log_string( "loading down time..." );
     load_down_time();
 
     fpArea = NULL;
     strcpy( strArea, "$" );
     fBootDb = FALSE;
 
-    log_string( "populating areas...", CHANNEL_NONE, -1 );
+    log_string( "populating areas..." );
     area_update();
   }
   MOBtrigger = TRUE;
@@ -3904,7 +3904,7 @@ void bug( const char * str, int param ) {
     }
 
     sprintf( buf, "[*****] FILE: %s LINE: %d", strArea, iLine );
-    log_string( buf, CHANNEL_NONE, -1 );
+    log_string( buf );
 
     if ( ( fp = fopen( "shutdown.txt", "a" ) ) ) {
       fprintf( fp, "[*****] %s\n", buf );
@@ -3914,80 +3914,7 @@ void bug( const char * str, int param ) {
 
   strcpy( buf, "[*****] BUG: " );
   sprintf( buf + strlen( buf ), str, param );
-  log_string( buf, 1, -1 );
-
-  return;
-}
-
-/*
- * Send logs to imms.
- * Added by Altrag.
- */
-void logch( char * l_str, int l_type, int lvl ) {
-  DESCRIPTOR_DATA * d;
-  int               level;
-  char              log_str[ MAX_STRING_LENGTH ];
-
-  switch ( l_type ) {
-    default:
-      strcpy( log_str, "Unknown: " );
-      level = L_CON;
-
-      if ( lvl > level ) {
-        level = lvl;
-      }
-
-      break;
-    case 1:
-      strcpy( log_str, "Coder: " );
-      level = 100000;
-      break;
-    case CHANNEL_LOG:
-      strcpy( log_str, "Log: " );
-      level = L_DIR;
-
-      if ( lvl > level ) {
-        level = lvl;
-      }
-
-      break;
-    case CHANNEL_BUILD:
-      strcpy( log_str, "Build: " );
-      level = L_DIR;
-
-      if ( lvl > level ) {
-        level = lvl;
-      }
-
-      break;
-    case CHANNEL_GOD:
-      strcpy( log_str, "God: " );
-      level = L_CON;
-
-      if ( lvl > level ) {
-        level = lvl;
-      }
-
-      break;
-  }
-
-  strcat( log_str, l_str );
-
-  for ( d = descriptor_list; d; d = d->next ) {
-    if ( d->connected != CON_PLAYING || IS_SET( d->character->deaf, l_type )
-         || get_trust( d->character ) < level ||
-         !IS_SET( d->character->wiznet, WIZ_OLDLOG ) ) {
-      continue;
-    }
-
-    send_to_char( AT_PURPLE, log_str, d->character );
-    /*
-     * \n\r could have been added earlier,
-     * but need to send a C_DEFAULT line anywayz
-     * Altrag.
-     */
-    send_to_char( C_DEFAULT, "\n\r", d->character );
-  }
+  log_string( buf );
 
   return;
 }
@@ -3995,20 +3922,12 @@ void logch( char * l_str, int l_type, int lvl ) {
 /*
  * Writes a string to the log.
  */
-void log_string( char * str, int l_type, int level ) {
+void log_string( char * str ) {
   char * strtime;
 
   strtime                          = ctime( &current_time );
   strtime[ strlen( strtime ) - 1 ] = '\0';
   fprintf( stderr, "%s :: %s\n", strtime, str );
-
-  /*
-   * The Actual Implementation of the Log Channels.
-   * Added by Altrag.
-   */
-  if ( l_type != CHANNEL_NONE ) {
-    logch( str, l_type, level );
-  }
 
   return;
 }
@@ -4136,10 +4055,8 @@ void load_banlist( void ) {
 
     if ( type == '$' ) {
       break;
-    } else if ( type != 'P'
-                && type != 'T'
-                && type != 'N' ) {
-      log_string( "Unknown ban type, ignoring entry.", -1, -1 );
+    } else if ( type != 'P' && type != 'T' && type != 'N' ) {
+      log_string( "Unknown ban type, ignoring entry." );
       banned = fread_string( fp );
       continue;
     }

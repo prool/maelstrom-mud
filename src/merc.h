@@ -1153,16 +1153,8 @@ struct  kill_data {
 #define CHANNEL_CLAN     256
 #define CHANNEL_CLASS    512
 #define CHANNEL_HERO     1024
-
-/*
- * Log Channels
- */
-#define CHANNEL_LOG       2048
-#define CHANNEL_BUILD     4096
-#define CHANNEL_GOD       8192
-#define CHANNEL_CODER     65536
-#define CHANNEL_INFO      131072
-#define CHANNEL_IMC       4194304
+#define CHANNEL_INFO     131072
+#define CHANNEL_IMC      4194304
 
 /*
  * Prototype for a mob.
@@ -2110,7 +2102,6 @@ DECLARE_DO_FUN( do_reply );
 DECLARE_DO_FUN( do_report );
 DECLARE_DO_FUN( do_rescue );
 DECLARE_DO_FUN( do_rest );
-DECLARE_DO_FUN( do_restrict );
 DECLARE_DO_FUN( do_restore );
 DECLARE_DO_FUN( do_retreat );
 DECLARE_DO_FUN( do_retrieve );
@@ -2375,8 +2366,7 @@ char * capitalize( const char * str );
 void append_file( CHAR_DATA * ch, char * file, char * str );
 void info( const char * str, int param1, int param2 );
 void bug( const char * str, int param );
-void logch( char * l_str, int l_type, int lvl );
-void log_string( char * str, int l_type, int level );
+void log_string( char * str );
 void tail_chain( void );
 void clone_mobile( CHAR_DATA * parent, CHAR_DATA * clone );
 void clone_object( OBJ_DATA * parent, OBJ_DATA * clone );

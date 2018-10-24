@@ -324,7 +324,6 @@ struct cmd_type cmd_table [] = {
   { "reboot",          do_reboot,            POS_DEAD,     L_DIR, LOG_ALWAYS, TRUE    },
   { "recho",           do_recho,             POS_DEAD,     L_JUN, LOG_ALWAYS, TRUE    },
   { "restore",         do_restore,           POS_DEAD,     L_GOD, LOG_ALWAYS, TRUE    },
-  { "restrict",        do_restrict,          POS_DEAD,     L_GOD, LOG_NORMAL, TRUE    },
   { "rpstat",          do_rpstat,            POS_DEAD,     L_APP, LOG_NORMAL, TRUE    },
   { "rset",            do_rset,              POS_DEAD,     L_DIR, LOG_BUILD,  TRUE    },
   { "rstat",           do_rstat,             POS_DEAD,     L_JUN, LOG_NORMAL, TRUE    },
@@ -448,13 +447,13 @@ void interpret( CHAR_DATA * ch, char * argument ) {
   // builder logs
   if ( cmd_table[ cmd ].log == LOG_BUILD ) {
     sprintf( log_buf, "%s: %s", ch->name, logline );
-    log_string( log_buf, CHANNEL_BUILD, get_trust( ch ) );
+    log_string( log_buf );
     wiznet( log_buf, ch, NULL, WIZ_SECURE, 0, get_trust( ch ) );
   }
 
   if ( ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_LOG ) ) || fLogAll || cmd_table[ cmd ].log == LOG_ALWAYS ) {
     sprintf( log_buf, "%s: %s", ch->name, logline );
-    log_string( log_buf, ( ch->level == L_IMP ? CHANNEL_NONE : CHANNEL_GOD ), ( ( ch->level > 100 ) ? get_trust( ch ) : -1 ) );
+    log_string( log_buf );
     wiznet( log_buf, ch, NULL, WIZ_SECURE, 0, get_trust( ch ) );
   }
 

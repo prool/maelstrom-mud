@@ -340,13 +340,10 @@ void hunt_victim( CHAR_DATA * ch ) {
   } else {
     if ( IS_NPC( ch ) ) {
       move_char( ch, dir, FALSE );
-      sprintf( log_buf, "%s hunting %s at %d.", ch->short_descr,
-               ( IS_NPC( ch->hunting ) ) ? ch->hunting->short_descr :
-               ch->hunting->name, ch->hunting->in_room->vnum );
-      log_string( log_buf, 1, -1 );
+      sprintf( log_buf, "%s hunting %s at %d.", ch->short_descr, ( IS_NPC( ch->hunting ) ) ? ch->hunting->short_descr : ch->hunting->name, ch->hunting->in_room->vnum );
+      log_string( log_buf );
     } else {
-      sprintf( log_buf, "\n\r&rTrack: &RYou sense a trail %s of here!",
-               direction_table[ dir ].name );
+      sprintf( log_buf, "\n\r&rTrack: &RYou sense a trail %s of here!", direction_table[ dir ].name );
       write_to_buffer( ch->desc, log_buf, 0 );
     }
 
@@ -355,8 +352,7 @@ void hunt_victim( CHAR_DATA * ch ) {
         do_say( ch, "Now i've got you!" );
         multi_hit( ch, ch->hunting, TYPE_UNDEFINED );
       } else if ( ch->desc ) {
-        write_to_buffer( ch->desc,
-                         "\n\r&rTrack: &RAhh.. you have found your prey.", 0 );
+        write_to_buffer( ch->desc, "\n\r&rTrack: &RAhh.. you have found your prey.", 0 );
       }
 
       ch->hunting = NULL;

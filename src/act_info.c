@@ -2860,31 +2860,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_LBLUE, !IS_SET( ch->deaf, CHANNEL_INFO )
                   ? " +INFO" : " -info", ch );
 
-    /*
-     * Log Channel Display.
-     * Added by Altrag.
-     */
-    if ( get_trust( ch ) >= L_APP ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_LOG )
-                    ? " +LOG"
-                    : " -log",
-                    ch );
-    }
-
-    if ( get_trust( ch ) >= L_SEN ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_BUILD )
-                    ? " +BUILD"
-                    : " -build",
-                    ch );
-    }
-
-    if ( get_trust( ch ) >= L_DIR ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_GOD )
-                    ? " +GOD"
-                    : " -god",
-                    ch );
-    }
-
     send_to_char( AT_PINK, ".\n\r", ch );
 
   } else {
@@ -2914,12 +2889,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
       bit = CHANNEL_IMMTALK;
     } else if ( !str_cmp( arg + 1, "yell" ) ) {
       bit = CHANNEL_YELL;
-    } else if ( !str_cmp( arg + 1, "log" ) ) {
-      bit = CHANNEL_LOG;
-    } else if ( !str_cmp( arg + 1, "build" ) ) {
-      bit = CHANNEL_BUILD;
-    } else if ( !str_cmp( arg + 1, "god" ) ) {
-      bit = CHANNEL_GOD;
     } else if ( !str_cmp( arg + 1, "info" ) ) {
       bit = CHANNEL_INFO;
     } else if ( !str_cmp( arg + 1, "clan" ) ) {

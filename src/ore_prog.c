@@ -190,9 +190,6 @@ bool tprog_percent_check( CHAR_DATA * actor, OBJ_DATA * obj, void * vo, int type
   for ( tprg = tprogs; tprg != NULL; tprg = tprg->next_here ) {
     if ( ( tprg->type & type )
          && ( number_percent() < atoi( tprg->arglist ) ) ) {
-      /*       sprintf( log_buf, "Room: %d", tprg->in_room->vnum );
-           log_string( log_buf, CHANNEL_CODER, -1 );
-           log_string( tprg->comlist, CHANNEL_CODER, -1 );   */
       mprog_driver( tprg->comlist, smob, actor, obj, vo );
       return TRUE;
     }

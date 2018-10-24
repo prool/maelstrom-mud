@@ -1160,14 +1160,9 @@ struct  kill_data {
 #define CHANNEL_LOG       2048
 #define CHANNEL_BUILD     4096
 #define CHANNEL_GOD       8192
-#define CHANNEL_GUARDIAN  16384
 #define CHANNEL_CODER     65536
 #define CHANNEL_INFO      131072
-
-#define CHANNEL_CLASS_MASTER  1048576
-#define CHANNEL_CLAN_MASTER   2097152
-
-#define CHANNEL_IMC   4194304
+#define CHANNEL_IMC       4194304
 
 /*
  * Prototype for a mob.
@@ -2025,7 +2020,6 @@ DECLARE_DO_FUN( do_give );
 DECLARE_DO_FUN( do_goto );
 DECLARE_DO_FUN( do_group );
 DECLARE_DO_FUN( do_gtell );
-DECLARE_DO_FUN( do_guard );
 DECLARE_DO_FUN( do_help );
 DECLARE_DO_FUN( do_hero );
 DECLARE_DO_FUN( do_hide );
@@ -2387,6 +2381,7 @@ void tail_chain( void );
 void clone_mobile( CHAR_DATA * parent, CHAR_DATA * clone );
 void clone_object( OBJ_DATA * parent, OBJ_DATA * clone );
 void parse_ban( char * argument, BAN_DATA * banned );
+void delete_playerlist( char * name );
 
 /* devops.c */
 void report_issue( const char * title, const char * description, const char * label );

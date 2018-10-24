@@ -2885,28 +2885,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
                     ch );
     }
 
-    if ( get_trust( ch ) >= L_IMP ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_GUARDIAN )
-                    ? " +GUARD"
-                    : " -guard",
-                    ch );
-    }
-
-    /* master channels added by Decklarean */
-    if ( get_trust( ch ) >= L_IMP ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_CLASS_MASTER )
-                    ? " +CLASSMASTER"
-                    : " -classmaster",
-                    ch );
-    }
-
-    if ( get_trust( ch ) >= L_IMP ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_CLAN_MASTER )
-                    ? " +CLANMASTER"
-                    : " -clanmaster",
-                    ch );
-    }
-
     send_to_char( AT_PINK, ".\n\r", ch );
 
   } else {
@@ -2942,17 +2920,10 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
       bit = CHANNEL_BUILD;
     } else if ( !str_cmp( arg + 1, "god" ) ) {
       bit = CHANNEL_GOD;
-    } else if ( !str_cmp( arg + 1, "guard" ) ) {
-      bit = CHANNEL_GUARDIAN;
     } else if ( !str_cmp( arg + 1, "info" ) ) {
       bit = CHANNEL_INFO;
     } else if ( !str_cmp( arg + 1, "clan" ) ) {
       bit = CHANNEL_CLAN;
-    }
-    else if ( !str_cmp( arg + 1, "classmaster" ) ) {
-      bit = CHANNEL_CLASS_MASTER;
-    } else if ( !str_cmp( arg + 1, "clanmaster" ) ) {
-      bit = CHANNEL_CLAN_MASTER;
     } else if ( !str_cmp( arg + 1, "all" ) ) {
       bit = ~0;
     } else {

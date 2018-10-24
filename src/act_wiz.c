@@ -33,7 +33,6 @@ bool dxp;
 
 extern char * mprog_type_to_name( int type );
 extern bool can_use_cmd( int cmd, CHAR_DATA * ch, int trust );
-extern void delete_playerlist( char * name );
 
 void do_todo( CHAR_DATA * ch, char * argument ) {
   parse_issues( ch, argument, GITHUB_LABEL_TODO );

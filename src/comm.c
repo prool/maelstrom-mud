@@ -2366,6 +2366,15 @@ void stop_idling( CHAR_DATA * ch ) {
   return;
 }
 
+char * header(const char * txt) {
+  static char buf[ MAX_STRING_LENGTH ];
+  char      * bptr = buf;
+
+  sprintf( bptr, "\n\r----------====================[%*s%*s]====================----------\n\r", 9+strlen(txt)/2, txt, 9-strlen(txt)/2, "");
+
+  return buf;
+}
+
 /*
  * Write to all characters.
  */

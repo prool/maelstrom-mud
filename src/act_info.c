@@ -2528,7 +2528,7 @@ void do_practice( CHAR_DATA * ch, char * argument ) {
         continue;
       }
 
-      sprintf( buf, "&W%21s &Y%3d%%", skill_table[ sn ].name, ch->pcdata->learned[ sn ] );
+      sprintf( buf, "&W%22s &Y%3d%%", skill_table[ sn ].name, ch->pcdata->learned[ sn ] );
 
       if ( skill_table[sn].spell_fun == spell_null ) {
         strcat( skbuf, buf );
@@ -2543,12 +2543,12 @@ void do_practice( CHAR_DATA * ch, char * argument ) {
     strcat( spbuf, (spcol % 3 != 0) ? "\n\r" : "" );
 
     if ( strcmp(spbuf, "") ) {
-      send_to_char(AT_PINK,"-------------------=================[Spells]=================-------------------\n\r",ch );
+      send_to_char(AT_PINK, header("Spells"), ch);
       send_to_char(AT_PINK, spbuf, ch );
     }
 
     if ( strcmp(skbuf, "") ) {
-      send_to_char(AT_PURPLE,"-------------------=================[Skills]=================-------------------\n\r",ch );
+      send_to_char(AT_PINK, header("Skills"), ch);
       send_to_char(AT_PURPLE, skbuf, ch );
     }
 
@@ -3070,16 +3070,6 @@ void do_config( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-/*
-   do_immlist replaced this - Decklarean
-   void do_wizlist ( CHAR_DATA *ch, char *argument )
-   {
-
-   do_help ( ch, "wizlist" );
-   return;
-
-   }
- */
 void do_spells( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
   int  sn;
@@ -4328,17 +4318,13 @@ void do_immlist( CHAR_DATA * ch, char * argument ) {
   char              buf[ MAX_STRING_LENGTH ];
   char              buf1[ MAX_STRING_LENGTH ];
 
-  send_to_char( AT_BLUE, "IMMORTAL STAFF OF THE STORM\n\r", ch );
-
   for ( level = MAX_LEVEL; level > LEVEL_MORTAL; level-- ) {
     buf1[ 0 ] = '\0';
-    sprintf( buf, "&R\n\r=====================================[%d]=====================================\n\r&W", level );
-    strcat( buf1, buf );
     col = 0;
 
     for ( player = playerlist; player; player = player->next ) {
       if ( player->level == level ) {
-        sprintf( buf, "%-19s", player->name );
+        sprintf( buf, "%-20s", player->name );
         strcat( buf1, buf );
 
         if ( ++col % 4 == 0 ) {
@@ -4352,6 +4338,9 @@ void do_immlist( CHAR_DATA * ch, char * argument ) {
     }
 
     if ( col != 0 ) {
+      sprintf( buf, "Level %d", level );
+      send_to_char( AT_RED, header(buf), ch );
+
       send_to_char( C_DEFAULT, buf1, ch );
     }
   }

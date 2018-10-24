@@ -2317,6 +2317,7 @@ bool doubleexp();
 /* comm.c */
 void close_socket( DESCRIPTOR_DATA * dclose );
 void write_to_buffer( DESCRIPTOR_DATA * d, const char * txt, int length );
+char * header( const char * txt );
 void send_to_all_char( const char * text );
 void send_to_al( int clr, int level, char * text );
 void send_to_char( int AType, const char * txt, CHAR_DATA * ch );

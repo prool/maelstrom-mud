@@ -461,8 +461,8 @@ void do_wizhelp( CHAR_DATA * ch, char * argument ) {
   for ( int level = MAX_LEVEL; level > LEVEL_MORTAL; level-- ) {
     int  col   = 0;
 
-    sprintf( buf, "&R\n\r=====================================[%d]=====================================\n\r&W", level );
-    send_to_char( C_DEFAULT, buf, ch );
+    sprintf( buf, "Level %d", level );
+    send_to_char( AT_RED, header(buf), ch );
 
     for ( int cmd = 0; cmd_table[ cmd ].name[ 0 ] != '\0'; cmd++ ) {
       if ( cmd_table[ cmd ].name[ 0 ] == '\0' ) {
@@ -476,7 +476,7 @@ void do_wizhelp( CHAR_DATA * ch, char * argument ) {
       sprintf( buf, "%-16s", cmd_table[ cmd ].name );
       strcat( buf, (++col % 5 == 0) ? "\n\r" : " " );
 
-      send_to_char( C_DEFAULT, buf, ch );
+      send_to_char( AT_GREY, buf, ch );
     }
 
     if ( col % 5 != 0 ) {
@@ -6149,7 +6149,6 @@ void do_newcorpse( CHAR_DATA * ch, char * argument ) {
   if ( arg1[ 0 ] == '\0' && arg2[ 0 ] == '\0' ) {
     send_to_char( AT_GREY, "Syntax:  newcorpse <playername>\n\r",            ch );
     send_to_char( AT_GREY, "         newcorpse <playername> <corpse #>\n\r", ch );
-    send_to_char( AT_GREY, "Author: Bram    Email: bram@ionet.net\n\r",     ch );
     return;
   }
 

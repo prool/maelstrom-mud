@@ -38,9 +38,9 @@ static struct track_queue_struct * queue_head = NULL, * queue_tail = NULL;
 /* Utility macros */
 #define MARK( room )         ( SET_BIT( ( room )->room_flags, ROOM_MARK ) )
 #define UNMARK( room )       ( REMOVE_BIT( ( room )->room_flags, ROOM_MARK ) )
-#define IS_MARKED( room )    ( IS_SET( ( room )->room_flags, ROOM_MARK ) )
+#define IS_MARKED( room )    ( CHECK_BIT( ( room )->room_flags, ROOM_MARK ) )
 #define TOROOM( x, y )       ( ( x )->exit[ ( y ) ] ? ( x )->exit[ ( y ) ]->to_room : NULL )
-#define IS_CLOSED( x, y )    ( IS_SET( ( x )->exit[ ( y ) ]->exit_info, EX_CLOSED ) )
+#define IS_CLOSED( x, y )    ( CHECK_BIT( ( x )->exit[ ( y ) ]->exit_info, EX_CLOSED ) )
 #define IS_SAME_AREA( x, y ) ( ( x )->area == ( y )->area )
 
 #ifdef TRACK_THROUGH_DOORS
@@ -75,7 +75,7 @@ bool can_go( CHAR_DATA * ch, int dir ) {
   /*  if ( !IS_SAME_AREA(room, exit->to_room) )
      return FALSE;*/
 
-  if ( IS_SET( exit->exit_info, EX_BASHED ) ) {
+  if ( CHECK_BIT( exit->exit_info, EX_BASHED ) ) {
     return TRUE;
   }
 

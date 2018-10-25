@@ -158,7 +158,7 @@ void do_mpasound( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -201,7 +201,7 @@ void do_mpkill( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -269,7 +269,7 @@ void do_mpjunk( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -324,7 +324,7 @@ void do_mpechoaround( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -362,7 +362,7 @@ void do_mpechoat( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -398,7 +398,7 @@ void do_mpecho( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -430,7 +430,7 @@ void do_mpmload( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -469,7 +469,7 @@ void do_mpoload( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -545,7 +545,7 @@ void do_mppurge( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -608,7 +608,7 @@ void do_mpgoto( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -657,7 +657,7 @@ void do_mpat( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -715,7 +715,7 @@ void do_mptransfer( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -829,7 +829,7 @@ void do_mpforce( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 
@@ -895,7 +895,7 @@ void do_mpteleport( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
+  if ( CHECK_BIT( ch->act, ACT_PET ) || IS_AFFECTED( ch, AFF_CHARM ) ) {
     return;
   }
 

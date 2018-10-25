@@ -138,7 +138,7 @@ void do_remort( CHAR_DATA * ch, char * argument ) {
       d->character->mana = MAX_MANA( d->character );
       d->character->move = MAX_MOVE( d->character );
 
-      if ( !IS_SET( d->character->act2, PLR_REMORT ) ) {
+      if ( !CHECK_BIT( d->character->act2, PLR_REMORT ) ) {
         SET_BIT( d->character->act2, PLR_REMORT );
       }
 

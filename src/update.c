@@ -82,7 +82,7 @@ void advance_level( CHAR_DATA * ch ) {
   add_mana    = UMAX( 0, add_mana );
   add_move    = UMAX( 10, add_move );
 
-  if ( IS_SET( ch->act2, PLR_REMORT ) ) {
+  if ( CHECK_BIT( ch->act2, PLR_REMORT ) ) {
     ch->raisepts += raisepoints;
   }
 
@@ -99,7 +99,7 @@ void advance_level( CHAR_DATA * ch ) {
 
   send_to_char( AT_WHITE, buf, ch );
 
-  if ( IS_SET( ch->act2, PLR_REMORT ) ) {
+  if ( CHECK_BIT( ch->act2, PLR_REMORT ) ) {
     sprintf( buf, "You receive %d raise points.\n\r", raisepoints );
     send_to_char( AT_BLUE, buf, ch );
   }
@@ -147,7 +147,7 @@ int hit_gain( CHAR_DATA * ch ) {
       continue;
     }
 
-    if ( IS_NPC( mob ) && IS_SET( mob->act, ACT_PRACTICE ) ) {
+    if ( IS_NPC( mob ) && CHECK_BIT( mob->act, ACT_PRACTICE ) ) {
       break;
     }
   }
@@ -353,7 +353,7 @@ void mobile_update( void ) {
     }
 
     /* Scavenge */
-    if ( IS_SET( ch->act, ACT_SCAVENGER )
+    if ( CHECK_BIT( ch->act, ACT_SCAVENGER )
          && ch->in_room->contents
          && number_bits( 2 ) == 0 ) {
       OBJ_DATA * obj;
@@ -381,14 +381,14 @@ void mobile_update( void ) {
     }
 
     /* Wander */
-    if ( !IS_SET( ch->act, ACT_SENTINEL )
+    if ( !CHECK_BIT( ch->act, ACT_SENTINEL )
          && ( door = number_bits( 5 ) ) < MAX_DIR
          && ( pexit = ch->in_room->exit[ door ] )
          &&   pexit->to_room
-         &&   !IS_SET( pexit->exit_info, EX_CLOSED )
-         &&   !IS_SET( pexit->to_room->room_flags, ROOM_NO_MOB )
+         &&   !CHECK_BIT( pexit->exit_info, EX_CLOSED )
+         &&   !CHECK_BIT( pexit->to_room->room_flags, ROOM_NO_MOB )
          &&   !ch->hunting
-         && ( !IS_SET( ch->act, ACT_STAY_AREA )
+         && ( !CHECK_BIT( ch->act, ACT_STAY_AREA )
               ||   pexit->to_room->area == ch->in_room->area ) ) {
       move_char( ch, door, FALSE );
 
@@ -402,8 +402,8 @@ void mobile_update( void ) {
          && ( door = number_bits( 3 ) ) < MAX_DIR
          && ( pexit = ch->in_room->exit[ door ] )
          &&   pexit->to_room
-         &&   !IS_SET( pexit->exit_info, EX_CLOSED )
-         &&   !IS_SET( pexit->to_room->room_flags, ROOM_NO_MOB ) ) {
+         &&   !CHECK_BIT( pexit->exit_info, EX_CLOSED )
+         &&   !CHECK_BIT( pexit->to_room->room_flags, ROOM_NO_MOB ) ) {
       CHAR_DATA * rch;
       bool        found;
 
@@ -604,7 +604,7 @@ void weather_update( void ) {
       if ( d->connected == CON_PLAYING
            && IS_OUTSIDE( d->character )
            && IS_AWAKE( d->character )
-           && !IS_SET( d->character->in_room->room_flags, ROOM_INDOORS ) ) {
+           && !CHECK_BIT( d->character->in_room->room_flags, ROOM_INDOORS ) ) {
         send_to_char( AT_BLUE, buf, d->character );
       }
     }
@@ -1227,11 +1227,11 @@ void aggr_update( void ) {
       if ( !IS_NPC( mch )
            || mch->deleted
            || IS_AFFECTED( mch, AFF_STUN )
-           /*		|| !IS_SET( mch->act, ACT_AGGRESSIVE )*/
+           /*		|| !CHECK_BIT( mch->act, ACT_AGGRESSIVE )*/
            || mch->fighting
            || IS_AFFECTED( mch, AFF_CHARM )
            || !IS_AWAKE( mch )
-           /*		|| ( IS_SET( mch->act, ACT_WIMPY ) && IS_AWAKE( ch ) )*/
+           /*		|| ( CHECK_BIT( mch->act, ACT_WIMPY ) && IS_AWAKE( ch ) )*/
            || !can_see( mch, ch )
            /*		|| IS_AFFECTED( ch, AFF_PEACE )*/
            || mch->wait > 0
@@ -1259,8 +1259,8 @@ void aggr_update( void ) {
         mch->mpact    = NULL;
       }
 
-      if ( !IS_SET( mch->act, ACT_AGGRESSIVE )
-           || ( IS_SET( mch->act, ACT_WIMPY ) && IS_AWAKE( ch ) )
+      if ( !CHECK_BIT( mch->act, ACT_AGGRESSIVE )
+           || ( CHECK_BIT( mch->act, ACT_WIMPY ) && IS_AWAKE( ch ) )
            || IS_AFFECTED( ch, AFF_PEACE ) ) {
         continue;
       }
@@ -1280,7 +1280,7 @@ void aggr_update( void ) {
           continue;
         }
 
-        if ( ( !IS_SET( mch->act, ACT_WIMPY ) || !IS_AWAKE( vch ) )
+        if ( ( !CHECK_BIT( mch->act, ACT_WIMPY ) || !IS_AWAKE( vch ) )
              && can_see( mch, vch ) ) {
           if ( number_range( 0, count ) == 0 ) {
             victim = vch;
@@ -1742,7 +1742,7 @@ void rdam_update() {
     }
 
     if ( ch->level < L_APP ) {
-      if ( IS_SET( ch->in_room->room_flags, ROOM_DAMAGE ) ) {
+      if ( CHECK_BIT( ch->in_room->room_flags, ROOM_DAMAGE ) ) {
         /*  if ( ch->hit <= ch->in_room->rd ) */
         {
           send_to_char( AT_RED, "Pain shoots through your body.\n\r", ch );

@@ -155,12 +155,12 @@ bool spec_guard( CHAR_DATA * ch ) {
       continue;
     }
 
-    if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_KILLER ) ) {
+    if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_KILLER ) ) {
       crime = "KILLER";
       break;
     }
 
-    if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_THIEF ) ) {
+    if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_THIEF ) ) {
       crime = "THIEF";
       break;
     }
@@ -230,7 +230,7 @@ bool spec_janitor( CHAR_DATA * ch ) {
       continue;
     }
 
-    if ( !IS_SET( trash->wear_flags, ITEM_TAKE ) ) {
+    if ( !CHECK_BIT( trash->wear_flags, ITEM_TAKE ) ) {
       continue;
     }
 
@@ -442,7 +442,7 @@ bool spec_repairman( CHAR_DATA * ch ) {
     return FALSE;
   }
 
-  if ( IS_SET( pexit->exit_info, EX_BASHED ) ) {
+  if ( CHECK_BIT( pexit->exit_info, EX_BASHED ) ) {
     REMOVE_BIT( pexit->exit_info, EX_BASHED );
     act( C_DEFAULT, "You repair the $d.", ch, NULL, pexit->keyword, TO_CHAR );
     act( C_DEFAULT, "$n repairs the $d.", ch, NULL, pexit->keyword, TO_ROOM );

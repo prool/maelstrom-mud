@@ -50,7 +50,7 @@ void do_scan( CHAR_DATA * ch, char * argument ) {
     for ( distance = 1; distance < 4; distance++ ) {
       pexit = room->exit[ dir ];
 
-      if ( ( pexit == NULL ) || ( pexit->to_room == NULL ) || ( IS_SET( pexit->exit_info, EX_CLOSED ) ) ) {
+      if ( ( pexit == NULL ) || ( pexit->to_room == NULL ) || ( CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) ) {
         break;
       }
 

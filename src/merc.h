@@ -19,7 +19,7 @@
 ***************************************************************************/
 
 // the current version of maelstrom
-#define VERSION "2.0.0"
+#define MAELSTROM_VERSION "2.0.0"
 
 #include <jansson.h>
 #include "devops.h" /* Include devops attributes */
@@ -1154,7 +1154,7 @@ struct  kill_data {
 #define CHANNEL_CLASS    512
 #define CHANNEL_HERO     1024
 #define CHANNEL_INFO     131072
-#define CHANNEL_IMC      4194304
+#define CHANNEL_GOSSIP   4194304
 
 /*
  * Prototype for a mob.
@@ -1746,33 +1746,33 @@ extern int gsn_hallucinate;
 /*
  * Utility macros.
  */
-#define UMIN( a, b )           ( ( a ) < ( b ) ? ( a ) : ( b ) )
-#define UMAX( a, b )           ( ( a ) > ( b ) ? ( a ) : ( b ) )
-#define URANGE( a, b, c )      ( ( b ) < ( a ) ? ( a ) : ( ( b ) > ( c ) ? ( c ) : ( b ) ) )
-#define LOWER( c )             ( ( c ) >= 'A' && ( c ) <= 'Z' ? ( c ) + 'a' - 'A' : ( c ) )
-#define UPPER( c )             ( ( c ) >= 'a' && ( c ) <= 'z' ? ( c ) + 'A' - 'a' : ( c ) )
-#define IS_SET( flag, bit )    ( ( flag ) &   ( bit ) )
-#define SET_BIT( var, bit )    ( ( var )  |=  ( bit ) )
-#define REMOVE_BIT( var, bit ) ( ( var )  &= ~( bit ) )
-#define TOGGLE_BIT( var, bit ) ( ( var )  ^=  ( bit ) )
-#define COUNT( a )             ( ( sizeof( a ) ) / ( sizeof( a[0] ) ) )
-#define RANDOM( a )            ( number_range( 0, ( COUNT( a ) - 1 ) ) )
+#define UMIN( a, b )            ( ( a ) < ( b ) ? ( a ) : ( b ) )
+#define UMAX( a, b )            ( ( a ) > ( b ) ? ( a ) : ( b ) )
+#define URANGE( a, b, c )       ( ( b ) < ( a ) ? ( a ) : ( ( b ) > ( c ) ? ( c ) : ( b ) ) )
+#define LOWER( c )              ( ( c ) >= 'A' && ( c ) <= 'Z' ? ( c ) + 'a' - 'A' : ( c ) )
+#define UPPER( c )              ( ( c ) >= 'a' && ( c ) <= 'z' ? ( c ) + 'A' - 'a' : ( c ) )
+#define CHECK_BIT( flag, bit )  ( ( flag ) &   ( bit ) )
+#define SET_BIT( var, bit )     ( ( var )  |=  ( bit ) )
+#define REMOVE_BIT( var, bit )  ( ( var )  &= ~( bit ) )
+#define TOGGLE_BIT( var, bit )  ( ( var )  ^=  ( bit ) )
+#define COUNT( a )              ( ( sizeof( a ) ) / ( sizeof( a[0] ) ) )
+#define RANDOM( a )             ( number_range( 0, ( COUNT( a ) - 1 ) ) )
 
 /*
  * Character macros.
  */
-#define IS_CODER( ch )   ( IS_SET( ch->affected_by2, CODER ) )
-#define IS_NPC( ch )     ( IS_SET( ch->act, ACT_IS_NPC ) )
-#define IS_QUESTOR( ch ) ( IS_SET( ch->act, PLR_QUESTOR ) )
+#define IS_CODER( ch )   ( CHECK_BIT( ch->affected_by2, CODER ) )
+#define IS_NPC( ch )     ( CHECK_BIT( ch->act, ACT_IS_NPC ) )
+#define IS_QUESTOR( ch ) ( CHECK_BIT( ch->act, PLR_QUESTOR ) )
 
 #define IS_IMMORTAL( ch ) ( get_trust( ch ) >= LEVEL_IMMORTAL )
 #define IS_HERO( ch )     ( get_trust( ch ) >= LEVEL_HERO     )
 
-#define IS_AFFECTED( ch, sn )  ( IS_SET( ch->affected_by, ( sn ) ) )
-#define IS_AFFECTED2( ch, sn ) ( IS_SET( ch->affected_by2, ( sn ) ) )
-#define IS_SIMM( ch, sn )      ( IS_SET( ch->imm_flags, ( sn ) ) )
-#define IS_SRES( ch, sn )      ( IS_SET( ch->res_flags, ( sn ) ) )
-#define IS_SVUL( ch, sn )      ( IS_SET( ch->vul_flags, ( sn ) ) )
+#define IS_AFFECTED( ch, sn )  ( CHECK_BIT( ch->affected_by, ( sn ) ) )
+#define IS_AFFECTED2( ch, sn ) ( CHECK_BIT( ch->affected_by2, ( sn ) ) )
+#define IS_SIMM( ch, sn )      ( CHECK_BIT( ch->imm_flags, ( sn ) ) )
+#define IS_SRES( ch, sn )      ( CHECK_BIT( ch->res_flags, ( sn ) ) )
+#define IS_SVUL( ch, sn )      ( CHECK_BIT( ch->vul_flags, ( sn ) ) )
 
 #define IS_GOOD( ch )    ( ch->alignment >=  350 )
 #define IS_EVIL( ch )    ( ch->alignment <= -350 )
@@ -1787,7 +1787,7 @@ extern int gsn_hallucinate;
 #define GET_THAC0( ch )   ( 20 - GET_BAB( ch ) - GET_HITROLL( ch ) )
 #define GET_MOD( stat )   ( (int)( ( stat / 2 ) - 5 ) )
 
-#define IS_OUTSIDE( ch ) ( !IS_SET( ( ch )->in_room->room_flags, ROOM_INDOORS ) )
+#define IS_OUTSIDE( ch ) ( !CHECK_BIT( ( ch )->in_room->room_flags, ROOM_INDOORS ) )
 
 #define WAIT_STATE( ch, pulse ) ( ( ch )->wait = UMAX( ( ch )->wait, ( pulse ) ) )
 
@@ -1810,8 +1810,8 @@ int mmlvl_mana( CHAR_DATA * ch, int sn );
 /*
  * Object macros.
  */
-#define CAN_WEAR( obj, part )   ( IS_SET( ( obj )->wear_flags,  ( part ) ) )
-#define IS_OBJ_STAT( obj, stat )( IS_SET( ( obj )->extra_flags, ( stat ) ) )
+#define CAN_WEAR( obj, part )   ( CHECK_BIT( ( obj )->wear_flags,  ( part ) ) )
+#define IS_OBJ_STAT( obj, stat )( CHECK_BIT( ( obj )->extra_flags, ( stat ) ) )
 
 /*
  * Structure for a command in the command lookup table.
@@ -2010,6 +2010,7 @@ DECLARE_DO_FUN( do_freeze );
 DECLARE_DO_FUN( do_fullname );
 DECLARE_DO_FUN( do_get );
 DECLARE_DO_FUN( do_give );
+DECLARE_DO_FUN( do_gossip );
 DECLARE_DO_FUN( do_goto );
 DECLARE_DO_FUN( do_group );
 DECLARE_DO_FUN( do_gtell );
@@ -2812,3 +2813,9 @@ void load_socials(void );
 void save_social( void );
 void free_social_index( SOCIAL_DATA * pSocial );
 SOCIAL_DATA * new_social_index( void );
+
+/* gossip.c */
+void gossip_connect();
+void gossip_heartbeat();
+void gossip_broadcast(const char * channel, const char * name, const char * game, const char * message);
+void gossip_send(char * player, char * message);

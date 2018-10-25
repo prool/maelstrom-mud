@@ -164,7 +164,7 @@ char * flag_string( const struct flag_type * flag_table, int bits ) {
   buf[ 0 ] = '\0';
 
   for ( flag = 0; *flag_table[ flag ].name; flag++ ) {
-    if ( !is_stat( flag_table ) && IS_SET( bits, flag_table[ flag ].bit ) ) {
+    if ( !is_stat( flag_table ) && CHECK_BIT( bits, flag_table[ flag ].bit ) ) {
       strcat( buf, " " );
       strcat( buf, flag_table[ flag ].name );
     } else {

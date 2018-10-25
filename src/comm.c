@@ -647,7 +647,7 @@ void close_socket( DESCRIPTOR_DATA * dclose ) {
 
       wiznet( "Netdeath has claimed $N.", ch, NULL, WIZ_LINKS, 0, 0 );
 
-      if ( !IS_SET( ch->act, PLR_WIZINVIS ) && !IS_SET( ch->act, PLR_CLOAKED ) ) {
+      if ( !CHECK_BIT( ch->act, PLR_WIZINVIS ) && !CHECK_BIT( ch->act, PLR_CLOAKED ) ) {
         info( "The link between %s and the storm has been torn.", (int)( ch->name ), 0 );
       }
 
@@ -904,15 +904,15 @@ bool process_output( DESCRIPTOR_DATA * d, bool fPrompt ) {
 
       ch = d->original ? d->original : d->character;
 
-      if ( IS_SET( ch->act, PLR_BLANK ) ) {
+      if ( CHECK_BIT( ch->act, PLR_BLANK ) ) {
         write_to_buffer( d, "\n\r", 2 );
       }
 
-      if ( IS_SET( ch->act, PLR_PROMPT ) ) {
+      if ( CHECK_BIT( ch->act, PLR_PROMPT ) ) {
         bust_a_prompt( d );
       }
 
-      if ( IS_SET( ch->act, PLR_TELNET_GA ) ) {
+      if ( CHECK_BIT( ch->act, PLR_TELNET_GA ) ) {
         write_to_buffer( d, go_ahead_str, 0 );
       }
     }
@@ -1101,7 +1101,7 @@ void bust_a_prompt( DESCRIPTOR_DATA * d ) {
         break;
       }
       case 'l':
-        if ( IS_SET( ch->act, PLR_WIZINVIS ) ) {
+        if ( CHECK_BIT( ch->act, PLR_WIZINVIS ) ) {
           sprintf( buf2, "Invisible" );
         } else {
           sprintf( buf2, "Visible" );
@@ -1110,7 +1110,7 @@ void bust_a_prompt( DESCRIPTOR_DATA * d ) {
         i = buf2;
         break;
       case 'd':
-        if ( IS_SET( ch->act, PLR_CLOAKED ) ) {
+        if ( CHECK_BIT( ch->act, PLR_CLOAKED ) ) {
           sprintf( buf2, "Cloaked" );
         } else {
           sprintf( buf2, "Visible" );
@@ -1388,7 +1388,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
         }
       }
 
-      if ( IS_SET( ch->act, PLR_DENY ) ) {
+      if ( CHECK_BIT( ch->act, PLR_DENY ) ) {
         sprintf( log_buf, "Denying access to %s@%s.", argument, d->host );
         wiznet( log_buf, NULL, NULL, WIZ_GENERAL, 0, 0 );
         write_to_buffer( d, "&cYou are denied access.\n\r", 0 );
@@ -1472,11 +1472,9 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
         return;
       }
 
-      if ( ch->level != L_IMP ) {
-        sprintf( log_buf, "%s!%s@%s has connected.", ch->name, d->user, d->host );
-        log_string( log_buf );
-        wiznet( log_buf, NULL, NULL, WIZ_SITES, 0, get_trust( ch ) );
-      }
+      sprintf( log_buf, "%s!%s@%s has connected.", ch->name, d->user, d->host );
+      log_string( log_buf );
+      wiznet( log_buf, NULL, NULL, WIZ_SITES, 0, get_trust( ch ) );
 
       if ( IS_HERO( ch ) ) {
         do_help( ch, "imotd" );
@@ -1627,7 +1625,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
         case 'Y':
 
           /* booger */
-          if ( IS_SET( ch->act2, PLR_REMORT ) ) {
+          if ( CHECK_BIT( ch->act2, PLR_REMORT ) ) {
             ch->pcdata->mod_str = race_table[ d->character->race ].mstr;
             ch->pcdata->mod_int = race_table[ d->character->race ].mint;
             ch->pcdata->mod_wis = race_table[ d->character->race ].mwis;
@@ -1734,7 +1732,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
         case 'Y':
 
           /* booger */
-          if ( IS_SET( ch->act2, PLR_REMORT ) ) {
+          if ( CHECK_BIT( ch->act2, PLR_REMORT ) ) {
             switch ( class_table[ prime_class( ch ) ].attr_prime ) {
               case APPLY_STR:
                 ch->pcdata->perm_str = 16;
@@ -1820,7 +1818,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
         case 'n':
         case 'N':
 
-          if ( IS_SET( ch->act2, PLR_REMORT ) ) {
+          if ( CHECK_BIT( ch->act2, PLR_REMORT ) ) {
             ch->exp = xp_tolvl( ch ) / 2;
           }
 
@@ -1884,7 +1882,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
         case 'y':
         case 'Y':
 
-          if ( IS_SET( ch->act2, PLR_REMORT ) ) {
+          if ( CHECK_BIT( ch->act2, PLR_REMORT ) ) {
             ch->exp = xp_tolvl( ch ) / 2;
           }
 
@@ -2073,7 +2071,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
         char_to_room( ch, get_room_index( ROOM_VNUM_LIMBO ) );
       }
 
-      if ( !IS_SET( ch->act, PLR_WIZINVIS ) && !IS_AFFECTED( ch, AFF_INVISIBLE ) ) {
+      if ( !CHECK_BIT( ch->act, PLR_WIZINVIS ) && !IS_AFFECTED( ch, AFF_INVISIBLE ) ) {
         act( AT_GREEN, "$n has returned to the storm.", ch, NULL, NULL, TO_ROOM );
       } else {
         CHAR_DATA * gch;
@@ -2090,7 +2088,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
         }
       }
 
-      if ( !IS_SET( ch->act, PLR_WIZINVIS ) && !IS_SET( ch->act, PLR_CLOAKED ) ) {
+      if ( !CHECK_BIT( ch->act, PLR_WIZINVIS ) && !CHECK_BIT( ch->act, PLR_CLOAKED ) ) {
         info( "%s has returned to the storm.", (int)( ch->name ), 0 );
       }
 
@@ -2262,8 +2260,8 @@ bool check_reconnect( DESCRIPTOR_DATA * d, char * name, bool fConn ) {
         sprintf( log_buf, "%s!%s@%s reconnected.", ch->name, d->user, d->host );
         wiznet( log_buf, ch, NULL, WIZ_LINKS, 0, 0 );
 
-        if ( !IS_SET( ch->act, PLR_WIZINVIS )
-             && !IS_SET( ch->act, PLR_CLOAKED ) ) {
+        if ( !CHECK_BIT( ch->act, PLR_WIZINVIS )
+             && !CHECK_BIT( ch->act, PLR_CLOAKED ) ) {
           info( "%s has re-established a link to the storm.",
                 (int)( ch->name ), 0 );
         }
@@ -2320,7 +2318,7 @@ bool check_playing( DESCRIPTOR_DATA * d, char * name ) {
         write_to_buffer( dold, "Kicking off old link.\n\r", 0 );
         close_socket( dold );
 
-        if ( !IS_SET( d->character->act, PLR_WIZINVIS ) ) {
+        if ( !CHECK_BIT( d->character->act, PLR_WIZINVIS ) ) {
           act( AT_GREEN, "A ghostly aura briefly embodies $n.", d->character, NULL, NULL, TO_ROOM );
         }
 
@@ -2329,7 +2327,7 @@ bool check_playing( DESCRIPTOR_DATA * d, char * name ) {
         log_string( log_buf );
         wiznet( log_buf, NULL, NULL, WIZ_LINKS, 0, 0 );
 
-        if ( !IS_SET( d->character->act, PLR_WIZINVIS ) && !IS_SET( d->character->act, PLR_CLOAKED ) ) {
+        if ( !CHECK_BIT( d->character->act, PLR_WIZINVIS ) && !CHECK_BIT( d->character->act, PLR_CLOAKED ) ) {
           info( log_buf, 0, 0 );
         }
 
@@ -2623,7 +2621,7 @@ void act( int AType, const char * format, CHAR_DATA * ch, const void * arg1, con
       continue;
     }
 
-    if ( type == TO_COMBAT && ( to == ch || to == vch || !IS_SET( to->act, PLR_COMBAT ) ) ) {
+    if ( type == TO_COMBAT && ( to == ch || to == vch || !CHECK_BIT( to->act, PLR_COMBAT ) ) ) {
       continue;
     }
 

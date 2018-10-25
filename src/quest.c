@@ -116,7 +116,7 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !strcmp( arg1, "info" ) ) {
-    if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
+    if ( CHECK_BIT( ch->act, PLR_QUESTOR ) ) {
       if ( ( !ch->questmob && !ch->questobj ) && ch->questgiver->short_descr != NULL ) {
         send_to_char( AT_YELLOW, "&YYour quest is ALMOST complete!\n\r", ch );
       } else if ( ch->questobj ) {
@@ -136,7 +136,7 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !strcmp( arg1, "area" ) ) {
-    if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
+    if ( CHECK_BIT( ch->act, PLR_QUESTOR ) ) {
       sprintf( buf, "AREA: %s\n\r", room->area->name );
       send_to_char( AT_WHITE, buf, ch );
       return;
@@ -152,7 +152,7 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_WHITE, buf, ch );
     return;
   } else if ( !strcmp( arg1, "time" ) ) {
-    if ( !IS_SET( ch->act, PLR_QUESTOR ) ) {
+    if ( !CHECK_BIT( ch->act, PLR_QUESTOR ) ) {
       send_to_char( AT_WHITE, "You aren't currently on a quest.\n\r", ch );
 
       if ( ch->nextquest > 1 ) {
@@ -173,7 +173,7 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
   /* Checks for a Questmaster in the room */
 
   for ( questman = ch->in_room->people; questman; questman = questman->next_in_room ) {
-    if ( IS_NPC( questman ) && IS_SET( questman->act, ACT_QUESTMASTER ) ) {
+    if ( IS_NPC( questman ) && CHECK_BIT( questman->act, ACT_QUESTMASTER ) ) {
       break;
     }
   }
@@ -272,7 +272,7 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
     act( AT_WHITE, "$n asks $N for a quest.", ch, NULL, questman, TO_ROOM );
     act( AT_WHITE, "You ask $N for a quest.", ch, NULL, questman, TO_CHAR );
 
-    if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
+    if ( CHECK_BIT( ch->act, PLR_QUESTOR ) ) {
       sprintf( buf, "But you're already on a quest!" );
       do_say( questman, buf );
       return;
@@ -322,7 +322,7 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
+    if ( CHECK_BIT( ch->act, PLR_QUESTOR ) ) {
       if ( ( !ch->questmob && !ch->questobj ) && ch->countdown > 0 ) {
         int pointreward, pracreward;
 
@@ -427,7 +427,7 @@ void do_quest( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( arg1[ 0 ] == '\0' ) {
-    if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
+    if ( CHECK_BIT( ch->act, PLR_QUESTOR ) ) {
       if ( ch->questobj ) {
         sprintf( buf, "You are on a quest to find %s!\n\r", ch->questobj->short_descr );
         send_to_char( AT_WHITE, buf, ch );
@@ -489,17 +489,17 @@ void generate_quest( CHAR_DATA * ch, CHAR_DATA * questman ) {
 
     if ( ( level_diff <= 3 && level_diff > -5 )
          && ( IS_NPC( vsearch ) )
-         && ( !IS_SET( vsearch->in_room->area->area_flags, AREA_PROTOTYPE ) )
-         && ( !IS_SET( vsearch->in_room->area->area_flags, AREA_NO_QUEST ) )
+         && ( !CHECK_BIT( vsearch->in_room->area->area_flags, AREA_PROTOTYPE ) )
+         && ( !CHECK_BIT( vsearch->in_room->area->area_flags, AREA_NO_QUEST ) )
          && ( vsearch->pIndexData->pShop == NULL )
          && ( vsearch->pIndexData->vnum != 1351 )
          && ( vsearch->pIndexData->vnum != 1350 )
          && ( ch->level <= vsearch->in_room->area->ulevel )
          && ( ch->level > vsearch->in_room->area->llevel )
-         && ( !IS_SET( vsearch->act, ACT_TRAIN ) )
-         && ( !IS_SET( vsearch->act, ACT_PRACTICE ) )
-         && ( !IS_SET( vsearch->in_room->room_flags, ROOM_SAFE ) )
-         && ( !IS_SET( vsearch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) ) {
+         && ( !CHECK_BIT( vsearch->act, ACT_TRAIN ) )
+         && ( !CHECK_BIT( vsearch->act, ACT_PRACTICE ) )
+         && ( !CHECK_BIT( vsearch->in_room->room_flags, ROOM_SAFE ) )
+         && ( !CHECK_BIT( vsearch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) ) {
       if ( number_range( 0, mcounter ) == 0 ) {
         victim = vsearch;
         mcounter++;
@@ -613,7 +613,7 @@ void quest_update( void ) {
         send_to_char( AT_WHITE, "You may now quest again.\n\r", ch );
         return;
       }
-    } else if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
+    } else if ( CHECK_BIT( ch->act, PLR_QUESTOR ) ) {
       if ( ch->questmob
            && ch->questmob->deleted
            && ch->countdown > 1 ) {

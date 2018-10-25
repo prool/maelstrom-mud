@@ -294,7 +294,7 @@ void one_hit( CHAR_DATA * ch, CHAR_DATA * victim, int dt, bool dual ) {
    */
   dam += GET_DAMROLL( ch );
 
-  if ( wield && IS_SET( wield->extra_flags, ITEM_POISONED ) ) {
+  if ( wield && CHECK_BIT( wield->extra_flags, ITEM_POISONED ) ) {
     dam += dam / 8;
   }
 
@@ -426,7 +426,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
       }
     }
 
-    if ( IS_SET( victim->act, UNDEAD_TYPE( victim ) ) ) {
+    if ( CHECK_BIT( victim->act, UNDEAD_TYPE( victim ) ) ) {
       dam -= dam / 8;
     }
 
@@ -616,17 +616,17 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
     }
 
     if ( !IS_NPC( ch ) && IS_NPC( victim ) ) {
-      if ( IS_SET( ch->act, PLR_AUTOLOOT ) ) {
+      if ( CHECK_BIT( ch->act, PLR_AUTOLOOT ) ) {
         do_get( ch, "all corpse" );
       } else {
         do_look( ch, "in corpse" );
       }
 
-      if ( IS_SET( ch->act, PLR_AUTOCOINS ) ) {
+      if ( CHECK_BIT( ch->act, PLR_AUTOCOINS ) ) {
         do_get( ch, "all.coin corpse" );
       }
 
-      if ( IS_SET( ch->act, PLR_AUTOSAC ) ) {
+      if ( CHECK_BIT( ch->act, PLR_AUTOSAC ) ) {
         do_sacrifice( ch, "corpse" );
       }
     }
@@ -652,7 +652,7 @@ void damage( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
    * Wimp out?
    */
   if ( IS_NPC( victim ) && dam > 0 ) {
-    if ( ( IS_SET( victim->act, ACT_WIMPY ) && number_bits( 1 ) == 0
+    if ( ( CHECK_BIT( victim->act, ACT_WIMPY ) && number_bits( 1 ) == 0
            && victim->hit < MAX_HIT( victim ) / 2 )
          || ( IS_AFFECTED( victim, AFF_CHARM ) && victim->master
               && victim->master->in_room != victim->in_room ) ) {
@@ -700,7 +700,7 @@ void item_damage( CHAR_DATA * ch, int dam ) {
       continue;
     }
 
-    if ( IS_SET( obj_lose->extra_flags, ITEM_NO_DAMAGE ) ) {
+    if ( CHECK_BIT( obj_lose->extra_flags, ITEM_NO_DAMAGE ) ) {
       continue;
     }
 
@@ -775,14 +775,14 @@ void item_damage( CHAR_DATA * ch, int dam ) {
 bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
   CLAN_DATA * pClan;
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_SAFE ) ||
-       IS_SET( victim->in_room->room_flags, ROOM_SAFE ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_SAFE ) ||
+       CHECK_BIT( victim->in_room->room_flags, ROOM_SAFE ) ) {
     return TRUE;
   }
 
   if ( !IS_NPC( ch ) && !IS_NPC( victim ) &&
-       ( IS_SET( ch->in_room->room_flags, ROOM_NO_PKILL ) ||
-         IS_SET( victim->in_room->room_flags, ROOM_NO_PKILL ) ) ) {
+       ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_PKILL ) ||
+         CHECK_BIT( victim->in_room->room_flags, ROOM_NO_PKILL ) ) ) {
     return TRUE;
   }
 
@@ -790,8 +790,8 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return TRUE;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_PKILL ) &&
-       IS_SET( victim->in_room->room_flags, ROOM_PKILL ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_PKILL ) &&
+       CHECK_BIT( victim->in_room->room_flags, ROOM_PKILL ) ) {
     return FALSE;
   }
 
@@ -805,7 +805,7 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
   }
 
   if ( IS_NPC( ch ) ) {
-    if ( IS_SET( ch->affected_by, AFF_CHARM ) && ch->master ) {
+    if ( CHECK_BIT( ch->affected_by, AFF_CHARM ) && ch->master ) {
       CHAR_DATA * nch;
 
       for ( nch = ch->in_room->people; nch; nch = nch->next ) {
@@ -826,14 +826,14 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
 
   pClan = get_clan_index( ch->clan );
 
-  if ( ( ch->clan == 0 ) && ( !IS_SET( pClan->settings, CLAN_PKILL ) ) ) {
+  if ( ( ch->clan == 0 ) && ( !CHECK_BIT( pClan->settings, CLAN_PKILL ) ) ) {
     send_to_char( AT_WHITE, "You must be clanned to murder.\n\r", ch );
     return TRUE;
   }
 
   pClan = get_clan_index( victim->clan );
 
-  if ( ( victim->clan == 0 ) && ( !IS_SET( pClan->settings, CLAN_PKILL ) ) ) {
+  if ( ( victim->clan == 0 ) && ( !CHECK_BIT( pClan->settings, CLAN_PKILL ) ) ) {
     send_to_char( AT_WHITE, "You can only murder clanned players.\n\r", ch );
     return TRUE;
   }
@@ -841,7 +841,7 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
   pClan = get_clan_index( ch->clan );
 
   if ( ch->clan == victim->clan &&
-       IS_SET( pClan->settings, CLAN_CIVIL_PKILL ) ) {
+       CHECK_BIT( pClan->settings, CLAN_CIVIL_PKILL ) ) {
     return FALSE;
   }
 
@@ -851,19 +851,19 @@ bool is_safe( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return TRUE;
   }
 
-  if ( !IS_SET( pClan->settings, CLAN_PKILL ) ) {
+  if ( !CHECK_BIT( pClan->settings, CLAN_PKILL ) ) {
     send_to_char( AT_WHITE, "Peaceful clan members cannot murder.\n\r", ch );
     return TRUE;
   }
 
   pClan = get_clan_index( victim->clan );
 
-  if ( !IS_SET( pClan->settings, CLAN_PKILL ) ) {
+  if ( !CHECK_BIT( pClan->settings, CLAN_PKILL ) ) {
     send_to_char( AT_WHITE, "You may not murder peaceful clan members.\n\r", ch );
     return TRUE;
   }
 
-  if ( IS_SET( victim->act, PLR_KILLER ) ) {
+  if ( CHECK_BIT( victim->act, PLR_KILLER ) ) {
     return FALSE;
   }
 
@@ -882,8 +882,8 @@ void check_killer( CHAR_DATA * ch, CHAR_DATA * victim ) {
    * So are killers and thieves.
    */
   if (   IS_NPC( victim )
-         || IS_SET( victim->act, PLR_KILLER )
-         || IS_SET( victim->act, PLR_THIEF ) ) {
+         || CHECK_BIT( victim->act, PLR_KILLER )
+         || CHECK_BIT( victim->act, PLR_THIEF ) ) {
     return;
   }
 
@@ -894,15 +894,15 @@ void check_killer( CHAR_DATA * ch, CHAR_DATA * victim ) {
    */
   if ( IS_NPC( ch )
        || ch == victim
-       || IS_SET( ch->act, PLR_KILLER )
-       || IS_SET( ch->act, PLR_THIEF ) ) {
+       || CHECK_BIT( ch->act, PLR_KILLER )
+       || CHECK_BIT( ch->act, PLR_THIEF ) ) {
     return;
   }
 
   pClan = get_clan_index( ch->clan );
 
-  if ( /*ch->clan != 0 ||*/ ( IS_SET( pClan->settings, CLAN_PKILL ) ) ||
-                            ( ch->clan == victim->clan && IS_SET( pClan->settings, CLAN_CIVIL_PKILL ) ) ) {
+  if ( /*ch->clan != 0 ||*/ ( CHECK_BIT( pClan->settings, CLAN_PKILL ) ) ||
+                            ( ch->clan == victim->clan && CHECK_BIT( pClan->settings, CLAN_CIVIL_PKILL ) ) ) {
     return;
   }
 
@@ -930,7 +930,7 @@ bool is_wielding_poisoned( CHAR_DATA * ch ) {
   OBJ_DATA * obj;
 
   if ( ( obj = get_eq_char( ch, WEAR_WIELD ) )
-       && IS_SET( obj->extra_flags, ITEM_POISONED ) ) {
+       && CHECK_BIT( obj->extra_flags, ITEM_POISONED ) ) {
     return TRUE;
   }
 
@@ -974,11 +974,11 @@ bool check_parry( CHAR_DATA * ch, CHAR_DATA * victim ) {
 
   update_skpell( victim, gsn_parry );
 
-  if ( IS_SET( ch->act, PLR_COMBAT ) ) {
+  if ( CHECK_BIT( ch->act, PLR_COMBAT ) ) {
     act( AT_GREEN, "$N parries your attack.", ch, NULL, victim, TO_CHAR );
   }
 
-  if ( IS_SET( victim->act, PLR_COMBAT ) ) {
+  if ( CHECK_BIT( victim->act, PLR_COMBAT ) ) {
     act( AT_GREEN, "You parry $n's attack.", ch, NULL, victim, TO_VICT );
   }
 
@@ -1012,11 +1012,11 @@ bool check_dodge( CHAR_DATA * ch, CHAR_DATA * victim ) {
 
   update_skpell( victim, gsn_dodge );
 
-  if ( IS_SET( ch->act, PLR_COMBAT ) ) {
+  if ( CHECK_BIT( ch->act, PLR_COMBAT ) ) {
     act( AT_GREEN, "$N dodges your attack.", ch, NULL, victim, TO_CHAR );
   }
 
-  if ( IS_SET( victim->act, PLR_COMBAT ) ) {
+  if ( CHECK_BIT( victim->act, PLR_COMBAT ) ) {
     act( AT_GREEN, "You dodge $n's attack.", ch, NULL, victim, TO_VICT );
   }
 
@@ -1176,7 +1176,7 @@ void make_corpse( CHAR_DATA * ch ) {
 
     obj_from_char( obj );
 
-    if ( IS_SET( obj->extra_flags, ITEM_INVENTORY ) ) {
+    if ( CHECK_BIT( obj->extra_flags, ITEM_INVENTORY ) ) {
       extract_obj( obj );
     } else {
       obj_to_obj( obj, corpse );
@@ -1188,7 +1188,7 @@ void make_corpse( CHAR_DATA * ch ) {
     obj_to_obj( random, corpse );
   }
 
-  if ( ( IS_NPC( ch ) ) && ( !IS_SET( ch->act, UNDEAD_TYPE( ch ) ) ) ) {
+  if ( ( IS_NPC( ch ) ) && ( !CHECK_BIT( ch->act, UNDEAD_TYPE( ch ) ) ) ) {
     corpse->ac_vnum = ch->pIndexData->vnum;
   }
 
@@ -1410,7 +1410,7 @@ void group_gain( CHAR_DATA * ch, CHAR_DATA * victim ) {
     }
   }
 
-  if ( IS_SET( ch->act, PLR_QUESTOR ) && IS_NPC( victim ) ) {
+  if ( CHECK_BIT( ch->act, PLR_QUESTOR ) && IS_NPC( victim ) ) {
     if ( ch->questmob && victim == ch->questmob ) {
       send_to_char( AT_WHITE, "You have almost completed your QUEST!\n\r", ch );
       send_to_char( AT_WHITE, "Return to the QuestMaster before your time runs out!\n\r", ch );
@@ -1609,18 +1609,18 @@ void dam_message( CHAR_DATA * ch, CHAR_DATA * victim, int dam, int dt ) {
   }
 
   if ( victim != ch ) {
-    if ( dam != 0 || IS_SET( ch->act, PLR_COMBAT ) ) {
+    if ( dam != 0 || CHECK_BIT( ch->act, PLR_COMBAT ) ) {
       act( AT_WHITE, buf1, ch, NULL, victim, TO_CHAR );
     }
 
-    if ( dam != 0 || IS_SET( victim->act, PLR_COMBAT ) ) {
+    if ( dam != 0 || CHECK_BIT( victim->act, PLR_COMBAT ) ) {
       act( AT_WHITE, buf2, ch, NULL, victim, TO_VICT );
     }
 
     act( AT_GREY, buf3, ch, NULL, victim,
          dam == 0 ? TO_COMBAT : TO_NOTVICT );
   } else {
-    if ( dam != 0 || IS_SET( ch->act, PLR_COMBAT ) ) {
+    if ( dam != 0 || CHECK_BIT( ch->act, PLR_COMBAT ) ) {
       act( AT_WHITE, buf4, ch, NULL, victim, TO_CHAR );
     }
 
@@ -1725,7 +1725,7 @@ void do_kill( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !IS_NPC( victim ) ) {
-    if (   !IS_SET( victim->act, PLR_KILLER ) && !IS_SET( victim->act, PLR_THIEF ) ) {
+    if (   !CHECK_BIT( victim->act, PLR_KILLER ) && !CHECK_BIT( victim->act, PLR_THIEF ) ) {
       send_to_char( AT_WHITE, "You must MURDER a player.\n\r", ch );
       return;
     }
@@ -1806,12 +1806,12 @@ void do_murder( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_SET( ch->act, PLR_PKILLER ) && !IS_NPC( victim ) ) {
+  if ( !CHECK_BIT( ch->act, PLR_PKILLER ) && !IS_NPC( victim ) ) {
     send_to_char( C_DEFAULT, "You must be a Pkiller to kill another mortal!\n\r", ch );
     return;
   }
 
-  if ( !IS_SET( victim->act, PLR_PKILLER ) && !IS_NPC( victim ) ) {
+  if ( !CHECK_BIT( victim->act, PLR_PKILLER ) && !IS_NPC( victim ) ) {
     send_to_char( C_DEFAULT, "You can only pkill other Pkillers.\n\r", ch );
     return;
   }
@@ -1915,7 +1915,7 @@ void do_flee( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_NO_FLEE ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_FLEE ) ) {
     send_to_char( C_DEFAULT, "You failed!  You lose 10 exps.\n\r", ch );
     gain_exp( ch, -10 );
 
@@ -1932,10 +1932,10 @@ void do_flee( CHAR_DATA * ch, char * argument ) {
 
     if ( ( pexit = was_in->exit[ door ] ) == 0
          ||   !pexit->to_room
-         ||   IS_SET( pexit->exit_info, EX_CLOSED )
+         ||   CHECK_BIT( pexit->exit_info, EX_CLOSED )
          || ( IS_NPC( ch )
-              && ( IS_SET( pexit->to_room->room_flags, ROOM_NO_MOB )
-                   || ( IS_SET( ch->act, ACT_STAY_AREA )
+              && ( CHECK_BIT( pexit->to_room->room_flags, ROOM_NO_MOB )
+                   || ( CHECK_BIT( ch->act, ACT_STAY_AREA )
                         && pexit->to_room->area != ch->in_room->area ) ) ) ) {
       continue;
     }
@@ -1957,7 +1957,7 @@ void do_flee( CHAR_DATA * ch, char * argument ) {
     }
 
     if ( ch->fighting && IS_NPC( ch->fighting ) ) {
-      if ( IS_SET( ch->fighting->act, ACT_TRACK ) ) {
+      if ( CHECK_BIT( ch->fighting->act, ACT_TRACK ) ) {
         ch->fighting->hunting = ch;
       }
     }
@@ -2379,7 +2379,7 @@ void do_throw( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( Obj->extra_flags, ITEM_NOREMOVE ) || IS_SET( Obj->extra_flags,
+  if ( CHECK_BIT( Obj->extra_flags, ITEM_NOREMOVE ) || CHECK_BIT( Obj->extra_flags,
                                                             ITEM_NODROP ) ) {
     send_to_char( C_DEFAULT, "You can't let go of it!\n\r", ch );
     return;
@@ -2427,7 +2427,7 @@ void do_throw( CHAR_DATA * ch, char * argument ) {
         return;
       }
 
-      if ( IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+      if ( CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
         send_to_char( C_DEFAULT, "You cannot throw through a door.\n\r", ch );
         return;
       }
@@ -2442,7 +2442,7 @@ void do_throw( CHAR_DATA * ch, char * argument ) {
 
         if ( ( pexit = to_room->exit[ dir ] ) == NULL ||
              ( to_room = pexit->to_room ) == NULL ||
-             IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+             CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
           sprintf( buf, "A $p flys in from $T and hits the %s wall.",
                    direction_table[ dir ].name );
           act( AT_WHITE, buf, ch, Obj, direction_table[ direction_table[ dir ].reverse ].noun, TO_ROOM );
@@ -2780,7 +2780,7 @@ void do_flip( CHAR_DATA * ch, char * argument ) {
 
   pexit = ch->in_room->exit[ door ];
 
-  if ( pexit == NULL || IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+  if ( pexit == NULL || CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
     act( AT_BLUE, "There is no exit, but you flip $M anyways.", ch, NULL,
          victim, TO_CHAR );
     act( AT_BLUE, "$n flips $N.", ch, NULL, victim, TO_NOTVICT );

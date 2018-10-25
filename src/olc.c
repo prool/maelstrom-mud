@@ -1824,7 +1824,7 @@ void display_resets( CHAR_DATA * ch ) {
           pRoomIndexPrev = get_room_index( pRoomIndex->vnum - 1 );
 
           if ( pRoomIndexPrev
-               && IS_SET( pRoomIndexPrev->room_flags, ROOM_PET_SHOP ) ) {
+               && CHECK_BIT( pRoomIndexPrev->room_flags, ROOM_PET_SHOP ) ) {
             final[ 5 ] = 'P';
           }
         }
@@ -2129,7 +2129,7 @@ void do_alist( CHAR_DATA * ch, char * argument ) {
   sprintf( result, "&z[&W%3s&z] &z[&B%-28s&z] &z(&W%-5s-%5s&z) &z[&G%-10s&z] &z[&W%3s&z][&W%-8s&z]\n\r", "Num", "Area Name", "lvnum", "uvnum", "Filename", "Sec", "Builders" );
 
   for ( pArea = area_first; pArea; pArea = pArea->next ) {
-    if ( IS_SET( pArea->area_flags, AREA_PROTOTYPE ) ) {
+    if ( CHECK_BIT( pArea->area_flags, AREA_PROTOTYPE ) ) {
       prot = "*";
     } else {
       prot = " ";

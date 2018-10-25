@@ -792,7 +792,7 @@ void save_area( AREA_DATA * pArea ) {
   save_objects( fp, pArea );
   save_rooms( fp, pArea );
 
-  if ( IS_SET( pArea->area_flags, AREA_VERBOSE ) ) { /* OLC 1.1b */
+  if ( CHECK_BIT( pArea->area_flags, AREA_VERBOSE ) ) { /* OLC 1.1b */
     vsave_specials( fp, pArea );
     vsave_resets( fp, pArea );
     vsave_shops( fp, pArea );
@@ -826,7 +826,7 @@ void do_asave( CHAR_DATA * ch, char * argument ) {
     save_area_list();
 
     for ( pArea = area_first; pArea; pArea = pArea->next ) {
-      if ( IS_SET( pArea->area_flags, AREA_CHANGED ) ) {
+      if ( CHECK_BIT( pArea->area_flags, AREA_CHANGED ) ) {
         REMOVE_BIT( pArea->area_flags, AREA_CHANGED | AREA_ADDED );
         save_area( pArea );
       }
@@ -946,8 +946,8 @@ void do_asave( CHAR_DATA * ch, char * argument ) {
       }
 
       /*   Save changed areas. */
-      if ( IS_SET( pArea->area_flags, AREA_CHANGED )
-           || IS_SET( pArea->area_flags, AREA_ADDED ) ) {
+      if ( CHECK_BIT( pArea->area_flags, AREA_CHANGED )
+           || CHECK_BIT( pArea->area_flags, AREA_ADDED ) ) {
         if ( !str_cmp( "verbose", argument ) ) {
           SET_BIT( pArea->area_flags, AREA_VERBOSE );
         }

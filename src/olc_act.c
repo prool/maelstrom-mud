@@ -2313,7 +2313,7 @@ int wear_loc( int bits, int count ) {
   int flag;
 
   for ( flag = 0; wear_table[ flag ].wear_bit != NO_FLAG; flag++ ) {
-    if ( IS_SET( bits, wear_table[ flag ].wear_bit ) && --count < 1 ) {
+    if ( CHECK_BIT( bits, wear_table[ flag ].wear_bit ) && --count < 1 ) {
       return wear_table[ flag ].wear_loc;
     }
   }
@@ -2472,7 +2472,7 @@ bool redit_oreset( CHAR_DATA * ch, char * argument ) {
     /*
      * Disallow loading a sword(WEAR_WIELD) into WEAR_HEAD.
      */
-    if ( !IS_SET( pObjIndex->wear_flags, wear_bit( wear_loc ) ) ) {
+    if ( !CHECK_BIT( pObjIndex->wear_flags, wear_bit( wear_loc ) ) ) {
       sprintf( output,
                "%s (%d) has wear flags: [%s]\n\r",
                capitalize( pObjIndex->short_descr ),
@@ -2483,7 +2483,7 @@ bool redit_oreset( CHAR_DATA * ch, char * argument ) {
     }
 
     /* load it to a spot in the equ if it has a take flag - Deck */
-    if ( !IS_SET( pObjIndex->wear_flags, ITEM_TAKE ) ) {
+    if ( !CHECK_BIT( pObjIndex->wear_flags, ITEM_TAKE ) ) {
       send_to_char( C_DEFAULT, "REdit:  Object needs take flag.\n\r", ch );
       return FALSE;
     }
@@ -3885,9 +3885,9 @@ bool cedit_show( CHAR_DATA * ch, char * argument ) {
   send_to_char( C_DEFAULT, buf, ch );
   sprintf( buf, "&PRecall:&Y      [%5d] %s\n\r", pClan->recall, get_room_index( pClan->recall ) ? get_room_index( pClan->recall )->name : "none" );
   send_to_char( C_DEFAULT, buf, ch );
-  sprintf( buf, "&PCivil Pkill:&Y [%3s]\n\r", IS_SET( pClan->settings, CLAN_CIVIL_PKILL ) ? "YES" : "NO" );
+  sprintf( buf, "&PCivil Pkill:&Y [%3s]\n\r", CHECK_BIT( pClan->settings, CLAN_CIVIL_PKILL ) ? "YES" : "NO" );
   send_to_char( C_DEFAULT, buf, ch );
-  sprintf( buf, "&PPkill:&Y       [%3s]\n\r", IS_SET( pClan->settings, CLAN_PKILL ) ? "YES" : "NO" );
+  sprintf( buf, "&PPkill:&Y       [%3s]\n\r", CHECK_BIT( pClan->settings, CLAN_PKILL ) ? "YES" : "NO" );
   send_to_char( C_DEFAULT, buf, ch );
   sprintf( buf, "&PMembers:&Y     [%8d]\n\r", pClan->members );
   send_to_char( C_DEFAULT, buf, ch );
@@ -3897,18 +3897,18 @@ bool cedit_show( CHAR_DATA * ch, char * argument ) {
   send_to_char( C_DEFAULT, buf, ch );
   sprintf( buf, "&PMkills:&Y      [%8d]\n\r", pClan->mkills );
   send_to_char( C_DEFAULT, buf, ch );
-  sprintf( buf, "&PLeader:&Y      [%10s]&Y%s&R%s\n\r", pClan->leader, IS_SET( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "", pClan->isleader ? "" : " Position open." );
+  sprintf( buf, "&PLeader:&Y      [%10s]&Y%s&R%s\n\r", pClan->leader, CHECK_BIT( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "", pClan->isleader ? "" : " Position open." );
   send_to_char( C_DEFAULT, buf, ch );
-  sprintf( buf, "&PCouncil:&Y     [%10s]&Y%s&R%s\n\r", pClan->first, IS_SET( pClan->settings, CLAN_FIRST_INDUCT ) ? " Can induct." : "", pClan->isfirst ? "" : " Position open." );
+  sprintf( buf, "&PCouncil:&Y     [%10s]&Y%s&R%s\n\r", pClan->first, CHECK_BIT( pClan->settings, CLAN_FIRST_INDUCT ) ? " Can induct." : "", pClan->isfirst ? "" : " Position open." );
   send_to_char( C_DEFAULT, buf, ch );
-  sprintf( buf, "&PCenturion:&Y   [%10s]&Y%s&R%s\n\r", pClan->second, IS_SET( pClan->settings, CLAN_SECOND_INDUCT ) ? " Can induct." : "", pClan->issecond ? "" : " Position open." );
+  sprintf( buf, "&PCenturion:&Y   [%10s]&Y%s&R%s\n\r", pClan->second, CHECK_BIT( pClan->settings, CLAN_SECOND_INDUCT ) ? " Can induct." : "", pClan->issecond ? "" : " Position open." );
   send_to_char( C_DEFAULT, buf, ch );
-  sprintf( buf, "&PChampion:&Y    [%10s]&Y%s&R%s\n\r", pClan->champ, IS_SET( pClan->settings, CLAN_CHAMP_INDUCT ) ? " Can induct." : "", pClan->ischamp ? "" : " Position open." );
+  sprintf( buf, "&PChampion:&Y    [%10s]&Y%s&R%s\n\r", pClan->champ, CHECK_BIT( pClan->settings, CLAN_CHAMP_INDUCT ) ? " Can induct." : "", pClan->ischamp ? "" : " Position open." );
   send_to_char( C_DEFAULT, buf, ch );
   sprintf( buf, "&PObjects:\n\r" );
   send_to_char( C_DEFAULT, buf, ch );
 
-  if ( IS_SET( pClan->settings, CLAN_PKILL ) ) {
+  if ( CHECK_BIT( pClan->settings, CLAN_PKILL ) ) {
     if ( ( pObjIndex = get_obj_index( pClan->obj_vnum_1 ) ) ) {
       sprintf( buf, "&YLevel 50:&w  [%5d] %s\n\r", pClan->obj_vnum_1, pObjIndex->short_descr );
     } else {
@@ -4105,7 +4105,7 @@ bool cedit_civil( CHAR_DATA * ch, char * argument ) {
 
   TOGGLE_BIT( pClan->settings, CLAN_CIVIL_PKILL );
 
-  if ( IS_SET( pClan->settings, CLAN_CIVIL_PKILL ) ) {
+  if ( CHECK_BIT( pClan->settings, CLAN_CIVIL_PKILL ) ) {
     send_to_char( C_DEFAULT, "Clan switched to Civil Pkill.\n\r", ch );
   } else {
     send_to_char( C_DEFAULT, "Clan switched to No Civil Pkill.\n\r", ch );
@@ -4121,7 +4121,7 @@ bool cedit_pkill( CHAR_DATA * ch, char * argument ) {
 
   TOGGLE_BIT( pClan->settings, CLAN_PKILL );
 
-  if ( IS_SET( pClan->settings, CLAN_PKILL ) ) {
+  if ( CHECK_BIT( pClan->settings, CLAN_PKILL ) ) {
     send_to_char( C_DEFAULT, "Clan switched to Pkill.\n\r", ch );
   } else {
     send_to_char( C_DEFAULT, "Clan switched to Peace.\n\r", ch );
@@ -6001,7 +6001,7 @@ bool forge_show( CHAR_DATA * ch, char * argument ) {
   if ( pObj->item_type == ITEM_WEAPON ) {
     max_dam = pObj->level / 2.5;
   } else {
-    max_dam = ( IS_SET( pObj->wear_flags, ITEM_WEAR_BODY ) )
+    max_dam = ( CHECK_BIT( pObj->wear_flags, ITEM_WEAR_BODY ) )
               ? pObj->level / 3 : pObj->level / 8;
   }
 
@@ -6094,7 +6094,7 @@ bool forge_addaffect( CHAR_DATA * ch, char * argument ) {
   if ( pObj->item_type == ITEM_WEAPON ) {
     max_dam = pObj->level / 2.5;
   } else {
-    max_dam = ( IS_SET( pObj->wear_flags, ITEM_WEAR_BODY ) )
+    max_dam = ( CHECK_BIT( pObj->wear_flags, ITEM_WEAR_BODY ) )
               ? pObj->level / 3 : pObj->level / 8;
   }
 

@@ -117,7 +117,7 @@ bool get_obj( CHAR_DATA * ch, OBJ_DATA * obj, OBJ_DATA * container, bool palming
     sprintf( buf, "You counted %s\n\r", money_string( &amount ) );
     send_to_char( AT_YELLOW, buf, ch );
 
-    if ( IS_SET( ch->act, PLR_AUTOSPLIT ) && ( amount.gold +
+    if ( CHECK_BIT( ch->act, PLR_AUTOSPLIT ) && ( amount.gold +
                                                amount.silver + amount.copper > 1 ) ) {
       if ( amount.gold > 1 ) {
         sprintf( buf, "%d gold", amount.gold );
@@ -321,7 +321,7 @@ void get( CHAR_DATA * ch, char * argument, bool palming ) {
       }
     }
 
-    if ( IS_SET( container->value[ 1 ], CONT_CLOSED ) ) {
+    if ( CHECK_BIT( container->value[ 1 ], CONT_CLOSED ) ) {
       act( AT_GREEN, "The $d is closed.", ch, NULL, container->name, TO_CHAR );
       return;
     }
@@ -415,7 +415,7 @@ void do_put( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( container->value[ 1 ], CONT_CLOSED ) ) {
+  if ( CHECK_BIT( container->value[ 1 ], CONT_CLOSED ) ) {
     act( AT_DGREEN, "The $d is closed.", ch, NULL, container->name, TO_CHAR );
     return;
   }
@@ -1060,13 +1060,13 @@ bool remove_obj( CHAR_DATA * ch, int iWear, bool fReplace ) {
     return FALSE;
   }
 
-  if ( IS_SET( obj->extra_flags, ITEM_NOREMOVE ) ) {
+  if ( CHECK_BIT( obj->extra_flags, ITEM_NOREMOVE ) ) {
     act( AT_RED, "You can't remove $p.", ch, obj, NULL, TO_CHAR );
     return FALSE;
   }
 
   if ( iWear == WEAR_ABOUT ) {
-    if ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) {
+    if ( CHECK_BIT( obj->wear_flags, ITEM_HOOD_ON ) ) {
       do_hood( ch, "" );
     }
   }
@@ -2197,7 +2197,7 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( victim->in_room->room_flags, ROOM_SAFE ) ) {
+  if ( CHECK_BIT( victim->in_room->room_flags, ROOM_SAFE ) ) {
     send_to_char( AT_BLOOD, "You cannot steal in a safe room.\n\r", ch );
     return;
   }
@@ -2225,7 +2225,7 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
         sprintf( buf, "$N tried to steal from %s.", victim->name );
         wiznet( buf, ch, NULL, WIZ_FLAGS, 0, 0 );
 
-        if ( !IS_SET( ch->act, PLR_THIEF ) ) {
+        if ( !CHECK_BIT( ch->act, PLR_THIEF ) ) {
           SET_BIT( ch->act, PLR_THIEF );
           send_to_char( AT_RED, "*** You are now a THIEF!! ***\n\r", ch );
           save_char_obj( ch );
@@ -2269,7 +2269,7 @@ void do_steal( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !can_drop_obj( ch, obj ) || IS_SET( obj->extra_flags, ITEM_INVENTORY ) || obj->level > ch->level ) {
+  if ( !can_drop_obj( ch, obj ) || CHECK_BIT( obj->extra_flags, ITEM_INVENTORY ) || obj->level > ch->level ) {
     send_to_char( AT_BLOOD, "You can't pry it away.\n\r", ch );
     return;
   }
@@ -2316,14 +2316,14 @@ CHAR_DATA * find_keeper( CHAR_DATA * ch ) {
   /*
    * Undesirables.
    */
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_KILLER ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_KILLER ) ) {
     do_say( keeper, "Killers are not welcome!" );
     sprintf( buf, "%s the KILLER is over here!\n\r", ch->name );
     do_yell( keeper, buf );
     return NULL;
   }
 
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_THIEF ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_THIEF ) ) {
     do_say( keeper, "Thieves are not welcome!" );
     sprintf( buf, "%s the THIEF is over here!\n\r", ch->name );
     do_yell( keeper, buf );
@@ -2424,7 +2424,7 @@ void do_buy( CHAR_DATA * ch, char * argument ) {
     noi = atoi( arg1 );
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_PET_SHOP ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_PET_SHOP ) ) {
     CHAR_DATA       * pet;
     ROOM_INDEX_DATA * pRoomIndexNext;
     ROOM_INDEX_DATA * in_room;
@@ -2452,12 +2452,12 @@ void do_buy( CHAR_DATA * ch, char * argument ) {
     pet         = get_char_room( ch, arg );
     ch->in_room = in_room;
 
-    if ( !pet || !IS_SET( pet->act, ACT_PET ) ) {
+    if ( !pet || !CHECK_BIT( pet->act, ACT_PET ) ) {
       send_to_char( AT_CYAN, "Sorry, you can't buy that here.\n\r", ch );
       return;
     }
 
-    if ( IS_SET( ch->act, PLR_BOUGHT_PET ) ) {
+    if ( CHECK_BIT( ch->act, PLR_BOUGHT_PET ) ) {
       send_to_char( AT_CYAN, "You already bought one pet this level.\n\r", ch );
       return;
     }
@@ -2562,7 +2562,7 @@ void do_buy( CHAR_DATA * ch, char * argument ) {
       cost->gold   += ( cost->gold   * 0.15 );
     }
 
-    if ( !IS_SET( obj->extra_flags, ITEM_INVENTORY ) && noi > 1 ) {
+    if ( !CHECK_BIT( obj->extra_flags, ITEM_INVENTORY ) && noi > 1 ) {
       send_to_char( AT_WHITE, "You can only buy one of those at a time.\n\r", ch );
       return;
     }
@@ -2623,7 +2623,7 @@ void do_buy( CHAR_DATA * ch, char * argument ) {
     add_money( &keeper->money, cost );
     spend_money( &ch->money, cost );
 
-    if ( IS_SET( obj->extra_flags, ITEM_INVENTORY ) ) {
+    if ( CHECK_BIT( obj->extra_flags, ITEM_INVENTORY ) ) {
       for ( in = 1; in <= noi; in++ ) {
         obj = create_object( obj->pIndexData, obj->level );
         obj_to_char( obj, ch );
@@ -2653,7 +2653,7 @@ void do_list( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_BLUE, "100000 gold coins.\n\r", ch );
     send_to_char( C_DEFAULT, "Remake <item>\n\r", ch );
     return;
-  } else if ( IS_SET( ch->in_room->room_flags, ROOM_PET_SHOP ) ) {
+  } else if ( CHECK_BIT( ch->in_room->room_flags, ROOM_PET_SHOP ) ) {
     CHAR_DATA       * pet;
     ROOM_INDEX_DATA * pRoomIndexNext;
     bool              found;
@@ -2669,7 +2669,7 @@ void do_list( CHAR_DATA * ch, char * argument ) {
     found = FALSE;
 
     for ( pet = pRoomIndexNext->people; pet; pet = pet->next_in_room ) {
-      if ( IS_SET( pet->act, ACT_PET ) ) {
+      if ( CHECK_BIT( pet->act, ACT_PET ) ) {
         if ( !found ) {
           found = TRUE;
           strcat( buf1, "Pets for sale:\n\r" );
@@ -2787,7 +2787,7 @@ void do_sell( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( obj->extra_flags, ITEM_POISONED ) ) {
+  if ( CHECK_BIT( obj->extra_flags, ITEM_POISONED ) ) {
     act( AT_CYAN, "$n tells you 'I won't buy that!  It's poisoned!'",
          keeper, NULL, ch, TO_VICT );
     ch->reply = keeper;
@@ -2901,7 +2901,7 @@ void do_value( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( obj->extra_flags, ITEM_POISONED ) ) {
+  if ( CHECK_BIT( obj->extra_flags, ITEM_POISONED ) ) {
     act( AT_CYAN, "$n tells you 'I won't buy that!  It's poisoned!'",
          keeper, NULL, ch, TO_VICT );
     ch->reply = keeper;
@@ -3222,7 +3222,7 @@ void do_deposit( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_SET( ch->in_room->room_flags, ROOM_BANK ) ) {
+  if ( !CHECK_BIT( ch->in_room->room_flags, ROOM_BANK ) ) {
     send_to_char( AT_WHITE, "You are not in a bank!\n\r", ch );
     return;
   }
@@ -3271,7 +3271,7 @@ void do_deposit( CHAR_DATA * ch, char * argument ) {
     }
 
     if ( !str_cmp( arg3, "clan" ) ) {
-      if ( ( IS_SET( ch->in_room->area->area_flags, AREA_CLAN_HQ ) ) &&
+      if ( ( CHECK_BIT( ch->in_room->area->area_flags, AREA_CLAN_HQ ) ) &&
            ( pClan != 0 ) ) {
         add_money( &pClan->bankaccount, &amount );
         clan_bank = TRUE;
@@ -3328,7 +3328,7 @@ void do_withdraw( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_SET( ch->in_room->room_flags, ROOM_BANK ) ) {
+  if ( !CHECK_BIT( ch->in_room->room_flags, ROOM_BANK ) ) {
     send_to_char( AT_WHITE, "You are not in a bank!\n\r", ch );
     return;
   }
@@ -3357,7 +3357,7 @@ void do_withdraw( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !str_cmp( arg3, "clan" ) ) {
-    if ( ( IS_SET( ch->in_room->area->area_flags, AREA_CLAN_HQ ) ) &&
+    if ( ( CHECK_BIT( ch->in_room->area->area_flags, AREA_CLAN_HQ ) ) &&
          ( pClan != 0 ) ) {
       if ( ( amount.gold   > pClan->bankaccount.gold ) ||
            ( amount.silver > pClan->bankaccount.silver ) ||
@@ -3436,7 +3436,7 @@ void do_repair( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_SET( ch->in_room->room_flags, ROOM_SMITHY ) ) {
+  if ( !CHECK_BIT( ch->in_room->room_flags, ROOM_SMITHY ) ) {
     send_to_char( AT_WHITE, "You are not within a smithy.\n\r", ch );
     return;
   }
@@ -3582,7 +3582,7 @@ void do_account( CHAR_DATA * ch, char * argument ) {
   if ( IS_NPC( ch ) ) {
     return;
   } else {
-    if ( !IS_SET( ch->in_room->room_flags, ROOM_BANK ) ) {
+    if ( !CHECK_BIT( ch->in_room->room_flags, ROOM_BANK ) ) {
       send_to_char( AT_WHITE, "You are not in a bank!\n\r", ch );
       return;
     }
@@ -3607,7 +3607,7 @@ void do_account( CHAR_DATA * ch, char * argument ) {
 
   clanacct = get_clan_index( ch->clan );
 
-  if ( ( IS_SET( ch->in_room->area->area_flags, AREA_CLAN_HQ ) )
+  if ( ( CHECK_BIT( ch->in_room->area->area_flags, AREA_CLAN_HQ ) )
        && ( clanacct != 0 ) ) {
     if ( ( clanacct->bankaccount.gold + clanacct->bankaccount.silver +
            clanacct->bankaccount.copper ) > 0 ) {
@@ -3728,12 +3728,12 @@ void do_store( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_SET( ch->in_room->room_flags, ROOM_BANK ) ) {
+  if ( !CHECK_BIT( ch->in_room->room_flags, ROOM_BANK ) ) {
     send_to_char( AT_WHITE, "You must be in a bank to store items.\n\r", ch );
     return;
   }
 
-  if ( IS_SET( ch->act, PLR_THIEF ) ) {
+  if ( CHECK_BIT( ch->act, PLR_THIEF ) ) {
     send_to_char( AT_WHITE, "This Bank refuses to transact with thieves!\n\r", ch );
     return;
   }
@@ -3785,7 +3785,7 @@ void do_retrieve( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_SET( ch->in_room->room_flags, ROOM_BANK ) ) {
+  if ( !CHECK_BIT( ch->in_room->room_flags, ROOM_BANK ) ) {
     send_to_char( AT_WHITE, "You must be in a bank to retrieve items.\n\r", ch );
     return;
   }
@@ -3795,7 +3795,7 @@ void do_retrieve( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, PLR_THIEF ) ) {
+  if ( CHECK_BIT( ch->act, PLR_THIEF ) ) {
     send_to_char( AT_WHITE, "This Bank refuses to transact with thieves!\n\r", ch );
     return;
   }
@@ -3851,7 +3851,7 @@ void do_patch( CHAR_DATA * ch, char * argument ) {
       }
 
       /* If the item is already patched skip it */
-      if ( IS_SET( obj->extra_flags, ITEM_PATCHED ) ) {
+      if ( CHECK_BIT( obj->extra_flags, ITEM_PATCHED ) ) {
         act( AT_WHITE, "You can't do anything more for $p.", ch, obj, NULL, TO_CHAR );
         continue;
       }
@@ -3882,7 +3882,7 @@ void do_patch( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( obj->extra_flags, ITEM_PATCHED ) ) {
+  if ( CHECK_BIT( obj->extra_flags, ITEM_PATCHED ) ) {
     send_to_char( C_DEFAULT, "You can't do much more for it.\n\r", ch );
     return;
   }
@@ -4423,7 +4423,7 @@ void do_hood( CHAR_DATA *ch, char *argument ) {
     return;
   }
 
-  if ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) {
+  if ( CHECK_BIT( obj->wear_flags, ITEM_HOOD_ON ) ) {
     REMOVE_BIT( obj->wear_flags, ITEM_HOOD_ON );
     act( AT_CYAN, "You lower the hood of $P.", ch, NULL, obj, TO_CHAR );
     act( AT_CYAN, "$n lowers the hood of $P.", ch, NULL, obj, TO_ROOM );

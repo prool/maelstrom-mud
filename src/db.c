@@ -1256,7 +1256,7 @@ void load_objects( FILE * fp ) {
      * Check here for the redundancy of invisible light sources - Kahn
      */
     if ( pObjIndex->item_type == ITEM_LIGHT
-         && IS_SET( pObjIndex->extra_flags, ITEM_INVIS ) ) {
+         && CHECK_BIT( pObjIndex->extra_flags, ITEM_INVIS ) ) {
       bug( "Vnum %d : light source with ITEM_INVIS set", vnum );
       REMOVE_BIT( pObjIndex->extra_flags, ITEM_INVIS );
     }
@@ -1471,7 +1471,7 @@ void load_resets( FILE * fp ) {
                || pReset->arg2 > 5
                || !pRoomIndex
                || !( pexit = pRoomIndex->exit[ pReset->arg2 ] )
-               || !IS_SET( pexit->rs_flags, EX_ISDOOR ) ) {
+               || !CHECK_BIT( pexit->rs_flags, EX_ISDOOR ) ) {
           bug( "Load_resets: 'D': exit %d not door.", pReset->arg2 );
           exit( 1 );
         }
@@ -2231,7 +2231,7 @@ void reset_room( ROOM_INDEX_DATA * pRoom ) {
     EXIT_DATA * pExit;
 
     if ( ( pExit = pRoom->exit[ iExit ] )
-         && !IS_SET( pExit->exit_info, EX_BASHED ) ) { /* Skip Bashed. */
+         && !CHECK_BIT( pExit->exit_info, EX_BASHED ) ) { /* Skip Bashed. */
       pExit->exit_info = pExit->rs_flags;
 
       if ( ( pExit->to_room != NULL )
@@ -2290,7 +2290,7 @@ void reset_room( ROOM_INDEX_DATA * pRoom ) {
           pRoomIndexPrev = get_room_index( pRoom->vnum - 1 );
 
           if ( pRoomIndexPrev
-               && IS_SET( pRoomIndexPrev->room_flags, ROOM_PET_SHOP ) ) {
+               && CHECK_BIT( pRoomIndexPrev->room_flags, ROOM_PET_SHOP ) ) {
             SET_BIT( pMob->act, ACT_PET );
           }
         }
@@ -2815,7 +2815,7 @@ void free_char( CHAR_DATA * ch ) {
   if ( !IS_NPC( ch ) && ch->in_room ) {
     for ( PeT = ch->in_room->people; PeT; PeT = PeT->next_in_room ) {
       if ( IS_NPC( PeT ) ) {
-        if ( IS_SET( PeT->act, ACT_PET ) && PeT->master == ch ) {
+        if ( CHECK_BIT( PeT->act, ACT_PET ) && PeT->master == ch ) {
           extract_char( PeT, TRUE );
           break;
         }
@@ -3470,7 +3470,7 @@ void do_areas( CHAR_DATA * ch, char * argument ) {
   strcat( buf1, buf );
 
   for ( pArea = area_first; pArea; pArea = pArea->next ) {
-    if ( !IS_SET( pArea->area_flags, AREA_PROTOTYPE ) && ( ilevel == 0 || ( pArea->llevel <= ilevel && pArea->ulevel >= ilevel ) ) ) {
+    if ( !CHECK_BIT( pArea->area_flags, AREA_PROTOTYPE ) && ( ilevel == 0 || ( pArea->llevel <= ilevel && pArea->ulevel >= ilevel ) ) ) {
       sprintf( buf, "&W[%3d - %3d] &G%-56.56s\n\r", pArea->llevel, pArea->ulevel, pArea->name );
       strcat( buf1, buf );
     }
@@ -3870,7 +3870,7 @@ void info( const char * str, int param1, int param2 ) {
   for ( d = descriptor_list; d; d = d->next ) {
     CHAR_DATA * ch = ( d->original ? d->original : d->character );
 
-    if ( d->connected == CON_PLAYING && !IS_SET( ch->deaf, CHANNEL_INFO ) ) {
+    if ( d->connected == CON_PLAYING && !CHECK_BIT( ch->deaf, CHANNEL_INFO ) ) {
       send_to_char( AT_BLUE, buf, d->character );
       send_to_char( C_DEFAULT, "\n\r", d->character );
     }
@@ -3915,6 +3915,7 @@ void bug( const char * str, int param ) {
   strcpy( buf, "[*****] BUG: " );
   sprintf( buf + strlen( buf ), str, param );
   log_string( buf );
+  wiznet(buf, NULL, NULL, WIZ_GENERAL, 0, 0);
 
   return;
 }

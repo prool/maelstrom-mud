@@ -87,7 +87,7 @@ char * format_obj_to_char( OBJ_DATA * obj, CHAR_DATA * ch, bool fShort ) {
     strcat( buf, "&G(Poisoned)&w " );
   }
 
-	if ( IS_SET( obj->wear_flags, ITEM_HOOD_ON) ) {
+	if ( CHECK_BIT( obj->wear_flags, ITEM_HOOD_ON) ) {
 		strcat( buf, "&C(Hood On)&X " );
   } else if ( (obj->item_type == ITEM_ARMOR) && (obj->value[1]) ) {
 		strcat( buf, "&C(Hooded)&X " );
@@ -149,7 +149,7 @@ void show_list_to_char( OBJ_DATA * list, CHAR_DATA * ch, bool fShort, bool fShow
       pstrShow = format_obj_to_char( obj, ch, fShort );
       fCombine = FALSE;
 
-      if ( IS_NPC( ch ) || IS_SET( ch->act, PLR_COMBINE ) ) {
+      if ( IS_NPC( ch ) || CHECK_BIT( ch->act, PLR_COMBINE ) ) {
         /*
          * Look for duplicates, case sensitive.
          * Matches tend to be near end so run loop backwords.
@@ -179,7 +179,7 @@ void show_list_to_char( OBJ_DATA * list, CHAR_DATA * ch, bool fShort, bool fShow
    * Output the formatted list.
    */
   for ( iShow = 0; iShow < nShow; iShow++ ) {
-    if ( IS_NPC( ch ) || IS_SET( ch->act, PLR_COMBINE ) ) {
+    if ( IS_NPC( ch ) || CHECK_BIT( ch->act, PLR_COMBINE ) ) {
       if ( prgnShow[ iShow ] != 1 ) {
         switch ( prgnType[ iShow ] ) {
           default:
@@ -261,7 +261,7 @@ void show_list_to_char( OBJ_DATA * list, CHAR_DATA * ch, bool fShort, bool fShow
   }
 
   if ( fShowNothing && nShow == 0 ) {
-    if ( IS_NPC( ch ) || IS_SET( ch->act, PLR_COMBINE ) ) {
+    if ( IS_NPC( ch ) || CHECK_BIT( ch->act, PLR_COMBINE ) ) {
       send_to_char( C_DEFAULT, "     ", ch );
     }
 
@@ -289,31 +289,31 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
   }
 
   if ( !IS_NPC( victim ) ) {
-    if ( IS_SET( victim->act, PLR_AFK ) ) {
+    if ( CHECK_BIT( victim->act, PLR_AFK ) ) {
       strcat( buf, "&Y<AFK>&P " );
     }
 
-    if ( IS_SET( victim->act, PLR_PKILLER ) ) {
+    if ( CHECK_BIT( victim->act, PLR_PKILLER ) ) {
       strcat( buf, "&W[&RPK&W]&P " );
     }
 
-    if ( IS_SET( victim->act, PLR_WIZINVIS ) ) {
+    if ( CHECK_BIT( victim->act, PLR_WIZINVIS ) ) {
       sprintf( buf2, "%s %d%s", "&w(Wizinvis", victim->wizinvis,
                ")&P " );
       strcat( buf, buf2 );
     }
 
-    if ( IS_SET( victim->act, PLR_CLOAKED ) ) {
+    if ( CHECK_BIT( victim->act, PLR_CLOAKED ) ) {
       sprintf( buf2, "%s %d%s", "&w(Cloaked", victim->cloaked,
                ")&P " );
       strcat( buf, buf2 );
     }
 
-    if ( IS_SET( victim->act, PLR_QUEST ) ) {
+    if ( CHECK_BIT( victim->act, PLR_QUEST ) ) {
       strcat( buf, "<QUESTING> " );
     }
 
-    if ( IS_SET( victim->act, PLR_QUESTOR ) ) {
+    if ( CHECK_BIT( victim->act, PLR_QUESTOR ) ) {
       strcat( buf, "<QUESTING> " );
     }
   }
@@ -331,7 +331,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
   }
 
   if ( IS_AFFECTED( victim, AFF_CHARM )
-       && ( !IS_SET( victim->act, UNDEAD_TYPE( victim ) ) ) ) {
+       && ( !CHECK_BIT( victim->act, UNDEAD_TYPE( victim ) ) ) ) {
     strcat( buf, "(Charmed) " );
   }
 
@@ -343,19 +343,19 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     strcat( buf, "(Translucent) " );
   }
 
-  if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_KILLER ) ) {
+  if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_KILLER ) ) {
     strcat( buf, "(KILLER) " );
   }
 
-  if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_OUTCAST ) ) {
+  if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_OUTCAST ) ) {
     strcat( buf, "(OUTCAST) " );
   }
 
-  if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_THIEF ) ) {
+  if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_THIEF ) ) {
     strcat( buf, "(THIEF) " );
   }
 
-  if ( IS_NPC( victim ) && IS_SET( victim->act, UNDEAD_TYPE( victim ) ) ) {
+  if ( IS_NPC( victim ) && CHECK_BIT( victim->act, UNDEAD_TYPE( victim ) ) ) {
     strcat( buf, "(Undead) " );
   }
 
@@ -381,7 +381,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     } else {
       OBJ_DATA *obj;
 
-      if ( (obj = get_eq_char( victim, WEAR_ABOUT)) && (IS_SET(obj->wear_flags, ITEM_HOOD_ON)) ) {
+      if ( (obj = get_eq_char( victim, WEAR_ABOUT)) && (CHECK_BIT(obj->wear_flags, ITEM_HOOD_ON)) ) {
         send_to_char( AT_LBLUE, buf, ch );
       } else if( IS_IMMORTAL ( victim ) ) {
         send_to_char( AT_YELLOW, buf, ch );
@@ -392,7 +392,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
   } else {
     OBJ_DATA *obj;
 
-    if ( ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
+    if ( ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( CHECK_BIT( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
       strcat( buf, "&C");
     } else if ( IS_IMMORTAL( victim ) ) {
       strcat( buf, "&Y");
@@ -406,7 +406,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
 
 
     if ( !IS_NPC( victim ) ) {
-      if ( !obj || (obj && !IS_SET( obj->wear_flags, ITEM_HOOD_ON )) ) {
+      if ( !obj || (obj && !CHECK_BIT( obj->wear_flags, ITEM_HOOD_ON )) ) {
         if ( victim->pcdata->lname ) {
           if ( victim->pcdata->lname[0] != '\0' ) {
             strcat( buf, " " );
@@ -462,7 +462,7 @@ void show_char_to_char_0( CHAR_DATA * victim, CHAR_DATA * ch ) {
     if( !IS_NPC ( victim ) ) {
       OBJ_DATA *obj;
 
-      if ( ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
+      if ( ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( CHECK_BIT( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
         send_to_char( AT_LBLUE, buf, ch );
       } else if( IS_IMMORTAL ( victim ) ) {
         send_to_char( AT_YELLOW, buf, ch );
@@ -542,7 +542,7 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) 
         case ITEM_CONTAINER:
         case ITEM_CORPSE_NPC:
         case ITEM_CORPSE_PC:
-          /*            if ( IS_SET( obj->value[1], CONT_CLOSED ) )
+          /*            if ( CHECK_BIT( obj->value[1], CONT_CLOSED ) )
                   {
                   send_to_char(AT_GREEN, "It is closed.\n\r", ch );
                   break;
@@ -563,7 +563,7 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) 
 
   if ( victim->description[ 0 ] != '\0' ) {
     // is the target wearing a cloak which is hooded?
-    if ( ( hood = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( hood->wear_flags, ITEM_HOOD_ON ) ) ) {
+    if ( ( hood = get_eq_char( victim, WEAR_ABOUT ) ) && ( CHECK_BIT( hood->wear_flags, ITEM_HOOD_ON ) ) ) {
       if ( IS_NPC( ch ) || !IS_IMMORTAL( ch ) || (IS_IMMORTAL( ch ) && (get_trust( ch ) < get_trust( victim ) ) ) ) {
         send_to_char(AT_GREY, "They are concealed by their hood.\n\r", ch);
       } else  {
@@ -574,7 +574,7 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) 
     }
   } else {
     // is the target wearing a cloak which is hooded?
-    if ( ( hood = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( hood->wear_flags, ITEM_HOOD_ON ) ) ) {
+    if ( ( hood = get_eq_char( victim, WEAR_ABOUT ) ) && ( CHECK_BIT( hood->wear_flags, ITEM_HOOD_ON ) ) ) {
       if ( IS_NPC( ch ) || !IS_IMMORTAL( ch ) || (IS_IMMORTAL( ch ) && (get_trust( ch ) < get_trust( victim ) ) ) ) {
         send_to_char(AT_GREY, "They are concealed by their hood.\n\r", ch);
       } else {
@@ -645,7 +645,7 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) 
 
   found = FALSE;
 
-  if ( !IS_IMMORTAL(ch) && ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( IS_SET( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
+  if ( !IS_IMMORTAL(ch) && ( obj = get_eq_char( victim, WEAR_ABOUT ) ) && ( CHECK_BIT( obj->wear_flags, ITEM_HOOD_ON ) ) ) {
     send_to_char(AT_GREY, "\n\r", ch );
     act(AT_WHITE, "$N is using:", ch, NULL, victim, TO_CHAR );
     send_to_char(AT_BLUE, where_name[WEAR_ABOUT], ch );
@@ -668,7 +668,7 @@ void show_char_to_char_1( CHAR_DATA * victim, CHAR_DATA * ch, char * argument ) 
   }
 
   if ( victim != ch && !IS_NPC( ch ) && ( number_percent() < ch->pcdata->learned[ gsn_peek ]  || ( ch->race == RACE_HALFLING ) ) ) {
-    if ( !IS_IMMORTAL(ch) && (obj = get_eq_char( victim, WEAR_ABOUT)) && (IS_SET(obj->wear_flags, ITEM_HOOD_ON)) ) {
+    if ( !IS_IMMORTAL(ch) && (obj = get_eq_char( victim, WEAR_ABOUT)) && (CHECK_BIT(obj->wear_flags, ITEM_HOOD_ON)) ) {
       send_to_char( AT_WHITE, "\n\rThe inventory is concealed.\n\r", ch );
     } if ( IS_IMMORTAL(victim) && !IS_IMMORTAL( ch ) ) {
       send_to_char( AT_WHITE, "\n\rYou cannot peek into an Immortal's inventory.\n\r", ch );
@@ -699,7 +699,7 @@ void show_char_to_char( CHAR_DATA * list, CHAR_DATA * ch ) {
     }
 
     if ( !IS_NPC( rch )
-         && IS_SET( rch->act, PLR_WIZINVIS )
+         && CHECK_BIT( rch->act, PLR_WIZINVIS )
          && get_trust( ch ) < rch->wizinvis ) {
       continue;
     }
@@ -739,7 +739,7 @@ void show_char_to_char( CHAR_DATA * list, CHAR_DATA * ch ) {
 }
 
 bool check_blind( CHAR_DATA * ch ) {
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_HOLYLIGHT ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_HOLYLIGHT ) ) {
     return TRUE;
   }
 
@@ -782,7 +782,7 @@ void do_look( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( !IS_NPC( ch ) && !IS_SET( ch->act, PLR_HOLYLIGHT ) && room_is_dark( ch->in_room ) && ( ch->race != RACE_ELF   ) && ( ch->race != RACE_DWARF ) ) {
+  if ( !IS_NPC( ch ) && !CHECK_BIT( ch->act, PLR_HOLYLIGHT ) && room_is_dark( ch->in_room ) && ( ch->race != RACE_ELF   ) && ( ch->race != RACE_DWARF ) ) {
     send_to_char( AT_DGREY, "It is pitch black ... \n\r", ch );
     show_char_to_char( ch->in_room->people, ch );
     return;
@@ -797,16 +797,16 @@ void do_look( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_WHITE, "\n\r", ch );
 
     /* This is where the exits thing used to be (Ne was here)
-       if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_AUTOEXIT ) )
+       if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_AUTOEXIT ) )
        do_exits( ch, "auto" );
      */
 
-    if ( arg1[ 0 ] == '\0' || ( !IS_NPC( ch ) && !IS_SET( ch->act, PLR_BRIEF ) ) ) {
+    if ( arg1[ 0 ] == '\0' || ( !IS_NPC( ch ) && !CHECK_BIT( ch->act, PLR_BRIEF ) ) ) {
       /* Thalador room color change */
       send_to_char( ch->in_room->area->def_color, ch->in_room->description, ch );
     }
 
-    if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_AUTOEXIT ) ) {
+    if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_AUTOEXIT ) ) {
       do_exits( ch, "auto" );
     }
 
@@ -880,7 +880,7 @@ void do_look( CHAR_DATA * ch, char * argument ) {
       case ITEM_CORPSE_NPC:
       case ITEM_CORPSE_PC:
 
-        if ( IS_SET( obj->value[ 1 ], CONT_CLOSED ) ) {
+        if ( CHECK_BIT( obj->value[ 1 ], CONT_CLOSED ) ) {
           send_to_char( AT_GREEN, "It is closed.\n\r", ch );
           break;
         }
@@ -901,7 +901,7 @@ void do_look( CHAR_DATA * ch, char * argument ) {
         send_to_char( AT_WHITE, portroom->name, ch );
         send_to_char( AT_WHITE, "\n\r", ch );
 
-        if ( arg1[ 0 ] == '\0' || ( !IS_NPC( ch ) && !IS_SET( ch->act, PLR_BRIEF ) ) ) {
+        if ( arg1[ 0 ] == '\0' || ( !IS_NPC( ch ) && !CHECK_BIT( ch->act, PLR_BRIEF ) ) ) {
           send_to_char( AT_CYAN, portroom->description, ch );
         }
 
@@ -1016,7 +1016,7 @@ void do_look( CHAR_DATA * ch, char * argument ) {
   if ( IS_AFFECTED( ch, AFF_SCRY ) ) {
     ROOM_INDEX_DATA * rid;
 
-    if ( IS_SET( ch->in_room->room_flags, ROOM_NO_MAGIC ) || IS_SET( pexit->to_room->room_flags, ROOM_NOSCRY ) ) {
+    if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_MAGIC ) || CHECK_BIT( pexit->to_room->room_flags, ROOM_NOSCRY ) ) {
       send_to_char( AT_BLUE, "You failed.\n\r", ch );
       return;
     }
@@ -1026,7 +1026,7 @@ void do_look( CHAR_DATA * ch, char * argument ) {
        send_to_char(AT_WHITE, "\n\r", ch );
 
        if ( arg1[0] == '\0'
-     || ( !IS_NPC( ch ) && !IS_SET( ch->act, PLR_BRIEF ) ) )
+     || ( !IS_NPC( ch ) && !CHECK_BIT( ch->act, PLR_BRIEF ) ) )
        send_to_char(AT_YELLOW, pexit->to_room->description, ch );
        do_scry_exits( ch, pexit->to_room );
        show_list_to_char( pexit->to_room->contents, ch, FALSE, FALSE );
@@ -1040,11 +1040,11 @@ void do_look( CHAR_DATA * ch, char * argument ) {
   }
 
   if (   pexit->keyword && pexit->keyword[ 0 ] != '\0' && pexit->keyword[ 0 ] != ' ' ) {
-    if ( IS_SET( pexit->exit_info, EX_BASHED ) ) {
+    if ( CHECK_BIT( pexit->exit_info, EX_BASHED ) ) {
       act( AT_GREY, "The $d has been bashed from its hinges.", ch, NULL, pexit->keyword, TO_CHAR );
-    } else if ( IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+    } else if ( CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       act( AT_GREY, "The $d is closed.", ch, NULL, pexit->keyword, TO_CHAR );
-    } else if ( IS_SET( pexit->exit_info, EX_ISDOOR ) ) {
+    } else if ( CHECK_BIT( pexit->exit_info, EX_ISDOOR ) ) {
       act( AT_GREY, "The $d is open.",   ch, NULL, pexit->keyword, TO_CHAR );
     }
   }
@@ -1159,7 +1159,7 @@ void do_scry_exits( CHAR_DATA * ch, ROOM_INDEX_DATA  * scryer ) {
   for ( door = 0; door < MAX_DIR; door++ ) {
     if ( ( pexit = scryer->exit[ door ] )
          && pexit->to_room
-         && !IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+         && !CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       found = TRUE;
 
       if ( fAuto ) {
@@ -1204,7 +1204,7 @@ void do_exits( CHAR_DATA * ch, char * argument ) {
       found = TRUE;
 
       if ( fAuto ) {
-        if ( !IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+        if ( !CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
           strcat( buf, "&W " );
           strcat( buf, direction_table[ door ].name );
         } else {
@@ -1217,7 +1217,7 @@ void do_exits( CHAR_DATA * ch, char * argument ) {
                  capitalize( direction_table[ door ].name ),
                  room_is_dark( pexit->to_room )
                  ?  "&zToo dark to tell"
-                 : ( IS_SET( pexit->exit_info, EX_CLOSED )
+                 : ( CHECK_BIT( pexit->exit_info, EX_CLOSED )
                      ? "&z[&wCLOSED&z]"
                      : pexit->to_room->name )
                  );
@@ -1361,15 +1361,15 @@ void do_score( CHAR_DATA * ch, char * argument ) {
   send_to_char( AT_WHITE, buf, ch );
   sprintf( buf,
            "Autoexit: %s.  Autoloot: %s.  Autosac: %s.  Autocoins: %s. Autosplit: %s.\n\r",
-           ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_AUTOEXIT ) ) ? "&Ryes&c"
+           ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_AUTOEXIT ) ) ? "&Ryes&c"
            : "&Bno&c",
-           ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_AUTOLOOT ) ) ? "&Ryes&c"
+           ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_AUTOLOOT ) ) ? "&Ryes&c"
            : "&Bno&c",
-           ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_AUTOSAC ) ) ? "&Ryes&c"
+           ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_AUTOSAC ) ) ? "&Ryes&c"
            : "&Bno&c",
-           ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_AUTOCOINS ) ) ? "&Ryes&c"
+           ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_AUTOCOINS ) ) ? "&Ryes&c"
            : "&Bno&c",
-           ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_AUTOSPLIT ) ) ? "&Ryes&c"
+           ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_AUTOSPLIT ) ) ? "&Ryes&c"
            : "&Bno&c" );
   send_to_char( AT_CYAN, buf, ch );
   sprintf( buf, "Wimpy set to %d hit points.\n\r", ch->wimpy );
@@ -1513,11 +1513,11 @@ void do_score( CHAR_DATA * ch, char * argument ) {
   if ( !IS_NPC( ch ) && IS_IMMORTAL( ch ) ) {
     sprintf( buf, "WizInvis level: %d   WizInvis is %s\n\r",
              ch->wizinvis,
-             IS_SET( ch->act, PLR_WIZINVIS ) ? "ON" : "OFF" );
+             CHECK_BIT( ch->act, PLR_WIZINVIS ) ? "ON" : "OFF" );
     send_to_char( AT_YELLOW, buf, ch );
     sprintf( buf, "Cloaked level: %d   Cloaked is %s\n\r",
              ch->cloaked,
-             IS_SET( ch->act, PLR_CLOAKED ) ? "ON" : "OFF" );
+             CHECK_BIT( ch->act, PLR_CLOAKED ) ? "ON" : "OFF" );
     send_to_char( AT_YELLOW, buf, ch );
   }
 
@@ -1956,32 +1956,32 @@ void do_who( CHAR_DATA * ch, char * argument ) {
 
       send_to_char( AT_WHITE, buf, ch );
 
-      if ( ( IS_SET( wch->act, PLR_SILENCE ) ) && ( ch->level >= L_DIR ) ) {
+      if ( ( CHECK_BIT( wch->act, PLR_SILENCE ) ) && ( ch->level >= L_DIR ) ) {
         send_to_char( AT_WHITE, "&z[&rSILENCED&z] ", ch );
       }
 
-      if ( IS_SET( wch->act, PLR_QUEST ) ) {
+      if ( CHECK_BIT( wch->act, PLR_QUEST ) ) {
         send_to_char( AT_RED, "<QUEST> ", ch );
       }
 
-      if ( IS_SET( wch->act, PLR_QUESTOR ) ) {
+      if ( CHECK_BIT( wch->act, PLR_QUESTOR ) ) {
         send_to_char( AT_BLUE, "&z(&YQ&z) ", ch );
       }
 
-      if ( IS_SET( wch->act, PLR_AFK ) ) {
+      if ( CHECK_BIT( wch->act, PLR_AFK ) ) {
         send_to_char( AT_YELLOW, "&z[&PA&z] ", ch );
       }
 
-      if ( IS_SET( wch->act, PLR_PKILLER ) ) {
+      if ( CHECK_BIT( wch->act, PLR_PKILLER ) ) {
         send_to_char( C_DEFAULT, "&z[&RPK&z] ", ch );
       }
 
-      if ( IS_SET( wch->act, PLR_WIZINVIS ) ) {
+      if ( CHECK_BIT( wch->act, PLR_WIZINVIS ) ) {
         sprintf( buf, "%s %d%s", "&w[&zWizin", wch->wizinvis, "&w] " );
         send_to_char( AT_WHITE, buf, ch );
       }
 
-      if ( IS_SET( wch->act, PLR_CLOAKED ) ) {
+      if ( CHECK_BIT( wch->act, PLR_CLOAKED ) ) {
         sprintf( buf, "%s %d%s", "&w[&zCloak", wch->cloaked, "&w] " );
         send_to_char( AT_WHITE, buf, ch );
       }
@@ -1994,11 +1994,11 @@ void do_who( CHAR_DATA * ch, char * argument ) {
         }
       }
 
-      if ( IS_SET( wch->act, PLR_THIEF ) ) {
+      if ( CHECK_BIT( wch->act, PLR_THIEF ) ) {
         send_to_char( AT_DGREY, "[&GT&z] ", ch );
       }
 
-      if ( IS_SET( wch->act2, PLR_REMORT ) ) {
+      if ( CHECK_BIT( wch->act2, PLR_REMORT ) ) {
         for ( remorts = 0; remorts < wch->incarnations; remorts++ ) {
           send_to_char( AT_RED, "*", ch );
         }
@@ -2016,7 +2016,7 @@ void do_who( CHAR_DATA * ch, char * argument ) {
       if ( wch->clan != 0 ) {
         pClan = get_clan_index( wch->clan );
 
-        if ( IS_SET( pClan->settings, CLAN_PKILL ) ) {
+        if ( CHECK_BIT( pClan->settings, CLAN_PKILL ) ) {
           switch ( wch->clev ) {
             default:
               sprintf( buf, "&R-<&W%s&R>-", pClan->name );
@@ -2539,7 +2539,7 @@ void do_practice( CHAR_DATA * ch, char * argument ) {
       continue;
     }
 
-    if ( IS_NPC( mob ) && IS_SET( mob->act, ACT_PRACTICE ) ) {
+    if ( IS_NPC( mob ) && CHECK_BIT( mob->act, ACT_PRACTICE ) ) {
       break;
     }
   }
@@ -2779,57 +2779,57 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
   one_argument( argument, arg );
 
   if ( arg[ 0 ] == '\0' ) {
-    if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_SILENCE ) ) {
+    if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_SILENCE ) ) {
       send_to_char( AT_PURPLE, "You are silenced.\n\r", ch );
       return;
     }
 
     send_to_char( AT_PURPLE, "Channels:", ch );
 
-    send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_AUCTION )
+    send_to_char( AT_PINK, !CHECK_BIT( ch->deaf, CHANNEL_AUCTION )
                   ? " +AUCTION"
                   : " -auction",
                   ch );
 
-    send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_CHAT )
+    send_to_char( AT_PINK, !CHECK_BIT( ch->deaf, CHANNEL_CHAT )
                   ? " +CHAT"
                   : " -chat",
                   ch );
 
-    send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_OOC )
+    send_to_char( AT_PINK, !CHECK_BIT( ch->deaf, CHANNEL_OOC )
                   ? " +OOC"
                   : " -ooc",
                   ch );
 
-    send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_CLASS )
+    send_to_char( AT_PINK, !CHECK_BIT( ch->deaf, CHANNEL_CLASS )
                   ? " +CLASS"
                   : " -class",
                   ch );
 
-    send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_CLAN )
+    send_to_char( AT_PINK, !CHECK_BIT( ch->deaf, CHANNEL_CLAN )
                   ? " +CLAN"
                   : " -clan",
                   ch );
 
     if ( IS_HERO( ch ) ) { /* XOR */
-      send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_HERO )
+      send_to_char( AT_PINK, !CHECK_BIT( ch->deaf, CHANNEL_HERO )
                     ? " +HERO"
                     : " -hero", ch );
     }
 
     if ( IS_IMMORTAL( ch ) ) {
-      send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_IMMTALK )
+      send_to_char( AT_PINK, !CHECK_BIT( ch->deaf, CHANNEL_IMMTALK )
                     ? " +IMMTALK"
                     : " -immtalk",
                     ch );
     }
 
-    send_to_char( AT_PINK, !IS_SET( ch->deaf, CHANNEL_YELL )
+    send_to_char( AT_PINK, !CHECK_BIT( ch->deaf, CHANNEL_YELL )
                   ? " +YELL"
                   : " -yell",
                   ch );
 
-    send_to_char( AT_LBLUE, !IS_SET( ch->deaf, CHANNEL_INFO )
+    send_to_char( AT_LBLUE, !CHECK_BIT( ch->deaf, CHANNEL_INFO )
                   ? " +INFO" : " -info", ch );
 
     send_to_char( AT_PINK, ".\n\r", ch );
@@ -2899,82 +2899,82 @@ void do_config( CHAR_DATA * ch, char * argument ) {
   if ( arg[ 0 ] == '\0' ) {
     send_to_char( AT_BLOOD, "&w[&Y Keyword   &w]&W Option\n\r", ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_AUTOEXIT )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_AUTOEXIT )
                   ? "&w[&Y+AUTOEXIT  &w]&W You automatically see exits.\n\r"
                   : "&w[&Y-autoexit  &w]&W You don't automatically see exits.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_AUTOCOINS )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_AUTOCOINS )
                   ? "&w[&Y+AUTOCOINS &w]&W You automatically get coins from corpses.\n\r"
                   : "&w[&Y-autocoins &w]&W You don't automatically get coins from corpses.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_AUTOSPLIT )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_AUTOSPLIT )
                   ? "&w[&Y+AUTOSPLIT &w]&W You automatically split coins with group members.\n\r"
                   : "&w[&Y-autosplit &w]&W You don't automatically split coins with group members.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_AUTOLOOT )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_AUTOLOOT )
                   ? "&w[&Y+AUTOLOOT  &w]&W You automatically loot corpses.\n\r"
                   : "&w[&Y-autoloot  &w]&W You don't automatically loot corpses.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_AUTOSAC )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_AUTOSAC )
                   ? "&w[&Y+AUTOSAC   &w]&W You automatically sacrifice corpses.\n\r"
                   : "&w[&Y-autosac   &w]&W You don't automatically sacrifice corpses.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_ANSI )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_ANSI )
                   ? "&w[&Y+ANSI      &w]&W You have ansi color enabled.\n\r"
                   : "&w[&Y-ansi      &w]&W You have ansi color disabled.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_BLANK )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_BLANK )
                   ? "&w[&Y+BLANK     &w]&W You have a blank line before your prompt.\n\r"
                   : "&w[&Y-blank     &w]&W You have no blank line before your prompt.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_BRIEF )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_BRIEF )
                   ? "&w[&Y+BRIEF     &w]&W You see brief descriptions.\n\r"
                   : "&w[&Y-brief     &w]&W You see long descriptions.\n\r"
                   , ch );
 
-    send_to_char( AT_RED, IS_SET( ch->act, PLR_FULLNAME )
+    send_to_char( AT_RED, CHECK_BIT( ch->act, PLR_FULLNAME )
                   ? "&w[&Y+FULLNAME  &w]&W You have name completion off.\n\r"
                   : "&w[&Y-fullname  &w]&W You are using name completion.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_COMBINE )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_COMBINE )
                   ? "&w[&Y+COMBINE   &w]&W You see object lists in combined format.\n\r"
                   : "&w[&Y-combine   &w]&W You see object lists in single format.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_PROMPT )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_PROMPT )
                   ? "&w[&Y+PROMPT    &w]&W You have a prompt.\n\r"
                   : "&w[&Y-prompt    &w]&W You don't have a prompt.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_TELNET_GA )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_TELNET_GA )
                   ? "&w[&Y+TELNETGA  &w]&W You receive a telnet GA sequence.\n\r"
                   : "&w[&Y-telnetga  &w]&W You don't receive a telnet GA sequence.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_COMBAT )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_COMBAT )
                   ? "&w[&Y+COMBAT    &w]&W You see all combat scroll.\n\r"
                   : "&w[&Y-combat    &w]&W You do not see dodge/parry/miss in combat.\n\r"
                   , ch );
 
-    send_to_char( AT_RED,  IS_SET( ch->act, PLR_SILENCE )
+    send_to_char( AT_RED,  CHECK_BIT( ch->act, PLR_SILENCE )
                   ? "&w[&Y+SILENCE   &w]&W You are silenced.\n\r"
                   : ""
                   , ch );
 
-    send_to_char( AT_RED, !IS_SET( ch->act, PLR_NO_EMOTE )
+    send_to_char( AT_RED, !CHECK_BIT( ch->act, PLR_NO_EMOTE )
                   ? ""
                   : "&w[&Y-emote    &w]&W You can't emote.\n\r"
                   , ch );
 
-    send_to_char( AT_RED, !IS_SET( ch->act, PLR_NO_TELL )
+    send_to_char( AT_RED, !CHECK_BIT( ch->act, PLR_NO_TELL )
                   ? ""
                   : "&w[&Y-tell     &w]&W You can't use 'tell'.\n\r"
                   , ch );
@@ -3206,7 +3206,7 @@ void do_slist( CHAR_DATA * ch, char * argument ) {
 void do_autoexit( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_AUTOEXIT )
+  ( CHECK_BIT( ch->act, PLR_AUTOEXIT )
     ? sprintf( buf, "-autoexit" )
     : sprintf( buf, "+autoexit" ) );
 
@@ -3219,7 +3219,7 @@ void do_autoexit( CHAR_DATA * ch, char * argument ) {
 void do_autoloot( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_AUTOLOOT )
+  ( CHECK_BIT( ch->act, PLR_AUTOLOOT )
     ? sprintf( buf, "-autoloot" )
     : sprintf( buf, "+autoloot" ) );
 
@@ -3231,7 +3231,7 @@ void do_autoloot( CHAR_DATA * ch, char * argument ) {
 void do_autosac( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_AUTOSAC )
+  ( CHECK_BIT( ch->act, PLR_AUTOSAC )
     ? sprintf( buf, "-autosac" )
     : sprintf( buf, "+autosac" ) );
 
@@ -3244,7 +3244,7 @@ void do_autosac( CHAR_DATA * ch, char * argument ) {
 void do_blank( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_BLANK )
+  ( CHECK_BIT( ch->act, PLR_BLANK )
     ? sprintf( buf, "-blank" )
     : sprintf( buf, "+blank" ) );
 
@@ -3257,7 +3257,7 @@ void do_blank( CHAR_DATA * ch, char * argument ) {
 void do_brief( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_BRIEF )
+  ( CHECK_BIT( ch->act, PLR_BRIEF )
     ? sprintf( buf, "-brief" )
     : sprintf( buf, "+brief" ) );
 
@@ -3270,7 +3270,7 @@ void do_brief( CHAR_DATA * ch, char * argument ) {
 void do_combine( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_COMBINE )
+  ( CHECK_BIT( ch->act, PLR_COMBINE )
     ? sprintf( buf, "-combine" )
     : sprintf( buf, "+combine" ) );
 
@@ -3283,7 +3283,7 @@ void do_combine( CHAR_DATA * ch, char * argument ) {
 void do_autosplit( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_AUTOSPLIT )
+  ( CHECK_BIT( ch->act, PLR_AUTOSPLIT )
     ? sprintf( buf, "-autosplit" )
     : sprintf( buf, "+autosplit" ) );
 
@@ -3296,7 +3296,7 @@ void do_autosplit( CHAR_DATA * ch, char * argument ) {
 void do_ansi( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_ANSI )
+  ( CHECK_BIT( ch->act, PLR_ANSI )
     ? sprintf( buf, "-ansi" )
     : sprintf( buf, "+ansi" ) );
 
@@ -3309,7 +3309,7 @@ void do_ansi( CHAR_DATA * ch, char * argument ) {
 void do_fullname( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_FULLNAME )
+  ( CHECK_BIT( ch->act, PLR_FULLNAME )
     ? sprintf( buf, "-fullname" )
     : sprintf( buf, "+fullname" ) );
 
@@ -3322,7 +3322,7 @@ void do_fullname( CHAR_DATA * ch, char * argument ) {
 void do_combat( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_COMBAT )
+  ( CHECK_BIT( ch->act, PLR_COMBAT )
     ? sprintf( buf, "-combat" )
     : sprintf( buf, "+combat" ) );
 
@@ -3335,7 +3335,7 @@ void do_combat( CHAR_DATA * ch, char * argument ) {
 void do_telnetga( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
-  ( IS_SET( ch->act, PLR_TELNET_GA )
+  ( CHECK_BIT( ch->act, PLR_TELNET_GA )
     ? sprintf( buf, "-telnetga" )
     : sprintf( buf, "+telnetga" ) );
 
@@ -3383,7 +3383,7 @@ void do_prompt( CHAR_DATA * ch, char * argument ) {
   ch       = ( ch->desc->original ? ch->desc->original : ch->desc->character );
 
   if ( argument[ 0 ] == '\0' ) {
-    sprintf( buf, "%sprompt", IS_SET( ch->act, PLR_PROMPT ) ? "-" : "+" );
+    sprintf( buf, "%sprompt", CHECK_BIT( ch->act, PLR_PROMPT ) ? "-" : "+" );
 
     do_config( ch, buf );
 
@@ -3441,10 +3441,10 @@ void do_induct( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( ( ( ch->clev == 1 ) && ( !IS_SET( pClan->settings, CLAN_SECOND_INDUCT ) ) )
-       || ( ( ch->clev == 2 ) && ( !IS_SET( pClan->settings, CLAN_FIRST_INDUCT ) ) )
-       || ( ( ch->clev == 3 ) && ( !IS_SET( pClan->settings, CLAN_LEADER_INDUCT ) ) )
-       || ( ( ch->clev == 4 ) && ( !IS_SET( pClan->settings, CLAN_CHAMP_INDUCT ) ) )
+  if ( ( ( ch->clev == 1 ) && ( !CHECK_BIT( pClan->settings, CLAN_SECOND_INDUCT ) ) )
+       || ( ( ch->clev == 2 ) && ( !CHECK_BIT( pClan->settings, CLAN_FIRST_INDUCT ) ) )
+       || ( ( ch->clev == 3 ) && ( !CHECK_BIT( pClan->settings, CLAN_LEADER_INDUCT ) ) )
+       || ( ( ch->clev == 4 ) && ( !CHECK_BIT( pClan->settings, CLAN_CHAMP_INDUCT ) ) )
         ) {
     send_to_char( AT_WHITE, "You can't induct in your current clan position.", ch );
     return;
@@ -3459,7 +3459,7 @@ void do_induct( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( victim->act, PLR_OUTCAST ) ) {
+  if ( CHECK_BIT( victim->act, PLR_OUTCAST ) ) {
     send_to_char( AT_WHITE, "That person is an outcast.\n\r", ch );
     return;
   }
@@ -3819,31 +3819,31 @@ void do_cinfo( CHAR_DATA * ch, char * argument ) {
   send_to_char( AT_WHITE, buf, ch );
   sprintf( buf, "&cChampion&w:    &z[&W%12s&z]&c%s&R%s\n\r",
            pClan->champ,
-           IS_SET( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "",
+           CHECK_BIT( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "",
            pClan->ischamp ? "" : " Position open." );
   send_to_char( AT_WHITE, buf, ch );
   sprintf( buf, "&cLeader&w:      &z[&W%12s&z]&c%s&R%s\n\r",
            pClan->leader,
-           IS_SET( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "",
+           CHECK_BIT( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "",
            pClan->isleader ? "" : " Position open." );
   send_to_char( AT_WHITE, buf, ch );
   sprintf( buf, "&cCouncil&w:     &z[&W%12s&z]&c%s&R%s\n\r",
            pClan->first,
-           IS_SET( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "",
+           CHECK_BIT( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "",
            pClan->isfirst ? "" : " Position open." );
   send_to_char( AT_WHITE, buf, ch );
   sprintf( buf, "&cCenturion&w:   &z[&W%12s&z]&c%s&R%s\n\r",
            pClan->second,
-           IS_SET( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "",
+           CHECK_BIT( pClan->settings, CLAN_LEADER_INDUCT ) ? " Can induct." : "",
            pClan->issecond ? "" : " Position open." );
   send_to_char( AT_WHITE, buf, ch );
   sprintf( buf, "&cMembers&w:     &z[&R%12d&z]\n\r", pClan->members );
   send_to_char( AT_WHITE, buf, ch );
   sprintf( buf, "&cCivil Pkill&w: &z[%12s&z]\n\r",
-           IS_SET( pClan->settings, CLAN_CIVIL_PKILL ) ? "&rYES" : "&CNO" );
+           CHECK_BIT( pClan->settings, CLAN_CIVIL_PKILL ) ? "&rYES" : "&CNO" );
   send_to_char( AT_WHITE, buf, ch );
 
-  if ( IS_SET( pClan->settings, CLAN_PKILL ) ) {
+  if ( CHECK_BIT( pClan->settings, CLAN_PKILL ) ) {
     sprintf( buf, "&cPkill&w:       &z[         &rYES&z]\n\r" );
     send_to_char( AT_RED, buf, ch );
     sprintf( buf, "&cPkills&w:      &z[&R%12d&z]\n\r", pClan->pkills );
@@ -3934,12 +3934,12 @@ void do_autocoins( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, PLR_AUTOCOINS ) ) {
+  if ( CHECK_BIT( ch->act, PLR_AUTOCOINS ) ) {
     do_config( ch, "-autocoins" );
     return;
   }
 
-  if ( !IS_SET( ch->act, PLR_AUTOCOINS ) ) {
+  if ( !CHECK_BIT( ch->act, PLR_AUTOCOINS ) ) {
     do_config( ch, "+autocoins" );
     return;
   }

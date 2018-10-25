@@ -114,7 +114,7 @@ void save_char_obj( CHAR_DATA * ch ) {
 
     for ( pet = ch->in_room->people; pet; pet = pet->next_in_room ) {
       if ( IS_NPC( pet ) ) {
-        if ( IS_SET( pet->act, ACT_PET ) && ( pet->master == ch ) ) {
+        if ( CHECK_BIT( pet->act, ACT_PET ) && ( pet->master == ch ) ) {
           save_pet( ch, fp, pet );
           break;
         }
@@ -1542,7 +1542,7 @@ void fwrite_finger( CHAR_DATA * ch, FILE * fp ) {
   fprintf( fp, "&CRace: &W%s\n", race_table[ ch->race ].race_name );
 
   if ( is_class( ch, CLASS_ROGUE ) ) {
-    fprintf( fp, "&CThief: &W%s\n", ( IS_SET( ch->act, PLR_THIEF ) ) ? "Yes" : "No" );
+    fprintf( fp, "&CThief: &W%s\n", ( CHECK_BIT( ch->act, PLR_THIEF ) ) ? "Yes" : "No" );
   }
 
   // fprintf( fp, "Mobs Killed: %-10d", ch->pcdata->kills	);

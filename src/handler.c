@@ -197,7 +197,7 @@ int can_carry_n( CHAR_DATA * ch ) {
     return 1000;
   }
 
-  if ( IS_NPC( ch ) && IS_SET( ch->act, ACT_PET ) ) {
+  if ( IS_NPC( ch ) && CHECK_BIT( ch->act, ACT_PET ) ) {
     return 0;
   }
 
@@ -216,7 +216,7 @@ int can_carry_w( CHAR_DATA * ch ) {
     return 1000000;
   }
 
-  if ( IS_NPC( ch ) && IS_SET( ch->act, ACT_PET ) ) {
+  if ( IS_NPC( ch ) && CHECK_BIT( ch->act, ACT_PET ) ) {
     return 0;
   }
 
@@ -287,7 +287,7 @@ bool is_name( CHAR_DATA * ch, char * str, char * namelist ) {
 
   if ( !ch ) {
     cfun = &str_cmp;
-  } else if ( !IS_NPC( ch ) && !IS_SET( ch->act, PLR_FULLNAME ) ) {
+  } else if ( !IS_NPC( ch ) && !CHECK_BIT( ch->act, PLR_FULLNAME ) ) {
     cfun = &str_prefix;
   } else {
     cfun = &str_cmp_ast;
@@ -1182,7 +1182,7 @@ void unequip_char( CHAR_DATA * ch, OBJ_DATA * obj ) {
     --ch->in_room->light;
   }
 
-  if (IS_SET(obj->wear_flags, ITEM_HOOD_ON)) {
+  if (CHECK_BIT(obj->wear_flags, ITEM_HOOD_ON)) {
     REMOVE_BIT(obj->wear_flags, ITEM_HOOD_ON);
   }
 
@@ -1494,7 +1494,7 @@ CHAR_DATA * get_char_room( CHAR_DATA * ch, char * argument ) {
       continue;
     }
 
-    if ( (obj=get_eq_char(rch, WEAR_ABOUT)) && (IS_SET( obj->wear_flags, ITEM_HOOD_ON )) ) {
+    if ( (obj=get_eq_char(rch, WEAR_ABOUT)) && (CHECK_BIT( obj->wear_flags, ITEM_HOOD_ON )) ) {
       if ( IS_NPC(ch) || (IS_IMMORTAL(ch) && (get_trust(ch) >= get_trust(rch) )) ) {
         strcpy( buf, rch->name );
       }
@@ -1832,7 +1832,7 @@ bool room_is_dark( ROOM_INDEX_DATA * pRoomIndex ) {
     }
   }
 
-  if ( IS_SET( pRoomIndex->room_flags, ROOM_DARK ) ) {
+  if ( CHECK_BIT( pRoomIndex->room_flags, ROOM_DARK ) ) {
     return TRUE;
   }
 
@@ -1866,11 +1866,11 @@ bool room_is_private( ROOM_INDEX_DATA * pRoomIndex ) {
     count++;
   }
 
-  if ( IS_SET( pRoomIndex->room_flags, ROOM_PRIVATE ) && count >= 2 ) {
+  if ( CHECK_BIT( pRoomIndex->room_flags, ROOM_PRIVATE ) && count >= 2 ) {
     return TRUE;
   }
 
-  if ( IS_SET( pRoomIndex->room_flags, ROOM_SOLITARY ) && count >= 1 ) {
+  if ( CHECK_BIT( pRoomIndex->room_flags, ROOM_SOLITARY ) && count >= 1 ) {
     return TRUE;
   }
 
@@ -1889,15 +1889,15 @@ bool can_see( CHAR_DATA * ch, CHAR_DATA * victim ) {
     return TRUE;
   }
 
-  if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_WIZINVIS ) && get_trust( ch ) < victim->wizinvis ) {
+  if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_WIZINVIS ) && get_trust( ch ) < victim->wizinvis ) {
     return FALSE;
   }
 
-  if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_CLOAKED ) && get_trust( ch ) < victim->cloaked && ( ch->in_room->vnum != victim->in_room->vnum ) ) {
+  if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_CLOAKED ) && get_trust( ch ) < victim->cloaked && ( ch->in_room->vnum != victim->in_room->vnum ) ) {
     return FALSE;
   }
 
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_HOLYLIGHT ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_HOLYLIGHT ) ) {
     return TRUE;
   }
 
@@ -1932,7 +1932,7 @@ bool can_see_obj( CHAR_DATA * ch, OBJ_DATA * obj ) {
     return FALSE;
   }
 
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_HOLYLIGHT ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_HOLYLIGHT ) ) {
     return TRUE;
   }
 
@@ -1957,7 +1957,7 @@ bool can_see_obj( CHAR_DATA * ch, OBJ_DATA * obj ) {
     return FALSE;
   }
 
-  if ( IS_SET( obj->extra_flags, ITEM_INVIS )
+  if ( CHECK_BIT( obj->extra_flags, ITEM_INVIS )
        && !IS_AFFECTED2( ch, AFF_TRUESIGHT ) ) {
     return FALSE;
   }
@@ -1969,7 +1969,7 @@ bool can_see_obj( CHAR_DATA * ch, OBJ_DATA * obj ) {
  * True if char can drop obj.
  */
 bool can_drop_obj( CHAR_DATA * ch, OBJ_DATA * obj ) {
-  if ( !IS_SET( obj->extra_flags, ITEM_NODROP ) ) {
+  if ( !CHECK_BIT( obj->extra_flags, ITEM_NODROP ) ) {
     return TRUE;
   }
 
@@ -2597,19 +2597,19 @@ int check_immune( CHAR_DATA * ch, int dam_type ) {
   }
 
   if ( dam_type <= 3 ) {
-    if ( IS_SET( ch->imm_flags, IMM_WEAPON ) ) {
+    if ( CHECK_BIT( ch->imm_flags, IMM_WEAPON ) ) {
       def = IS_IMMUNE;
-    } else if ( IS_SET( ch->res_flags, RES_WEAPON ) ) {
+    } else if ( CHECK_BIT( ch->res_flags, RES_WEAPON ) ) {
       def = IS_RESISTANT;
-    } else if ( IS_SET( ch->vul_flags, VULN_WEAPON ) ) {
+    } else if ( CHECK_BIT( ch->vul_flags, VULN_WEAPON ) ) {
       def = IS_VULNERABLE;
     }
   } else {   /* magical attack */
-    if ( IS_SET( ch->imm_flags, IMM_MAGIC ) ) {
+    if ( CHECK_BIT( ch->imm_flags, IMM_MAGIC ) ) {
       def = IS_IMMUNE;
-    } else if ( IS_SET( ch->res_flags, RES_MAGIC ) ) {
+    } else if ( CHECK_BIT( ch->res_flags, RES_MAGIC ) ) {
       def = IS_RESISTANT;
-    } else if ( IS_SET( ch->vul_flags, VULN_MAGIC ) ) {
+    } else if ( CHECK_BIT( ch->vul_flags, VULN_MAGIC ) ) {
       def = IS_VULNERABLE;
     }
   }
@@ -2671,11 +2671,11 @@ int check_immune( CHAR_DATA * ch, int dam_type ) {
       return def;
   }
 
-  if ( IS_SET( ch->imm_flags, bit ) ) {
+  if ( CHECK_BIT( ch->imm_flags, bit ) ) {
     immune = IS_IMMUNE;
-  } else if ( IS_SET( ch->res_flags, bit ) && immune != IS_IMMUNE ) {
+  } else if ( CHECK_BIT( ch->res_flags, bit ) && immune != IS_IMMUNE ) {
     immune = IS_RESISTANT;
-  } else if ( IS_SET( ch->vul_flags, bit ) ) {
+  } else if ( CHECK_BIT( ch->vul_flags, bit ) ) {
     if ( immune == IS_IMMUNE ) {
       immune = IS_RESISTANT;
     } else if ( immune == IS_RESISTANT ) {
@@ -2806,7 +2806,7 @@ int xp_tolvl( CHAR_DATA * ch ) {
     xp_tolvl = classes == 1 ? level * 1000 : level * classes * 1500;  /* used to be 2000 - Angi */
   }
 
-  if ( IS_SET( ch->act2, PLR_REMORT ) ) {
+  if ( CHECK_BIT( ch->act2, PLR_REMORT ) ) {
     xp_tolvl = classes == 1 ? level * mod * 1000 : level * classes * mod * 1500;
   }
 
@@ -3032,7 +3032,7 @@ char * visible_name( CHAR_DATA * ch, CHAR_DATA * looker, bool show_hooded ) {
   static char   buf[MAX_STRING_LENGTH];
 
   if ( can_see( looker, ch ) ) {
-    if ( (obj = get_eq_char( ch, WEAR_ABOUT )) && (IS_SET(obj->wear_flags, ITEM_HOOD_ON )) && !show_hooded ) {
+    if ( (obj = get_eq_char( ch, WEAR_ABOUT )) && (CHECK_BIT(obj->wear_flags, ITEM_HOOD_ON )) && !show_hooded ) {
       if ( IS_NPC( looker ) || !IS_IMMORTAL( looker ) || ( IS_IMMORTAL(looker ) && ( get_trust( looker ) < get_trust( ch ) ) ) ) {
         sprintf( buf, "A figure concealed in %s&X", obj->short_descr );
       } else {
@@ -3045,7 +3045,7 @@ char * visible_name( CHAR_DATA * ch, CHAR_DATA * looker, bool show_hooded ) {
     }
 
     return ch->name;
-  } else if ( IS_IMMORTAL( ch ) && ( IS_SET( ch->act, PLR_WIZINVIS) || IS_SET( ch->act, PLR_CLOAKED ) ) ) {
+  } else if ( IS_IMMORTAL( ch ) && ( CHECK_BIT( ch->act, PLR_WIZINVIS) || CHECK_BIT( ch->act, PLR_CLOAKED ) ) ) {
     return "A Divine Being";
   }
 

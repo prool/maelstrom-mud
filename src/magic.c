@@ -314,7 +314,7 @@ void do_acspell( CHAR_DATA * ch, OBJ_DATA * pObj, char * argument ) {
   one_argument( target_name, arg2 );
 
   if ( IS_NPC( ch ) ) {
-    if ( IS_SET( ch->affected_by, AFF_CHARM ) ) {
+    if ( CHECK_BIT( ch->affected_by, AFF_CHARM ) ) {
       return;
     }
   }
@@ -349,7 +349,7 @@ void do_acspell( CHAR_DATA * ch, OBJ_DATA * pObj, char * argument ) {
 
     case TAR_CHAR_OFFENSIVE:
 
-      if ( IS_SET( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) {
+      if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) {
         send_to_char( AT_BLUE, "You failed.\n\r", ch );
         return;
       }
@@ -431,7 +431,7 @@ void do_acspell( CHAR_DATA * ch, OBJ_DATA * pObj, char * argument ) {
 
   WAIT_STATE( ch, skill_table[ sn ].beats );
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_NO_MAGIC ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_MAGIC ) ) {
     send_to_char( AT_BLUE, "You failed.\n\r", ch );
     return;
   }
@@ -503,7 +503,7 @@ void do_cast( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( IS_NPC( ch ) ) {
-    if ( IS_SET( ch->affected_by, AFF_CHARM ) ) {
+    if ( CHECK_BIT( ch->affected_by, AFF_CHARM ) ) {
       return;
     }
   }
@@ -574,7 +574,7 @@ void do_cast( CHAR_DATA * ch, char * argument ) {
 
     case TAR_CHAR_OFFENSIVE:
 
-      if ( IS_SET( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) {
+      if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) {
         send_to_char( AT_BLUE, "You failed.\n\r", ch );
         return;
       }
@@ -656,12 +656,12 @@ void do_cast( CHAR_DATA * ch, char * argument ) {
 
   say_spell( ch, sn );
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_NO_MAGIC ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_MAGIC ) ) {
     send_to_char( AT_BLUE, "You failed.\n\r", ch );
     return;
   }
 
-  if ( ( IS_SET( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) && ( skill_table[ sn ].target == TAR_CHAR_OFFENSIVE ) ) {
+  if ( ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) && ( skill_table[ sn ].target == TAR_CHAR_OFFENSIVE ) ) {
     send_to_char( AT_BLUE, "You failed.\n\r", ch );
     return;
   }
@@ -732,7 +732,7 @@ void obj_cast_spell( int sn, int level, CHAR_DATA * ch, CHAR_DATA * victim, OBJ_
     return;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_NO_MAGIC ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_MAGIC ) ) {
     send_to_char( AT_BLUE, "The magic of the item fizzles.\n\r", ch );
     return;
   }
@@ -757,7 +757,7 @@ void obj_cast_spell( int sn, int level, CHAR_DATA * ch, CHAR_DATA * victim, OBJ_
 
     case TAR_CHAR_OFFENSIVE:
 
-      if ( IS_SET( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) {
+      if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_OFFENSIVE ) ) {
         send_to_char( AT_BLUE, "The magic of the item fizzles.\n\r", ch );
         return;
       }
@@ -1158,7 +1158,7 @@ void spell_locate_object( int sn, int level, CHAR_DATA * ch, void * vo ) {
       continue;
     }
 
-    if ( IS_SET( obj->extra_flags, ITEM_NO_LOCATE ) && ( get_trust( ch ) < L_APP ) ) {
+    if ( CHECK_BIT( obj->extra_flags, ITEM_NO_LOCATE ) && ( get_trust( ch ) < L_APP ) ) {
       continue;
     }
 
@@ -1359,14 +1359,14 @@ void spell_summon( int sn, int level, CHAR_DATA * ch, void * vo ) {
   if ( !( victim = get_char_world( ch, target_name ) )
        || victim == ch
        || !victim->in_room
-       || IS_SET( victim->in_room->room_flags, ROOM_SAFE )
-       || IS_SET( victim->in_room->room_flags, ROOM_PRIVATE )
-       || IS_SET( victim->in_room->room_flags, ROOM_SOLITARY )
-       || IS_SET( victim->in_room->room_flags, ROOM_NO_RECALL )
+       || CHECK_BIT( victim->in_room->room_flags, ROOM_SAFE )
+       || CHECK_BIT( victim->in_room->room_flags, ROOM_PRIVATE )
+       || CHECK_BIT( victim->in_room->room_flags, ROOM_SOLITARY )
+       || CHECK_BIT( victim->in_room->room_flags, ROOM_NO_RECALL )
        || victim->level >= level + 3
        || victim->fighting
        || ( IS_NPC( victim ) && saves_spell( level, victim ) )
-       || IS_SET( victim->in_room->area->area_flags, AREA_PROTOTYPE ) ) {
+       || CHECK_BIT( victim->in_room->area->area_flags, AREA_PROTOTYPE ) ) {
     send_to_char( AT_BLUE, "You failed.\n\r", ch );
     return;
   }

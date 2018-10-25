@@ -886,7 +886,7 @@ void do_pardon( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !str_cmp( arg2, "killer" ) ) {
-    if ( IS_SET( victim->act, PLR_KILLER ) ) {
+    if ( CHECK_BIT( victim->act, PLR_KILLER ) ) {
       REMOVE_BIT( victim->act, PLR_KILLER );
       send_to_char( AT_BLUE, "Killer flag removed.\n\r",        ch );
       send_to_char( AT_BLUE, "You are no longer a KILLER.\n\r", victim );
@@ -898,7 +898,7 @@ void do_pardon( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !str_cmp( arg2, "pkiller" ) ) {
-    if ( IS_SET( victim->act, PLR_PKILLER ) ) {
+    if ( CHECK_BIT( victim->act, PLR_PKILLER ) ) {
       REMOVE_BIT( victim->act, PLR_PKILLER );
       send_to_char( AT_BLUE, "Player killer flag removed.\n\r", ch );
       send_to_char( AT_BLUE, "You are no longer a PK.\n\r", victim );
@@ -910,7 +910,7 @@ void do_pardon( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !str_cmp( arg2, "thief" ) ) {
-    if ( IS_SET( victim->act, PLR_THIEF ) ) {
+    if ( CHECK_BIT( victim->act, PLR_THIEF ) ) {
       REMOVE_BIT( victim->act, PLR_THIEF );
       send_to_char( AT_BLUE, "Thief flag removed.\n\r",        ch );
       send_to_char( AT_BLUE, "You are no longer a THIEF.\n\r", victim );
@@ -922,7 +922,7 @@ void do_pardon( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !str_cmp( arg2, "outcast" ) ) {
-    if ( IS_SET( victim->act, PLR_OUTCAST ) ) {
+    if ( CHECK_BIT( victim->act, PLR_OUTCAST ) ) {
       REMOVE_BIT( victim->act, PLR_OUTCAST );
       send_to_char( AT_BLUE, "Outcast flag removed.\n\r", ch );
       send_to_char( AT_BLUE,
@@ -1149,7 +1149,7 @@ void do_goto( CHAR_DATA * ch, char * argument ) {
 
   for ( pet = ch->in_room->people; pet; pet = pet->next_in_room ) {
     if ( IS_NPC( pet ) ) {
-      if ( IS_SET( pet->act, ACT_PET ) && ( pet->master == ch ) ) {
+      if ( CHECK_BIT( pet->act, ACT_PET ) && ( pet->master == ch ) ) {
         break;
       }
     }
@@ -1167,7 +1167,7 @@ void do_goto( CHAR_DATA * ch, char * argument ) {
        ( ch->pcdata && ch->pcdata->bamfusee[ 0 ] != '\0' )
        ? ch->pcdata->bamfusee : "leave in a swirling mist", TO_CHAR );
 
-  if ( !IS_SET( ch->act, PLR_WIZINVIS ) ) {
+  if ( !CHECK_BIT( ch->act, PLR_WIZINVIS ) ) {
     act( AT_RED, "$n $T.", ch, NULL,
          ( ch->pcdata && ch->pcdata->bamfout[ 0 ] != '\0' )
          ? ch->pcdata->bamfout : "leaves in a swirling mist", TO_ROOM );
@@ -1207,7 +1207,7 @@ void do_goto( CHAR_DATA * ch, char * argument ) {
     char_from_room( pet );
   }
 
-  if ( !IS_SET( ch->act, PLR_WIZINVIS ) ) {
+  if ( !CHECK_BIT( ch->act, PLR_WIZINVIS ) ) {
     act( AT_RED, "$n $T.", ch, NULL,
          ( ch->pcdata && ch->pcdata->bamfin[ 0 ] != '\0' )
          ? ch->pcdata->bamfin : "appears in a swirling mist", TO_ROOM );
@@ -1230,9 +1230,9 @@ void do_goto( CHAR_DATA * ch, char * argument ) {
     char_to_room( pet, location );
   }
 
-  if ( pet && !IS_SET( ch->act, PLR_WIZINVIS ) ) {
+  if ( pet && !CHECK_BIT( ch->act, PLR_WIZINVIS ) ) {
     act( AT_RED, "$n appears in a swirling mist.", pet, NULL, NULL, TO_ROOM );
-  } else if ( pet && IS_SET( ch->act, PLR_WIZINVIS ) ) {
+  } else if ( pet && CHECK_BIT( ch->act, PLR_WIZINVIS ) ) {
     for ( gch = ch->in_room->people; gch; gch = gch->next_in_room ) {
       if ( get_trust( gch ) >= ch->wizinvis ) {
         sprintf( buf, "%s appears in a swirling mist.\n\r", pet->name );
@@ -2759,7 +2759,7 @@ void do_freeze( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( victim->act, PLR_FREEZE ) ) {
+  if ( CHECK_BIT( victim->act, PLR_FREEZE ) ) {
     REMOVE_BIT( victim->act, PLR_FREEZE );
     sprintf( buf, "$N removes %s's freeze bit.", victim->name );
     wiznet( buf, ch, NULL, WIZ_PENALTIES, WIZ_SECURE, 0 );
@@ -2816,7 +2816,7 @@ void do_log( CHAR_DATA * ch, char * argument ) {
   /*
    * No level check, gods can log anyone.
    */
-  if ( IS_SET( victim->act, PLR_LOG ) ) {
+  if ( CHECK_BIT( victim->act, PLR_LOG ) ) {
     REMOVE_BIT( victim->act, PLR_LOG );
     send_to_char( AT_WHITE, "LOG removed.\n\r", ch );
   } else {
@@ -2854,7 +2854,7 @@ void do_noemote( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( victim->act, PLR_NO_EMOTE ) ) {
+  if ( CHECK_BIT( victim->act, PLR_NO_EMOTE ) ) {
     REMOVE_BIT( victim->act, PLR_NO_EMOTE );
     sprintf( buf, "$N restores emotes to %s.", victim->name );
     wiznet( buf, ch, NULL, WIZ_PENALTIES, WIZ_SECURE, 0 );
@@ -2898,7 +2898,7 @@ void do_notell( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( victim->act, PLR_NO_TELL ) ) {
+  if ( CHECK_BIT( victim->act, PLR_NO_TELL ) ) {
     REMOVE_BIT( victim->act, PLR_NO_TELL );
     sprintf( buf, "$N restores tells to %s.", victim->name );
     wiznet( buf, ch, NULL, WIZ_PENALTIES, WIZ_SECURE, 0 );
@@ -2942,7 +2942,7 @@ void do_silence( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( victim->act, PLR_SILENCE ) ) {
+  if ( CHECK_BIT( victim->act, PLR_SILENCE ) ) {
     REMOVE_BIT( victim->act, PLR_SILENCE );
     sprintf( buf, "%s has unsilenced %s.", ch->name, victim->name );
     wiznet( buf, ch, NULL, WIZ_PENALTIES, WIZ_SECURE, 0 );
@@ -3788,7 +3788,7 @@ void do_mset( CHAR_DATA * ch, char * argument ) {
 
   if ( !str_cmp( arg2, "act" ) ) {
     if ( !IS_NPC( victim ) ) {
-      if ( get_trust( ch ) < L_DIR /*&& !IS_SET( ch->affected_by2, CODER
+      if ( get_trust( ch ) < L_DIR /*&& !CHECK_BIT( ch->affected_by2, CODER
                                       )*/) {
         send_to_char( AT_WHITE, "You are too low of trust to set ones actflags.\n\r", ch );
         return;
@@ -3834,7 +3834,7 @@ void do_mset( CHAR_DATA * ch, char * argument ) {
 
       if ( ( !str_cmp( arg3, "prototype" ) || !str_cmp( arg3, "pro" ) )
            && ( get_trust( ch ) >= L_CON
-                /*|| IS_SET( ch->affected_by2, CODER )*/ ) ) {
+                /*|| CHECK_BIT( ch->affected_by2, CODER )*/ ) ) {
         value = 4096;
       }
     }
@@ -5196,7 +5196,7 @@ void do_cloak( CHAR_DATA * ch, char * argument ) {
     ch->cloaked = ch->level;
   }
 
-  if ( IS_SET( ch->act, PLR_CLOAKED ) ) {
+  if ( CHECK_BIT( ch->act, PLR_CLOAKED ) ) {
     REMOVE_BIT( ch->act, PLR_CLOAKED );
     act( AT_YELLOW, "$n is no longer cloaked.", ch, NULL, NULL, TO_ROOM );
     send_to_char( AT_WHITE, "You are no longer cloaked.\n\r", ch );
@@ -5243,7 +5243,7 @@ void do_invis( CHAR_DATA * ch, char * argument ) {
     ch->wizinvis = ch->level;
   }
 
-  if ( IS_SET( ch->act, PLR_WIZINVIS ) ) {
+  if ( CHECK_BIT( ch->act, PLR_WIZINVIS ) ) {
     REMOVE_BIT( ch->act, PLR_WIZINVIS );
     act( AT_YELLOW, "$n slowly fades into existence.", ch, NULL, NULL, TO_ROOM );
     send_to_char( AT_WHITE, "You slowly fade back into existence.\n\r", ch );
@@ -5264,7 +5264,7 @@ void do_holylight( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, PLR_HOLYLIGHT ) ) {
+  if ( CHECK_BIT( ch->act, PLR_HOLYLIGHT ) ) {
     REMOVE_BIT( ch->act, PLR_HOLYLIGHT );
     send_to_char( AT_WHITE, "Holy light mode off.\n\r", ch );
   } else {
@@ -5581,7 +5581,7 @@ void do_qset( CHAR_DATA * ch, char * argument ) {
 
       for ( qch = char_list; qch; qch = qch->next ) {
         if ( !IS_NPC( qch ) ) {
-          if ( IS_SET( qch->act, PLR_QUEST ) ) {
+          if ( CHECK_BIT( qch->act, PLR_QUEST ) ) {
             qch->act ^= PLR_QUEST;
           }
         }
@@ -5795,7 +5795,7 @@ void do_qecho( CHAR_DATA * ch, char * argument ) {
 
   for ( qch = char_list; qch; qch = qch->next ) {
     if ( !IS_NPC( qch ) ) {
-      if ( IS_SET( qch->act, PLR_QUEST ) ) {
+      if ( CHECK_BIT( qch->act, PLR_QUEST ) ) {
         send_to_char( AT_WHITE, argument, qch );
       }
     }
@@ -6258,7 +6258,7 @@ void do_wiznet( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
 
   if ( argument[ 0 ] == '\0' ) {
-    if ( IS_SET( ch->wiznet, WIZ_ON ) ) {
+    if ( CHECK_BIT( ch->wiznet, WIZ_ON ) ) {
       send_to_char( AT_RED, "Signing off of Wiznet.\n\r", ch );
       REMOVE_BIT( ch->wiznet, WIZ_ON );
     } else {
@@ -6285,12 +6285,12 @@ void do_wiznet( CHAR_DATA * ch, char * argument ) {
   if ( !str_prefix( argument, "status" ) ) {
     buf[ 0 ] = '\0';
 
-    if ( !IS_SET( ch->wiznet, WIZ_ON ) ) {
+    if ( !CHECK_BIT( ch->wiznet, WIZ_ON ) ) {
       strcat( buf, "off " );
     }
 
     for ( flag = 0; wiznet_table[ flag ].name != NULL; flag++ ) {
-      if ( IS_SET( ch->wiznet, wiznet_table[ flag ].flag ) ) {
+      if ( CHECK_BIT( ch->wiznet, wiznet_table[ flag ].flag ) ) {
         strcat( buf, wiznet_table[ flag ].name );
         strcat( buf, " " );
       }
@@ -6322,7 +6322,7 @@ void do_wiznet( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( !str_cmp( argument, "all" ) ) {
-    if ( !IS_SET( ch->wiznet, WIZ_ON ) ) { /* turn all available options on */
+    if ( !CHECK_BIT( ch->wiznet, WIZ_ON ) ) { /* turn all available options on */
       for ( flag = 0; wiznet_table[ flag ].name != NULL; flag++ ) {
         if ( wiznet_table[ flag ].level <= get_trust( ch ) ) {
           SET_BIT( ch->wiznet, wiznet_table[ flag ].flag );
@@ -6332,7 +6332,7 @@ void do_wiznet( CHAR_DATA * ch, char * argument ) {
       send_to_char( AT_RED, "All available options on.\n\r", ch );
     } else {   /* turn all available options off */
       for ( flag = 0; wiznet_table[ flag ].name != NULL; flag++ ) {
-        if ( IS_SET( ch->wiznet, wiznet_table[ flag ].flag ) ) {
+        if ( CHECK_BIT( ch->wiznet, wiznet_table[ flag ].flag ) ) {
           REMOVE_BIT( ch->wiznet, wiznet_table[ flag ].flag );
         }
       }
@@ -6350,7 +6350,7 @@ void do_wiznet( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->wiznet, wiznet_table[ flag ].flag ) ) {
+  if ( CHECK_BIT( ch->wiznet, wiznet_table[ flag ].flag ) ) {
     sprintf( buf, "You will no longer see %s on wiznet.\n\r",
              wiznet_table[ flag ].name );
     send_to_char( AT_RED, buf, ch );
@@ -6373,12 +6373,12 @@ void wiznet( char * string, CHAR_DATA * ch, OBJ_DATA * obj, long flag, long flag
   for ( d = descriptor_list; d != NULL; d = d->next ) {
     if ( d->connected == CON_PLAYING
          &&  IS_IMMORTAL( d->character )
-         &&  IS_SET( d->character->wiznet, WIZ_ON )
-         &&  ( !flag || IS_SET( d->character->wiznet, flag ) )
-         &&  ( !flag_skip || !IS_SET( d->character->wiznet, flag_skip ) )
+         &&  CHECK_BIT( d->character->wiznet, WIZ_ON )
+         &&  ( !flag || CHECK_BIT( d->character->wiznet, flag ) )
+         &&  ( !flag_skip || !CHECK_BIT( d->character->wiznet, flag_skip ) )
          &&  get_trust( d->character ) >= min_level
          &&  d->character != ch ) {
-      if ( IS_SET( d->character->wiznet, WIZ_PREFIX ) ) {
+      if ( CHECK_BIT( d->character->wiznet, WIZ_PREFIX ) ) {
         send_to_char( AT_RED, "Wiznet> ", d->character );
       }
 

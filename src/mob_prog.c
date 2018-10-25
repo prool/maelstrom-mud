@@ -2008,7 +2008,7 @@ void mprog_driver( char * com_list, CHAR_DATA * mob, CHAR_DATA * actor, OBJ_DATA
     return;
   }
 
-  if ( actor && !IS_NPC( actor ) && IS_SET( actor->act, PLR_WIZINVIS ) &&
+  if ( actor && !IS_NPC( actor ) && CHECK_BIT( actor->act, PLR_WIZINVIS ) &&
        actor->wizinvis > mob->level ) {
     return;
   }

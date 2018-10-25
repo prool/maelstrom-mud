@@ -54,13 +54,13 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
     return;
   }
 
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_SILENCE ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_SILENCE ) ) {
     sprintf( buf, "You can't %s.\n\r", verb );
     send_to_char( AT_WHITE, buf, ch );
     return;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_SILENT ) && ( get_trust( ch ) < L_DIR ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_SILENT ) && ( get_trust( ch ) < L_DIR ) ) {
     send_to_char( AT_WHITE, "You can't do that here.\n\r", ch );
     return;
   }
@@ -71,7 +71,12 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
     default:
       sprintf( buf, "You %s '%s'\n\r", verb, argument );
       send_to_char( AT_LBLUE, buf, ch );
-      sprintf( buf, "$n %ss '$t'",     verb );
+      sprintf( buf, "$n %ss '$t'", verb );
+      break;
+    case CHANNEL_GOSSIP:
+      sprintf( buf, "&cYou %s '&W%s&c'\n\r", verb, argument );
+      send_to_char( C_DEFAULT, buf, ch );
+      sprintf( buf, "&c$n %ss '&W$t&c'", verb );
       break;
     case CHANNEL_IMMTALK:
       sprintf( buf, "&C-&c=&B|&c<&C$n&c>&B|&c=&C-&B : $t" );
@@ -117,7 +122,7 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
     och = d->original ? d->original : d->character;
     vch = d->character;
 
-    if ( d->connected == CON_PLAYING && vch != ch && !IS_SET( och->deaf, channel ) && !IS_SET( och->in_room->room_flags, ROOM_SILENT ) ) {
+    if ( d->connected == CON_PLAYING && vch != ch && !CHECK_BIT( och->deaf, channel ) && !CHECK_BIT( och->in_room->room_flags, ROOM_SILENT ) ) {
       if ( IS_QUESTOR( och ) && channel != CHANNEL_YELL ) {
         continue;
       }
@@ -151,6 +156,9 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
       switch ( channel ) {
         default:
           act( AT_LBLUE, buf, ch, argument, vch, TO_VICT );
+          break;
+        case CHANNEL_GOSSIP:
+          act( C_DEFAULT, buf, ch, argument, vch, TO_VICT );
           break;
         case CHANNEL_IMMTALK:
           act( AT_YELLOW, buf, ch, argument, vch, TO_VICT );
@@ -187,7 +195,7 @@ void auc_channel( char * auction ) {
       continue;
     }
 
-    if ( !IS_SET( ( d->original ? d->original : d->character )->deaf, CHANNEL_AUCTION ) ) {
+    if ( !CHECK_BIT( ( d->original ? d->original : d->character )->deaf, CHANNEL_AUCTION ) ) {
       write_to_buffer( d, buf, 0 );
     }
   }
@@ -431,6 +439,12 @@ void do_chat( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
+void do_gossip( CHAR_DATA * ch, char * argument ) {
+  gossip_send(ch->name, argument);
+  talk_channel( ch, argument, CHANNEL_GOSSIP, "gossip" );
+  return;
+}
+
 void do_ooc( CHAR_DATA * ch, char * argument ) {
   talk_channel( ch, argument, CHANNEL_OOC, "OOC" );
   return;
@@ -473,7 +487,7 @@ void do_say( CHAR_DATA * ch, char * argument ) {
 
   /* Check if ch is asking newbie helper for help */
 
-  if ( !IS_NPC( ch ) && ( ch->level < 4 ) && ( IS_SET( ch->in_room->area->area_flags, AREA_MUDSCHOOL ) ) ) {
+  if ( !IS_NPC( ch ) && ( ch->level < 4 ) && ( CHECK_BIT( ch->in_room->area->area_flags, AREA_MUDSCHOOL ) ) ) {
     newbie_help( ch, argument );
   }
 
@@ -487,12 +501,12 @@ void do_tell( CHAR_DATA * ch, char * argument ) {
   int         position;
   char        buf[ MAX_STRING_LENGTH ];
 
-  if ( !IS_NPC( ch ) && (   IS_SET( ch->act, PLR_SILENCE ) || IS_SET( ch->act, PLR_NO_TELL ) ) ) {
+  if ( !IS_NPC( ch ) && (   CHECK_BIT( ch->act, PLR_SILENCE ) || CHECK_BIT( ch->act, PLR_NO_TELL ) ) ) {
     send_to_char( AT_WHITE, "Your message didn't get through.\n\r", ch );
     return;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_SILENT ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_SILENT ) ) {
     send_to_char( AT_WHITE, "You can't do that here.\n\r", ch );
     return;
   }
@@ -516,7 +530,7 @@ void do_tell( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( victim->in_room->room_flags, ROOM_SILENT ) ) {
+  if ( CHECK_BIT( victim->in_room->room_flags, ROOM_SILENT ) ) {
     act( AT_WHITE, "$E can't hear you.", ch, 0, victim, TO_CHAR );
     return;
   }
@@ -531,13 +545,13 @@ void do_tell( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  /*    if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_AFK ) )
+  /*    if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_AFK ) )
       {
       act( AT_WHITE, "$E is AFK at the moment.", ch, 0, victim,
       TO_CHAR );
       return;
       } */
-  if ( !IS_NPC( victim ) && IS_SET( victim->act, PLR_AFK ) ) {
+  if ( !IS_NPC( victim ) && CHECK_BIT( victim->act, PLR_AFK ) ) {
     sprintf( buf, "%s %s.", victim->name, ( victim->pcdata && victim->pcdata->afkchar[ 0 ] != '\0' ) ? victim->pcdata->afkchar : "is AFK at the moment" );
     act( AT_WHITE, buf, ch, NULL, victim, TO_CHAR );
     return;
@@ -564,12 +578,12 @@ void do_remote( CHAR_DATA * ch, char * argument ) {
   char        arg[ MAX_INPUT_LENGTH ];
   int         position;
 
-  if ( !IS_NPC( ch ) && (   IS_SET( ch->act, PLR_SILENCE ) || IS_SET( ch->act, PLR_NO_TELL ) ) ) {
+  if ( !IS_NPC( ch ) && (   CHECK_BIT( ch->act, PLR_SILENCE ) || CHECK_BIT( ch->act, PLR_NO_TELL ) ) ) {
     send_to_char( AT_WHITE, "Your message didn't get through.\n\r", ch );
     return;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_SILENT ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_SILENT ) ) {
     send_to_char( AT_WHITE, "You can't do that here.\n\r", ch );
     return;
   }
@@ -586,7 +600,7 @@ void do_remote( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( victim->in_room->room_flags, ROOM_SILENT ) ) {
+  if ( CHECK_BIT( victim->in_room->room_flags, ROOM_SILENT ) ) {
     act( AT_WHITE, "$E can't hear you.", ch, 0, victim, TO_CHAR );
     return;
   }
@@ -620,7 +634,7 @@ void do_reply( CHAR_DATA * ch, char * argument ) {
   CHAR_DATA * victim;
   int         position;
 
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_SILENCE ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_SILENCE ) ) {
     send_to_char( AT_WHITE, "Your message didn't get through.\n\r", ch );
     return;
   }
@@ -635,7 +649,7 @@ void do_reply( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( ( !IS_IMMORTAL( ch ) && !IS_AWAKE( victim ) ) || ( IS_SET( victim->in_room->room_flags, ROOM_SILENT ) && ( get_trust( ch ) < L_APP ) ) ) {
+  if ( ( !IS_IMMORTAL( ch ) && !IS_AWAKE( victim ) ) || ( CHECK_BIT( victim->in_room->room_flags, ROOM_SILENT ) && ( get_trust( ch ) < L_APP ) ) ) {
     act( AT_WHITE, "$E can't hear you.", ch, 0, victim, TO_CHAR );
     return;
   }
@@ -660,7 +674,7 @@ void do_emote( CHAR_DATA * ch, char * argument ) {
   char   buf[ MAX_STRING_LENGTH ];
   char * plast;
 
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_NO_EMOTE ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_NO_EMOTE ) ) {
     send_to_char( AT_PURPLE, "You are an emotionless blob.\n\r", ch );
     return;
   }
@@ -772,10 +786,10 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
   send_to_char( AT_BLUE, " the storm that rages within... ]\n\r\n\r", ch );
   send_to_char( C_DEFAULT, "", ch );
 
-  if (   !IS_SET( ch->act, PLR_WIZINVIS ) && !IS_AFFECTED2( ch, AFF_PLOADED ) ) {
+  if (   !CHECK_BIT( ch->act, PLR_WIZINVIS ) && !IS_AFFECTED2( ch, AFF_PLOADED ) ) {
     act( AT_BLOOD, "$n has left the game.", ch, NULL, NULL, TO_ROOM );
 
-    if ( !IS_SET( ch->act, PLR_CLOAKED ) ) {
+    if ( !CHECK_BIT( ch->act, PLR_CLOAKED ) ) {
       info( "%s has left the storm.", (int)( ch->name ), 0 );
     }
   } else {
@@ -795,11 +809,11 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
     wiznet( log_buf, ch, NULL, WIZ_LOGINS, 0, get_trust( ch ) );
   }
 
-  if ( IS_SET( ch->act, PLR_QUEST ) ) {
+  if ( CHECK_BIT( ch->act, PLR_QUEST ) ) {
     REMOVE_BIT( ch->act, PLR_QUEST );
   }
 
-  if ( IS_SET( ch->act, PLR_QUESTOR ) ) {
+  if ( CHECK_BIT( ch->act, PLR_QUESTOR ) ) {
     REMOVE_BIT( ch->act, PLR_QUESTOR );
   }
 
@@ -847,7 +861,7 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
 
   for ( PeT = ch->in_room->people; PeT; PeT = PeT->next_in_room ) {
     if ( IS_NPC( PeT ) ) {
-      if ( IS_SET( PeT->act, ACT_PET ) && ( PeT->master == ch ) ) {
+      if ( CHECK_BIT( PeT->act, ACT_PET ) && ( PeT->master == ch ) ) {
         extract_char( PeT, TRUE );
         break;
       }
@@ -1138,7 +1152,7 @@ void do_order( CHAR_DATA * ch, char * argument ) {
 
     /* You cannot order a newbie helper around period. Angi */
     if ( IS_NPC( och ) ) {
-      if ( IS_SET( och->act, ACT_NEWBIE ) ) {
+      if ( CHECK_BIT( och->act, ACT_NEWBIE ) ) {
         continue;
       }
     }
@@ -1372,7 +1386,7 @@ void do_gtell( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->act, PLR_NO_TELL ) ) {
+  if ( CHECK_BIT( ch->act, PLR_NO_TELL ) ) {
     send_to_char( AT_GREEN, "Your message didn't get through!\n\r", ch );
     return;
   }
@@ -1473,7 +1487,7 @@ void newbie_help( CHAR_DATA * ch, char * argument ) {
   /* Check for newbie helper in the same room as ch  */
   for ( helper = ch->in_room->people; helper; helper = helper->next_in_room ) {
     if ( IS_NPC( helper )  &&
-         ( IS_SET( helper->act, ACT_NEWBIE ) ) ) {
+         ( CHECK_BIT( helper->act, ACT_NEWBIE ) ) ) {
       break;
     }
   }

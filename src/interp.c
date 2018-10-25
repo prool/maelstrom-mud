@@ -114,6 +114,7 @@ struct cmd_type cmd_table [] = {
   { "examine",         do_examine,           POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "finger",          do_finger,            POS_DEAD,     0,     LOG_ALWAYS, TRUE    },
   { "forge",           do_forge,             POS_STANDING, 30,    LOG_ALWAYS, TRUE    },
+  { "gossip",          do_gossip,            POS_DEAD,     0,     LOG_NORMAL, FALSE    },
   { "help",            do_help,              POS_DEAD,     0,     LOG_NORMAL, TRUE    },
   { "hood",            do_hood,              POS_RESTING,  0,     LOG_NORMAL, TRUE    },
   { "idea",            do_idea,              POS_DEAD,     0,     LOG_NORMAL, TRUE    },
@@ -400,7 +401,7 @@ void interpret( CHAR_DATA * ch, char * argument ) {
   }
 
   // implement freeze command
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_FREEZE ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_FREEZE ) ) {
     send_to_char( AT_LBLUE, "You're totally frozen!\n\r", ch );
     return;
   }
@@ -452,7 +453,7 @@ void interpret( CHAR_DATA * ch, char * argument ) {
     wiznet( log_buf, ch, NULL, WIZ_SECURE, 0, get_trust( ch ) );
   }
 
-  if ( ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_LOG ) ) || fLogAll || cmd_table[ cmd ].log == LOG_ALWAYS ) {
+  if ( ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_LOG ) ) || fLogAll || cmd_table[ cmd ].log == LOG_ALWAYS ) {
     sprintf( log_buf, "%s: %s", ch->name, logline );
     log_string( log_buf );
     wiznet( log_buf, ch, NULL, WIZ_SECURE, 0, get_trust( ch ) );
@@ -544,7 +545,7 @@ void interpret( CHAR_DATA * ch, char * argument ) {
   }
 
   // dispatch the command.
-  if ( IS_SET( ch->act, PLR_AFK ) ) {
+  if ( CHECK_BIT( ch->act, PLR_AFK ) ) {
     // if player was afk, remove afk
     REMOVE_BIT( ch->act, PLR_AFK );
     send_to_char( AT_YELLOW, "You are no longer AFK.\n\r", ch );
@@ -637,7 +638,7 @@ bool check_social( CHAR_DATA * ch, char * command, char * argument ) {
     return FALSE;
   }
 
-  if ( !IS_NPC( ch ) && IS_SET( ch->act, PLR_NO_EMOTE ) ) {
+  if ( !IS_NPC( ch ) && CHECK_BIT( ch->act, PLR_NO_EMOTE ) ) {
     send_to_char( AT_LBLUE, "You are anti-social!\n\r", ch );
     return TRUE;
   }
@@ -991,7 +992,7 @@ void do_pkill( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( IS_SET( ch->act, PLR_PKILLER ) ) {
+    if ( CHECK_BIT( ch->act, PLR_PKILLER ) ) {
       send_to_char( AT_WHITE, "You have already chosen the path of pkilling.\n\r", ch );
       return;
     }

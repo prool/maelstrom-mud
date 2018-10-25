@@ -90,13 +90,13 @@ void move_char( CHAR_DATA * ch, int door, bool Fall ) {
     return;
   }
 
-  if ( IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+  if ( CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
     if ( !IS_AFFECTED( ch, AFF_PASS_DOOR ) ) {
       act( AT_GREY, "The &W$d&w is closed.", ch, NULL, pexit->keyword, TO_CHAR );
       return;
     }
 
-    if ( IS_SET( pexit->exit_info, EX_PASSPROOF ) ) {
+    if ( CHECK_BIT( pexit->exit_info, EX_PASSPROOF ) ) {
       act( AT_GREY, "You are unable to pass through the &W$d&w.", ch, NULL, pexit->keyword, TO_CHAR );
       return;
     }
@@ -165,7 +165,7 @@ void move_char( CHAR_DATA * ch, int door, bool Fall ) {
     }
   }
 
-  if ( !IS_AFFECTED( ch, AFF_SNEAK ) && ( IS_NPC( ch ) || !IS_SET( ch->act, PLR_WIZINVIS ) ) && ( ch->race != RACE_HALFLING ) ) {
+  if ( !IS_AFFECTED( ch, AFF_SNEAK ) && ( IS_NPC( ch ) || !CHECK_BIT( ch->act, PLR_WIZINVIS ) ) && ( ch->race != RACE_HALFLING ) ) {
     if ( ch->hit < MAX_HIT( ch ) / 2 ) {
       OBJ_DATA * obj;
       char       buf[ MAX_STRING_LENGTH ];
@@ -199,7 +199,7 @@ void move_char( CHAR_DATA * ch, int door, bool Fall ) {
     char_to_room( ch, to_room );
   }
 
-  if ( !IS_AFFECTED( ch, AFF_SNEAK ) && ( IS_NPC( ch ) || !IS_SET( ch->act, PLR_WIZINVIS ) ) && ( ch->race != RACE_HALFLING ) && ( !Fall ) ) {
+  if ( !IS_AFFECTED( ch, AFF_SNEAK ) && ( IS_NPC( ch ) || !CHECK_BIT( ch->act, PLR_WIZINVIS ) ) && ( ch->race != RACE_HALFLING ) && ( !Fall ) ) {
     act( AT_GREY, "&B$n&w arrives from $T.", ch, NULL, direction_table[ direction_table[ door ].reverse ].noun, TO_ROOM );
   }
 
@@ -228,7 +228,7 @@ void move_char( CHAR_DATA * ch, int door, bool Fall ) {
     }
   }
 
-  if ( IS_SET( to_room->room_flags, ROOM_NOFLOOR ) && !IS_AFFECTED( ch, AFF_FLYING ) && ( ( pexit = to_room->exit[ DIR_DOWN ] ) != NULL ) && ( ( to_room = pexit->to_room ) != NULL ) ) {
+  if ( CHECK_BIT( to_room->room_flags, ROOM_NOFLOOR ) && !IS_AFFECTED( ch, AFF_FLYING ) && ( ( pexit = to_room->exit[ DIR_DOWN ] ) != NULL ) && ( ( to_room = pexit->to_room ) != NULL ) ) {
     act( AT_WHITE, "$n falls down to the room below.\n\r", ch, NULL, NULL, TO_ROOM );
     act( AT_RED, "You fall through where the floor should have been!\n\r", ch, NULL, NULL, TO_CHAR );
     move_char( ch, DIR_DOWN, TRUE );
@@ -236,7 +236,7 @@ void move_char( CHAR_DATA * ch, int door, bool Fall ) {
   }
 
   if ( !IS_NPC( ch ) ) {
-    if ( !IS_SET( ch->act, PLR_WIZINVIS ) ) {
+    if ( !CHECK_BIT( ch->act, PLR_WIZINVIS ) ) {
       mprog_greet_trigger( ch );
     }
 
@@ -304,7 +304,7 @@ int find_door( CHAR_DATA * ch, char * arg, bool pMsg ) {
 
   if ( ( door = get_direction( arg ) ) == -1 ) {
     for ( door = 0; door < MAX_DIR; door++ ) {
-      if ( ( pexit = ch->in_room->exit[ door ] ) && IS_SET( pexit->exit_info, EX_ISDOOR ) && pexit->keyword && is_name( ch, arg, pexit->keyword ) ) {
+      if ( ( pexit = ch->in_room->exit[ door ] ) && CHECK_BIT( pexit->exit_info, EX_ISDOOR ) && pexit->keyword && is_name( ch, arg, pexit->keyword ) ) {
         return door;
       }
     }
@@ -324,7 +324,7 @@ int find_door( CHAR_DATA * ch, char * arg, bool pMsg ) {
     return -1;
   }
 
-  if ( !IS_SET( pexit->exit_info, EX_ISDOOR ) ) {
+  if ( !CHECK_BIT( pexit->exit_info, EX_ISDOOR ) ) {
     if ( pMsg ) {
       send_to_char( AT_GREY, "You can't do that.\n\r", ch );
     }
@@ -354,17 +354,17 @@ void do_open( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !IS_SET( obj->value[ 1 ], CONT_CLOSED ) ) {
+    if ( !CHECK_BIT( obj->value[ 1 ], CONT_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's already open.\n\r",      ch );
       return;
     }
 
-    if ( !IS_SET( obj->value[ 1 ], CONT_CLOSEABLE ) ) {
+    if ( !CHECK_BIT( obj->value[ 1 ], CONT_CLOSEABLE ) ) {
       send_to_char( C_DEFAULT, "You can't do that.\n\r",      ch );
       return;
     }
 
-    if (  IS_SET( obj->value[ 1 ], CONT_LOCKED ) ) {
+    if (  CHECK_BIT( obj->value[ 1 ], CONT_LOCKED ) ) {
       send_to_char( C_DEFAULT, "It's locked.\n\r",            ch );
       return;
     }
@@ -384,12 +384,12 @@ void do_open( CHAR_DATA * ch, char * argument ) {
 
     pexit = ch->in_room->exit[ door ];
 
-    if ( !IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+    if ( !CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's already open.\n\r",     ch );
       return;
     }
 
-    if (  IS_SET( pexit->exit_info, EX_LOCKED ) ) {
+    if (  CHECK_BIT( pexit->exit_info, EX_LOCKED ) ) {
       send_to_char( C_DEFAULT, "It's locked.\n\r",           ch );
       return;
     }
@@ -438,12 +438,12 @@ void do_close( CHAR_DATA * ch, char * argument ) {
 
     pexit = ch->in_room->exit[ door ];
 
-    if ( IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+    if ( CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's already closed.\n\r",    ch );
       return;
     }
 
-    if ( IS_SET( pexit->exit_info, EX_BASHED ) ) {
+    if ( CHECK_BIT( pexit->exit_info, EX_BASHED ) ) {
       act( C_DEFAULT, "The $d has been bashed open and cannot be closed.", ch, NULL, pexit->keyword, TO_CHAR );
       return;
     }
@@ -478,12 +478,12 @@ void do_close( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if (  IS_SET( obj->value[ 1 ], CONT_CLOSED ) ) {
+    if (  CHECK_BIT( obj->value[ 1 ], CONT_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's already closed.\n\r",    ch );
       return;
     }
 
-    if ( !IS_SET( obj->value[ 1 ], CONT_CLOSEABLE ) ) {
+    if ( !CHECK_BIT( obj->value[ 1 ], CONT_CLOSEABLE ) ) {
       send_to_char( C_DEFAULT, "You can't do that.\n\r",      ch );
       return;
     }
@@ -530,7 +530,7 @@ void do_lock( CHAR_DATA * ch, char * argument ) {
 
     pexit = ch->in_room->exit[ door ];
 
-    if ( !IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+    if ( !CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's not closed.\n\r",        ch );
       return;
     }
@@ -545,7 +545,7 @@ void do_lock( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if (  IS_SET( pexit->exit_info, EX_LOCKED ) ) {
+    if (  CHECK_BIT( pexit->exit_info, EX_LOCKED ) ) {
       send_to_char( C_DEFAULT, "It's already locked.\n\r",    ch );
       return;
     }
@@ -570,7 +570,7 @@ void do_lock( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !IS_SET( obj->value[ 1 ], CONT_CLOSED ) ) {
+    if ( !CHECK_BIT( obj->value[ 1 ], CONT_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's not closed.\n\r",        ch );
       return;
     }
@@ -585,7 +585,7 @@ void do_lock( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if (  IS_SET( obj->value[ 1 ], CONT_LOCKED ) ) {
+    if (  CHECK_BIT( obj->value[ 1 ], CONT_LOCKED ) ) {
       send_to_char( C_DEFAULT, "It's already locked.\n\r",    ch );
       return;
     }
@@ -620,7 +620,7 @@ void do_unlock( CHAR_DATA * ch, char * argument ) {
 
     pexit = ch->in_room->exit[ door ];
 
-    if ( !IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+    if ( !CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's not closed.\n\r",        ch );
       return;
     }
@@ -636,7 +636,7 @@ void do_unlock( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !IS_SET( pexit->exit_info, EX_LOCKED ) ) {
+    if ( !CHECK_BIT( pexit->exit_info, EX_LOCKED ) ) {
       send_to_char( C_DEFAULT, "It's already unlocked.\n\r",  ch );
       return;
     }
@@ -661,7 +661,7 @@ void do_unlock( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !IS_SET( obj->value[ 1 ], CONT_CLOSED ) ) {
+    if ( !CHECK_BIT( obj->value[ 1 ], CONT_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's not closed.\n\r",        ch );
       return;
     }
@@ -676,7 +676,7 @@ void do_unlock( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !IS_SET( obj->value[ 1 ], CONT_LOCKED ) ) {
+    if ( !CHECK_BIT( obj->value[ 1 ], CONT_LOCKED ) ) {
       send_to_char( C_DEFAULT, "It's already unlocked.\n\r",  ch );
       return;
     }
@@ -731,7 +731,7 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
 
     pexit = ch->in_room->exit[ door ];
 
-    if ( !IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+    if ( !CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's not closed.\n\r",        ch );
       return;
     }
@@ -741,12 +741,12 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !IS_SET( pexit->exit_info, EX_LOCKED ) ) {
+    if ( !CHECK_BIT( pexit->exit_info, EX_LOCKED ) ) {
       send_to_char( C_DEFAULT, "It's already unlocked.\n\r",  ch );
       return;
     }
 
-    if (  IS_SET( pexit->exit_info, EX_PICKPROOF ) ) {
+    if (  CHECK_BIT( pexit->exit_info, EX_PICKPROOF ) ) {
       send_to_char( C_DEFAULT, "You failed.\n\r",             ch );
       return;
     }
@@ -782,7 +782,7 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !IS_SET( obj->value[ 1 ], CONT_CLOSED ) ) {
+    if ( !CHECK_BIT( obj->value[ 1 ], CONT_CLOSED ) ) {
       send_to_char( C_DEFAULT, "It's not closed.\n\r",        ch );
       return;
     }
@@ -792,12 +792,12 @@ void do_pick( CHAR_DATA * ch, char * argument ) {
       return;
     }
 
-    if ( !IS_SET( obj->value[ 1 ], CONT_LOCKED ) ) {
+    if ( !CHECK_BIT( obj->value[ 1 ], CONT_LOCKED ) ) {
       send_to_char( C_DEFAULT, "It's already unlocked.\n\r",  ch );
       return;
     }
 
-    if (  IS_SET( obj->value[ 1 ], CONT_PICKPROOF ) ) {
+    if (  CHECK_BIT( obj->value[ 1 ], CONT_PICKPROOF ) ) {
       send_to_char( C_DEFAULT, "You failed.\n\r",             ch );
       return;
     }
@@ -1061,7 +1061,7 @@ void do_recall( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_NO_RECALL ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NO_RECALL ) ) {
     act( C_DEFAULT, "$T has forsaken you.", ch, NULL, name, TO_CHAR );
     return;
   }
@@ -1090,7 +1090,7 @@ void do_recall( CHAR_DATA * ch, char * argument ) {
 
   for ( pet = ch->in_room->people; pet; pet = pet->next_in_room ) {
     if ( IS_NPC( pet ) ) {
-      if ( IS_SET( pet->act, ACT_PET ) && ( pet->master == ch ) ) {
+      if ( CHECK_BIT( pet->act, ACT_PET ) && ( pet->master == ch ) ) {
         if ( pet->fighting ) {
           stop_fighting( pet, TRUE );
         }
@@ -1138,7 +1138,7 @@ void do_train( CHAR_DATA * ch, char * argument ) {
 
   // check for trainer
   for ( mob = ch->in_room->people; mob; mob = mob->next_in_room ) {
-    if ( IS_NPC( mob ) && IS_SET( mob->act, ACT_TRAIN ) ) {
+    if ( IS_NPC( mob ) && CHECK_BIT( mob->act, ACT_TRAIN ) ) {
       break;
     }
   }
@@ -1313,7 +1313,7 @@ void do_raise( CHAR_DATA * ch, char * argument ) {
   argument = one_argument( argument, arg1 );
 
   for ( mob = ch->in_room->people; mob; mob = mob->next_in_room ) {
-    if ( IS_NPC( mob ) && IS_SET( mob->act, ACT_TRAIN ) ) {
+    if ( IS_NPC( mob ) && CHECK_BIT( mob->act, ACT_TRAIN ) ) {
       break;
     }
   }
@@ -1519,7 +1519,7 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
 
     pexit = ch->in_room->exit[ door ];
 
-    if ( !IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+    if ( !CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       send_to_char( C_DEFAULT, "Calm down.  It is already open.\n\r", ch );
       return;
     }
@@ -1529,11 +1529,11 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
     // always a small of successfully bashing a door
     chance = UMAX(5, ch->pcdata->learned[ gsn_bash_door ] / 2);
 
-    if ( IS_SET( pexit->exit_info, EX_LOCKED ) ) {
+    if ( CHECK_BIT( pexit->exit_info, EX_LOCKED ) ) {
       chance /= 2;
     }
 
-    if ( IS_SET( pexit->exit_info, EX_BASHPROOF ) ) {
+    if ( CHECK_BIT( pexit->exit_info, EX_BASHPROOF ) ) {
       act( C_DEFAULT, "WHAAAAM!!!  You bash against the $d, but it doesn't budge.", ch, NULL, pexit->keyword, TO_CHAR );
       act( C_DEFAULT, "WHAAAAM!!!  $n bashes against the $d, but it holds strong.", ch, NULL, pexit->keyword, TO_ROOM );
       damage( ch, ch, ( MAX_HIT( ch ) / 5 ), gsn_bash_door );
@@ -1543,7 +1543,7 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
     if ( number_percent() < ( chance + ( 4 * ( get_curr_str( ch ) - 20 ) ) ) ) {
       REMOVE_BIT( pexit->exit_info, EX_CLOSED );
 
-      if ( IS_SET( pexit->exit_info, EX_LOCKED ) ) {
+      if ( CHECK_BIT( pexit->exit_info, EX_LOCKED ) ) {
         REMOVE_BIT( pexit->exit_info, EX_LOCKED );
       }
 
@@ -1561,7 +1561,7 @@ void do_bash( CHAR_DATA * ch, char * argument ) {
 
         REMOVE_BIT( pexit_rev->exit_info, EX_CLOSED );
 
-        if ( IS_SET( pexit_rev->exit_info, EX_LOCKED ) ) {
+        if ( CHECK_BIT( pexit_rev->exit_info, EX_LOCKED ) ) {
           REMOVE_BIT( pexit_rev->exit_info, EX_LOCKED );
         }
 
@@ -1623,7 +1623,7 @@ void do_push( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( ( victim->level >= LEVEL_IMMORTAL ) || ( IS_NPC( victim ) && ( ( victim->pIndexData->pShop ) || IS_SET( ch->in_room->room_flags, ROOM_SMITHY ) || IS_SET( ch->in_room->room_flags, ROOM_BANK ) || IS_SET( victim->act, ACT_NOPUSH ) ) ) ) {
+  if ( ( victim->level >= LEVEL_IMMORTAL ) || ( IS_NPC( victim ) && ( ( victim->pIndexData->pShop ) || CHECK_BIT( ch->in_room->room_flags, ROOM_SMITHY ) || CHECK_BIT( ch->in_room->room_flags, ROOM_BANK ) || CHECK_BIT( victim->act, ACT_NOPUSH ) ) ) ) {
     act( AT_BLUE, "$N ignores you.", ch, NULL, victim, TO_CHAR );
     return;
   }
@@ -1644,7 +1644,7 @@ void do_push( CHAR_DATA * ch, char * argument ) {
 
   pexit = ch->in_room->exit[ door ];
 
-  if ( pexit == NULL || IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+  if ( pexit == NULL || CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
     act( AT_BLUE, "There is no exit, but you push $M around anyways.", ch, NULL, victim, TO_CHAR );
     act( AT_BLUE, "$n pushes $N against a wall.", ch, NULL, victim, TO_NOTVICT );
     act( AT_BLUE, "$n pushes you against a wall, ouch.", ch, NULL, victim, TO_VICT );
@@ -1702,7 +1702,7 @@ void do_drag( CHAR_DATA * ch, char * argument ) {
     return;
   }
 
-  if ( ( victim->level >= LEVEL_IMMORTAL ) || ( IS_NPC( victim ) && ( ( victim->pIndexData->pShop ) || IS_SET( ch->in_room->room_flags, ROOM_SMITHY ) || IS_SET( ch->in_room->room_flags, ROOM_BANK ) || IS_SET( victim->act, ACT_NODRAG ) ) ) ) {
+  if ( ( victim->level >= LEVEL_IMMORTAL ) || ( IS_NPC( victim ) && ( ( victim->pIndexData->pShop ) || CHECK_BIT( ch->in_room->room_flags, ROOM_SMITHY ) || CHECK_BIT( ch->in_room->room_flags, ROOM_BANK ) || CHECK_BIT( victim->act, ACT_NODRAG ) ) ) ) {
     act( AT_BLUE, "$N ignores you.", ch, NULL, victim, TO_CHAR );
     return;
   }
@@ -1723,7 +1723,7 @@ void do_drag( CHAR_DATA * ch, char * argument ) {
 
   pexit = ch->in_room->exit[ door ];
 
-  if ( pexit == NULL || IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+  if ( pexit == NULL || CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
     act( AT_BLUE, "There is no exit, but you drag $M around anyways.", ch, NULL, victim, TO_CHAR );
     act( AT_BLUE, "$n drags $N around the room.", ch, NULL, victim, TO_NOTVICT );
     act( AT_BLUE, "$n drags you around the room.", ch, NULL, victim, TO_VICT );
@@ -1769,7 +1769,7 @@ void check_nofloor( CHAR_DATA * ch ) {
   EXIT_DATA       * pexit;
   ROOM_INDEX_DATA * to_room;
 
-  if ( IS_SET( ch->in_room->room_flags, ROOM_NOFLOOR ) && ( ( pexit = ch->in_room->exit[ DIR_DOWN ] ) != NULL ) && ( ( to_room = pexit->to_room )  != NULL ) ) {
+  if ( CHECK_BIT( ch->in_room->room_flags, ROOM_NOFLOOR ) && ( ( pexit = ch->in_room->exit[ DIR_DOWN ] ) != NULL ) && ( ( to_room = pexit->to_room )  != NULL ) ) {
     act( AT_RED, "You fall through where the floor should have been!", ch, NULL, NULL, TO_CHAR );
     act( C_DEFAULT, "$n falls down to the room below.", ch, NULL, NULL, TO_ROOM );
     damage( ch, ch, 5, TYPE_UNDEFINED );
@@ -1825,7 +1825,7 @@ void do_retreat( CHAR_DATA * ch, char * argument ) {
       STUN_CHAR( ch, 1, STUN_TOTAL );
       ch->position = POS_STUNNED;
       return;
-    } else if ( IS_SET( pexit->exit_info, EX_CLOSED ) ) {
+    } else if ( CHECK_BIT( pexit->exit_info, EX_CLOSED ) ) {
       sprintf( buf, "Wham! Ouch! Retreated straight into the closed %s.\n\r", pexit->keyword );
       send_to_char( AT_GREY, buf, ch );
       STUN_CHAR( ch, 1, STUN_TOTAL );

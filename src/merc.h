@@ -1958,6 +1958,7 @@ DECLARE_DO_FUN( do_changes );
 DECLARE_DO_FUN( do_channels );
 DECLARE_DO_FUN( do_chat );
 DECLARE_DO_FUN( do_clan );
+DECLARE_DO_FUN( do_clear );
 DECLARE_DO_FUN( do_clone );
 DECLARE_DO_FUN( do_cinfo );
 DECLARE_DO_FUN( do_clans );
@@ -2666,7 +2667,7 @@ DECLARE_DO_FUN( do_asave );
 DECLARE_DO_FUN( do_alist );
 DECLARE_DO_FUN( do_resets );
 DECLARE_DO_FUN( do_alias );
-DECLARE_DO_FUN( do_clear );
+DECLARE_DO_FUN( do_unalias );
 
 /*
  * Global Constants

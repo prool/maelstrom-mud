@@ -2448,35 +2448,7 @@ void do_title( CHAR_DATA * ch, char * argument ) {
 }
 
 void do_description( CHAR_DATA * ch, char * argument ) {
-  /*    if ( argument[0] != '\0' )
-      {
-      buf[0] = '\0';
-      smash_tilde( argument );
-      if ( argument[0] == '+' )
-      {
-      if ( ch->description )
-      strcat( buf, ch->description );
-      argument++;
-      while ( isspace( *argument ) )
-      argument++;
-      }
-
-      if ( strlen( buf ) + strlen( argument ) >=  MAX_STRING_LENGTH  - 2 )
-      {
-      send_to_char(AT_CYAN, "Description too long.\n\r", ch );
-      return;
-      }
-
-      strcat( buf, argument );
-      strcat( buf, "\n\r" );
-      free_string( ch->description );
-      ch->description = str_dup( buf );
-      }*/
-
   string_append( ch, &ch->description );
-
-  /*    send_to_char(AT_CYAN, "Your description is:\n\r", ch );
-      send_to_char(AT_CYAN, ch->description ? ch->description : "(None).\n\r", ch );*/
   return;
 }
 
@@ -4422,4 +4394,8 @@ void do_playerlist( CHAR_DATA * ch, char * argument ) {
 
   sprintf( buf, "\n\r&WTOTAL: &R%d\n\r", counter );
   send_to_char( AT_GREEN, buf, ch );
+}
+
+void do_clear( CHAR_DATA * ch, char *argument ) {
+  send_to_char (C_DEFAULT, "\x01B[2J", ch);
 }

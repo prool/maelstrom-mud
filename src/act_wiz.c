@@ -2062,9 +2062,6 @@ void do_shutdow( CHAR_DATA * ch, char * argument ) {
 void do_shutdown( CHAR_DATA * ch, char * argument ) {
   char        buf[ MAX_STRING_LENGTH ];
   extern bool merc_down;
-  /*    if ( !str_cmp( ch->name, "Hannibal" ) )
-      sprintf( buf, "Nuclear Meltdown by %s.", ch->name );
-      else */
 
   sprintf( buf, "Shutdown by %s.", ch->name );
   append_file( ch, SHUTDOWN_FILE, buf );
@@ -5225,7 +5222,7 @@ void do_invis( CHAR_DATA * ch, char * argument ) {
 
   if ( arg[ 0 ] != '\0' ) {
     if ( !is_number( arg ) ) {
-      send_to_char( AT_WHITE, "Usage: invis | invis <level>\n\r", ch );
+      send_to_char( AT_WHITE, "Usage: wizinvis | wizinvis <level>\n\r", ch );
       return;
     }
 
@@ -6603,13 +6600,9 @@ void do_whotype( CHAR_DATA * ch, char * argument ) {
 
   smash_tilde( argument );
 
-  if ( !str_cmp( "default", argument ) ) {
-    free_string( ch->pcdata->whotype );
-    ch->pcdata->whotype = str_dup( "!!!!!!!!!!!!" );
-  } else {
-    free_string( ch->pcdata->whotype );
-    ch->pcdata->whotype = str_dup( argument );
-  }
+  free_string( ch->pcdata->whotype );
+
+  ch->pcdata->whotype = str_dup( !str_cmp( "default", argument ) ? "!!!!!!!!!!!!" : argument );
 
   send_to_char( C_DEFAULT, "Ok.\n\r", ch );
   return;
@@ -6783,8 +6776,8 @@ void do_rebuild( CHAR_DATA * ch, char * argument ) {
   }
 
   /* reset misc */
-  victim->pcdata->condition[ COND_THIRST ] =  0;
-  victim->pcdata->condition[ COND_FULL ]   =  0;
+  victim->pcdata->condition[ COND_THIRST ] = 0;
+  victim->pcdata->condition[ COND_FULL ]   = 0;
   victim->pcdata->condition[ COND_DRUNK ]  = 0;
   victim->saving_throw                     = 0;
 

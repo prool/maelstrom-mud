@@ -30,633 +30,15 @@
 /* Auction variables */
 OBJ_DATA  * auc_obj;
 CHAR_DATA * auc_bid;
-
-MONEY_DATA auc_cost;
-
+MONEY_DATA  auc_cost;
 int         auc_count = -1;
 CHAR_DATA * auc_held;
 
-/* Auction semi-local */
+/*
+ * Local functions
+ */
 void auc_channel( char * auction );
-
-/*
- * Local functions.
- */
-bool is_note_to( CHAR_DATA * ch, NOTE_DATA * pnote );
-void note_attach( CHAR_DATA * ch );
-void note_remove( CHAR_DATA * ch, NOTE_DATA * pnote );
-void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * verb );
 void newbie_help( CHAR_DATA * ch, char * argument );
-void delete_playerlist( char * name );
-void note_delete( NOTE_DATA * pnote );
-extern EXTRA_DESCR_DATA * new_extra_descr( void );
-
-void note_delete( NOTE_DATA * pnote ) {
-  NOTE_DATA * prev;
-
-  if ( pnote == note_list ) {
-    note_list = pnote->next;
-  } else {
-    for ( prev = note_list; prev; prev = prev->next ) {
-      if ( prev->next == pnote ) {
-        break;
-      }
-    }
-
-    if ( !prev ) {
-      bug( "Note_delete: no note.", 0 );
-      return;
-    }
-
-    prev->next = pnote->next;
-  }
-
-  free_string( pnote->text );
-  free_string( pnote->subject );
-  free_string( pnote->to_list );
-  free_string( pnote->date );
-  free_string( pnote->sender );
-
-  /*  pnote->next = note_free;
-     note_free = pnote;*/
-  free_mem( pnote, sizeof( *pnote ) );
-}
-
-/*
- * Get rid of old notes
- * -- Altrag
- */
-void note_cleanup( void ) {
-  NOTE_DATA * pnote;
-  NOTE_DATA * pnote_next;
-  FILE      * fp;
-
-  for ( pnote = note_list; pnote && pnote->date_stamp + 604800 < current_time; pnote = pnote_next ) {
-    pnote_next = pnote->next;
-
-    if ( pnote->protected ) {
-      continue;
-    }
-
-    note_delete( pnote );
-  }
-
-  fclose( fpReserve );
-
-  if ( !( fp = fopen( NOTE_FILE, "w" ) ) ) {
-    perror( NOTE_FILE );
-  } else {
-    for ( pnote = note_list; pnote; pnote = pnote->next ) {
-      fprintf( fp, "Sender  %s~\n", pnote->sender );
-      fprintf( fp, "Date    %s~\n", pnote->date );
-      fprintf( fp, "Stamp   %ld\n", pnote->date_stamp );
-      fprintf( fp, "To      %s~\n", pnote->to_list );
-      fprintf( fp, "Subject %s~\n", pnote->subject );
-      fprintf( fp, "Protect %d\n",  pnote->protected );
-      fprintf( fp, "Board   %d\n",  pnote->on_board );
-      fprintf( fp, "Text\n%s~\n\n", pnote->text );
-    }
-
-    fclose( fp );
-  }
-
-  fpReserve = fopen( NULL_FILE, "r" );
-  return;
-}
-
-bool is_note_to( CHAR_DATA * ch, NOTE_DATA * pnote ) {
-  if ( !str_cmp( ch->name, pnote->sender ) ) {
-    return TRUE;
-  }
-
-  if ( is_name( NULL, "all", pnote->to_list ) ) {
-    return TRUE;
-  }
-
-  if ( ( get_trust( ch ) >= LEVEL_IMMORTAL )
-       && ( (   is_name( NULL, "immortal", pnote->to_list )
-                || is_name( NULL, "immortals", pnote->to_list )
-                || is_name( NULL, "imm",       pnote->to_list )
-                || is_name( NULL, "immort",    pnote->to_list ) ) ) ) {
-
-    return TRUE;
-  }
-
-  if ( ( get_trust( ch ) > L_CON /* || IS_CODER( ch )*/ ) &&
-       is_name( NULL, "council", pnote->to_list ) ) {
-    return TRUE;
-  }
-
-  if ( is_name( NULL, "IMP", pnote->to_list ) && ch->level == L_IMP ) {
-    return TRUE;
-  }
-
-  if ( is_name( NULL, ch->name, pnote->to_list ) ) {
-    return TRUE;
-  }
-
-  return FALSE;
-}
-
-void note_attach( CHAR_DATA * ch ) {
-  NOTE_DATA * pnote;
-
-  if ( ch->pnote ) {
-    return;
-  }
-
-  if ( !note_free ) {
-    pnote = alloc_perm( sizeof( *ch->pnote ) );
-  } else {
-    pnote     = note_free;
-    note_free = note_free->next;
-  }
-
-  pnote->next      = NULL;
-  pnote->sender    = str_dup( ch->name );
-  pnote->date      = str_dup( "" );
-  pnote->to_list   = str_dup( "" );
-  pnote->subject   = str_dup( "" );
-  pnote->text      = str_dup( "" );
-  pnote->protected = FALSE;
-  pnote->on_board  = 0;
-  ch->pnote        = pnote;
-  return;
-}
-
-void note_remove( CHAR_DATA * ch, NOTE_DATA * pnote ) {
-  FILE      * fp;
-  NOTE_DATA * prev;
-  char      * to_list;
-  char        to_new[ MAX_INPUT_LENGTH ];
-  char        to_one[ MAX_INPUT_LENGTH ];
-
-  /*
-   * Build a new to_list.
-   * Strip out this recipient.
-   */
-  to_new[ 0 ] = '\0';
-  to_list     = pnote->to_list;
-
-  while ( *to_list != '\0' ) {
-    to_list = one_argument( to_list, to_one );
-
-    if ( to_one[ 0 ] != '\0' && str_cmp( ch->name, to_one ) ) {
-      strcat( to_new, " " );
-      strcat( to_new, to_one );
-    }
-  }
-
-  /*
-   * Just a simple recipient removal?
-   */
-  if ( str_cmp( ch->name, pnote->sender ) && to_new[ 0 ] != '\0' &&
-       get_trust( ch ) < L_DEM ) {
-    free_string( pnote->to_list );
-    pnote->to_list = str_dup( to_new + 1 );
-    return;
-  }
-
-  /*
-   * Remove note from linked list.
-   */
-  if ( pnote == note_list ) {
-    note_list = pnote->next;
-  } else {
-    for ( prev = note_list; prev; prev = prev->next ) {
-      if ( prev->next == pnote ) {
-        break;
-      }
-    }
-
-    if ( !prev ) {
-      bug( "Note_remove: pnote not found.", 0 );
-      return;
-    }
-
-    prev->next = pnote->next;
-  }
-
-  free_string( pnote->text );
-  free_string( pnote->subject );
-  free_string( pnote->to_list );
-  free_string( pnote->date );
-  free_string( pnote->sender );
-
-  /*    pnote->next	= note_free;
-      note_free	= pnote;*/
-  free_mem( pnote, sizeof( *pnote ) );
-
-  /*
-   * Rewrite entire list.
-   */
-  fclose( fpReserve );
-
-  if ( !( fp = fopen( NOTE_FILE, "w" ) ) ) {
-    perror( NOTE_FILE );
-  } else {
-    for ( pnote = note_list; pnote; pnote = pnote->next ) {
-      fprintf( fp, "Sender  %s~\n", pnote->sender );
-      fprintf( fp, "Date    %s~\n", pnote->date );
-      fprintf( fp, "Stamp   %ld\n", pnote->date_stamp );
-      fprintf( fp, "To      %s~\n", pnote->to_list );
-      fprintf( fp, "Subject %s~\n", pnote->subject );
-      fprintf( fp, "Protect %d\n",  pnote->protected );
-      fprintf( fp, "Board   %d\n",  pnote->on_board );
-      fprintf( fp, "Text\n%s~\n\n", pnote->text );
-    }
-
-    fclose( fp );
-  }
-
-  fpReserve = fopen( NULL_FILE, "r" );
-  return;
-}
-
-/* Date stamp idea comes from Alander of ROM */
-void do_note( CHAR_DATA * ch, char * argument ) {
-  NOTE_DATA * pnote;
-  CHAR_DATA * to_ch;
-  char        buf[ MAX_STRING_LENGTH ];
-  char        buf1[ MAX_STRING_LENGTH * 7 ];
-  char        arg[ MAX_INPUT_LENGTH ];
-  int         vnum;
-  int         anum;
-
-  /*    if ( IS_NPC( ch ) )
-      return;*/
-
-  argument = one_argument( argument, arg );
-  smash_tilde( argument );
-
-  if ( arg[ 0 ] == '\0' ) {
-    if ( !IS_NPC( ch ) ) {
-      do_note( ch, "read" );
-    }
-
-    return;
-  }
-
-  if ( !str_cmp( arg, "list" ) ) {
-    char arg1[ MAX_STRING_LENGTH ];
-    char arg2[ MAX_STRING_LENGTH ];
-    int  fn = 0;
-    int  ln = 0;
-
-    if ( IS_NPC( ch ) ) {
-      return;
-    }
-
-    vnum      = 0;
-    buf1[ 0 ] = '\0';
-
-    if ( argument[ 0 ] != '\0' ) {
-      argument = one_argument( argument, arg1 );
-      argument = one_argument( argument, arg2 );
-      fn       = is_number( arg1 ) ? atoi( arg1 ) : 0;
-      ln       = is_number( arg2 ) ? atoi( arg2 ) : 0;
-
-      if ( ( fn == 0 && ln == 0 ) || ( fn < 1 ) || ( ln < 0 )
-           || ( ln < fn ) ) {
-        send_to_char( AT_DGREEN, "Invalid note range.\n\r", ch );
-        return;
-      }
-    }
-
-    for ( pnote = note_list; pnote; pnote = pnote->next ) {
-      if ( ( is_note_to( ch, pnote ) && vnum >= fn && vnum <= ln )
-           || ( fn == 0 && ln == 0 && is_note_to( ch, pnote ) ) ) {
-        sprintf( buf, "&G[%3d%s%s] %s: %s\n\r",
-                 vnum,
-                 ( pnote->date_stamp > ch->last_note
-                   && str_cmp( pnote->sender, ch->name ) ) ? "N" : " ",
-                 ( get_trust( ch ) > L_CON /* || IS_CODER(ch)*/ ) ?
-                 pnote->protected ? "P" : " " : "",
-                 pnote->sender, pnote->subject );
-        strcat( buf1, buf );
-      }
-
-      if ( is_note_to( ch, pnote ) ) {
-        vnum++;
-      }
-
-    }
-
-    send_to_char( AT_GREEN, buf1, ch );
-    return;
-  }
-
-  if ( !str_cmp( arg, "read" ) ) {
-    bool fAll;
-
-    if ( IS_NPC( ch ) ) {
-      return;
-    }
-    /*	if ( !str_cmp( argument, "all" ) )
-       {
-       fAll = TRUE;
-       anum = 0;
-       }*/
-    else if ( argument[ 0 ] == '\0' || !str_prefix( argument, "next" ) ) {
-      /* read next unread note */
-      vnum      = 0;
-      buf1[ 0 ] = '\0';
-
-      for ( pnote = note_list; pnote; pnote = pnote->next ) {
-        if ( is_note_to( ch, pnote )
-             && str_cmp( ch->name, pnote->sender )
-             && ch->last_note < pnote->date_stamp ) {
-          sprintf( buf, "[%3d] %s: %s\n\r&G%s\n\rTo: %s\n\r",
-                   vnum,
-                   pnote->sender,
-                   pnote->subject,
-                   pnote->date,
-                   pnote->to_list );
-          strcat( buf1, buf );
-          strcat( buf1, pnote->text );
-          ch->last_note = UMAX( ch->last_note, pnote->date_stamp );
-          send_to_char( AT_GREEN, buf1, ch );
-          return;
-        } else if ( is_note_to( ch, pnote ) ) {
-          vnum++;
-        }
-      }
-
-      send_to_char( AT_DGREEN, "You have no unread notes.\n\r", ch );
-      return;
-    } else if ( is_number( argument ) ) {
-      fAll = FALSE;
-      anum = atoi( argument );
-    } else {
-      send_to_char( AT_DGREEN, "Note read which number?\n\r", ch );
-      return;
-    }
-
-    vnum      = 0;
-    buf1[ 0 ] = '\0';
-
-    for ( pnote = note_list; pnote; pnote = pnote->next ) {
-      if ( is_note_to( ch, pnote ) && ( vnum++ == anum || fAll ) ) {
-        sprintf( buf, "[%3d] %s: %s\n\r&G%s\n\rTo: %s\n\r",
-                 vnum - 1,
-                 pnote->sender,
-                 pnote->subject,
-                 pnote->date,
-                 pnote->to_list );
-        strcat( buf1, buf );
-        strcat( buf1, pnote->text );
-
-        if ( !fAll ) {
-          send_to_char( AT_GREEN, buf1, ch );
-        } else {
-          strcat( buf1, "\n\r" );
-        }
-
-        ch->last_note = UMAX( ch->last_note, pnote->date_stamp );
-
-        if ( !fAll ) {
-          return;
-        }
-      }
-    }
-
-    if ( !fAll ) {
-      send_to_char( AT_DGREEN, "No such note.\n\r", ch );
-    } else {
-      send_to_char( AT_GREEN, buf1, ch );
-    }
-
-    return;
-  }
-
-  if ( !str_cmp( arg, "+" ) ) {
-    note_attach( ch );
-    strcpy( buf, ch->pnote->text );
-
-    if ( strlen( buf ) + strlen( argument ) >= MAX_STRING_LENGTH - 100 ) {
-      send_to_char( AT_DGREEN, "Note too long.\n\r", ch );
-      return;
-    }
-
-    strcat( buf, argument );
-    strcat( buf, "\n\r" );
-    free_string( ch->pnote->text );
-    ch->pnote->text = str_dup( buf );
-    send_to_char( AT_WHITE, "Ok.\n\r", ch );
-    return;
-  }
-
-  if ( !str_cmp( arg, "write" ) ) {
-    if ( IS_NPC( ch ) ) {
-      return;
-    }
-
-    note_attach( ch );
-    string_append( ch, &ch->pnote->text );
-    return;
-  }
-
-  if ( !str_cmp( arg, "subject" ) ) {
-    note_attach( ch );
-    free_string( ch->pnote->subject );
-    ch->pnote->subject = str_dup( argument );
-    send_to_char( AT_WHITE, "Ok.\n\r", ch );
-    return;
-  }
-
-  if ( !str_cmp( arg, "to" ) ) {
-    note_attach( ch );
-    free_string( ch->pnote->to_list );
-    ch->pnote->to_list = str_dup( argument );
-    send_to_char( AT_WHITE, "Ok.\n\r", ch );
-    return;
-  }
-
-  if ( !str_cmp( arg, "clear" ) ) {
-    if ( ch->pnote ) {
-      free_string( ch->pnote->text );
-      free_string( ch->pnote->subject );
-      free_string( ch->pnote->to_list );
-      free_string( ch->pnote->date );
-      free_string( ch->pnote->sender );
-
-      /*	    ch->pnote->next	= note_free;
-          note_free		= ch->pnote;*/
-      free_mem( ch->pnote, sizeof( *ch->pnote ) );
-      ch->pnote = NULL;
-    }
-
-    send_to_char( AT_WHITE, "Ok.\n\r", ch );
-    return;
-  }
-
-  if ( !str_cmp( arg, "show" ) ) {
-    if ( IS_NPC( ch ) ) {
-      return;
-    }
-
-    if ( !ch->pnote ) {
-      send_to_char( AT_DGREEN, "You have no note in progress.\n\r", ch );
-      return;
-    }
-
-    sprintf( buf, "%s: %s\n\r&GTo: %s\n\r",
-             ch->pnote->sender,
-             ch->pnote->subject,
-             ch->pnote->to_list );
-    send_to_char( AT_GREEN, buf, ch );
-    send_to_char( AT_GREEN, ch->pnote->text, ch );
-    return;
-  }
-
-  if ( !str_cmp( arg, "post" ) || !str_prefix( arg, "send" ) ) {
-    FILE     * fp;
-    char     * strtime;
-
-    if ( !ch->pnote ) {
-      send_to_char( AT_DGREEN, "You have no note in progress.\n\r", ch );
-      return;
-    }
-
-    if ( !str_cmp( ch->pnote->to_list, "" ) ) {
-      send_to_char( AT_DGREEN,
-                    "You need to provide a recipient (name, all, or immortal).\n\r",
-                    ch );
-      return;
-    }
-
-    if ( !str_cmp( ch->pnote->subject, "" ) ) {
-      send_to_char( AT_DGREEN, "You need to provide a subject.\n\r", ch );
-      return;
-    }
-
-    ch->pnote->on_board = 0;
-
-    if ( IS_NPC( ch ) && ch->pnote->on_board == 0 ) {
-      return;
-    }
-
-    ch->pnote->next                  = NULL;
-    strtime                          = ctime( &current_time );
-    strtime[ strlen( strtime ) - 1 ] = '\0';
-    free_string( ch->pnote->date );
-    ch->pnote->date       = str_dup( strtime );
-    ch->pnote->date_stamp = current_time;
-
-    if ( !note_list ) {
-      note_list = ch->pnote;
-    } else {
-      for ( pnote = note_list; pnote->next; pnote = pnote->next ) {
-        ;
-      }
-
-      pnote->next = ch->pnote;
-    }
-
-    pnote     = ch->pnote;
-    ch->pnote = NULL;
-
-    fclose( fpReserve );
-
-    if ( !( fp = fopen( NOTE_FILE, "a" ) ) ) {
-      perror( NOTE_FILE );
-    } else {
-      fprintf( fp, "Sender  %s~\n", pnote->sender );
-      fprintf( fp, "Date    %s~\n", pnote->date );
-      fprintf( fp, "Stamp   %ld\n", pnote->date_stamp );
-      fprintf( fp, "To      %s~\n", pnote->to_list );
-      fprintf( fp, "Subject %s~\n", pnote->subject );
-      fprintf( fp, "Protect %d\n",  pnote->protected );
-      fprintf( fp, "Board   %d\n",  pnote->on_board );
-      fprintf( fp, "Text\n%s~\n\n", pnote->text );
-      fclose( fp );
-    }
-
-    fpReserve = fopen( NULL_FILE, "r" );
-
-    send_to_char( AT_WHITE, "Ok.\n\r", ch );
-
-    for ( to_ch = char_list; to_ch; to_ch = to_ch->next ) {
-      if ( !to_ch->in_room || to_ch->deleted ) {
-        continue;
-      }
-
-      if ( is_note_to( to_ch, pnote ) && to_ch != ch ) {
-        send_to_char( C_DEFAULT, "New note.\n\r", to_ch );
-      }
-    }
-
-    return;
-  }
-
-  if ( !str_cmp( arg, "remove" ) ) {
-    if ( IS_NPC( ch ) ) {
-      return;
-    }
-
-    if ( !is_number( argument ) ) {
-      send_to_char( AT_DGREEN, "Note remove which number?\n\r", ch );
-      return;
-    }
-
-    anum = atoi( argument );
-    vnum = 0;
-
-    for ( pnote = note_list; pnote; pnote = pnote->next ) {
-      if ( is_note_to( ch, pnote ) && vnum++ == anum ) {
-        note_remove( ch, pnote );
-        send_to_char( AT_WHITE, "Ok.\n\r", ch );
-        return;
-      }
-    }
-
-    send_to_char( AT_DGREEN, "No such note.\n\r", ch );
-    return;
-  }
-
-  /*
-   * "Permanent" note flag.
-   * -- Altrag
-   */
-  if ( !str_cmp( arg, "protect" ) ) {
-    if ( IS_NPC( ch ) ) {
-      return;
-    }
-
-    if ( get_trust( ch ) < L_CON /* && !IS_CODER( ch )*/ ) {
-      send_to_char( AT_DGREEN, "Huh?  Type 'help note' for usage.\n\r", ch );
-      return;
-    }
-
-    if ( argument[ 0 ] == '\0' || !is_number( argument ) ) {
-      send_to_char( AT_DGREEN, "Syntax:  note protect <#>\n\r", ch );
-      return;
-    }
-
-    anum = atoi( argument );
-    vnum = 0;
-
-    for ( pnote = note_list; pnote; pnote = pnote->next ) {
-      if ( is_note_to( ch, pnote ) && vnum++ == anum ) {
-        if ( pnote->protected ) {
-          pnote->protected = FALSE;
-        } else {
-          pnote->protected = TRUE;
-        }
-
-        note_cleanup();
-        send_to_char( AT_WHITE, "Ok.\n\r", ch );
-        return;
-      }
-    }
-
-    send_to_char( AT_WHITE, "No such note.\n\r", ch );
-    return;
-  }
-
-  send_to_char( AT_DGREEN, "Huh?  Type 'help note' for usage.\n\r", ch );
-  return;
-}
 
 /*
  * Generic channel function.
@@ -705,13 +87,6 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
       act( AT_RED, buf, ch, argument, NULL, TO_CHAR );
       ch->position = position;
       break;
-    case CHANNEL_GUARDIAN:
-      sprintf( buf, "$n> &P'$t'" );
-      position     = ch->position;
-      ch->position = POS_STANDING;
-      act( AT_DGREY, buf, ch, argument, NULL, TO_CHAR );
-      ch->position = position;
-      break;
     case CHANNEL_CLASS:
       sprintf( buf, "{%s} $n: $t", class_table[ prime_class( ch ) ].who_long );
       position     = ch->position;
@@ -755,25 +130,15 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
         continue;
       }
 
-      if ( channel == CHANNEL_GUARDIAN && get_trust( och ) < 100000 ) {
+      if ( ( channel == CHANNEL_CLASS ) && (( prime_class( vch ) != prime_class( ch ) ) || !IS_IMMORTAL( och )) ) {
         continue;
       }
 
-      if ( ( channel == CHANNEL_CLASS ) && ( prime_class( vch ) != prime_class( ch ) ) ) {
-        if ( IS_SET( och->deaf, CHANNEL_CLASS_MASTER ) ||
-             get_trust( och ) < L_IMP ) {
-          continue;
-        }
+      if ( ( channel == CHANNEL_CLAN ) && (( vch->clan != ch->clan ) || !IS_IMMORTAL( och )) ) {
+        continue;
       }
 
-      if ( ( channel == CHANNEL_CLAN ) && ( vch->clan != ch->clan ) ) {
-        if ( IS_SET( och->deaf, CHANNEL_CLAN_MASTER ) || get_trust( och ) < L_IMP ) {
-          continue;
-        }
-      }
-
-      if ( channel == CHANNEL_YELL
-           && vch->in_room->area != ch->in_room->area ) {
+      if ( channel == CHANNEL_YELL && vch->in_room->area != ch->in_room->area ) {
         continue;
       }
 
@@ -793,10 +158,6 @@ void talk_channel( CHAR_DATA * ch, char * argument, int channel, const char * ve
         case CHANNEL_HERO:
           act( AT_GREEN, buf, ch, argument, vch, TO_VICT );
           break;
-        case CHANNEL_GUARDIAN:
-          sprintf( buf, "$n> &P'$t'" );
-          act( AT_DGREY, buf, ch, argument, vch, TO_VICT );
-          break; /* SOMEONE forgot the break, yeesh heh */
         case CHANNEL_CLAN:
           act( AT_RED, buf, ch, argument, vch, TO_VICT );
           break;
@@ -938,10 +299,8 @@ void do_auction( CHAR_DATA * ch, char * argument ) {
       }
 
       REMOVE_BIT( ch->deaf, CHANNEL_AUCTION );
-      act( AT_DGREEN, "$p disappears from your inventory.", ch, auc_obj, NULL,
-           TO_CHAR );
-      act( AT_DGREEN, "$p disappears from the inventory of $n.", ch, auc_obj,
-           NULL, TO_ROOM );
+      act( AT_DGREEN, "$p disappears from your inventory.", ch, auc_obj, NULL, TO_CHAR );
+      act( AT_DGREEN, "$p disappears from the inventory of $n.", ch, auc_obj, NULL, TO_ROOM );
       obj_from_char( auc_obj );
       auc_held = ch;
       auc_bid  = NULL;
@@ -954,8 +313,8 @@ void do_auction( CHAR_DATA * ch, char * argument ) {
       sprintf( log_buf, "%s a level %d object for %s", auc_obj->short_descr, auc_obj->level, money_string( &auc_cost ) );
 
       auc_channel( log_buf );
-      sprintf( log_buf, "%s auctioning %s.", auc_held->name, auc_obj->name );
-      log_string( log_buf, CHANNEL_GOD, -1 );
+      sprintf( log_buf, "$N is auctioning %s.", auc_obj->name );
+      wiznet( log_buf, auc_held, NULL, WIZ_GENERAL, 0, 0 );
       return;
     } else {
       send_to_char( AT_WHITE, "You are not carrying that item.\n\r", ch );
@@ -1079,16 +438,6 @@ void do_ooc( CHAR_DATA * ch, char * argument ) {
 
 void do_yell( CHAR_DATA * ch, char * argument ) {
   talk_channel( ch, argument, CHANNEL_YELL, "yell" );
-  return;
-}
-
-void do_guard( CHAR_DATA * ch, char * argument ) {
-  if ( get_trust( ch ) < L_IMP ) {
-    send_to_char( AT_WHITE, "You don't have access to that channel.\n\r", ch );
-    return;
-  }
-
-  talk_channel( ch, argument, CHANNEL_GUARDIAN, "guard" );
   return;
 }
 
@@ -1442,8 +791,7 @@ void do_quit( CHAR_DATA * ch, char * argument ) {
   }
 
   if ( ch->level != L_IMP ) {
-    sprintf( log_buf, "%s has quit in room vnum %d.", ch->name, ch->in_room->vnum );
-    log_string( log_buf, -1, -1 );
+    sprintf( log_buf, "$N has quit in room vnum %d.", ch->in_room->vnum );
     wiznet( log_buf, ch, NULL, WIZ_LOGINS, 0, get_trust( ch ) );
   }
 
@@ -1542,8 +890,7 @@ void do_delete( CHAR_DATA * ch, char * argument ) {
   send_to_char( C_DEFAULT, "You are no more.\n\r", ch );
   act( AT_BLOOD, "$n is no more.", ch, NULL, NULL, TO_ROOM );
   info( "%s is no more.", (int)( ch->name ), 0 );
-  sprintf( log_buf, "%s has DELETED in room vnum %d.", ch->name, ch->in_room->vnum );
-  log_string( log_buf, -1, -1 );
+  sprintf( log_buf, "$N has DELETED in room vnum %d.", ch->in_room->vnum );
   wiznet( log_buf, ch, NULL, WIZ_LOGINS, 0, 0 );
 
   if ( auc_held && ch == auc_held && auc_obj ) {
@@ -2136,8 +1483,7 @@ void newbie_help( CHAR_DATA * ch, char * argument ) {
   }
 
   for ( pNewbie = newbie_first; pNewbie; pNewbie = pNewbie->next ) {
-    if ( argument[ 0 ] == pNewbie->keyword[ 0 ] &&
-         !str_cmp( argument, pNewbie->keyword ) ) {
+    if ( argument[ 0 ] == pNewbie->keyword[ 0 ] && !str_cmp( argument, pNewbie->keyword ) ) {
       found = TRUE;
       break;
     }
@@ -2150,21 +1496,12 @@ void newbie_help( CHAR_DATA * ch, char * argument ) {
       act( AT_WHITE,
            "$n tells you 'I'm not sure if I can help you. Try being more specific.'",
            helper, buf, ch, TO_VICT );
-      return;
-    } else {
-      return;
     }
+  } else if ( chance( 50 ) ) {
+    do_say( helper, pNewbie->answer2 );
   } else {
-    /* Mob has two answers. Can respond with both, or give a percentage chance
-       that it will respond one or the other for variation. */
-
     do_say( helper, pNewbie->answer1 );
-
-    if ( chance( 50 ) ) {
-      do_say( helper, pNewbie->answer2 );
-    }
   }
 
   return;
-
 }

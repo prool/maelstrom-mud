@@ -1153,21 +1153,8 @@ struct  kill_data {
 #define CHANNEL_CLAN     256
 #define CHANNEL_CLASS    512
 #define CHANNEL_HERO     1024
-
-/*
- * Log Channels
- */
-#define CHANNEL_LOG       2048
-#define CHANNEL_BUILD     4096
-#define CHANNEL_GOD       8192
-#define CHANNEL_GUARDIAN  16384
-#define CHANNEL_CODER     65536
-#define CHANNEL_INFO      131072
-
-#define CHANNEL_CLASS_MASTER  1048576
-#define CHANNEL_CLAN_MASTER   2097152
-
-#define CHANNEL_IMC   4194304
+#define CHANNEL_INFO     131072
+#define CHANNEL_IMC      4194304
 
 /*
  * Prototype for a mob.
@@ -1739,6 +1726,7 @@ extern int gsn_gouge;
 extern int gsn_scribe;
 extern int gsn_blindness;
 extern int gsn_charm_person;
+extern int gsn_incinerate;
 extern int gsn_invis;
 extern int gsn_poison;
 extern int gsn_sleep;
@@ -1970,6 +1958,7 @@ DECLARE_DO_FUN( do_changes );
 DECLARE_DO_FUN( do_channels );
 DECLARE_DO_FUN( do_chat );
 DECLARE_DO_FUN( do_clan );
+DECLARE_DO_FUN( do_clear );
 DECLARE_DO_FUN( do_clone );
 DECLARE_DO_FUN( do_cinfo );
 DECLARE_DO_FUN( do_clans );
@@ -2024,7 +2013,6 @@ DECLARE_DO_FUN( do_give );
 DECLARE_DO_FUN( do_goto );
 DECLARE_DO_FUN( do_group );
 DECLARE_DO_FUN( do_gtell );
-DECLARE_DO_FUN( do_guard );
 DECLARE_DO_FUN( do_help );
 DECLARE_DO_FUN( do_hero );
 DECLARE_DO_FUN( do_hide );
@@ -2115,7 +2103,6 @@ DECLARE_DO_FUN( do_reply );
 DECLARE_DO_FUN( do_report );
 DECLARE_DO_FUN( do_rescue );
 DECLARE_DO_FUN( do_rest );
-DECLARE_DO_FUN( do_restrict );
 DECLARE_DO_FUN( do_restore );
 DECLARE_DO_FUN( do_retreat );
 DECLARE_DO_FUN( do_retrieve );
@@ -2331,6 +2318,7 @@ bool doubleexp();
 /* comm.c */
 void close_socket( DESCRIPTOR_DATA * dclose );
 void write_to_buffer( DESCRIPTOR_DATA * d, const char * txt, int length );
+char * header( const char * txt );
 void send_to_all_char( const char * text );
 void send_to_al( int clr, int level, char * text );
 void send_to_char( int AType, const char * txt, CHAR_DATA * ch );
@@ -2380,12 +2368,12 @@ char * capitalize( const char * str );
 void append_file( CHAR_DATA * ch, char * file, char * str );
 void info( const char * str, int param1, int param2 );
 void bug( const char * str, int param );
-void logch( char * l_str, int l_type, int lvl );
-void log_string( char * str, int l_type, int level );
+void log_string( char * str );
 void tail_chain( void );
 void clone_mobile( CHAR_DATA * parent, CHAR_DATA * clone );
 void clone_object( OBJ_DATA * parent, OBJ_DATA * clone );
 void parse_ban( char * argument, BAN_DATA * banned );
+void delete_playerlist( char * name );
 
 /* devops.c */
 void report_issue( const char * title, const char * description, const char * label );
@@ -2679,7 +2667,7 @@ DECLARE_DO_FUN( do_asave );
 DECLARE_DO_FUN( do_alist );
 DECLARE_DO_FUN( do_resets );
 DECLARE_DO_FUN( do_alias );
-DECLARE_DO_FUN( do_clear );
+DECLARE_DO_FUN( do_unalias );
 
 /*
  * Global Constants

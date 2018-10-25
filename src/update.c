@@ -1342,12 +1342,11 @@ void time_update( void ) {
 
     if ( stype == 1 ) {
       send_to_all_char( "Shutdown by system.\n\r" );
-      log_string( "Shutdown by system.", CHANNEL_GOD, -1 );
-
+      log_string( "Shutdown by system." );
       end_of_game();
     } else {
       send_to_all_char( "Reboot by system.\n\r" );
-      log_string( "Reboot by system.", CHANNEL_GOD, -1 );
+      log_string( "Reboot by system." );
       end_of_game();
       merc_down = TRUE;
       return;
@@ -1675,34 +1674,35 @@ void auc_update() {
       sprintf( buf, "%s for %s (going ONCE)", auc_obj->short_descr, money_string( &auc_cost ) );
       auc_channel( buf );
       sprintf( buf, "%s auctioning %s.", auc_held->name, auc_obj->name );
-      log_string( buf, CHANNEL_GOD, -1 );
+      log_string( buf );
+      wiznet(buf, auc_held, NULL, WIZ_GENERAL, 0, 0);
       return;
     case 2:
       sprintf( buf, "%s for %s (going TWICE)", auc_obj->short_descr, money_string( &auc_cost ) );
       auc_channel( buf );
       sprintf( buf, "%s auctioning %s.", auc_held->name, auc_obj->name );
-      log_string( buf, CHANNEL_GOD, -1 );
+      log_string( buf );
+      wiznet(buf, auc_held, NULL, WIZ_GENERAL, 0, 0);
       return;
     case 3:
       sprintf( buf, "%s for %s (going THRICE)", auc_obj->short_descr, money_string( &auc_cost ) );
       auc_channel( buf );
       sprintf( buf, "%s auctioning %s.", auc_held->name, auc_obj->name );
-      log_string( buf, CHANNEL_GOD, -1 );
+      log_string( buf );
+      wiznet(buf, auc_held, NULL, WIZ_GENERAL, 0, 0);
       return;
   }
 
   if ( auc_bid && ( ( ( auc_bid->money.gold * C_PER_G ) + ( auc_bid->money.silver * S_PER_G ) +
                       ( auc_bid->money.copper ) ) > ( ( auc_cost.gold * C_PER_G ) + ( auc_cost.silver * S_PER_G ) +
                                                       ( auc_cost.copper ) ) ) ) {
-    sprintf( buf, "%s SOLD! to %s for %s", auc_obj->short_descr, auc_bid->name,
-             money_string( &auc_cost ) );
+    sprintf( buf, "%s SOLD! to %s for %s", auc_obj->short_descr, auc_bid->name, money_string( &auc_cost ) );
     add_money( &auc_held->money, &auc_cost );
     spend_money( &auc_bid->money, &auc_cost );
 
     obj_to_char( auc_obj, auc_bid );
     act( AT_DGREEN, "$p appears in your hands.", auc_bid, auc_obj, NULL, TO_CHAR );
-    act( AT_DGREEN, "$p appears in the hands of $n.", auc_bid, auc_obj, NULL,
-         TO_ROOM );
+    act( AT_DGREEN, "$p appears in the hands of $n.", auc_bid, auc_obj, NULL, TO_ROOM );
   } else if ( auc_bid ) {
     sprintf( buf, "Amount not carried for %s, ending auction.", auc_obj->short_descr );
     obj_to_char( auc_obj, auc_held );

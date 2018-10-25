@@ -821,7 +821,8 @@ void do_asave( CHAR_DATA * ch, char * argument ) {
   int         value;
 
   if ( !ch ) {     /*  Do an autosave */
-    log_string( "Autosaving changed areas.", CHANNEL_BUILD, -1 );
+    log_string( "Autosaving changed areas." );
+    wiznet( "Autosaving changed areas.", NULL, NULL, WIZ_SECURE, 0, 0);
     save_area_list();
 
     for ( pArea = area_first; pArea; pArea = pArea->next ) {

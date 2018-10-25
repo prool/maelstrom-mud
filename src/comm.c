@@ -183,7 +183,7 @@ int game_main( int argc, char ** argv ) {
   }
 
   sprintf( log_buf, "EnvyMud is ready to rock on port %d.", port );
-  log_string( log_buf, CHANNEL_NONE, -1 );
+  log_string( log_buf );
   {
     FILE * fp;
     char   new_comlog[ MAX_INPUT_LENGTH ];
@@ -223,7 +223,7 @@ int game_main( int argc, char ** argv ) {
   game_loop_unix( control );
   close( control );
 
-  log_string( "Normal termination of game.", CHANNEL_NONE, -1 );
+  log_string( "Normal termination of game." );
   exit( 0 );
   return 0;
 }
@@ -577,8 +577,8 @@ void new_descriptor( int control ) {
 
     sprintf( buf, "%d.%d.%d.%d", ( addr >> 24 ) & 0xFF, ( addr >> 16 ) & 0xFF, ( addr >>  8 ) & 0xFF, ( addr ) & 0xFF );
     sprintf( log_buf, "Sock.sinaddr:  %s", buf );
-
-    log_string( log_buf, CHANNEL_GOD, -1 );
+    log_string( log_buf );
+    wiznet( log_buf, NULL, NULL, WIZ_SITES, 0, 0 );
 
     from       = gethostbyaddr( (char *) &sock.sin_addr, sizeof( sock.sin_addr ), AF_INET );
     dnew->host = str_dup( from ? from->h_name : buf );
@@ -636,7 +636,7 @@ void close_socket( DESCRIPTOR_DATA * dclose ) {
 
   if ( ( ch = dclose->character ) ) {
     sprintf( log_buf, "Closing link to %s.", ( ch->name ? ch->name : "(unknown)" ) );
-    log_string( log_buf, CHANNEL_LOG, -1 );
+    log_string( log_buf );
 
     if ( dclose->connected == CON_PLAYING && ch->in_room ) {
       if ( ch->name ) {
@@ -647,26 +647,10 @@ void close_socket( DESCRIPTOR_DATA * dclose ) {
 
       wiznet( "Netdeath has claimed $N.", ch, NULL, WIZ_LINKS, 0, 0 );
 
-      if (    !IS_SET( ch->act, PLR_WIZINVIS )
-              && !IS_SET( ch->act, PLR_CLOAKED ) ) {
-        info( "The link between %s and the storm has been torn.",
-              (int)( ch->name ), 0 );
+      if ( !IS_SET( ch->act, PLR_WIZINVIS ) && !IS_SET( ch->act, PLR_CLOAKED ) ) {
+        info( "The link between %s and the storm has been torn.", (int)( ch->name ), 0 );
       }
 
-      /*	  {
-          CHAR_DATA *PeT;
-          for ( PeT = ch->in_room->people; PeT; PeT = PeT->next_in_room )
-          {
-          if ( IS_NPC( PeT ) )
-          if ( IS_SET( PeT->act, ACT_PET ) && PeT->master == ch )
-          {
-
-          REMOVE_BIT( PeT->act, ACT_PET );
-          break;
-
-          }
-          }
-          }*/
       ch->desc = NULL;
     } else {
       free_char( dclose->character );
@@ -720,11 +704,8 @@ bool read_from_descriptor( DESCRIPTOR_DATA * d ) {
   iStart = strlen( d->inbuf );
 
   if ( iStart >= sizeof( d->inbuf ) - 10 ) {
-    sprintf( log_buf, "%s input overflow!", d->host );
-    log_string( log_buf, CHANNEL_GOD, -1 );
     wiznet( "Spam spam spam $N spam spam spam spam spam!", d->character, NULL, WIZ_SPAM, 0, get_trust( d->character ) );
-    write_to_descriptor(
-      "\n\r*** PUT A LID ON IT!!! ***\n\r", 0, d );
+    write_to_descriptor("\n\r*** PUT A LID ON IT!!! ***\n\r", 0, d );
     return FALSE;
   }
 
@@ -743,7 +724,7 @@ bool read_from_descriptor( DESCRIPTOR_DATA * d ) {
         break;
       }
     } else if ( nRead == 0 ) {
-      log_string( "EOF encountered on read.", CHANNEL_GOD, -1 );
+      wiznet( "EOF encountered on read.", NULL, NULL, WIZ_GENERAL, 0, 0 );
       return FALSE;
     } else if ( errno == EWOULDBLOCK || errno == EAGAIN ) {
       break;
@@ -824,11 +805,8 @@ void read_from_buffer( DESCRIPTOR_DATA * d ) {
       d->repeat = 0;
     } else {
       if ( ++d->repeat >= 20 && !IS_IMMORTAL(d->character) ) {
-        sprintf( log_buf, "%s input spamming!", d->host );
-        log_string( log_buf, CHANNEL_GOD, -1 );
         wiznet( "Spam spam spam $N spam spam spam spam spam!", d->character, NULL, WIZ_SPAM, 0, get_trust( d->character ) );
         write_to_descriptor("\n\r*** PUT A LID ON IT!!! ***\n\r", 0, d );
-        /*                if ( d->descriptor ) */
         strcpy( d->incomm, "quit" );
       }
     }
@@ -1149,14 +1127,6 @@ void bust_a_prompt( DESCRIPTOR_DATA * d ) {
     }
   }
 
-  /*log_string("first",0);
-     while( ( *point = *i ) != '\0' )
-     {
-     log_string("next",0);
-   ++point, ++i;
-     }
-   * point = '\0';
-     log_string("last",0);*/
   write_to_buffer( d, buf, point - buf );
   return;
 }
@@ -1395,7 +1365,8 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
 
       argument[ 0 ] = UPPER( argument[ 0 ] );
 
-      log_string( argument, CHANNEL_NONE, -1 );
+      log_string( argument );
+      wiznet(argument, NULL, NULL, WIZ_LOGINS, 0, 0);
 
       fOld = load_char_obj( d, argument );
 
@@ -1419,7 +1390,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
 
       if ( IS_SET( ch->act, PLR_DENY ) ) {
         sprintf( log_buf, "Denying access to %s@%s.", argument, d->host );
-        log_string( log_buf, CHANNEL_GOD, -1 );
+        wiznet( log_buf, NULL, NULL, WIZ_GENERAL, 0, 0 );
         write_to_buffer( d, "&cYou are denied access.\n\r", 0 );
         close_socket( d );
 
@@ -1502,8 +1473,8 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
       }
 
       if ( ch->level != L_IMP ) {
-        sprintf( log_buf, "%s!%s@%s has connected.",
-                 ch->name, d->user, d->host );
+        sprintf( log_buf, "%s!%s@%s has connected.", ch->name, d->user, d->host );
+        log_string( log_buf );
         wiznet( log_buf, NULL, NULL, WIZ_SITES, 0, get_trust( ch ) );
       }
 
@@ -1623,7 +1594,7 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
 
       strcat( buf2, "\n\r&RRACE &w-> " );
       write_to_buffer( d, buf2, 0 );
-      wiznet( "Newbie alert!  $N sighted.", ch, NULL, WIZ_NEWBIE, 0, 0 );
+      wiznet( "Newbie alert! $N sighted.", ch, NULL, WIZ_NEWBIE, 0, 0 );
       d->connected = CON_GET_NEW_RACE;
       break;
     case CON_GET_NEW_RACE:
@@ -1962,7 +1933,8 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
          }*/
       ch->start_align = 'N';
       sprintf( log_buf, "%s!%s@%s new player.", ch->name, d->user, d->host );
-      log_string( log_buf, CHANNEL_LOG, -1 );
+      log_string( log_buf );
+      wiznet( log_buf, ch, NULL, WIZ_NEWBIE, 0, 0);
       write_to_buffer( d, "\n\r", 2 );
       ch->pcdata->pagelen = 60;
       do_help( ch, "motd" );
@@ -1979,10 +1951,9 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
                  ch->sex == SEX_FEMALE  ? "female" : "neuter",
                  race_table[ ch->race ].race_full,
                  class_short( ch ) );
-        log_string( log_buf, CHANNEL_LOG, -1 );
+        log_string( log_buf );
         wiznet( log_buf, ch, NULL, WIZ_GENERAL, 0, 0 );
-        write_to_buffer( d,
-                         "Now, please wait for an immortal to authorize you.\n\r", 0 );
+        write_to_buffer( d, "Now, please wait for an immortal to authorize you.\n\r", 0 );
       } else {
         d->connected = CON_READ_MOTD;
       }
@@ -2002,15 +1973,14 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
                ch->sex == SEX_FEMALE  ? "female" : "neuter",
                race_table[ ch->race ].race_full,
                class_short( ch ) );
-      log_string( log_buf, CHANNEL_LOG, -1 );
+      log_string( log_buf );
       wiznet( log_buf, ch, NULL, WIZ_GENERAL, 0, 0 );
       d->connected++;
 
       if ( d->connected == CON_AUTHORIZE_LOGOUT ) {
         write_to_buffer( d, "Auto exit to prevent spam.\n\r", 0 );
-        sprintf( log_buf, "%s!%s@%s auto logged off.",
-                 ch->name, d->user, d->host );
-        log_string( log_buf, CHANNEL_LOG, -1 );
+        sprintf( log_buf, "%s!%s@%s auto logged off.", ch->name, d->user, d->host );
+        log_string( log_buf );
         wiznet( log_buf, ch, NULL, WIZ_GENERAL, 0, 0 );
         close_socket( d );
         return;
@@ -2136,7 +2106,8 @@ void nanny( DESCRIPTOR_DATA * d, char * argument ) {
       }
 
       sprintf( log_buf, "%s!%s@%s has connected.", ch->name, d->user, d->host );
-      log_string( log_buf, ( ch->level == L_IMP ? 1 : CHANNEL_LOG ), ch->level - 1 );
+      log_string( log_buf );
+      wiznet(log_buf, ch, NULL, WIZ_LOGINS, 0, get_trust(ch));
 
       if ( !IS_NPC( ch ) && ch->pcdata->storage ) {
         OBJ_DATA * obj;
@@ -2333,12 +2304,10 @@ bool check_playing( DESCRIPTOR_DATA * d, char * name ) {
          && dold->character
          && dold->connected != CON_GET_NAME
          && dold->connected != CON_GET_OLD_PASSWORD
-         && !str_cmp( name, dold->original
-                      ? dold->original->name : dold->character->name ) ) {
+         && !str_cmp( name, dold->original ? dold->original->name : dold->character->name ) ) {
       if ( dold->connected == CON_PLAYING ) {
         free_char( d->character );
-        d->character = ( dold->original ? dold->original :
-                         dold->character );
+        d->character = ( dold->original ? dold->original : dold->character );
 
         if ( dold->original ) {
           dold->original->desc = NULL;
@@ -2352,19 +2321,15 @@ bool check_playing( DESCRIPTOR_DATA * d, char * name ) {
         close_socket( dold );
 
         if ( !IS_SET( d->character->act, PLR_WIZINVIS ) ) {
-          act( AT_GREEN, "A ghostly aura briefly embodies $n.",
-               d->character, NULL, NULL, TO_ROOM );
+          act( AT_GREEN, "A ghostly aura briefly embodies $n.", d->character, NULL, NULL, TO_ROOM );
         }
 
-        send_to_char( AT_GREEN, "You arise from netdeath and continue"
-                                " playing.\n\r", d->character );
-        sprintf( log_buf, "%s connects, kicking off old link.",
-                 d->character->name );
-        log_string( log_buf, CHANNEL_LOG, d->character->level );
+        send_to_char( AT_GREEN, "You arise from netdeath and continue playing.\n\r", d->character );
+        sprintf( log_buf, "%s connects, kicking off old link.", d->character->name );
+        log_string( log_buf );
         wiznet( log_buf, NULL, NULL, WIZ_LINKS, 0, 0 );
 
-        if ( !IS_SET( d->character->act, PLR_WIZINVIS )
-             && !IS_SET( d->character->act, PLR_CLOAKED ) ) {
+        if ( !IS_SET( d->character->act, PLR_WIZINVIS ) && !IS_SET( d->character->act, PLR_CLOAKED ) ) {
           info( log_buf, 0, 0 );
         }
 
@@ -2402,6 +2367,15 @@ void stop_idling( CHAR_DATA * ch ) {
   ch->was_in_room = NULL;
   act( AT_GREEN, "$n has returned from the void.", ch, NULL, NULL, TO_ROOM );
   return;
+}
+
+char * header(const char * txt) {
+  static char buf[ MAX_STRING_LENGTH ];
+  char      * bptr = buf;
+
+  sprintf( bptr, "\n\r----------====================[%*s%*s]====================----------\n\r", 9+strlen(txt)/2, txt, 9-strlen(txt)/2, "");
+
+  return buf;
 }
 
 /*
@@ -2854,15 +2828,16 @@ void do_authorize( CHAR_DATA * ch, char * argument ) {
         d->connected = CON_READ_MOTD;
         write_to_buffer( d, "You have been authorized.\n\r", 0 );
         sprintf( buf, "%s!%s@%s AUTHORIZED by %s.", d->character->name, d->user, d->host, ch->name );
-        log_string( buf, CHANNEL_LOG, -1 );
-        append_file( ch, AUTH_LOG, buf );
+        log_string( buf );
         wiznet( buf, ch, NULL, WIZ_GENERAL, 0, 0 );
+        append_file( ch, AUTH_LOG, buf );
         return;
       } else if ( mode == 2 ) {
         send_to_char( C_DEFAULT, "Character denied.\n\r", ch );
         write_to_buffer( d, "Please choose a more medieval name.\n\r", 0 );
         sprintf( buf, "%s!%s@%s denied by %s.", d->character->name, d->user, d->host, ch->name );
-        log_string( buf, CHANNEL_LOG, -1 );
+        log_string( buf );
+        wiznet( buf, ch, NULL, WIZ_GENERAL, 0, 0 );
         append_file( ch, AUTH_LOG, buf );
         close_socket( d );
         return;
@@ -3063,7 +3038,8 @@ void do_hotreboot( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_RED, "Can't write to hotreboot file, aborting.", ch );
 
     sprintf( buf, "Could not write to hotreboot file: %s", HOTREBOOT_FILE );
-    log_string( buf, CHANNEL_GOD, 0 );
+    log_string( buf );
+    wiznet( buf, NULL, NULL, WIZ_GENERAL, 0, 0 );
     perror( "do_hotreboot:fopen" );
     return;
   }
@@ -3122,11 +3098,11 @@ void hotreboot_recover() {
   int               desc;
   bool              fOld;
 
-  log_string( "HotReboot recovery initiated", CHANNEL_GOD, 0 );
+  log_string( "HotReboot recovery initiated" );
 
   if ( !( fp = fopen( HOTREBOOT_FILE, "r" ) ) ) { /* there are some descriptors open which will hang forever then ? */
     perror( "hotreboot_recover:fopen" );
-    log_string( "HotReboot file not found. Exitting.\n\r", CHANNEL_GOD, 0 );
+    log_string( "HotReboot file not found. Exitting.\n\r" );
     exit( 1 );
   }
 

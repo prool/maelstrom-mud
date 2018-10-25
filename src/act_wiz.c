@@ -33,7 +33,6 @@ bool dxp;
 
 extern char * mprog_type_to_name( int type );
 extern bool can_use_cmd( int cmd, CHAR_DATA * ch, int trust );
-extern void delete_playerlist( char * name );
 
 void do_todo( CHAR_DATA * ch, char * argument ) {
   parse_issues( ch, argument, GITHUB_LABEL_TODO );
@@ -462,8 +461,8 @@ void do_wizhelp( CHAR_DATA * ch, char * argument ) {
   for ( int level = MAX_LEVEL; level > LEVEL_MORTAL; level-- ) {
     int  col   = 0;
 
-    sprintf( buf, "&R\n\r=====================================[%d]=====================================\n\r&W", level );
-    send_to_char( C_DEFAULT, buf, ch );
+    sprintf( buf, "Level %d", level );
+    send_to_char( AT_RED, header(buf), ch );
 
     for ( int cmd = 0; cmd_table[ cmd ].name[ 0 ] != '\0'; cmd++ ) {
       if ( cmd_table[ cmd ].name[ 0 ] == '\0' ) {
@@ -477,7 +476,7 @@ void do_wizhelp( CHAR_DATA * ch, char * argument ) {
       sprintf( buf, "%-16s", cmd_table[ cmd ].name );
       strcat( buf, (++col % 5 == 0) ? "\n\r" : " " );
 
-      send_to_char( C_DEFAULT, buf, ch );
+      send_to_char( AT_GREY, buf, ch );
     }
 
     if ( col % 5 != 0 ) {
@@ -2063,9 +2062,6 @@ void do_shutdow( CHAR_DATA * ch, char * argument ) {
 void do_shutdown( CHAR_DATA * ch, char * argument ) {
   char        buf[ MAX_STRING_LENGTH ];
   extern bool merc_down;
-  /*    if ( !str_cmp( ch->name, "Hannibal" ) )
-      sprintf( buf, "Nuclear Meltdown by %s.", ch->name );
-      else */
 
   sprintf( buf, "Shutdown by %s.", ch->name );
   append_file( ch, SHUTDOWN_FILE, buf );
@@ -5226,7 +5222,7 @@ void do_invis( CHAR_DATA * ch, char * argument ) {
 
   if ( arg[ 0 ] != '\0' ) {
     if ( !is_number( arg ) ) {
-      send_to_char( AT_WHITE, "Usage: invis | invis <level>\n\r", ch );
+      send_to_char( AT_WHITE, "Usage: wizinvis | wizinvis <level>\n\r", ch );
       return;
     }
 
@@ -5836,156 +5832,6 @@ void do_mpcommands( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-const char * log_list [] = {"normal", "always", "never", "build"};
-void do_restrict( CHAR_DATA * ch, char * argument ) {
-  char arg[ MAX_STRING_LENGTH ];
-  char arg1[ MAX_STRING_LENGTH ];
-  char arg2[ MAX_STRING_LENGTH ];
-  int  cmd;
-  int  lvl;
-  bool log = FALSE;
-
-  argument = one_argument( argument, arg );
-  argument = one_argument( argument, arg1 );
-  argument = one_argument( argument, arg2 );
-
-  if ( arg[ 0 ] != '\0' && arg1[ 0 ] == '\0' ) {
-    char buf[ MAX_STRING_LENGTH ];
-
-    for ( cmd = 0; cmd_table[ cmd ].name[ 0 ] != '\0'; cmd++ ) {
-      if ( !str_prefix( cmd_table[ cmd ].name, arg ) ) {
-        break;
-      }
-    }
-
-    if ( cmd_table[ cmd ].name[ 0 ] == '\0' || cmd_table[ cmd ].level > get_trust( ch ) ) {
-      do_restrict( ch, "" );
-      return;
-    }
-
-    sprintf( buf, "Command '%s'.  Level %d.  Logged %s.\n\r",
-             cmd_table[ cmd ].name, cmd_table[ cmd ].level,
-             log_list[ cmd_table[ cmd ].log ] );
-    send_to_char( AT_PURPLE, buf, ch );
-    return;
-  }
-
-  if ( arg[ 0 ] == '\0' || arg1[ 0 ] == '\0' || ( !is_number( arg1 )
-                                                  && ( ( arg2[ 0 ] == '\0' ) || !is_number( arg2 ) ) ) ) {
-    send_to_char( AT_PURPLE, "Syntax: restrict [command] [level]\n\r", ch );
-    send_to_char( AT_PURPLE, "Syntax: restrict [command] log [logtype]\n\r", ch );
-    send_to_char( AT_PURPLE, "Syntax: restrict [command]\n\r\n\r", ch );
-    send_to_char( AT_PURPLE, "Logtype being 0-4:\n\r", ch );
-    send_to_char( AT_PURPLE, "0 - LOG_NEVER\n\r", ch );
-    send_to_char( AT_PURPLE, "1 - LOG_ALWAYS (on God)\n\r", ch );
-    send_to_char( AT_PURPLE, "2 - LOG_NORMAL (not logged)\n\r", ch );
-    send_to_char( AT_PURPLE, "3 - LOG_BUILD  (logged on build)\n\r", ch );
-    return;
-  }
-
-  if ( arg2[ 0 ] != '\0' ) {
-    if ( !str_cmp( "log", arg1 ) ) {
-      lvl = atoi( arg2 );
-      log = TRUE;
-    } else {
-      lvl = atoi( arg1 );
-    }
-  } else {
-    lvl = atoi( arg1 );
-  }
-
-  if ( !str_cmp( "all", arg ) ) {
-    int col = 0;
-    cmd = 1;
-    lvl = 1;
-
-    if ( is_number( arg1 ) ) {
-      cmd = atoi( arg1 );
-    }
-
-    if ( is_number( arg2 ) ) {
-      lvl = atoi( arg2 );
-    }
-
-    send_to_char( AT_WHITE, "\n\r", ch );
-
-    for (; ( cmd <= lvl ) && ( cmd_table[ cmd ].name[ 0 ] != '\0' ); cmd++ ) {
-      if ( get_trust( ch ) >= cmd_table[ cmd ].level ) {
-        sprintf( log_buf, "%-3d &R%-12s &B(&Y%3d&B)   ", cmd, cmd_table[ cmd ].name, cmd_table[ cmd ].level );
-        send_to_char( AT_WHITE, log_buf, ch );
-      }
-
-      if ( ++col % 3 == 0 ) {
-        send_to_char( AT_WHITE, "\n\r", ch );
-      }
-    }
-
-    if ( col % 3 != 0 ) {
-      send_to_char( AT_WHITE, "\n\r", ch );
-    }
-
-    return;
-  }
-
-  if ( ( ( lvl < 0 || lvl > L_IMP || lvl > get_trust( ch ) ) && ( arg2[ 0 ] == '\0' ) )
-       || ( ( arg2[ 0 ] != '\0' ) && ( lvl < 0 || lvl > 3 ) ) ) {
-    send_to_char( AT_WHITE, "Invalid level.\n\r", ch );
-    return;
-  }
-
-  for ( cmd = 1; cmd_table[ cmd ].name != '\0'; cmd++ ) {
-    if ( !str_prefix( arg, cmd_table[ cmd ].name ) ) {
-      strcpy( arg, cmd_table[ cmd ].name );
-
-      if ( cmd_table[ cmd ].level > get_trust( ch ) ) {
-        if ( log ) {
-          send_to_char( AT_WHITE, "You cannot change the log_type on a command which you do not have.\n\r", ch );
-        } else {
-          send_to_char( AT_WHITE, "You cannot restrict a command which you do not have.\n\r", ch );
-        }
-
-        return;
-      }
-
-      if ( log ) {
-        cmd_table[ cmd ].log = lvl;
-      } else {
-        cmd_table[ cmd ].level = lvl;
-      }
-
-      if ( log ) {
-        sprintf( log_buf, "%s changing log_type of %s to %d.",
-                 ch->name, arg, lvl );
-      } else {
-        sprintf( log_buf, "%s restricting %s to level %d.",
-                 ch->name, arg, lvl );
-      }
-
-      log_string( log_buf, CHANNEL_GOD, ch->level - 1 );
-
-      if ( log ) {
-        sprintf( log_buf, "You change the log_type of %s to %d.\n\r",
-                 arg, lvl );
-      } else {
-        sprintf( log_buf, "You restrict %s to level %d.\n\r",
-                 arg, lvl );
-      }
-
-      send_to_char( AT_WHITE, log_buf, ch );
-      break;
-    }
-
-  }
-
-  if ( cmd_table[ cmd ].name == '\0' ) {
-    sprintf( log_buf, "There is no %s command.",
-             arg );
-    send_to_char( AT_WHITE, log_buf, ch );
-  }
-
-  return;
-}
-
 void do_wrlist( CHAR_DATA * ch, char * argument ) {
   ROOM_INDEX_DATA * room;
   ROOM_INDEX_DATA * in_room;
@@ -6300,7 +6146,6 @@ void do_newcorpse( CHAR_DATA * ch, char * argument ) {
   if ( arg1[ 0 ] == '\0' && arg2[ 0 ] == '\0' ) {
     send_to_char( AT_GREY, "Syntax:  newcorpse <playername>\n\r",            ch );
     send_to_char( AT_GREY, "         newcorpse <playername> <corpse #>\n\r", ch );
-    send_to_char( AT_GREY, "Author: Bram    Email: bram@ionet.net\n\r",     ch );
     return;
   }
 
@@ -6400,8 +6245,7 @@ void do_newcorpse( CHAR_DATA * ch, char * argument ) {
 
     act( AT_GREY, "You create a $p.", ch, corpse, NULL, TO_CHAR );
     act( AT_GREY, "$n has created a $p!", ch, corpse, NULL, TO_ROOM );
-    wiznet( "$N has created a $p.", ch, corpse,
-            WIZ_LOAD, WIZ_SECURE, get_trust( ch ) );
+    wiznet( "$N has created a $p.", ch, corpse, WIZ_LOAD, WIZ_SECURE, get_trust( ch ) );
     obj_to_room( corpse, ch->in_room );
 
   }
@@ -6756,13 +6600,9 @@ void do_whotype( CHAR_DATA * ch, char * argument ) {
 
   smash_tilde( argument );
 
-  if ( !str_cmp( "default", argument ) ) {
-    free_string( ch->pcdata->whotype );
-    ch->pcdata->whotype = str_dup( "!!!!!!!!!!!!" );
-  } else {
-    free_string( ch->pcdata->whotype );
-    ch->pcdata->whotype = str_dup( argument );
-  }
+  free_string( ch->pcdata->whotype );
+
+  ch->pcdata->whotype = str_dup( !str_cmp( "default", argument ) ? "!!!!!!!!!!!!" : argument );
 
   send_to_char( C_DEFAULT, "Ok.\n\r", ch );
   return;
@@ -6936,8 +6776,8 @@ void do_rebuild( CHAR_DATA * ch, char * argument ) {
   }
 
   /* reset misc */
-  victim->pcdata->condition[ COND_THIRST ] =  0;
-  victim->pcdata->condition[ COND_FULL ]   =  0;
+  victim->pcdata->condition[ COND_THIRST ] = 0;
+  victim->pcdata->condition[ COND_FULL ]   = 0;
   victim->pcdata->condition[ COND_DRUNK ]  = 0;
   victim->saving_throw                     = 0;
 

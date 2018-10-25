@@ -2448,35 +2448,7 @@ void do_title( CHAR_DATA * ch, char * argument ) {
 }
 
 void do_description( CHAR_DATA * ch, char * argument ) {
-  /*    if ( argument[0] != '\0' )
-      {
-      buf[0] = '\0';
-      smash_tilde( argument );
-      if ( argument[0] == '+' )
-      {
-      if ( ch->description )
-      strcat( buf, ch->description );
-      argument++;
-      while ( isspace( *argument ) )
-      argument++;
-      }
-
-      if ( strlen( buf ) + strlen( argument ) >=  MAX_STRING_LENGTH  - 2 )
-      {
-      send_to_char(AT_CYAN, "Description too long.\n\r", ch );
-      return;
-      }
-
-      strcat( buf, argument );
-      strcat( buf, "\n\r" );
-      free_string( ch->description );
-      ch->description = str_dup( buf );
-      }*/
-
   string_append( ch, &ch->description );
-
-  /*    send_to_char(AT_CYAN, "Your description is:\n\r", ch );
-      send_to_char(AT_CYAN, ch->description ? ch->description : "(None).\n\r", ch );*/
   return;
 }
 
@@ -2528,7 +2500,7 @@ void do_practice( CHAR_DATA * ch, char * argument ) {
         continue;
       }
 
-      sprintf( buf, "&W%21s &Y%3d%%", skill_table[ sn ].name, ch->pcdata->learned[ sn ] );
+      sprintf( buf, "&W%22s &Y%3d%%", skill_table[ sn ].name, ch->pcdata->learned[ sn ] );
 
       if ( skill_table[sn].spell_fun == spell_null ) {
         strcat( skbuf, buf );
@@ -2543,12 +2515,12 @@ void do_practice( CHAR_DATA * ch, char * argument ) {
     strcat( spbuf, (spcol % 3 != 0) ? "\n\r" : "" );
 
     if ( strcmp(spbuf, "") ) {
-      send_to_char(AT_PINK,"-------------------=================[Spells]=================-------------------\n\r",ch );
+      send_to_char(AT_PINK, header("Spells"), ch);
       send_to_char(AT_PINK, spbuf, ch );
     }
 
     if ( strcmp(skbuf, "") ) {
-      send_to_char(AT_PURPLE,"-------------------=================[Skills]=================-------------------\n\r",ch );
+      send_to_char(AT_PINK, header("Skills"), ch);
       send_to_char(AT_PURPLE, skbuf, ch );
     }
 
@@ -2860,53 +2832,6 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
     send_to_char( AT_LBLUE, !IS_SET( ch->deaf, CHANNEL_INFO )
                   ? " +INFO" : " -info", ch );
 
-    /*
-     * Log Channel Display.
-     * Added by Altrag.
-     */
-    if ( get_trust( ch ) >= L_APP ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_LOG )
-                    ? " +LOG"
-                    : " -log",
-                    ch );
-    }
-
-    if ( get_trust( ch ) >= L_SEN ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_BUILD )
-                    ? " +BUILD"
-                    : " -build",
-                    ch );
-    }
-
-    if ( get_trust( ch ) >= L_DIR ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_GOD )
-                    ? " +GOD"
-                    : " -god",
-                    ch );
-    }
-
-    if ( get_trust( ch ) >= L_IMP ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_GUARDIAN )
-                    ? " +GUARD"
-                    : " -guard",
-                    ch );
-    }
-
-    /* master channels added by Decklarean */
-    if ( get_trust( ch ) >= L_IMP ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_CLASS_MASTER )
-                    ? " +CLASSMASTER"
-                    : " -classmaster",
-                    ch );
-    }
-
-    if ( get_trust( ch ) >= L_IMP ) {
-      send_to_char( AT_DGREY, !IS_SET( ch->deaf, CHANNEL_CLAN_MASTER )
-                    ? " +CLANMASTER"
-                    : " -clanmaster",
-                    ch );
-    }
-
     send_to_char( AT_PINK, ".\n\r", ch );
 
   } else {
@@ -2936,23 +2861,10 @@ void do_channels( CHAR_DATA * ch, char * argument ) {
       bit = CHANNEL_IMMTALK;
     } else if ( !str_cmp( arg + 1, "yell" ) ) {
       bit = CHANNEL_YELL;
-    } else if ( !str_cmp( arg + 1, "log" ) ) {
-      bit = CHANNEL_LOG;
-    } else if ( !str_cmp( arg + 1, "build" ) ) {
-      bit = CHANNEL_BUILD;
-    } else if ( !str_cmp( arg + 1, "god" ) ) {
-      bit = CHANNEL_GOD;
-    } else if ( !str_cmp( arg + 1, "guard" ) ) {
-      bit = CHANNEL_GUARDIAN;
     } else if ( !str_cmp( arg + 1, "info" ) ) {
       bit = CHANNEL_INFO;
     } else if ( !str_cmp( arg + 1, "clan" ) ) {
       bit = CHANNEL_CLAN;
-    }
-    else if ( !str_cmp( arg + 1, "classmaster" ) ) {
-      bit = CHANNEL_CLASS_MASTER;
-    } else if ( !str_cmp( arg + 1, "clanmaster" ) ) {
-      bit = CHANNEL_CLAN_MASTER;
     } else if ( !str_cmp( arg + 1, "all" ) ) {
       bit = ~0;
     } else {
@@ -3130,16 +3042,6 @@ void do_config( CHAR_DATA * ch, char * argument ) {
   return;
 }
 
-/*
-   do_immlist replaced this - Decklarean
-   void do_wizlist ( CHAR_DATA *ch, char *argument )
-   {
-
-   do_help ( ch, "wizlist" );
-   return;
-
-   }
- */
 void do_spells( CHAR_DATA * ch, char * argument ) {
   char buf[ MAX_STRING_LENGTH ];
   int  sn;
@@ -4388,17 +4290,13 @@ void do_immlist( CHAR_DATA * ch, char * argument ) {
   char              buf[ MAX_STRING_LENGTH ];
   char              buf1[ MAX_STRING_LENGTH ];
 
-  send_to_char( AT_BLUE, "IMMORTAL STAFF OF THE STORM\n\r", ch );
-
   for ( level = MAX_LEVEL; level > LEVEL_MORTAL; level-- ) {
     buf1[ 0 ] = '\0';
-    sprintf( buf, "&R\n\r=====================================[%d]=====================================\n\r&W", level );
-    strcat( buf1, buf );
     col = 0;
 
     for ( player = playerlist; player; player = player->next ) {
       if ( player->level == level ) {
-        sprintf( buf, "%-19s", player->name );
+        sprintf( buf, "%-20s", player->name );
         strcat( buf1, buf );
 
         if ( ++col % 4 == 0 ) {
@@ -4412,6 +4310,9 @@ void do_immlist( CHAR_DATA * ch, char * argument ) {
     }
 
     if ( col != 0 ) {
+      sprintf( buf, "Level %d", level );
+      send_to_char( AT_RED, header(buf), ch );
+
       send_to_char( C_DEFAULT, buf1, ch );
     }
   }
@@ -4493,4 +4394,8 @@ void do_playerlist( CHAR_DATA * ch, char * argument ) {
 
   sprintf( buf, "\n\r&WTOTAL: &R%d\n\r", counter );
   send_to_char( AT_GREEN, buf, ch );
+}
+
+void do_clear( CHAR_DATA * ch, char *argument ) {
+  send_to_char (C_DEFAULT, "\x01B[2J", ch);
 }

@@ -157,27 +157,15 @@ void send_auth( struct auth_data * auth ) {
 
   tlen = ulen = sizeof( us );
 
-  /*  if ( --auth->atimes == 0 )
-     END_AUTH(auth, "(auth failed)"); */
-  if ( getsockname( auth->d->descriptor, (struct sockaddr *)&us, &ulen ) ||
-       getpeername( auth->d->descriptor, (struct sockaddr *)&them, &tlen ) ) {
+  if ( getsockname( auth->d->descriptor, (struct sockaddr *)&us, &ulen ) || getpeername( auth->d->descriptor, (struct sockaddr *)&them, &tlen ) ) {
     bug( "auth getsockname/getpeername error", 0 );
     RESET_AUTH( auth );
   }
 
-  sprintf( authbuf, "%u , %u\r\n", ntohs( them.sin_port ),
-           ntohs( us.sin_port ) );
+  sprintf( authbuf, "%u , %u\r\n", ntohs( them.sin_port ), ntohs( us.sin_port ) );
   z = write( auth->auth_fd, authbuf, strlen( authbuf ) );
 
-  /*  if ( errno == ECONNREFUSED )
-     END_AUTH(auth, "(no identd)"); */
   if ( z != strlen( authbuf ) ) {
-    if ( auth->atimes == 1 ) {
-      /*  sprintf(log_buf, "auth request, broken pipe [%d/%d]", z, errno);
-       */
-      log_string( log_buf, CHANNEL_CODER, -1 );
-    }
-
     RESET_AUTH( auth );
   }
 
@@ -254,14 +242,16 @@ void read_auth( struct auth_data * auth ) {
     }
 
     sprintf( log_buf, "auth reply ok, incoming user: [%s]", ruser );
-    log_string( log_buf, CHANNEL_CODER, -1 );
+    log_string( log_buf );
+    wiznet(log_buf, NULL, NULL, WIZ_SITES, 0, 0);
   } else if ( len != 0 ) {
     if ( !index( auth->abuf, '\n' ) && !index( auth->abuf, '\r' ) ) {
       return;
     }
 
     sprintf( log_buf, "bad auth reply: %s", auth->abuf );
-    log_string( log_buf, CHANNEL_CODER, -1 );
+    log_string( log_buf );
+    wiznet(log_buf, NULL, NULL, WIZ_SITES, 0, 0);
     strcpy( ruser, "(no auth)" );
   }
 
